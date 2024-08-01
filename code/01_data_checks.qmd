@@ -60,6 +60,8 @@ ita_egg_filt |>
 ```{r}
 ita_egg_filt |> 
   ggplot(aes(speech_rate, voi_clo_prop)) + 
-  geom_point(alpha = 0.5)
+  geom_point(alpha = 0.5) +
+  geom_smooth(method = "lm") +
+  facet_wrap(vars(vowel))
 ```
 

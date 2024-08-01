@@ -31,3 +31,88 @@ format:
       cite-style: authoryear
 ---
 
+## Introduction
+
+Phonetic research often involves numeric continuous outcome variables, like durations, frequencies, loudness and ratios. Another commonly employed type of outcome variable are proportions: for example, proportion of voicing during closure, vocal folds contact quotient, gesture amplitude, nasalance. Moreover, virtually any measure can be MIN-MAX normalised, a procedure which transforms values so that they are in the range 0--1.
+
+Regression models are very common, but there is a tendency of using Gaussian distribution families (i.e. probability distributions for the outcome variable) for anything that is numeric.
+A possible reason is that the base R function for fitting regression models, `lm()`, and the lme4 function used to fit regression models with varying terms, `lmer()`, both fit Gaussian regressions by default and the user does not have to specify the distribution family.
+This tacit defaulting to Gaussian models is also reflected in teaching practices, where test and models using the Gaussian distribution are the first to be taught, due to their relative simplicity and the fact that other models are generalisations of Gaussian models.
+
+However, proportion are naturally not Gaussian, since they are limited between 0 and 1. The theoretical distribution that generates values with this characteristics is the beta distribution. Thus, regression models with proportions as the outcome variable should be fitted using a beta distribution as the distribution family. This tutorial introduces researchers to beta regression models in R using the package brms. Familiarity with regression modelling in R with a package like lme4 is assumed, but no prior knowledge of Bayesian statistics is necessary.
+
+## The beta distribution
+
+...
+
+## Case study 1: voicing within consonant closure
+
+```{r}
+library(tidyverse)
+theme_set(theme_light())
+
+load("data/coretta2018/ita_egg.rda")
+
+ita_egg <- ita_egg |> 
+  filter(voi_clo_prop > 0, voi_clo_prop < 1) |> 
+  mutate(
+    vowel = factor(vowel, levels = c("i", "e", "a", "o", "u")),
+    c2 = factor(c2, levels = c("k", "t", "p"))
+  )
+```
+
+```{r}
+ita_egg
+```
+
+```{r}
+#| label: fig-ita-egg
+
+ita_egg |> 
+  ggplot(aes(vowel, voi_clo_prop)) +
+  geom_jitter(alpha = 0.2, width = 0.2, aes(colour = vowel)) +
+  stat_summary(fun.data = "mean_cl_boot") +
+  facet_grid(cols = vars(c2)) +
+  scale_color_brewer(palette = "Dark2") +
+  labs(
+    x = "Vowel", y = "Voicing during closure (prop)"
+  ) +
+  theme(legend.position = "none")
+```
+
+```{r}
+#| label: brms
+#| message: false
+
+library(brms)
+```
+
+```{r}
+# Takes 3 minutes on MacBook Pro 2020, M1
+
+voi_prop_bm <- brm(
+  voi_clo_prop ~
+    0 + vowel:c2 + speech_rate_c +
+    (0 + vowel:c2 + speech_rate_c | speaker),
+  family = Beta,
+  data = ita_egg,
+  cores = 4,
+  seed = 3749,
+  file = "data/cache/voi_prop_bm"
+)
+```
+
+```{r}
+summary(voi_prop_bm, prob = 0.8)
+```
+
+```{r}
+conditional_effects(voi_prop_bm, "c2:vowel")
+```
+
+```{r}
+library(marginaleffects)
+
+comp_c2 <- avg_comparisons(voi_prop_bm, variables = list(c2 = "pairwise"), conf_level = 0.8, type = "prediction")
+```
+
