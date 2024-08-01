@@ -1,0 +1,65 @@
+---
+title: "Data checks"
+author: "Stefano Coretta"
+format: html
+---
+
+```{r}
+#| label: setup
+
+library(tidyverse)
+library(coretta2018itaegg)
+```
+
+```{r}
+#| label: load-data
+#| 
+data("ita_egg")
+```
+
+```{r}
+ita_egg |> 
+  ggplot(aes(voi_clo_prop)) +
+  geom_density()
+
+ita_egg |> 
+  filter(voi_clo_prop > 0, voi_clo_prop < 1) |> 
+  ggplot(aes(voi_clo_prop)) +
+  geom_density() +
+  geom_rug()
+```
+
+```{r}
+ita_egg_filt <- ita_egg |> 
+  filter(voi_clo_prop > 0, voi_clo_prop < 1)
+```
+
+```{r}
+ita_egg_filt |> 
+  ggplot(aes(vowel, voi_clo_prop)) +
+  geom_jitter(alpha = 0.1, width = 0.2) +
+  stat_summary(fun.data = "mean_cl_boot")
+```
+
+```{r}
+ita_egg_filt |> 
+  ggplot(aes(vowel, voi_clo_prop)) +
+  geom_jitter(alpha = 0.2, width = 0.2, aes(colour = vowel)) +
+  stat_summary(fun.data = "mean_cl_boot") +
+  facet_grid(cols = vars(c2))
+```
+
+```{r}
+ita_egg_filt |> 
+  ggplot(aes(vowel, voi_clo_prop)) +
+  stat_summary(fun.data = "mean_cl_boot") +
+  facet_grid(cols = vars(c2))
+```
+
+
+```{r}
+ita_egg_filt |> 
+  ggplot(aes(speech_rate, voi_clo_prop)) + 
+  geom_point(alpha = 0.5)
+```
+

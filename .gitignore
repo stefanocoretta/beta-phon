@@ -1,0 +1,9 @@
+*.DS_Store
+/manuscript/style-guide/
+
+.Rproj.user
+.Rhistory
+.RData
+.Ruserdata
+
+/.quarto/
