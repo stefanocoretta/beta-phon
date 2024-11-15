@@ -39,6 +39,12 @@
       ],
       "Hash": "065ae649b05f1ff66bb0c793107508f5"
     },
+    "Hmisc": {
+      "Package": "Hmisc",
+      "Version": "5.2-0",
+      "Source": "Repository",
+      "Repository": "CRAN"
+    },
     "MASS": {
       "Package": "MASS",
       "Version": "7.3-61",
