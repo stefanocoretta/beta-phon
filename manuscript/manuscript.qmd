@@ -37,10 +37,11 @@ format:
 
 library(tidyverse)
 library(brms)
+library(collapse)
 ```
 
 
-## Introduction
+# Introduction
 
 Phonetic research often involves numeric continuous outcome variables, like durations, frequencies, loudness and ratios. Another commonly employed type of outcome variable are proportions: for example, proportion of voicing during closure, vocal folds contact quotient, gesture amplitude, nasalance. Moreover, virtually any measure can be MIN-MAX normalised, a procedure which transforms values so that they are in the range 0--1.
 
@@ -50,11 +51,11 @@ This tacit defaulting to Gaussian models is also reflected in teaching practices
 
 However, proportion are naturally not Gaussian, since they are limited between 0 and 1. The theoretical distribution that generates values with this characteristics is the beta distribution. Thus, regression models with proportions as the outcome variable should be fitted using a beta distribution as the distribution family. This tutorial introduces researchers to beta regression models in R using the package brms. Familiarity with regression modelling in R with a package like lme4 is assumed, but no prior knowledge of Bayesian statistics is necessary.
 
-## The beta distribution
+# The beta distribution
 
 ...
 
-## Case study 1: voicing within consonant closure
+# Case study 1: voicing within consonant closure
 
 For the first case study, we will model the proportion of voicing within consonant closure. The measurements come from a data set of audio and electroglottographic (EGG) recordings of 19 speakers of Northwestern Italian. The participants read frame sentences which included target words of the form /CVCo/, where /C/ was either /k, t, p/ in all permutations and /V/ was either /i, e, a, ɔ, u/ (two resulting words, /peto/ and /kako/ were excluded because they are profanities), for a total of 43 target words. There were 4 different frame sentence, with a total of 172 trials per participant (3,268 grand total). The actual observation count is 2,419, after removing speech errors, EGG measurement errors, and cases in which voicing ceased before the closure onset/after the closure offset of the second /C/.
 
@@ -107,9 +108,10 @@ ita_egg |>
 ```
 
 We will use brms to fit Bayesian beta regressions. [XXX why Bayesian]. 
-The model will have voicing proportion as the outcome variable and the following terms: vowel (/i, e, a, ɔ, u/) and second consonant C2 (/k, t, p/) in interaction, centred speech rate, a varying intercept by speaker and varying slopes of vowel/consonant in interaction and centred speech rate (number of syllables per second). The categorical predictors vowel and C2 were coded using indexing (in R, this corresponds to suppressing the intercept with the `0 +` syntax; this type of predictor coding does not impact the model predictions, but it makes it easier to specify priors when users do so). For pedagogical reasons of simplicity, the model will use the default priors, but note that in real data analyses contexts, priors should be specified by the user. I refer the readers to XXX.
+The model has voicing proportion as the outcome variable and the following terms: an interaction between vowel (/i, e, a, ɔ, u/) and second consonant C2 (/k, t, p/), centred speech rate (number of syllables per second); as varying (aka random) terms, by-speaker varying coefficients for the vowel/consonant interaction and for centred speech rate.^[Footnote about Gelman's terminology for random effects.] The categorical predictors vowel and C2 are coded using indexing rather than traditional R contrasts (in R, this corresponds to suppressing the model's intercept with the `0 +` syntax; using indexing instead of contrasts does not impact the model posterior predictions, but it makes it easier to specify priors when users do so). For pedagogical simplicity, the model will use the default priors, but note that in real data analyses contexts, priors should be specified by the user. I refer the readers to XXX.
 
 ```{r}
+#| label: voi-prop-bm
 #| message: false
 
 # attach brms
@@ -133,9 +135,10 @@ voi_prop_bm <- brm(
 )
 ```
 
-The `summary()` function prints the full model summary. For conciseness, we will use the `fixef()` function which prints the regression coefficients of the constant (aka fixed) terms. The full summary with an explanation of each part can be found in XXX. For each coefficient in the model, `fixef()` prints the name of the coefficient, the mean estimate, the estimate error and the lower and upper limits of a Bayesian Credible interval (CrI). Here, we print an 80% CrI.^[There is nothing special about 95% within Bayesian inference and instead experts recommend to check and report a variety of CrIs. For simplicity, I will focus on 80% CrIs in this case study.] In Bayesian inference, an 80% CrI indicates the range of values within which the true estimate falls at 80% probability or confidence. I round all values to the nearest 2 digits for clarity.
+The `summary()` function prints the full model summary. For conciseness, we will use the `fixef()` function which prints the regression coefficients of the constant (aka fixed) terms. The full summary with an explanation of each part can be found in XXX. For each coefficient in the model, `fixef()` prints the name of the coefficient, the mean estimate, the estimate error and the lower and upper limits of a Bayesian Credible interval (CrI). Here, we print an 80% CrI.^[There is nothing special about 95% within Bayesian inference and instead experts recommend to check and report a variety of CrIs. For simplicity, we will use 80% CrIs in this case study.] In Bayesian inference, an 80% CrI indicates the range of values within which the true estimate falls at 80% probability or confidence. We round all values to the nearest 2 digits for clarity.
 
 ```{r}
+#| label: voi-prop-bm-fixef
 round(
   fixef(voi_prop_bm, prob = c(0.1, 0.9)),
   digits = 2
@@ -148,7 +151,7 @@ Turning now to the coefficients for vowel and C2, given the indexing approach of
 
 Next, we will plot the predicted proportions of each vowel/C2 combination at mean speech rate (i.e. centred speech rate = 0) and then calculate the average pair-wise difference in voicing proportion between /k, t, p/. Finally, we will assess whether there is greater between-vowel variability in /t, p/ relative to /k/.
 
-Before being able to plot the predictions, it's important to get familiar with the so called posterior draws. [Bayesian MCMC XXX]. Posterior draws can be conveniently obtained with the `as_draws_df()`. For the moment, we can extract only the draws of the constant regression coefficients (model variables starting with `b_`). To check which coefficients are available in a model, use `get_variables()` from the tidybayes package. `as_draws_df()` returns a tibble where each column contains the drawn values of a coefficient. The probability distribution of the drawn values of each coefficient is the posterior probability distribution of that coefficient. Note that, due to the indexing coding of vowel and C2, all coefficient except `b_speech_rate_c` are *predicted log-odds* for each vowel/C2 combination (the drawn values for `b_speech_rate_c` are drawn *differences* in log-odds for each unit increase of speech rate). The drawn values are in log-odds, but we can convert them to proportions with `plogis()` (we will do this when plotting below).
+Before being able to plot the predictions, it's important to get familiar with the so-called posterior draws. [Bayesian MCMC XXX]. Posterior draws can be conveniently obtained with the `as_draws_df()`. For the moment, we will extract only the draws of the constant regression coefficients (model variables starting with `b_`). To check which coefficients are available in a model, use `get_variables()` from the tidybayes package. `as_draws_df()` returns a tibble where each column contains the drawn values of a coefficient. The probability distribution of the drawn values of each coefficient is the posterior probability distribution of that coefficient. Note that, due to the indexing coding of vowel and C2, all coefficient except `b_speech_rate_c` are *predicted log-odds* for each vowel/C2 combination (the drawn values for `b_speech_rate_c` are drawn *differences* in log-odds for each unit increase of speech rate). The drawn values are in log-odds, but we can convert them to proportions with `plogis()` (we will do this when plotting below).
 
 ```{r}
 #| label: voi-prop-bm-draws
@@ -161,17 +164,24 @@ voi_prop_bm_draws
 We can now wrangle this tibble and plot the posterior distributions for each vowel/C2 combination.
 
 ```{r}
+#| label: voi-prop-bm-draws-long
+
 voi_prop_bm_draws_long <- voi_prop_bm_draws |> 
+  # drop b_speech_rate_c before pivoting
   select(-b_speech_rate_c) |> 
+  # pivot vowel:c2 columns
   pivot_longer(`b_voweli:c2k`:`b_vowelu:c2p`, names_to = "coeff") |> 
+  # separate "coeff" labels into type ("b"), vowel and c2
   separate(coeff, into = c("type", "vowel", "c2"))
+
 voi_prop_bm_draws_long
 ```
 
-For plotting, we can use ggplot2 statistics from the ggdist package. `stat_halfeye()` plots the density of the posterior probability (in grey), its median (point) and CrIs (lines). Let's use 60 and 80% CrIs and transform the log-odds values to proportions with `plogis()`.
+For plotting, we can use ggplot2 statistics layers from the ggdist package. `stat_halfeye()` plots the density of the posterior probability (in grey), its median (point) and CrIs (lines). Let's use 60 and 80% CrIs and transform the log-odds values to proportions with `plogis()`.
 
 ```{r}
 #| label: fig-voi-prop-bm-1
+
 # attach ggdist package
 library(ggdist)
 
@@ -181,11 +191,15 @@ voi_prop_bm_draws_long |>
   facet_grid(rows = vars(c2))
 ```
 
-What if we want to plot the average predicted voicing proportion for the three consonants /k, t, p/? One approach is to take the mean across vowels within each consonant and the resulting posterior distribution is the predicted posterior distribution of voicing proportion for each consonant, assuming an "average" vowel.
+What if we want to plot the average predicted voicing proportion for the three consonants /k, t, p/? One approach is to take the mean across vowels within each consonant for each posterior draw, and the posterior distribution of the resulting list of values is the predicted posterior distribution of voicing proportion for each consonant, assuming an "average" vowel.
 
 ```{r}
+#| label: voi-prop-bm-draws-long-c2
+
 voi_prop_bm_draws_long_c2 <- voi_prop_bm_draws_long |> 
+  # grouping by .draw and c2 ensures that averaging applies only within draw and c2
   group_by(.draw, c2) |> 
+  # calculate the mean value within draw/c2
   summarise(
     value_mean = mean(value), .groups = "drop"
   )
@@ -195,15 +209,27 @@ voi_prop_bm_draws_long_c2 |>
   stat_halfeye(.width = c(0.6, 0.8))
 ```
 
-Based on the posterior distributions of the mean voicing proportion by consonant, /p/ has a somewhat higher voicing proportion than /k/ and /t/. The real question is: how higher? We can quantify this by taking the difference of the drawn values for /p/ and those for /t, k/. Since we want to compare /t, k/ to /p/, we should first average the draws of /t, k/ and then take the difference of the averaged draws and the draws of /p/.
+Based on the posterior distributions of the mean voicing proportion by consonant, /p/ has a somewhat higher voicing proportion than /k/ and /t/. The real question is: how much higher? We can quantify this by taking the difference of the drawn values for /p/ and those for /t, k/. Since we want to compare /t, k/ to /p/, we should first average the draws of /t, k/ and then take the difference of the averaged draws and the draws of /p/.
 
 ```{r}
+#| label: voi-prop-bm-diff
+
 voi_prop_bm_diff <- voi_prop_bm_draws_long_c2 |> 
+  # pivot data to create one column per consonant with the mean drawn values,
+  # with one draw per raw
   pivot_wider(names_from = c2, values_from = value_mean) |> 
   mutate(
+    # calculate the mean of /k/ and /t/, for each draw
     c2tk = mean(c(c2k, c2t)),
+    # calculate the difference of /p/ and /t, k/
     c2p_tk_diff = c2p - c2tk
   )
+
+voi_prop_bm_diff
+```
+
+```{r}
+#| label: fig-diff-p-tk
 
 voi_prop_bm_diff |> 
   ggplot(aes(c2p_tk_diff)) +
@@ -211,9 +237,11 @@ voi_prop_bm_diff |>
   geom_vline(xintercept = 0)
 ```
  
-Once we have the posterior difference, we can obtain CrIs of that using `quantile2()` from the posterior package. Beware that the values of the difference are in log-odds! We can convert these into odd ratios with `exp()`.
+Once we have the posterior difference, we can obtain CrIs of the difference using `quantile2()` from the posterior package. Beware that the values of the difference are in log-odds! We can convert these into odd ratios with `exp()`.
  
 ```{r}
+#| label: voi-prop-bm-diff-cri
+
 library(posterior)
 
 voi_prop_bm_diff |> 
@@ -225,22 +253,29 @@ voi_prop_bm_diff |>
     # 60% CrI
     q60 = quantile2(c2p_tk_diff, probs = c(0.2, 0.8)),
   ) |> 
-  # exponentiate to get odd ratios and round
+  # exponentiate to get odd ratios and round to 2 digits
   mutate(across(everything(), ~round(exp(.x), 2)))
 ```
 
 So, based on the model and data, there is a 90% probability that the voicing proportion in /p/ is 1.07-1.38 times longer (or 7-38% increase) than in /t, k/. At 80% confidence, the change ratio is 1.10-1.34 (or 10-34% increase) while at 60% confidence is 1.14-1.30 (14-30% increase). In other words we can be quite confident that the voicing proportion in /p/ is longer than in /t, k/ and that the increase is less than 35%.
 
+brms comes with a convenient function, `conditional_effects()`, to plot posterior means and CrIs based on predictors in the model. In the following example, we plot the predicted proportion of voicing by consonant and vowel.
+
 ```{r}
+#| label: voi-prop-bm-cond
 conditional_effects(voi_prop_bm, "c2:vowel")
 ```
 
+Finally, the package marginaleffects has two other convenience functions that return CrIs of comparisons across predictor levels (`avg_comparisons()`) and CrIs of posterior predictions across predictor levels (`avg_predictions`). [XXX]
+
 ```{r}
+#| label: marginal
+
 library(marginaleffects)
 
-avg_comparisons(voi_prop_bm, variables = list(c2 = "pairwise"), conf_level = 0.8)
+avg_comparisons(voi_prop_bm, variables = list(c2 = "pairwise"), conf_level = 0.8, type = "link")
 avg_predictions(voi_prop_bm, variables = "vowel", conf_level = 0.8)
 ```
 
-## Case study 2: pre-nasalisation in Greek
+# Case study 2: pre-nasalisation in Greek
 
