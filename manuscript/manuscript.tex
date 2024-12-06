@@ -375,10 +375,9 @@ syllables per second); as varying (aka random) terms, by-speaker varying
 coefficients for the vowel/consonant interaction and for centred speech
 rate.\footnote{Footnote about Gelman's terminology for random effects.}
 The categorical predictors vowel and C2 are coded using indexing rather
-than traditional R contrasts (in R, this corresponds to suppressing the
+than traditional R contrasts: in R, this corresponds to suppressing the
 model's intercept with the \texttt{0\ +} syntax; using indexing instead
-of contrasts does not impact the model posterior predictions, but it
-makes it easier to specify priors when users do so). For pedagogical
+of contrasts makes it easier to specify priors. For pedagogical
 simplicity, the model will use the default priors, but note that in real
 data analyses contexts, priors should be specified by the user. I refer
 the readers to XXX.
@@ -409,17 +408,28 @@ the readers to XXX.
 
 The \texttt{summary()} function prints the full model summary. For
 conciseness, we will use the \texttt{fixef()} function which prints the
-regression coefficients of the constant (aka fixed) terms. The full
-summary with an explanation of each part can be found in XXX. For each
-coefficient in the model, \texttt{fixef()} prints the name of the
-coefficient, the mean estimate, the estimate error and the lower and
-upper limits of a Bayesian Credible interval (CrI). Here, we print an
-80\% CrI.\footnote{There is nothing special about 95\% within Bayesian
-  inference and instead experts recommend to check and report a variety
-  of CrIs. For simplicity, we will use 80\% CrIs in this case study.} In
-Bayesian inference, an 80\% CrI indicates the range of values within
-which the true estimate falls at 80\% probability or confidence. We
-round all values to the nearest 2 digits for clarity.
+regression coefficients. The full summary with an explanation of each
+part can be found in XXX. For each coefficient in the model,
+\texttt{fixef()} prints the name of the coefficient, the mean estimate,
+the estimate error and the lower and upper limits of a Bayesian Credible
+interval (CrI). Here, we print an 80\% CrI. There is nothing special
+about 95\% CrI within Bayesian inference and instead experts recommend
+to check and report a variety of CrIs. Bayesian CrIs indicate that at a
+certain probability levels the ``true'' estimate lies within that
+interval: so, for example, a 90\% CrI {[}A, B{]} indicates that there is
+a 90\% probability that the ``true'' estimate is between A and B.
+Different probability levels correspond to different levels of
+confidence: the higher the probability the higher the confidence (always
+conditional on data and model). Obtaining CrIs at different probability
+levels allows researchers to make more fine-grained inferential
+statements than the frequentist significance dichotomy affords. For
+simplicity of exposition, we will use 80\% CrIs in this case study but
+we strongly recommend researchers to always obtain CrIs at different
+levels of probability and base their inferences on all and not one in
+particular. To reiterate, in Bayesian inference, an 80\% CrI indicates
+the range of values within which the true estimate falls at 80\%
+probability or confidence. We round all values to the nearest 2 digits
+for clarity.
 
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -460,7 +470,13 @@ correspond to an odd ratio of 1.01 to 1.16, or as percentages, to an
 increase of voicing of 1 to 16\% for every increase of one syllable per
 second. Since this is an 80\% CrI, we can be 80\% confident that the
 true effect of speech rate is between 1-16\% increase of voicing
-proportion.
+proportion, conditional on the data and model. Note that transforming
+measures this way is appropriate \emph{only} with quantile-based
+measures (like CrIs) but not with moments like the mean and standard
+deviation: to correctly get mean and SDs in the transformed scale, you
+must first extract the posterior draws (see below), convert them and
+then take moments such as mean and SD (for a more detailed explanation,
+see XXX).
 
 Turning now to the coefficients for vowel and C2, given the indexing
 approach of coding these variables the model summary and the output of
