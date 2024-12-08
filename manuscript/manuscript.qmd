@@ -20,7 +20,7 @@ keywords:
   - keyword1
   - keyword2
 date: last-modified
-bibliography: bibliography.bib
+bibliography: linguistics.bib
 format:
   elsevier-pdf:
     keep-tex: true
@@ -40,14 +40,11 @@ library(brms)
 library(collapse)
 ```
 
-
 # Introduction
 
 Phonetic research often involves numeric continuous outcome variables, like durations, frequencies, loudness and ratios. Another commonly employed type of outcome variable are proportions: for example, proportion of voicing during closure, vocal folds contact quotient, gesture amplitude, nasalance. Moreover, virtually any measure can be MIN-MAX normalised, a procedure which transforms values so that they are in the range 0--1.
 
-Regression models are very common, but there is a tendency of using Gaussian distribution families (i.e. probability distributions for the outcome variable) for anything that is numeric.
-A possible reason is that the base R function for fitting regression models, `lm()`, and the lme4 function used to fit regression models with varying terms, `lmer()`, both fit Gaussian regressions by default and the user does not have to specify the distribution family.
-This tacit defaulting to Gaussian models is also reflected in teaching practices, where test and models using the Gaussian distribution are the first to be taught, due to their relative simplicity and the fact that other models are generalisations of Gaussian models.
+Regression models are very common, but there is a tendency of using Gaussian distribution families (i.e. probability distributions for the outcome variable) for anything that is numeric. A possible reason is that the base R function for fitting regression models, `lm()`, and the lme4 function used to fit regression models with varying terms, `lmer()`, both fit Gaussian regressions by default and the user does not have to specify the distribution family. This tacit defaulting to Gaussian models is also reflected in teaching practices, where test and models using the Gaussian distribution are the first to be taught, due to their relative simplicity and the fact that other models are generalisations of Gaussian models.
 
 However, proportion are naturally not Gaussian, since they are limited between 0 and 1. The theoretical distribution that generates values with this characteristics is the beta distribution. Thus, regression models with proportions as the outcome variable should be fitted using a beta distribution as the distribution family. This tutorial introduces researchers to beta regression models in R using the package brms. Familiarity with regression modelling in R with a package like lme4 is assumed, but no prior knowledge of Bayesian statistics is necessary.
 
@@ -88,7 +85,7 @@ Here is what the tibble looks like.
 ita_egg
 ```
 
-@fig-ita-egg shows the raw voicing duration proportion values split by vowel /i, e, a, ɔ, u/ and second consonant /k, t, p/ in the /CVCo/ target words. The plot suggests that, on average, the voicing proportion is slightly lower with /k/ than with /t, p/. Moreover, there is greater variability between vowels in /t, p/ than in /k/. We will use a beta regression model to assess these patterns. ["expectations" XXX]
+@fig-ita-egg shows the raw voicing duration proportion values split by vowel /i, e, a, ɔ, u/ and second consonant /k, t, p/ in the /CVCo/ target words. The plot suggests that, on average, the voicing proportion is slightly lower with /k/ than with /t, p/. Moreover, there is greater variability between vowels in /t, p/ than in /k/. We will use a beta regression model to assess these patterns. \["expectations" XXX\]
 
 ```{r}
 #| label: fig-ita-egg
@@ -107,8 +104,9 @@ ita_egg |>
   theme(legend.position = "none")
 ```
 
-We will use brms to fit Bayesian beta regressions. [XXX why Bayesian]. 
-The model has voicing proportion as the outcome variable and the following terms: an interaction between vowel (/i, e, a, ɔ, u/) and second consonant C2 (/k, t, p/), centred speech rate (number of syllables per second); as varying (aka random) terms, by-speaker varying coefficients for the vowel/consonant interaction and for centred speech rate.^[Footnote about Gelman's terminology for random effects.] The categorical predictors vowel and C2 are coded using indexing rather than traditional R contrasts: in R, this corresponds to suppressing the model's intercept with the `0 +` syntax; using indexing instead of contrasts makes it easier to specify priors. For pedagogical simplicity, the model will use the default priors, but note that in real data analyses contexts, priors should be specified by the user. I refer the readers to XXX.
+We will use brms to fit Bayesian beta regressions. \[XXX why Bayesian\]. The model has voicing proportion as the outcome variable and the following terms: an interaction between vowel (/i, e, a, ɔ, u/) and second consonant C2 (/k, t, p/), centred speech rate (number of syllables per second); as varying (aka random) terms, by-speaker varying coefficients for the vowel/consonant interaction and for centred speech rate.[^1] The categorical predictors vowel and C2 are coded using indexing rather than traditional R contrasts: in R, this corresponds to suppressing the model's intercept with the `0 +` syntax; using indexing instead of contrasts makes it easier to specify priors. For pedagogical simplicity, the model will use the default priors, but note that in real data analyses contexts, priors should be specified by the user. I refer the readers to XXX.
+
+[^1]: Footnote about Gelman's terminology for random effects.
 
 ```{r}
 #| label: voi-prop-bm
@@ -135,8 +133,7 @@ voi_prop_bm <- brm(
 )
 ```
 
-The `summary()` function prints the full model summary. For conciseness, we will use the `fixef()` function which prints the regression coefficients. The full summary with an explanation of each part can be found in XXX. For each coefficient in the model, `fixef()` prints the name of the coefficient, the mean estimate, the estimate error and the lower and upper limits of a Bayesian Credible interval (CrI). Here, we print an 80% CrI. There is nothing special about 95% CrI within Bayesian inference and instead experts recommend to check and report a variety of CrIs. Bayesian CrIs indicate that at a certain probability levels the "true" estimate lies within that interval: so, for example, a 90% CrI [A, B] indicates that there is a 90% probability that the "true" estimate is between A and B. Different probability levels correspond to different levels of confidence: the higher the probability the higher the confidence (always conditional on data and model). Obtaining CrIs at different probability levels allows researchers to make more fine-grained inferential statements than the frequentist significance dichotomy affords. For simplicity of exposition, we will use 80% CrIs in this case study but we strongly recommend researchers to always obtain CrIs at different levels of probability and base their inferences on all and not one in particular. To reiterate, in Bayesian inference, an 80% CrI indicates the range of values within which the true estimate falls at 80% probability or confidence. We round all values to the nearest 2 digits for clarity.
-
+The `summary()` function prints the full model summary. For conciseness, we will use the `fixef()` function which prints the regression coefficients. The full summary with an explanation of each part can be found in XXX. For each coefficient in the model, `fixef()` prints the name of the coefficient, the mean estimate, the estimate error and the lower and upper limits of a Bayesian Credible interval (CrI). Here, we print an 80% CrI. There is nothing special about 95% CrI within Bayesian inference and instead experts recommend to check and report a variety of CrIs. Bayesian CrIs indicate that at a certain probability levels the "true" estimate lies within that interval: so, for example, a 90% CrI \[A, B\] indicates that there is a 90% probability that the "true" estimate is between A and B. Different probability levels correspond to different levels of confidence: the higher the probability the higher the confidence (always conditional on data and model). Obtaining CrIs at different probability levels allows researchers to make more fine-grained inferential statements than the frequentist significance dichotomy affords. For simplicity of exposition, we will use 80% CrIs in this case study but we strongly recommend researchers to always obtain CrIs at different levels of probability and base their inferences on all and not one in particular. To reiterate, in Bayesian inference, an 80% CrI indicates the range of values within which the true estimate falls at 80% probability or confidence. We round all values to the nearest 2 digits for clarity.
 
 ```{r}
 #| label: voi-prop-bm-fixef
@@ -146,13 +143,13 @@ round(
 )
 ```
 
-The coefficients of a beta regression are estimated on the log-odds scale, as in Bernoulli/binomial (aka logistic) regressions. From the summary, we see that speech rate (number of syllables per second) has a positive effect on voicing proportion: the 80% CrI is between 0.01 and 0.15 log-odds [$\beta$ = 0.8, SD = 0.06]. Log-odds can be converted to odd ratios by exponentiating the value: 0.01-0.15 log odds correspond to an odd ratio of 1.01 to 1.16, or as percentages, to an increase of voicing of 1 to 16% for every increase of one syllable per second. Since this is an 80% CrI, we can be 80% confident that the true effect of speech rate is between 1-16% increase of voicing proportion, conditional on the data and model. Note that transforming measures this way is appropriate *only* with quantile-based measures (like CrIs) but not with moments like the mean and standard deviation: to correctly get mean and SDs in the transformed scale, you must first extract the posterior draws (see below), convert them and then take moments such as mean and SD (for a more detailed explanation, see XXX).
+The coefficients of a beta regression are estimated on the log-odds scale, as in Bernoulli/binomial (aka logistic) regressions. From the summary, we see that speech rate (number of syllables per second) has a positive effect on voicing proportion: the 80% CrI is between 0.01 and 0.15 log-odds \[$\beta$ = 0.8, SD = 0.06\]. Log-odds can be converted to odd ratios by exponentiating the value: 0.01-0.15 log odds correspond to an odd ratio of 1.01 to 1.16, or as percentages, to an increase of voicing of 1 to 16% for every increase of one syllable per second. Since this is an 80% CrI, we can be 80% confident that the true effect of speech rate is between 1-16% increase of voicing proportion, conditional on the data and model. Note that transforming measures this way is appropriate *only* with quantile-based measures (like CrIs) but not with moments like the mean and standard deviation: to correctly get mean and SDs in the transformed scale, you must first extract the posterior draws (see below), convert them and then take moments such as mean and SD (for a more detailed explanation, see XXX).
 
 Turning now to the coefficients for vowel and C2, given the indexing approach of coding these variables the model summary and the output of `fixef()` reports the *predictions* in log-odds for each combination of vowel and C2, rather than differences between levels. The CrIs of the vowel/C2 coefficients span all negative log-odds values: these correspond to proportions that are lower than 0.5 (which is 0 in log-odds). This matches the general trends in the raw data, which we plotted in @fig-ita-egg.
 
 Next, we will plot the predicted proportions of each vowel/C2 combination at mean speech rate (i.e. centred speech rate = 0) and then calculate the average pair-wise difference in voicing proportion between /k, t, p/. Finally, we will assess whether there is greater between-vowel variability in /t, p/ relative to /k/.
 
-Before being able to plot the predictions, it's important to get familiar with the so-called posterior draws. [Bayesian MCMC XXX]. Posterior draws can be conveniently obtained with the `as_draws_df()`. For the moment, we will extract only the draws of the constant regression coefficients (model variables starting with `b_`). To check which coefficients are available in a model, use `get_variables()` from the tidybayes package. `as_draws_df()` returns a tibble where each column contains the drawn values of a coefficient. The probability distribution of the drawn values of each coefficient is the posterior probability distribution of that coefficient. Note that, due to the indexing coding of vowel and C2, all coefficient except `b_speech_rate_c` are *predicted log-odds* for each vowel/C2 combination (the drawn values for `b_speech_rate_c` are drawn *differences* in log-odds for each unit increase of speech rate). The drawn values are in log-odds, but we can convert them to proportions with `plogis()` (we will do this when plotting below).
+Before being able to plot the predictions, it's important to get familiar with the so-called posterior draws. \[Bayesian MCMC XXX\]. Posterior draws can be conveniently obtained with the `as_draws_df()`. For the moment, we will extract only the draws of the constant regression coefficients (model variables starting with `b_`). To check which coefficients are available in a model, use `get_variables()` from the tidybayes package. `as_draws_df()` returns a tibble where each column contains the drawn values of a coefficient. The probability distribution of the drawn values of each coefficient is the posterior probability distribution of that coefficient. Note that, due to the indexing coding of vowel and C2, all coefficient except `b_speech_rate_c` are *predicted log-odds* for each vowel/C2 combination (the drawn values for `b_speech_rate_c` are drawn *differences* in log-odds for each unit increase of speech rate). The drawn values are in log-odds, but we can convert them to proportions with `plogis()` (we will do this when plotting below).
 
 ```{r}
 #| label: voi-prop-bm-draws
@@ -237,9 +234,9 @@ voi_prop_bm_diff |>
   stat_halfeye(.width = c(0.6, 0.8, 0.9)) +
   geom_vline(xintercept = 0)
 ```
- 
+
 Once we have the posterior difference, we can obtain CrIs of the difference using `quantile2()` from the posterior package. Beware that the values of the difference are in log-odds! We can convert these into odd ratios with `exp()`.
- 
+
 ```{r}
 #| label: voi-prop-bm-diff-cri
 
@@ -267,7 +264,7 @@ brms comes with a convenient function, `conditional_effects()`, to plot posterio
 conditional_effects(voi_prop_bm, "c2:vowel")
 ```
 
-Finally, the package marginaleffects has two other convenience functions that return CrIs of comparisons across predictor levels (`avg_comparisons()`) and CrIs of posterior predictions across predictor levels (`avg_predictions`). [XXX]
+Finally, the package marginaleffects has two other convenience functions that return CrIs of comparisons across predictor levels (`avg_comparisons()`) and CrIs of posterior predictions across predictor levels (`avg_predictions`). \[XXX\]
 
 ```{r}
 #| label: marginal
@@ -280,12 +277,50 @@ avg_predictions(voi_prop_bm, variables = "vowel", conf_level = 0.8)
 
 # Case study 2: coarticulatory vowel nasalisation
 
+For the second case study we will use data from @carignan2021. The study looked at properties of nasality in German VNC sequences. Here, we will focus on the effect of C voicing (voiceless /t/ vs voiced /d/) on the proportion of nasalisation within the vowel in the VNC sequence. Previous work on coarticulatory nasalisation in English has suggested that vowels followed by an NC sequence where C is voiceless (NT) should show earlier coarticulatory nasalisation than vowels followed by an NC sequence where C is voiced [ND, see review in @carignan2021]. This pattern has been suggested to be driven by the articulatory and acoustic incompatibility of voicelessness and nasalisation, by which the velum opening gesture of the nasal consonant is pushed away (i.e. earlier) when the consonant following the nasal is voiceless. Everything else being equal, a greater proportion of vowel nasalisation (from the perspective of time) should be found in vowels followed by NT than in vowels followed by ND.
+
+We will model the proportion of coarticulatory nasalisation in the German short vowels /i, e, a, o, u/ when followed by /nt/ or /nd/, using a Bayesian beta regression model. The proportion was calculated as the proportion of the nasal interval to the duration of the vowel. The nasal interval was defined thus: the interval between the time of peak velocity of velum opening to the offset of the vowel.
+
+First, let's read and plot the data.
+
 ```{r}
+#| label: nasal
 nasal <- read_csv("data/carignan2021/nasal.csv")
+nasal
 ```
 
+-   `speaker` indicates the speaker ID.
+
+-   `label` is the word label as given in the original data.
+
+-   `vowel` is the target vowel in the VNC sequence.
+
+-   `NC` is the NC sequence.
+
+-   `voicing` indicates the voicing of C.
+
+-   `nas_prop` is the proportion of coarticulatory nasalisation of the vowel.
 
 ```{r}
+#| label: fig-nasal
+#| fig-cap: "Proportion of coarticulatory nasalisation during the vowel in VNC sequences in German, depending on C voicing."
+#| echo: false
+
+nasal |> 
+  ggplot(aes(vowel, nas_prop, colour = voicing)) +
+  geom_jitter(position = position_jitterdodge(jitter.width = 0.2), alpha = 0.8) +
+  scale_color_brewer(type = "qual") +
+  labs(x = "Vowel", y = "Nasalisation proportion", colour = "C voicing")
+
+```
+
+@fig-nasal shows the proportion of coarticulatory nasalisation in vowels followed by /nd/ (voiced) vs /nt/ (voiceless) sequences, for the short vowels /i, e, a, o, u/. We can see a pattern of higher nasalisation proportion in vowels followed by /nt/, at least in the vowels /a, i, o/. For /e, u/, the distribution of nasalisation proportion seems to be similar between the voiced and voiceless contexts.
+
+Now onto modelling with a beta regression. Note that a full appropriate model would include further predictors (both constant and varying), but for simplicity here we include only the following predictors: voicing (voiced /nd/ vs voiceless /nt/), vowel (/i, e, a, o, u/), including an interaction between them. As varying terms, we include a varying intercept by speaker and a by-speaker varying slope for voicing and vowel in interaction. As with the model from the first case study, voicing and vowel are coded using indexing, by suppressing the intercept with `0 +`. Here's the code of the model.
+
+```{r}
+#| label: nas-prop-bm
+
 nas_prop_bm <- brm(
   nas_prop ~ 0 + voicing:vowel + (0 + voicing:vowel | speaker),
   data = nasal,
@@ -295,8 +330,3 @@ nas_prop_bm <- brm(
   file = "data/cache/nas_prop_bm"
 )
 ```
-
-```{r}
-summary(nas_prop_bm, prob = 0.8)
-```
-

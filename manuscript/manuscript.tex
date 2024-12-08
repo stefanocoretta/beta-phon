@@ -120,15 +120,17 @@
 \makesavenoteenv{longtable}
 \usepackage{graphicx}
 \makeatletter
-\def\maxwidth{\ifdim\Gin@nat@width>\linewidth\linewidth\else\Gin@nat@width\fi}
-\def\maxheight{\ifdim\Gin@nat@height>\textheight\textheight\else\Gin@nat@height\fi}
-\makeatother
-% Scale images if necessary, so that they will not overflow the page
-% margins by default, and it is still possible to overwrite the defaults
-% using explicit options in \includegraphics[width, height, ...]{}
-\setkeys{Gin}{width=\maxwidth,height=\maxheight,keepaspectratio}
+\newsavebox\pandoc@box
+\newcommand*\pandocbounded[1]{% scales image to fit in text height/width
+  \sbox\pandoc@box{#1}%
+  \Gscale@div\@tempa{\textheight}{\dimexpr\ht\pandoc@box+\dp\pandoc@box\relax}%
+  \Gscale@div\@tempb{\linewidth}{\wd\pandoc@box}%
+  \ifdim\@tempb\p@<\@tempa\p@\let\@tempa\@tempb\fi% select the smaller of both
+  \ifdim\@tempa\p@<\p@\scalebox{\@tempa}{\usebox\pandoc@box}%
+  \else\usebox{\pandoc@box}%
+  \fi%
+}
 % Set default figure placement to htbp
-\makeatletter
 \def\fps@figure{htbp}
 \makeatother
 
@@ -175,9 +177,6 @@
 \makeatother
 \journal{Journal Name}
 
-\ifLuaTeX
-  \usepackage{selnolig}  % disable illegal ligatures
-\fi
 \usepackage[]{natbib}
 \bibliographystyle{elsarticle-harv}
 \usepackage{bookmark}
@@ -358,7 +357,7 @@ XXX{]}
 
 \centering{
 
-\includegraphics{manuscript_files/figure-pdf/fig-ita-egg-1.pdf}
+\pandocbounded{\includegraphics[keepaspectratio]{manuscript_files/figure-pdf/fig-ita-egg-1.pdf}}
 
 }
 
@@ -626,7 +625,7 @@ The following objects are masked from 'package:brms':
 
 \centering{
 
-\includegraphics{manuscript_files/figure-pdf/fig-voi-prop-bm-1-1.pdf}
+\pandocbounded{\includegraphics[keepaspectratio]{manuscript_files/figure-pdf/fig-voi-prop-bm-1-1.pdf}}
 
 }
 
@@ -657,7 +656,7 @@ distribution of voicing proportion for each consonant, assuming an
 \end{Highlighting}
 \end{Shaded}
 
-\includegraphics{manuscript_files/figure-pdf/voi-prop-bm-draws-long-c2-1.pdf}
+\pandocbounded{\includegraphics[keepaspectratio]{manuscript_files/figure-pdf/voi-prop-bm-draws-long-c2-1.pdf}}
 
 Based on the posterior distributions of the mean voicing proportion by
 consonant, /p/ has a somewhat higher voicing proportion than /k/ and
@@ -714,7 +713,7 @@ the draws of /p/.
 
 \centering{
 
-\includegraphics{manuscript_files/figure-pdf/fig-diff-p-tk-1.pdf}
+\pandocbounded{\includegraphics[keepaspectratio]{manuscript_files/figure-pdf/fig-diff-p-tk-1.pdf}}
 
 }
 
@@ -797,7 +796,7 @@ consonant and vowel.
 \end{Highlighting}
 \end{Shaded}
 
-\includegraphics{manuscript_files/figure-pdf/voi-prop-bm-cond-1.pdf}
+\pandocbounded{\includegraphics[keepaspectratio]{manuscript_files/figure-pdf/voi-prop-bm-cond-1.pdf}}
 
 Finally, the package marginaleffects has two other convenience functions
 that return CrIs of comparisons across predictor levels
@@ -843,9 +842,207 @@ Type:  response
 Columns: vowel, estimate, conf.low, conf.high 
 \end{verbatim}
 
+\section{Case study 2: coarticulatory vowel
+nasalisation}\label{case-study-2-coarticulatory-vowel-nasalisation}
 
-\renewcommand\refname{Case study 2: pre-nasalisation in Greek}
-  \bibliography{bibliography.bib}
+For the second case study we will use data from \citet{carignan2021}.
+The study looked at properties of nasality in German VNC sequences.
+Here, we will focus on the effect of C voicing (voiceless /t/ vs voiced
+/d/) on the proportion of nasalisation within the vowel in the VNC
+sequence. Previous work on coarticulatory nasalisation in English has
+suggested that vowels followed by an NC sequence where C is voiceless
+should show earlier coarticulatory nasalisation than vowels followed by
+an NC sequence where C is voiced \citep[see review in][]{carignan2021}.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{nasal }\OtherTok{\textless{}{-}} \FunctionTok{read\_csv}\NormalTok{(}\StringTok{"data/carignan2021/nasal.csv"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+Rows: 643 Columns: 6
+-- Column specification --------------------------------------------------------
+Delimiter: ","
+chr (5): speaker, label, vowel, post, voicing
+dbl (1): nas_prop
+
+i Use `spec()` to retrieve the full column specification for this data.
+i Specify the column types or set `show_col_types = FALSE` to quiet this message.
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{nas\_prop\_bm }\OtherTok{\textless{}{-}} \FunctionTok{brm}\NormalTok{(}
+\NormalTok{  nas\_prop }\SpecialCharTok{\textasciitilde{}} \DecValTok{0} \SpecialCharTok{+}\NormalTok{ voicing}\SpecialCharTok{:}\NormalTok{vowel }\SpecialCharTok{+}\NormalTok{ (}\DecValTok{0} \SpecialCharTok{+}\NormalTok{ voicing}\SpecialCharTok{:}\NormalTok{vowel }\SpecialCharTok{|}\NormalTok{ speaker),}
+  \AttributeTok{data =}\NormalTok{ nasal,}
+  \AttributeTok{family =}\NormalTok{ Beta,}
+  \AttributeTok{cores =} \DecValTok{4}\NormalTok{,}
+  \AttributeTok{seed =} \DecValTok{3749}\NormalTok{,}
+  \AttributeTok{file =} \StringTok{"data/cache/nas\_prop\_bm"}
+\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{summary}\NormalTok{(nas\_prop\_bm, }\AttributeTok{prob =} \FloatTok{0.8}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+ Family: beta 
+  Links: mu = logit; phi = identity 
+Formula: nas_prop ~ 0 + voicing:vowel + (0 + voicing:vowel | speaker) 
+   Data: nasal (Number of observations: 643) 
+  Draws: 4 chains, each with iter = 2000; warmup = 1000; thin = 1;
+         total post-warmup draws = 4000
+
+Multilevel Hyperparameters:
+~speaker (Number of levels: 35) 
+                                                       Estimate Est.Error
+sd(voicingvoiced:vowela_)                                  0.45      0.13
+sd(voicingvoiceless:vowela_)                               0.37      0.10
+sd(voicingvoiced:vowelE_)                                  0.56      0.18
+sd(voicingvoiceless:vowelE_)                               0.34      0.13
+sd(voicingvoiced:vowelI_)                                  0.71      0.18
+sd(voicingvoiceless:vowelI_)                               0.83      0.16
+sd(voicingvoiced:vowelO_)                                  0.36      0.22
+sd(voicingvoiceless:vowelO_)                               0.24      0.18
+cor(voicingvoiced:vowela,_voicingvoiceless:vowela_)        0.49      0.22
+cor(voicingvoiced:vowela,_voicingvoiced:vowelE_)           0.29      0.25
+cor(voicingvoiceless:vowela,_voicingvoiced:vowelE_)        0.16      0.25
+cor(voicingvoiced:vowela,_voicingvoiceless:vowelE_)        0.25      0.27
+cor(voicingvoiceless:vowela,_voicingvoiceless:vowelE_)     0.42      0.25
+cor(voicingvoiced:vowelE,_voicingvoiceless:vowelE_)        0.17      0.28
+cor(voicingvoiced:vowela,_voicingvoiced:vowelI_)           0.15      0.26
+cor(voicingvoiceless:vowela,_voicingvoiced:vowelI_)        0.17      0.26
+cor(voicingvoiced:vowelE,_voicingvoiced:vowelI_)           0.23      0.26
+cor(voicingvoiceless:vowelE,_voicingvoiced:vowelI_)        0.29      0.27
+cor(voicingvoiced:vowela,_voicingvoiceless:vowelI_)       -0.11      0.24
+cor(voicingvoiceless:vowela,_voicingvoiceless:vowelI_)     0.16      0.23
+cor(voicingvoiced:vowelE,_voicingvoiceless:vowelI_)        0.14      0.25
+cor(voicingvoiceless:vowelE,_voicingvoiceless:vowelI_)     0.33      0.25
+cor(voicingvoiced:vowelI,_voicingvoiceless:vowelI_)        0.34      0.23
+cor(voicingvoiced:vowela,_voicingvoiced:vowelO_)           0.20      0.31
+cor(voicingvoiceless:vowela,_voicingvoiced:vowelO_)        0.13      0.31
+cor(voicingvoiced:vowelE,_voicingvoiced:vowelO_)           0.10      0.31
+cor(voicingvoiceless:vowelE,_voicingvoiced:vowelO_)        0.07      0.31
+cor(voicingvoiced:vowelI,_voicingvoiced:vowelO_)           0.14      0.31
+cor(voicingvoiceless:vowelI,_voicingvoiced:vowelO_)       -0.06      0.29
+cor(voicingvoiced:vowela,_voicingvoiceless:vowelO_)        0.03      0.32
+cor(voicingvoiceless:vowela,_voicingvoiceless:vowelO_)    -0.05      0.32
+cor(voicingvoiced:vowelE,_voicingvoiceless:vowelO_)        0.09      0.32
+cor(voicingvoiceless:vowelE,_voicingvoiceless:vowelO_)     0.03      0.33
+cor(voicingvoiced:vowelI,_voicingvoiceless:vowelO_)        0.12      0.32
+cor(voicingvoiceless:vowelI,_voicingvoiceless:vowelO_)     0.03      0.31
+cor(voicingvoiced:vowelO,_voicingvoiceless:vowelO_)        0.08      0.33
+                                                       l-80% CI u-80% CI Rhat
+sd(voicingvoiced:vowela_)                                  0.29     0.62 1.00
+sd(voicingvoiceless:vowela_)                               0.25     0.50 1.00
+sd(voicingvoiced:vowelE_)                                  0.33     0.79 1.00
+sd(voicingvoiceless:vowelE_)                               0.18     0.50 1.00
+sd(voicingvoiced:vowelI_)                                  0.50     0.96 1.00
+sd(voicingvoiceless:vowelI_)                               0.64     1.04 1.00
+sd(voicingvoiced:vowelO_)                                  0.08     0.66 1.00
+sd(voicingvoiceless:vowelO_)                               0.04     0.49 1.00
+cor(voicingvoiced:vowela,_voicingvoiceless:vowela_)        0.20     0.76 1.00
+cor(voicingvoiced:vowela,_voicingvoiced:vowelE_)          -0.05     0.60 1.00
+cor(voicingvoiceless:vowela,_voicingvoiced:vowelE_)       -0.17     0.50 1.00
+cor(voicingvoiced:vowela,_voicingvoiceless:vowelE_)       -0.10     0.59 1.00
+cor(voicingvoiceless:vowela,_voicingvoiceless:vowelE_)     0.09     0.72 1.00
+cor(voicingvoiced:vowelE,_voicingvoiceless:vowelE_)       -0.22     0.53 1.00
+cor(voicingvoiced:vowela,_voicingvoiced:vowelI_)          -0.20     0.49 1.00
+cor(voicingvoiceless:vowela,_voicingvoiced:vowelI_)       -0.18     0.50 1.00
+cor(voicingvoiced:vowelE,_voicingvoiced:vowelI_)          -0.11     0.56 1.00
+cor(voicingvoiceless:vowelE,_voicingvoiced:vowelI_)       -0.07     0.62 1.00
+cor(voicingvoiced:vowela,_voicingvoiceless:vowelI_)       -0.42     0.20 1.00
+cor(voicingvoiceless:vowela,_voicingvoiceless:vowelI_)    -0.13     0.46 1.00
+cor(voicingvoiced:vowelE,_voicingvoiceless:vowelI_)       -0.19     0.44 1.00
+cor(voicingvoiceless:vowelE,_voicingvoiceless:vowelI_)     0.00     0.63 1.00
+cor(voicingvoiced:vowelI,_voicingvoiceless:vowelI_)        0.03     0.62 1.00
+cor(voicingvoiced:vowela,_voicingvoiced:vowelO_)          -0.22     0.59 1.00
+cor(voicingvoiceless:vowela,_voicingvoiced:vowelO_)       -0.27     0.53 1.00
+cor(voicingvoiced:vowelE,_voicingvoiced:vowelO_)          -0.33     0.50 1.00
+cor(voicingvoiceless:vowelE,_voicingvoiced:vowelO_)       -0.34     0.47 1.00
+cor(voicingvoiced:vowelI,_voicingvoiced:vowelO_)          -0.27     0.52 1.00
+cor(voicingvoiceless:vowelI,_voicingvoiced:vowelO_)       -0.44     0.33 1.00
+cor(voicingvoiced:vowela,_voicingvoiceless:vowelO_)       -0.40     0.45 1.00
+cor(voicingvoiceless:vowela,_voicingvoiceless:vowelO_)    -0.46     0.37 1.00
+cor(voicingvoiced:vowelE,_voicingvoiceless:vowelO_)       -0.34     0.51 1.00
+cor(voicingvoiceless:vowelE,_voicingvoiceless:vowelO_)    -0.41     0.46 1.00
+cor(voicingvoiced:vowelI,_voicingvoiceless:vowelO_)       -0.32     0.54 1.00
+cor(voicingvoiceless:vowelI,_voicingvoiceless:vowelO_)    -0.39     0.43 1.00
+cor(voicingvoiced:vowelO,_voicingvoiceless:vowelO_)       -0.37     0.50 1.00
+                                                       Bulk_ESS Tail_ESS
+sd(voicingvoiced:vowela_)                                  1686     1641
+sd(voicingvoiceless:vowela_)                               2099     2574
+sd(voicingvoiced:vowelE_)                                  1536     1551
+sd(voicingvoiceless:vowelE_)                               2319     1734
+sd(voicingvoiced:vowelI_)                                  2498     3094
+sd(voicingvoiceless:vowelI_)                               3333     3115
+sd(voicingvoiced:vowelO_)                                  1620     1698
+sd(voicingvoiceless:vowelO_)                               2295     2196
+cor(voicingvoiced:vowela,_voicingvoiceless:vowela_)        2144     2507
+cor(voicingvoiced:vowela,_voicingvoiced:vowelE_)           2466     2751
+cor(voicingvoiceless:vowela,_voicingvoiced:vowelE_)        2821     3574
+cor(voicingvoiced:vowela,_voicingvoiceless:vowelE_)        3289     3353
+cor(voicingvoiceless:vowela,_voicingvoiceless:vowelE_)     3534     3625
+cor(voicingvoiced:vowelE,_voicingvoiceless:vowelE_)        4027     3622
+cor(voicingvoiced:vowela,_voicingvoiced:vowelI_)           2057     2599
+cor(voicingvoiceless:vowela,_voicingvoiced:vowelI_)        2350     2928
+cor(voicingvoiced:vowelE,_voicingvoiced:vowelI_)           2143     2832
+cor(voicingvoiceless:vowelE,_voicingvoiced:vowelI_)        1964     3115
+cor(voicingvoiced:vowela,_voicingvoiceless:vowelI_)        1792     2459
+cor(voicingvoiceless:vowela,_voicingvoiceless:vowelI_)     2219     2880
+cor(voicingvoiced:vowelE,_voicingvoiceless:vowelI_)        2232     2731
+cor(voicingvoiceless:vowelE,_voicingvoiceless:vowelI_)     1602     2249
+cor(voicingvoiced:vowelI,_voicingvoiceless:vowelI_)        2271     3182
+cor(voicingvoiced:vowela,_voicingvoiced:vowelO_)           3973     3016
+cor(voicingvoiceless:vowela,_voicingvoiced:vowelO_)        5614     3512
+cor(voicingvoiced:vowelE,_voicingvoiced:vowelO_)           4179     3070
+cor(voicingvoiceless:vowelE,_voicingvoiced:vowelO_)        4760     3338
+cor(voicingvoiced:vowelI,_voicingvoiced:vowelO_)           4135     3265
+cor(voicingvoiceless:vowelI,_voicingvoiced:vowelO_)        4320     3583
+cor(voicingvoiced:vowela,_voicingvoiceless:vowelO_)        7265     3088
+cor(voicingvoiceless:vowela,_voicingvoiceless:vowelO_)     5934     3240
+cor(voicingvoiced:vowelE,_voicingvoiceless:vowelO_)        6140     3465
+cor(voicingvoiceless:vowelE,_voicingvoiceless:vowelO_)     5229     3304
+cor(voicingvoiced:vowelI,_voicingvoiceless:vowelO_)        4597     3612
+cor(voicingvoiceless:vowelI,_voicingvoiceless:vowelO_)     6014     3479
+cor(voicingvoiced:vowelO,_voicingvoiceless:vowelO_)        3033     3351
+
+Regression Coefficients:
+                         Estimate Est.Error l-80% CI u-80% CI Rhat Bulk_ESS
+voicingvoiced:vowela_       -0.61      0.12    -0.76    -0.45 1.00     3695
+voicingvoiceless:vowela_    -0.07      0.09    -0.19     0.04 1.00     3582
+voicingvoiced:vowelE_       -0.19      0.15    -0.38     0.01 1.00     3940
+voicingvoiceless:vowelE_    -0.25      0.10    -0.38    -0.12 1.00     5156
+voicingvoiced:vowelI_       -0.74      0.19    -0.98    -0.51 1.00     4090
+voicingvoiceless:vowelI_    -0.12      0.17    -0.33     0.10 1.00     4077
+voicingvoiced:vowelO_       -0.33      0.16    -0.54    -0.13 1.00     6095
+voicingvoiceless:vowelO_     0.25      0.16     0.05     0.45 1.00     6834
+                         Tail_ESS
+voicingvoiced:vowela_        3160
+voicingvoiceless:vowela_     3300
+voicingvoiced:vowelE_        2601
+voicingvoiceless:vowelE_     3268
+voicingvoiced:vowelI_        3357
+voicingvoiceless:vowelI_     3305
+voicingvoiced:vowelO_        2719
+voicingvoiceless:vowelO_     2927
+
+Further Distributional Parameters:
+    Estimate Est.Error l-80% CI u-80% CI Rhat Bulk_ESS Tail_ESS
+phi     4.73      0.30     4.35     5.12 1.00     2477     3192
+
+Draws were sampled using sampling(NUTS). For each parameter, Bulk_ESS
+and Tail_ESS are effective sample size measures, and Rhat is the potential
+scale reduction factor on split chains (at convergence, Rhat = 1).
+\end{verbatim}
+
+
+  \bibliography{linguistics.bib}
 
 
 
