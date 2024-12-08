@@ -278,5 +278,25 @@ avg_comparisons(voi_prop_bm, variables = list(c2 = "pairwise"), conf_level = 0.8
 avg_predictions(voi_prop_bm, variables = "vowel", conf_level = 0.8)
 ```
 
-# Case study 2: pre-nasalisation in Greek
+# Case study 2: coarticulatory vowel nasalisation
+
+```{r}
+nasal <- read_csv("data/carignan2021/nasal.csv")
+```
+
+
+```{r}
+nas_prop_bm <- brm(
+  nas_prop ~ 0 + voicing:vowel + (0 + voicing:vowel | speaker),
+  data = nasal,
+  family = Beta,
+  cores = 4,
+  seed = 3749,
+  file = "data/cache/nas_prop_bm"
+)
+```
+
+```{r}
+summary(nas_prop_bm, prob = 0.8)
+```
 

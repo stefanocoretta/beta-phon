@@ -4,6 +4,8 @@ author: "Stefano Coretta"
 format: html
 ---
 
+## Voicing within closure
+
 ```{r}
 #| label: setup
 
@@ -13,7 +15,7 @@ library(Hmisc)
 ```
 
 ```{r}
-#| label: load-data
+#| label: load-ita-egg
 #| 
 data("ita_egg")
 ```
@@ -64,5 +66,48 @@ ita_egg_filt |>
   geom_point(alpha = 0.5) +
   geom_smooth(method = "lm") +
   facet_wrap(vars(vowel))
+```
+
+## Vowel nasalisation
+
+```{r}
+#| label: read-nasal
+nasal <- read_csv("https://raw.githubusercontent.com/ChristopherCarignan/journal-articles/refs/heads/master/rtMRI-velum/velum_data.csv") |> 
+  filter(
+    stress == "N",
+    vowel %in% c("a_", "E_", "I_", "O_", "U")
+  ) |> 
+  mutate(
+    voicing = case_when(
+      post %in% c("nt__", "nt_@", "nt_6", "nt_a") ~ "voiceless",
+      post %in% c("nd_@", "nd_6", "nd_a") ~ "voiced"
+    )
+  ) |> 
+  # drop codas not included in the analysis
+  drop_na(voicing) |> 
+  mutate(
+    nas_dur = (Vokal_off - velumopening_maxvel_on) * 1000,
+    nas_prop = nas_dur / (Vokal_dur * 1000)
+  ) |> 
+  # drop observations with wrong fMRI tracking
+  filter(nas_prop > 0, nas_prop < 1) |> 
+  select(
+    speaker, label, vowel, post, voicing, nas_prop
+  )
+
+write_csv(nasal, "data/carignan2021/nasal.csv")
+```
+
+```{r}
+nasal |> 
+  ggplot(aes(nas_prop, fill = voicing)) +
+  geom_density(alpha = 0.5)
+```
+
+```{r}
+nasal |> 
+  ggplot(aes(nas_prop, fill = voicing)) +
+  geom_density(alpha = 0.5) +
+  facet_wrap(~vowel)
 ```
 
