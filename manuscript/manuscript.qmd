@@ -133,7 +133,7 @@ voi_prop_bm <- brm(
 )
 ```
 
-The `summary()` function prints the full model summary. For conciseness, we will use the `fixef()` function which prints the regression coefficients. The full summary with an explanation of each part can be found in XXX. For each coefficient in the model, `fixef()` prints the name of the coefficient, the mean estimate, the estimate error and the lower and upper limits of a Bayesian Credible interval (CrI). Here, we print an 80% CrI. There is nothing special about 95% CrI within Bayesian inference and instead experts recommend to check and report a variety of CrIs. Bayesian CrIs indicate that at a certain probability levels the "true" estimate lies within that interval: so, for example, a 90% CrI \[A, B\] indicates that there is a 90% probability that the "true" estimate is between A and B. Different probability levels correspond to different levels of confidence: the higher the probability the higher the confidence (always conditional on data and model). Obtaining CrIs at different probability levels allows researchers to make more fine-grained inferential statements than the frequentist significance dichotomy affords. For simplicity of exposition, we will use 80% CrIs in this case study but we strongly recommend researchers to always obtain CrIs at different levels of probability and base their inferences on all and not one in particular. To reiterate, in Bayesian inference, an 80% CrI indicates the range of values within which the true estimate falls at 80% probability or confidence. We round all values to the nearest 2 digits for clarity.
+The `summary()` function prints the full model summary. For conciseness, we will use the `fixef()` function which prints the regression coefficients. \[EXPLAIN EXPECTED PREDICTIONS XXX\]. The full summary with an explanation of each part can be found in XXX. For each coefficient in the model, `fixef()` prints the name of the coefficient, the mean estimate, the estimate error and the lower and upper limits of a Bayesian Credible interval (CrI). Here, we print an 80% CrI. There is nothing special about 95% CrI within Bayesian inference and instead experts recommend to check and report a variety of CrIs. Bayesian CrIs indicate that at a certain probability levels the "true" estimate lies within that interval: so, for example, a 90% CrI \[A, B\] indicates that there is a 90% probability that the "true" estimate is between A and B. Different probability levels correspond to different levels of confidence: the higher the probability the higher the confidence (always conditional on data and model). Obtaining CrIs at different probability levels allows researchers to make more fine-grained inferential statements than the frequentist significance dichotomy affords. For simplicity of exposition, we will use 80% CrIs in this case study but we strongly recommend researchers to always obtain CrIs at different levels of probability and base their inferences on all and not one in particular. To reiterate, in Bayesian inference, an 80% CrI indicates the range of values within which the true estimate falls at 80% probability or confidence. We round all values to the nearest 2 digits for clarity.
 
 ```{r}
 #| label: voi-prop-bm-fixef
@@ -330,3 +330,117 @@ nas_prop_bm <- brm(
   file = "data/cache/nas_prop_bm"
 )
 ```
+
+Let's inspect the output of `fixef()`.
+
+```{r}
+#| label: nas-prop-bm-fixef
+round(
+  fixef(nas_prop_bm, prob = c(0.1, 0.9)),
+  digits = 2
+)
+```
+
+Negative log-odds indicate a proportion that is smaller than 50%, while positive log-odds a proportion that is greater than 50%. Generally, the expected log-odd predictions are negative, indicating an overall tendency for the nasalisation to take less than 50% of the duration of the vowel. Moreover, the predictions are higher for voiceless NC sequences than for voiced NC sequences, indicating a greater proportion of nasalisation in the former. However there is vowel-specific variation, and there doesn't seem to be much of a difference in nasalisation proportion in /e/ and /u/. Plotting the expected predictions with `conditional_effects()` should make this clearer.
+
+```{r}
+#| label: nas-prop
+
+conditional_effects(nas_prop_bm, "vowel:voicing")
+
+```
+
+Now that we fitted the model we can use the draws to answer two questions:
+
+1.  Is the nasalisation proportion, on average across vowels, greater in voiceless NC sequences?
+2.  Is there individual speaker variation?
+
+To answer question 1, we can calculate the average difference in nasalisation proportion by first calculating the average nasalisation across all vowels for voiced and voiceless sequences and then take the difference of those, similarly to what we have done in the Case Study 1 above.
+
+```{r}
+#| label: nas-prop-bm-draws
+
+# extract only coefficient variables starting with "b_"
+nas_prop_bm_draws <- as_draws_df(nas_prop_bm, variable = "^b_", regex = TRUE)
+
+nas_prop_bm_draws_long <- nas_prop_bm_draws |> 
+  # pivot vowel:c2 columns
+  pivot_longer(`b_voicingvoiced:vowela`:`b_voicingvoiceless:vowelu`, names_to = "coeff") |>
+  # separate "coeff" labels into type ("b"), vowel and c2
+  separate(coeff, into = c("type", "voicing", "vowel"))
+
+nas_prop_bm_draws_long
+```
+
+Now let's calculate the mean nasalisation proportion within each draw by voicing, and plot the resulting posterior distributions.
+
+```{r}
+#| label: nas-prop-bm-draws-long-voicing
+
+nas_prop_bm_draws_long_voicing <- nas_prop_bm_draws_long |> 
+  # grouping by .draw and voicing ensures that averaging applies only within draw and voicing
+  group_by(.draw, voicing) |> 
+  # calculate the mean value within draw/voicing
+  summarise(
+    value_mean = mean(value), .groups = "drop"
+  )
+
+nas_prop_bm_draws_long_voicing |> 
+  ggplot(aes(plogis(value_mean), voicing)) +
+  stat_halfeye(.width = c(0.6, 0.8))
+```
+
+The plot suggests an overall greater nasalisation proportion in voiceless NC sequences. Let's quantify how greater as we did in Case Study 1.
+
+```{r}
+#| label: nas-prop-bm-diff
+
+nas_prop_bm_diff <- nas_prop_bm_draws_long_voicing |> 
+  # pivot data to create one column per voicing with the mean drawn values,
+  # with one draw per raw
+  pivot_wider(names_from = voicing, values_from = value_mean) |> 
+  mutate(
+    # calculate the difference of voiceless and voiced
+    voicing_diff = voicingvoiceless - voicingvoiced
+  )
+
+nas_prop_bm_diff |> 
+  reframe(
+    # 90% CrI
+    q90 = quantile2(exp(voicing_diff), probs = c(0.05, 0.95)),
+    # 80% CrI
+    q80 = quantile2(exp(voicing_diff), probs = c(0.1, 0.9)),
+    # 60% CrI
+    q60 = quantile2(exp(voicing_diff), probs = c(0.2, 0.8)),
+  ) |> 
+  mutate(across(everything(), ~round(.x, 2)))
+```
+
+The CrIs of the ratio difference in nasalisation proportion in voiceless vs voiced NC sequences suggest a robust increase of nasalisation in the voiceless NC sequences, with a 90% probability that the increase is between 23% and 69% of the proportion in voiced NC sequences.
+
+```{r}
+#| label: nas-prop-r
+library(tidybayes)
+nas_prop_r <- nas_prop_bm |> 
+  spread_draws(r_speaker[speaker,voicingvowel]) |> 
+  separate(voicingvowel, c("voicing", "vowel")) |> 
+  left_join(y = nas_prop_bm_draws_long) |> 
+  mutate(r_speaker_value = value + r_speaker) |> 
+  group_by(.draw, speaker, voicing) |> 
+  summarise(r_speaker_value_mean = mean(r_speaker_value)) |> 
+  pivot_wider(names_from = voicing, values_from = r_speaker_value_mean) |> 
+  mutate(voicing_diff = voicingvoiceless - voicingvoiced)
+```
+
+```{r}
+#| label: fig-nas-prop-r
+#| warning: false
+
+nas_prop_r |> 
+  ggplot(aes(voicing_diff, reorder(speaker, voicing_diff))) +
+  stat_halfeye() +
+  geom_vline(xintercept = mean(nas_prop_bm_diff$voicing_diff), colour = "red") +
+  geom_vline(xintercept = 0, linetype = "dashed") +
+  lims(x = c(-1, 1.5))
+```
+
