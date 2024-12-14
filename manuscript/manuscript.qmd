@@ -266,7 +266,7 @@ brms comes with a convenient function, `conditional_effects()`, to plot posterio
 conditional_effects(voi_prop_bm, "c2:vowel")
 ```
 
-Finally, the package marginaleffects has two other convenience functions that return CrIs of comparisons across predictor levels (`avg_comparisons()`) and CrIs of posterior predictions across predictor levels (`avg_predictions`). \[XXX\]
+Finally, the package marginaleffects [XXX] has two other convenience functions that return CrIs of comparisons across predictor levels (`avg_comparisons()`) and CrIs of posterior predictions across predictor levels (`avg_predictions`). \[XXX\]
 
 ```{r}
 #| label: marginal
@@ -449,7 +449,7 @@ nas_prop_r <- nas_prop_bm |>
 nas_prop_r
 ```
 
-@fig-nas-prop-r plots the posterior distributions of the expected log-odd difference of coarticulatory nasalisation in voiceless vs voiced NC sequences (*x*-axis), for each speaker in the data (*y*-axis), as predicted by the model. The red solid vertical line indicates the constant (overall) expected log-odd difference based on the (constant) `b_` terms. The black dashed vertical line marks log-difference 0 (i.e., no difference in proportion of nasalisation between voiceless and voiced NC). There is a lot of uncertainty within and between speakers: while the distributions of most speakers are located in the positive range, some expected distributions (see bottom of figure) do span both negative and positive values. In other words, while most speakers are expected to have a larger nasalisation proportion in voiceless NC sequences, a few in fact might have the opposite pattern. Even among those speakers that do have a positive difference, there is a lot of uncertainty as to the magnitude of the difference.
+@fig-nas-prop-r plots the posterior distributions of the expected log-odd difference of coarticulatory nasalisation in voiceless vs voiced NC sequences (*x*-axis), for each speaker in the data (*y*-axis), as predicted by the model. The red solid vertical line indicates the constant (overall) expected log-odd difference based on the (constant) `b_` terms. The black dashed vertical line marks log-difference 0 (i.e., no difference in proportion of nasalisation between voiceless and voiced NC).
 
 ```{r}
 #| label: fig-nas-prop-r
@@ -462,4 +462,6 @@ nas_prop_r |>
   geom_vline(xintercept = 0, linetype = "dashed") +
   lims(x = c(-1, 1.5))
 ```
+
+There is a lot of uncertainty within and between speakers: while the distributions of most speakers are located in the positive range, some expected distributions (see bottom of figure) do span both negative and positive values. In other words, while most speakers are expected to have a larger nasalisation proportion in voiceless NC sequences, a few in fact might have the opposite pattern. Even among those speakers that do have a positive difference, there is a lot of uncertainty as to the magnitude of the difference.
 

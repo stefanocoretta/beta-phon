@@ -185,7 +185,7 @@
 \urlstyle{same} % disable monospaced font for URLs
 \hypersetup{
   pdftitle={A tutorial of Bayesian beta regressions with brms in R},
-  pdfauthor={Stefano Coretta},
+  pdfauthor={Stefano Coretta; Paul Bürkner},
   pdfkeywords={keyword1, keyword2},
   colorlinks=true,
   linkcolor={blue},
@@ -204,6 +204,10 @@
 \corref{cor1}%
 \fnref{fn1}}
  \ead{s.coretta@ed.ac.uk} 
+\author[]{Paul Bürkner%
+%
+}
+ \ead{paul.buerkner@gmail.com} 
 
 \affiliation[1]{organization={University of Edinburgh, Linguistics and
 English Language},addressline={3 George
@@ -211,6 +215,7 @@ Sq},city={Edinburgh},postcode={EH8 9AD},postcodesep={}}
 
 \cortext[cor1]{Corresponding author}
 \fntext[fn1]{This is the first author footnote.}
+
         
 \begin{abstract}
 This is the abstract. Lorem ipsum dolor sit amet, consectetur adipiscing
@@ -407,28 +412,28 @@ the readers to XXX.
 
 The \texttt{summary()} function prints the full model summary. For
 conciseness, we will use the \texttt{fixef()} function which prints the
-regression coefficients. The full summary with an explanation of each
-part can be found in XXX. For each coefficient in the model,
-\texttt{fixef()} prints the name of the coefficient, the mean estimate,
-the estimate error and the lower and upper limits of a Bayesian Credible
-interval (CrI). Here, we print an 80\% CrI. There is nothing special
-about 95\% CrI within Bayesian inference and instead experts recommend
-to check and report a variety of CrIs. Bayesian CrIs indicate that at a
-certain probability levels the ``true'' estimate lies within that
-interval: so, for example, a 90\% CrI {[}A, B{]} indicates that there is
-a 90\% probability that the ``true'' estimate is between A and B.
-Different probability levels correspond to different levels of
-confidence: the higher the probability the higher the confidence (always
-conditional on data and model). Obtaining CrIs at different probability
-levels allows researchers to make more fine-grained inferential
-statements than the frequentist significance dichotomy affords. For
-simplicity of exposition, we will use 80\% CrIs in this case study but
-we strongly recommend researchers to always obtain CrIs at different
-levels of probability and base their inferences on all and not one in
-particular. To reiterate, in Bayesian inference, an 80\% CrI indicates
-the range of values within which the true estimate falls at 80\%
-probability or confidence. We round all values to the nearest 2 digits
-for clarity.
+regression coefficients. {[}EXPLAIN EXPECTED PREDICTIONS XXX{]}. The
+full summary with an explanation of each part can be found in XXX. For
+each coefficient in the model, \texttt{fixef()} prints the name of the
+coefficient, the mean estimate, the estimate error and the lower and
+upper limits of a Bayesian Credible interval (CrI). Here, we print an
+80\% CrI. There is nothing special about 95\% CrI within Bayesian
+inference and instead experts recommend to check and report a variety of
+CrIs. Bayesian CrIs indicate that at a certain probability levels the
+``true'' estimate lies within that interval: so, for example, a 90\% CrI
+{[}A, B{]} indicates that there is a 90\% probability that the ``true''
+estimate is between A and B. Different probability levels correspond to
+different levels of confidence: the higher the probability the higher
+the confidence (always conditional on data and model). Obtaining CrIs at
+different probability levels allows researchers to make more
+fine-grained inferential statements than the frequentist significance
+dichotomy affords. For simplicity of exposition, we will use 80\% CrIs
+in this case study but we strongly recommend researchers to always
+obtain CrIs at different levels of probability and base their inferences
+on all and not one in particular. To reiterate, in Bayesian inference,
+an 80\% CrI indicates the range of values within which the true estimate
+falls at 80\% probability or confidence. We round all values to the
+nearest 2 digits for clarity.
 
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -798,8 +803,8 @@ consonant and vowel.
 
 \pandocbounded{\includegraphics[keepaspectratio]{manuscript_files/figure-pdf/voi-prop-bm-cond-1.pdf}}
 
-Finally, the package marginaleffects has two other convenience functions
-that return CrIs of comparisons across predictor levels
+Finally, the package marginaleffects {[}XXX{]} has two other convenience
+functions that return CrIs of comparisons across predictor levels
 (\texttt{avg\_comparisons()}) and CrIs of posterior predictions across
 predictor levels (\texttt{avg\_predictions}). {[}XXX{]}
 
@@ -851,8 +856,24 @@ Here, we will focus on the effect of C voicing (voiceless /t/ vs voiced
 /d/) on the proportion of nasalisation within the vowel in the VNC
 sequence. Previous work on coarticulatory nasalisation in English has
 suggested that vowels followed by an NC sequence where C is voiceless
-should show earlier coarticulatory nasalisation than vowels followed by
-an NC sequence where C is voiced \citep[see review in][]{carignan2021}.
+(NT) should show earlier coarticulatory nasalisation than vowels
+followed by an NC sequence where C is voiced \citep[ND, see review
+in][]{carignan2021}. This pattern has been suggested to be driven by the
+articulatory and acoustic incompatibility of voicelessness and
+nasalisation, by which the velum opening gesture of the nasal consonant
+is pushed away (i.e.~earlier) when the consonant following the nasal is
+voiceless. Everything else being equal, a greater proportion of vowel
+nasalisation (from the perspective of time) should be found in vowels
+followed by NT than in vowels followed by ND.
+
+We will model the proportion of coarticulatory nasalisation in the
+German short vowels /i, e, a, o, u/ when followed by /nt/ or /nd/, using
+a Bayesian beta regression model. The proportion was calculated as the
+proportion of the nasal interval to the duration of the vowel. The nasal
+interval was defined thus: the interval between the time of peak
+velocity of velum opening to the offset of the vowel.
+
+First, let's read and plot the data.
 
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -861,15 +882,85 @@ an NC sequence where C is voiced \citep[see review in][]{carignan2021}.
 \end{Shaded}
 
 \begin{verbatim}
-Rows: 643 Columns: 6
+Rows: 705 Columns: 6
 -- Column specification --------------------------------------------------------
 Delimiter: ","
-chr (5): speaker, label, vowel, post, voicing
+chr (5): speaker, label, vowel, NC, voicing
 dbl (1): nas_prop
 
 i Use `spec()` to retrieve the full column specification for this data.
 i Specify the column types or set `show_col_types = FALSE` to quiet this message.
 \end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{nasal}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+# A tibble: 705 x 6
+   speaker label               vowel NC    voicing   nas_prop
+   <chr>   <chr>               <chr> <chr> <chr>        <dbl>
+ 1 S03     b__U_nt_@___N_B17/s u     nt    voiceless  0.367  
+ 2 S03     b__a_nd_@___N_B19/s a     nd    voiced     0.195  
+ 3 S03     b__a_nt_@___N_B15/s a     nt    voiceless  0.279  
+ 4 S03     f__I_nt_@___N_B05/s i     nt    voiceless  0.764  
+ 5 S03     l__I_nd_@___N_B06/s i     nd    voiced     0.00529
+ 6 S03     p__E_nt_____N_B09/s e     nt    voiceless  0.335  
+ 7 S03     r__a_nt_@___N_B06/s a     nt    voiceless  0.243  
+ 8 S03     v__I_nd_@___N_B07/s i     nd    voiced     0.0248 
+ 9 S03     v__I_nt_6___N_B15/s i     nt    voiceless  0.135  
+10 S03     z__E_nd_@___N_B17/s e     nd    voiced     0.538  
+# i 695 more rows
+\end{verbatim}
+
+\begin{itemize}
+\item
+  \texttt{speaker} indicates the speaker ID.
+\item
+  \texttt{label} is the word label as given in the original data.
+\item
+  \texttt{vowel} is the target vowel in the VNC sequence.
+\item
+  \texttt{NC} is the NC sequence.
+\item
+  \texttt{voicing} indicates the voicing of C.
+\item
+  \texttt{nas\_prop} is the proportion of coarticulatory nasalisation of
+  the vowel.
+\end{itemize}
+
+\begin{figure}
+
+\centering{
+
+\pandocbounded{\includegraphics[keepaspectratio]{manuscript_files/figure-pdf/fig-nasal-1.pdf}}
+
+}
+
+\caption{\label{fig-nasal}Proportion of coarticulatory nasalisation
+during the vowel in VNC sequences in German, depending on C voicing.}
+
+\end{figure}%
+
+Figure~\ref{fig-nasal} shows the proportion of coarticulatory
+nasalisation in vowels followed by /nd/ (voiced) vs /nt/ (voiceless)
+sequences, for the short vowels /i, e, a, o, u/. We can see a pattern of
+higher nasalisation proportion in vowels followed by /nt/, at least in
+the vowels /a, i, o/. For /e, u/, the distribution of nasalisation
+proportion seems to be similar between the voiced and voiceless
+contexts.
+
+Now onto modelling with a beta regression. Note that a full appropriate
+model would include further predictors (both constant and varying), but
+for simplicity here we include only the following predictors: voicing
+(voiced /nd/ vs voiceless /nt/), vowel (/i, e, a, o, u/), including an
+interaction between them. As varying terms, we include a varying
+intercept by speaker and a by-speaker varying slope for voicing and
+vowel in interaction. As with the model from the first case study,
+voicing and vowel are coded using indexing, by suppressing the intercept
+with \texttt{0\ +}. Here's the code of the model.
 
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -884,162 +975,295 @@ i Specify the column types or set `show_col_types = FALSE` to quiet this message
 \end{Highlighting}
 \end{Shaded}
 
+Let's inspect the output of \texttt{fixef()}.
+
 \begin{Shaded}
 \begin{Highlighting}[]
-\FunctionTok{summary}\NormalTok{(nas\_prop\_bm, }\AttributeTok{prob =} \FloatTok{0.8}\NormalTok{)}
+\FunctionTok{round}\NormalTok{(}
+  \FunctionTok{fixef}\NormalTok{(nas\_prop\_bm, }\AttributeTok{prob =} \FunctionTok{c}\NormalTok{(}\FloatTok{0.1}\NormalTok{, }\FloatTok{0.9}\NormalTok{)),}
+  \AttributeTok{digits =} \DecValTok{2}
+\NormalTok{)}
 \end{Highlighting}
 \end{Shaded}
 
 \begin{verbatim}
- Family: beta 
-  Links: mu = logit; phi = identity 
-Formula: nas_prop ~ 0 + voicing:vowel + (0 + voicing:vowel | speaker) 
-   Data: nasal (Number of observations: 643) 
-  Draws: 4 chains, each with iter = 2000; warmup = 1000; thin = 1;
-         total post-warmup draws = 4000
-
-Multilevel Hyperparameters:
-~speaker (Number of levels: 35) 
-                                                       Estimate Est.Error
-sd(voicingvoiced:vowela_)                                  0.45      0.13
-sd(voicingvoiceless:vowela_)                               0.37      0.10
-sd(voicingvoiced:vowelE_)                                  0.56      0.18
-sd(voicingvoiceless:vowelE_)                               0.34      0.13
-sd(voicingvoiced:vowelI_)                                  0.71      0.18
-sd(voicingvoiceless:vowelI_)                               0.83      0.16
-sd(voicingvoiced:vowelO_)                                  0.36      0.22
-sd(voicingvoiceless:vowelO_)                               0.24      0.18
-cor(voicingvoiced:vowela,_voicingvoiceless:vowela_)        0.49      0.22
-cor(voicingvoiced:vowela,_voicingvoiced:vowelE_)           0.29      0.25
-cor(voicingvoiceless:vowela,_voicingvoiced:vowelE_)        0.16      0.25
-cor(voicingvoiced:vowela,_voicingvoiceless:vowelE_)        0.25      0.27
-cor(voicingvoiceless:vowela,_voicingvoiceless:vowelE_)     0.42      0.25
-cor(voicingvoiced:vowelE,_voicingvoiceless:vowelE_)        0.17      0.28
-cor(voicingvoiced:vowela,_voicingvoiced:vowelI_)           0.15      0.26
-cor(voicingvoiceless:vowela,_voicingvoiced:vowelI_)        0.17      0.26
-cor(voicingvoiced:vowelE,_voicingvoiced:vowelI_)           0.23      0.26
-cor(voicingvoiceless:vowelE,_voicingvoiced:vowelI_)        0.29      0.27
-cor(voicingvoiced:vowela,_voicingvoiceless:vowelI_)       -0.11      0.24
-cor(voicingvoiceless:vowela,_voicingvoiceless:vowelI_)     0.16      0.23
-cor(voicingvoiced:vowelE,_voicingvoiceless:vowelI_)        0.14      0.25
-cor(voicingvoiceless:vowelE,_voicingvoiceless:vowelI_)     0.33      0.25
-cor(voicingvoiced:vowelI,_voicingvoiceless:vowelI_)        0.34      0.23
-cor(voicingvoiced:vowela,_voicingvoiced:vowelO_)           0.20      0.31
-cor(voicingvoiceless:vowela,_voicingvoiced:vowelO_)        0.13      0.31
-cor(voicingvoiced:vowelE,_voicingvoiced:vowelO_)           0.10      0.31
-cor(voicingvoiceless:vowelE,_voicingvoiced:vowelO_)        0.07      0.31
-cor(voicingvoiced:vowelI,_voicingvoiced:vowelO_)           0.14      0.31
-cor(voicingvoiceless:vowelI,_voicingvoiced:vowelO_)       -0.06      0.29
-cor(voicingvoiced:vowela,_voicingvoiceless:vowelO_)        0.03      0.32
-cor(voicingvoiceless:vowela,_voicingvoiceless:vowelO_)    -0.05      0.32
-cor(voicingvoiced:vowelE,_voicingvoiceless:vowelO_)        0.09      0.32
-cor(voicingvoiceless:vowelE,_voicingvoiceless:vowelO_)     0.03      0.33
-cor(voicingvoiced:vowelI,_voicingvoiceless:vowelO_)        0.12      0.32
-cor(voicingvoiceless:vowelI,_voicingvoiceless:vowelO_)     0.03      0.31
-cor(voicingvoiced:vowelO,_voicingvoiceless:vowelO_)        0.08      0.33
-                                                       l-80% CI u-80% CI Rhat
-sd(voicingvoiced:vowela_)                                  0.29     0.62 1.00
-sd(voicingvoiceless:vowela_)                               0.25     0.50 1.00
-sd(voicingvoiced:vowelE_)                                  0.33     0.79 1.00
-sd(voicingvoiceless:vowelE_)                               0.18     0.50 1.00
-sd(voicingvoiced:vowelI_)                                  0.50     0.96 1.00
-sd(voicingvoiceless:vowelI_)                               0.64     1.04 1.00
-sd(voicingvoiced:vowelO_)                                  0.08     0.66 1.00
-sd(voicingvoiceless:vowelO_)                               0.04     0.49 1.00
-cor(voicingvoiced:vowela,_voicingvoiceless:vowela_)        0.20     0.76 1.00
-cor(voicingvoiced:vowela,_voicingvoiced:vowelE_)          -0.05     0.60 1.00
-cor(voicingvoiceless:vowela,_voicingvoiced:vowelE_)       -0.17     0.50 1.00
-cor(voicingvoiced:vowela,_voicingvoiceless:vowelE_)       -0.10     0.59 1.00
-cor(voicingvoiceless:vowela,_voicingvoiceless:vowelE_)     0.09     0.72 1.00
-cor(voicingvoiced:vowelE,_voicingvoiceless:vowelE_)       -0.22     0.53 1.00
-cor(voicingvoiced:vowela,_voicingvoiced:vowelI_)          -0.20     0.49 1.00
-cor(voicingvoiceless:vowela,_voicingvoiced:vowelI_)       -0.18     0.50 1.00
-cor(voicingvoiced:vowelE,_voicingvoiced:vowelI_)          -0.11     0.56 1.00
-cor(voicingvoiceless:vowelE,_voicingvoiced:vowelI_)       -0.07     0.62 1.00
-cor(voicingvoiced:vowela,_voicingvoiceless:vowelI_)       -0.42     0.20 1.00
-cor(voicingvoiceless:vowela,_voicingvoiceless:vowelI_)    -0.13     0.46 1.00
-cor(voicingvoiced:vowelE,_voicingvoiceless:vowelI_)       -0.19     0.44 1.00
-cor(voicingvoiceless:vowelE,_voicingvoiceless:vowelI_)     0.00     0.63 1.00
-cor(voicingvoiced:vowelI,_voicingvoiceless:vowelI_)        0.03     0.62 1.00
-cor(voicingvoiced:vowela,_voicingvoiced:vowelO_)          -0.22     0.59 1.00
-cor(voicingvoiceless:vowela,_voicingvoiced:vowelO_)       -0.27     0.53 1.00
-cor(voicingvoiced:vowelE,_voicingvoiced:vowelO_)          -0.33     0.50 1.00
-cor(voicingvoiceless:vowelE,_voicingvoiced:vowelO_)       -0.34     0.47 1.00
-cor(voicingvoiced:vowelI,_voicingvoiced:vowelO_)          -0.27     0.52 1.00
-cor(voicingvoiceless:vowelI,_voicingvoiced:vowelO_)       -0.44     0.33 1.00
-cor(voicingvoiced:vowela,_voicingvoiceless:vowelO_)       -0.40     0.45 1.00
-cor(voicingvoiceless:vowela,_voicingvoiceless:vowelO_)    -0.46     0.37 1.00
-cor(voicingvoiced:vowelE,_voicingvoiceless:vowelO_)       -0.34     0.51 1.00
-cor(voicingvoiceless:vowelE,_voicingvoiceless:vowelO_)    -0.41     0.46 1.00
-cor(voicingvoiced:vowelI,_voicingvoiceless:vowelO_)       -0.32     0.54 1.00
-cor(voicingvoiceless:vowelI,_voicingvoiceless:vowelO_)    -0.39     0.43 1.00
-cor(voicingvoiced:vowelO,_voicingvoiceless:vowelO_)       -0.37     0.50 1.00
-                                                       Bulk_ESS Tail_ESS
-sd(voicingvoiced:vowela_)                                  1686     1641
-sd(voicingvoiceless:vowela_)                               2099     2574
-sd(voicingvoiced:vowelE_)                                  1536     1551
-sd(voicingvoiceless:vowelE_)                               2319     1734
-sd(voicingvoiced:vowelI_)                                  2498     3094
-sd(voicingvoiceless:vowelI_)                               3333     3115
-sd(voicingvoiced:vowelO_)                                  1620     1698
-sd(voicingvoiceless:vowelO_)                               2295     2196
-cor(voicingvoiced:vowela,_voicingvoiceless:vowela_)        2144     2507
-cor(voicingvoiced:vowela,_voicingvoiced:vowelE_)           2466     2751
-cor(voicingvoiceless:vowela,_voicingvoiced:vowelE_)        2821     3574
-cor(voicingvoiced:vowela,_voicingvoiceless:vowelE_)        3289     3353
-cor(voicingvoiceless:vowela,_voicingvoiceless:vowelE_)     3534     3625
-cor(voicingvoiced:vowelE,_voicingvoiceless:vowelE_)        4027     3622
-cor(voicingvoiced:vowela,_voicingvoiced:vowelI_)           2057     2599
-cor(voicingvoiceless:vowela,_voicingvoiced:vowelI_)        2350     2928
-cor(voicingvoiced:vowelE,_voicingvoiced:vowelI_)           2143     2832
-cor(voicingvoiceless:vowelE,_voicingvoiced:vowelI_)        1964     3115
-cor(voicingvoiced:vowela,_voicingvoiceless:vowelI_)        1792     2459
-cor(voicingvoiceless:vowela,_voicingvoiceless:vowelI_)     2219     2880
-cor(voicingvoiced:vowelE,_voicingvoiceless:vowelI_)        2232     2731
-cor(voicingvoiceless:vowelE,_voicingvoiceless:vowelI_)     1602     2249
-cor(voicingvoiced:vowelI,_voicingvoiceless:vowelI_)        2271     3182
-cor(voicingvoiced:vowela,_voicingvoiced:vowelO_)           3973     3016
-cor(voicingvoiceless:vowela,_voicingvoiced:vowelO_)        5614     3512
-cor(voicingvoiced:vowelE,_voicingvoiced:vowelO_)           4179     3070
-cor(voicingvoiceless:vowelE,_voicingvoiced:vowelO_)        4760     3338
-cor(voicingvoiced:vowelI,_voicingvoiced:vowelO_)           4135     3265
-cor(voicingvoiceless:vowelI,_voicingvoiced:vowelO_)        4320     3583
-cor(voicingvoiced:vowela,_voicingvoiceless:vowelO_)        7265     3088
-cor(voicingvoiceless:vowela,_voicingvoiceless:vowelO_)     5934     3240
-cor(voicingvoiced:vowelE,_voicingvoiceless:vowelO_)        6140     3465
-cor(voicingvoiceless:vowelE,_voicingvoiceless:vowelO_)     5229     3304
-cor(voicingvoiced:vowelI,_voicingvoiceless:vowelO_)        4597     3612
-cor(voicingvoiceless:vowelI,_voicingvoiceless:vowelO_)     6014     3479
-cor(voicingvoiced:vowelO,_voicingvoiceless:vowelO_)        3033     3351
-
-Regression Coefficients:
-                         Estimate Est.Error l-80% CI u-80% CI Rhat Bulk_ESS
-voicingvoiced:vowela_       -0.61      0.12    -0.76    -0.45 1.00     3695
-voicingvoiceless:vowela_    -0.07      0.09    -0.19     0.04 1.00     3582
-voicingvoiced:vowelE_       -0.19      0.15    -0.38     0.01 1.00     3940
-voicingvoiceless:vowelE_    -0.25      0.10    -0.38    -0.12 1.00     5156
-voicingvoiced:vowelI_       -0.74      0.19    -0.98    -0.51 1.00     4090
-voicingvoiceless:vowelI_    -0.12      0.17    -0.33     0.10 1.00     4077
-voicingvoiced:vowelO_       -0.33      0.16    -0.54    -0.13 1.00     6095
-voicingvoiceless:vowelO_     0.25      0.16     0.05     0.45 1.00     6834
-                         Tail_ESS
-voicingvoiced:vowela_        3160
-voicingvoiceless:vowela_     3300
-voicingvoiced:vowelE_        2601
-voicingvoiceless:vowelE_     3268
-voicingvoiced:vowelI_        3357
-voicingvoiceless:vowelI_     3305
-voicingvoiced:vowelO_        2719
-voicingvoiceless:vowelO_     2927
-
-Further Distributional Parameters:
-    Estimate Est.Error l-80% CI u-80% CI Rhat Bulk_ESS Tail_ESS
-phi     4.73      0.30     4.35     5.12 1.00     2477     3192
-
-Draws were sampled using sampling(NUTS). For each parameter, Bulk_ESS
-and Tail_ESS are effective sample size measures, and Rhat is the potential
-scale reduction factor on split chains (at convergence, Rhat = 1).
+                        Estimate Est.Error   Q10   Q90
+voicingvoiced:vowela       -0.61      0.12 -0.77 -0.46
+voicingvoiceless:vowela    -0.08      0.09 -0.19  0.04
+voicingvoiced:vowele       -0.19      0.16 -0.38  0.01
+voicingvoiceless:vowele    -0.25      0.10 -0.38 -0.12
+voicingvoiced:voweli       -0.74      0.19 -0.98 -0.51
+voicingvoiceless:voweli    -0.12      0.18 -0.35  0.10
+voicingvoiced:vowelo       -0.34      0.16 -0.54 -0.14
+voicingvoiceless:vowelo     0.25      0.15  0.05  0.44
+voicingvoiced:vowelu       -0.71      0.18 -0.94 -0.49
+voicingvoiceless:vowelu    -0.58      0.16 -0.78 -0.38
 \end{verbatim}
+
+Negative log-odds indicate a proportion that is smaller than 50\%, while
+positive log-odds a proportion that is greater than 50\%. Generally, the
+expected log-odd predictions are negative, indicating an overall
+tendency for the nasalisation to take less than 50\% of the duration of
+the vowel. Moreover, the predictions are higher for voiceless NC
+sequences than for voiced NC sequences, indicating a greater proportion
+of nasalisation in the former. However there is vowel-specific
+variation, and there doesn't seem to be much of a difference in
+nasalisation proportion in /e/ and /u/. Plotting the expected
+predictions with \texttt{conditional\_effects()} should make this
+clearer.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{conditional\_effects}\NormalTok{(nas\_prop\_bm, }\StringTok{"vowel:voicing"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\pandocbounded{\includegraphics[keepaspectratio]{manuscript_files/figure-pdf/nas-prop-1.pdf}}
+
+Now that we fitted the model we can use the draws to answer two
+questions:
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+\tightlist
+\item
+  Is the nasalisation proportion, on average across vowels, greater in
+  voiceless NC sequences?
+\item
+  Is there individual speaker variation?
+\end{enumerate}
+
+To answer question 1, we can calculate the average difference in
+nasalisation proportion by first calculating the average nasalisation
+across all vowels for voiced and voiceless sequences and then take the
+difference of those, similarly to what we have done in the Case Study 1
+above.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# extract only coefficient variables starting with "b\_"}
+\NormalTok{nas\_prop\_bm\_draws }\OtherTok{\textless{}{-}} \FunctionTok{as\_draws\_df}\NormalTok{(nas\_prop\_bm, }\AttributeTok{variable =} \StringTok{"\^{}b\_"}\NormalTok{, }\AttributeTok{regex =} \ConstantTok{TRUE}\NormalTok{)}
+
+\NormalTok{nas\_prop\_bm\_draws\_long }\OtherTok{\textless{}{-}}\NormalTok{ nas\_prop\_bm\_draws }\SpecialCharTok{|\textgreater{}} 
+  \CommentTok{\# pivot vowel:c2 columns}
+  \FunctionTok{pivot\_longer}\NormalTok{(}\StringTok{\textasciigrave{}}\AttributeTok{b\_voicingvoiced:vowela}\StringTok{\textasciigrave{}}\SpecialCharTok{:}\StringTok{\textasciigrave{}}\AttributeTok{b\_voicingvoiceless:vowelu}\StringTok{\textasciigrave{}}\NormalTok{, }\AttributeTok{names\_to =} \StringTok{"coeff"}\NormalTok{) }\SpecialCharTok{|\textgreater{}}
+  \CommentTok{\# separate "coeff" labels into type ("b"), vowel and c2}
+  \FunctionTok{separate}\NormalTok{(coeff, }\AttributeTok{into =} \FunctionTok{c}\NormalTok{(}\StringTok{"type"}\NormalTok{, }\StringTok{"voicing"}\NormalTok{, }\StringTok{"vowel"}\NormalTok{))}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+Warning: Dropping 'draws_df' class as required metadata was removed.
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{nas\_prop\_bm\_draws\_long}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+# A tibble: 40,000 x 7
+   .chain .iteration .draw type  voicing          vowel    value
+    <int>      <int> <int> <chr> <chr>            <chr>    <dbl>
+ 1      1          1     1 b     voicingvoiced    vowela -0.463 
+ 2      1          1     1 b     voicingvoiceless vowela -0.0944
+ 3      1          1     1 b     voicingvoiced    vowele -0.155 
+ 4      1          1     1 b     voicingvoiceless vowele -0.208 
+ 5      1          1     1 b     voicingvoiced    voweli -0.481 
+ 6      1          1     1 b     voicingvoiceless voweli -0.0529
+ 7      1          1     1 b     voicingvoiced    vowelo -0.310 
+ 8      1          1     1 b     voicingvoiceless vowelo  0.321 
+ 9      1          1     1 b     voicingvoiced    vowelu -0.620 
+10      1          1     1 b     voicingvoiceless vowelu -0.368 
+# i 39,990 more rows
+\end{verbatim}
+
+Now let's calculate the mean nasalisation proportion within each draw by
+voicing, and plot the resulting posterior distributions.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{nas\_prop\_bm\_draws\_long\_voicing }\OtherTok{\textless{}{-}}\NormalTok{ nas\_prop\_bm\_draws\_long }\SpecialCharTok{|\textgreater{}} 
+  \CommentTok{\# grouping by .draw and voicing ensures that averaging applies only within draw and voicing}
+  \FunctionTok{group\_by}\NormalTok{(.draw, voicing) }\SpecialCharTok{|\textgreater{}} 
+  \CommentTok{\# calculate the mean value within draw/voicing}
+  \FunctionTok{summarise}\NormalTok{(}
+    \AttributeTok{value\_mean =} \FunctionTok{mean}\NormalTok{(value), }\AttributeTok{.groups =} \StringTok{"drop"}
+\NormalTok{  )}
+
+\NormalTok{nas\_prop\_bm\_draws\_long\_voicing }\SpecialCharTok{|\textgreater{}} 
+  \FunctionTok{ggplot}\NormalTok{(}\FunctionTok{aes}\NormalTok{(}\FunctionTok{plogis}\NormalTok{(value\_mean), voicing)) }\SpecialCharTok{+}
+  \FunctionTok{stat\_halfeye}\NormalTok{(}\AttributeTok{.width =} \FunctionTok{c}\NormalTok{(}\FloatTok{0.6}\NormalTok{, }\FloatTok{0.8}\NormalTok{))}
+\end{Highlighting}
+\end{Shaded}
+
+\pandocbounded{\includegraphics[keepaspectratio]{manuscript_files/figure-pdf/nas-prop-bm-draws-long-voicing-1.pdf}}
+
+The plot suggests an overall greater nasalisation proportion in
+voiceless NC sequences. Let's quantify how greater as we did in Case
+Study 1.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{nas\_prop\_bm\_diff }\OtherTok{\textless{}{-}}\NormalTok{ nas\_prop\_bm\_draws\_long\_voicing }\SpecialCharTok{|\textgreater{}} 
+  \CommentTok{\# pivot data to create one column per voicing with the mean drawn values,}
+  \CommentTok{\# with one draw per raw}
+  \FunctionTok{pivot\_wider}\NormalTok{(}\AttributeTok{names\_from =}\NormalTok{ voicing, }\AttributeTok{values\_from =}\NormalTok{ value\_mean) }\SpecialCharTok{|\textgreater{}} 
+  \FunctionTok{mutate}\NormalTok{(}
+    \CommentTok{\# calculate the difference of voiceless and voiced}
+    \AttributeTok{voicing\_diff =}\NormalTok{ voicingvoiceless }\SpecialCharTok{{-}}\NormalTok{ voicingvoiced}
+\NormalTok{  )}
+
+\NormalTok{nas\_prop\_bm\_diff }\SpecialCharTok{|\textgreater{}} 
+  \FunctionTok{reframe}\NormalTok{(}
+    \CommentTok{\# 90\% CrI}
+    \AttributeTok{q90 =} \FunctionTok{quantile2}\NormalTok{(}\FunctionTok{exp}\NormalTok{(voicing\_diff), }\AttributeTok{probs =} \FunctionTok{c}\NormalTok{(}\FloatTok{0.05}\NormalTok{, }\FloatTok{0.95}\NormalTok{)),}
+    \CommentTok{\# 80\% CrI}
+    \AttributeTok{q80 =} \FunctionTok{quantile2}\NormalTok{(}\FunctionTok{exp}\NormalTok{(voicing\_diff), }\AttributeTok{probs =} \FunctionTok{c}\NormalTok{(}\FloatTok{0.1}\NormalTok{, }\FloatTok{0.9}\NormalTok{)),}
+    \CommentTok{\# 60\% CrI}
+    \AttributeTok{q60 =} \FunctionTok{quantile2}\NormalTok{(}\FunctionTok{exp}\NormalTok{(voicing\_diff), }\AttributeTok{probs =} \FunctionTok{c}\NormalTok{(}\FloatTok{0.2}\NormalTok{, }\FloatTok{0.8}\NormalTok{)),}
+\NormalTok{  ) }\SpecialCharTok{|\textgreater{}} 
+  \FunctionTok{mutate}\NormalTok{(}\FunctionTok{across}\NormalTok{(}\FunctionTok{everything}\NormalTok{(), }\SpecialCharTok{\textasciitilde{}}\FunctionTok{round}\NormalTok{(.x, }\DecValTok{2}\NormalTok{)))}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+# A tibble: 2 x 3
+    q90   q80   q60
+  <dbl> <dbl> <dbl>
+1  1.23  1.27  1.33
+2  1.69  1.63  1.56
+\end{verbatim}
+
+The CrIs of the ratio difference in nasalisation proportion in voiceless
+vs voiced NC sequences suggest a robust increase of nasalisation in the
+voiceless NC sequences, with a 90\% probability that the increase is
+between 23\% and 69\% of the proportion in voiced NC sequences.
+
+Moving onto question 2: is there individual speaker variation?
+{[}TAMMINGA XXX{]} For this, we will use the \texttt{spread\_draws()}
+function from tidybayes {[}XXX{]} to extract the draws of the varying
+terms (in brms these are the coefficients that start with \texttt{r\_}).
+There is quite a few steps of processing to get from the raw draws to
+the estimand we need: while we have commented the following code, we
+encourage readers to test each line sequentialy and inspect the
+intermediate output to fully understand the process.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{library}\NormalTok{(tidybayes)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+
+Attaching package: 'tidybayes'
+\end{verbatim}
+
+\begin{verbatim}
+The following objects are masked from 'package:brms':
+
+    dstudent_t, pstudent_t, qstudent_t, rstudent_t
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{nas\_prop\_r }\OtherTok{\textless{}{-}}\NormalTok{ nas\_prop\_bm }\SpecialCharTok{|\textgreater{}} 
+  \CommentTok{\# extract draws from model, only \textasciigrave{}r\_speaker\textasciigrave{} varying terms}
+  \FunctionTok{spread\_draws}\NormalTok{(r\_speaker[speaker,voicingvowel]) }\SpecialCharTok{|\textgreater{}} 
+  \CommentTok{\# separate the column voicingvowel to two columns}
+  \FunctionTok{separate}\NormalTok{(voicingvowel, }\FunctionTok{c}\NormalTok{(}\StringTok{"voicing"}\NormalTok{, }\StringTok{"vowel"}\NormalTok{)) }\SpecialCharTok{|\textgreater{}} 
+  \CommentTok{\# join the draws with the \textasciigrave{}b\_\textasciigrave{} terms}
+  \FunctionTok{left\_join}\NormalTok{(}\AttributeTok{y =}\NormalTok{ nas\_prop\_bm\_draws\_long) }\SpecialCharTok{|\textgreater{}} 
+  \CommentTok{\# get the expected log{-}odd value of each speaker, in each draw}
+  \CommentTok{\# this is the sum of the \textasciigrave{}value\textasciigrave{} from the b\_ terms and the value from the}
+  \CommentTok{\# r\_speaker term.}
+  \FunctionTok{mutate}\NormalTok{(}\AttributeTok{r\_speaker\_value =}\NormalTok{ value }\SpecialCharTok{+}\NormalTok{ r\_speaker) }\SpecialCharTok{|\textgreater{}} 
+  \CommentTok{\# group the data for summarise}
+  \FunctionTok{group\_by}\NormalTok{(.draw, speaker, voicing) }\SpecialCharTok{|\textgreater{}} 
+  \CommentTok{\# get mean expected log{-}odds by draw, speaker and voicing (averaging across vowel)}
+  \FunctionTok{summarise}\NormalTok{(}\AttributeTok{r\_speaker\_value\_mean =} \FunctionTok{mean}\NormalTok{(r\_speaker\_value)) }\SpecialCharTok{|\textgreater{}} 
+  \CommentTok{\# make the data wider: two columns, one for voiced and one for voiceless}
+  \FunctionTok{pivot\_wider}\NormalTok{(}\AttributeTok{names\_from =}\NormalTok{ voicing, }\AttributeTok{values\_from =}\NormalTok{ r\_speaker\_value\_mean) }\SpecialCharTok{|\textgreater{}} 
+  \CommentTok{\# finally, calculate the difference in expected log{-}odds of voiceless and voiced}
+  \FunctionTok{mutate}\NormalTok{(}\AttributeTok{voicing\_diff =}\NormalTok{ voicingvoiceless }\SpecialCharTok{{-}}\NormalTok{ voicingvoiced)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+Joining with `by = join_by(voicing, vowel, .chain, .iteration, .draw)`
+\end{verbatim}
+
+\begin{verbatim}
+`summarise()` has grouped output by '.draw', 'speaker'. You can override using
+the `.groups` argument.
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{nas\_prop\_r}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+# A tibble: 140,000 x 5
+# Groups:   .draw, speaker [140,000]
+   .draw speaker voicingvoiced voicingvoiceless voicing_diff
+   <int> <chr>           <dbl>            <dbl>        <dbl>
+ 1     1 S03          -1.42              0.0676      1.49   
+ 2     1 S04           0.209             0.185      -0.0238 
+ 3     1 S05          -0.284            -0.0546      0.229  
+ 4     1 S06           0.00669          -0.324      -0.331  
+ 5     1 S07          -0.446            -0.147       0.299  
+ 6     1 S08          -0.610            -0.127       0.483  
+ 7     1 S09          -0.473             0.0497      0.523  
+ 8     1 S10          -0.556            -0.311       0.245  
+ 9     1 S11           0.201            -0.426      -0.628  
+10     1 S12          -0.0812           -0.0856     -0.00439
+# i 139,990 more rows
+\end{verbatim}
+
+Figure~\ref{fig-nas-prop-r} plots the posterior distributions of the
+expected log-odd difference of coarticulatory nasalisation in voiceless
+vs voiced NC sequences (\emph{x}-axis), for each speaker in the data
+(\emph{y}-axis), as predicted by the model. The red solid vertical line
+indicates the constant (overall) expected log-odd difference based on
+the (constant) \texttt{b\_} terms. The black dashed vertical line marks
+log-difference 0 (i.e., no difference in proportion of nasalisation
+between voiceless and voiced NC).
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{nas\_prop\_r }\SpecialCharTok{|\textgreater{}} 
+  \FunctionTok{ggplot}\NormalTok{(}\FunctionTok{aes}\NormalTok{(voicing\_diff, }\FunctionTok{reorder}\NormalTok{(speaker, voicing\_diff))) }\SpecialCharTok{+}
+  \FunctionTok{stat\_halfeye}\NormalTok{() }\SpecialCharTok{+}
+  \FunctionTok{geom\_vline}\NormalTok{(}\AttributeTok{xintercept =} \FunctionTok{mean}\NormalTok{(nas\_prop\_bm\_diff}\SpecialCharTok{$}\NormalTok{voicing\_diff), }\AttributeTok{colour =} \StringTok{"red"}\NormalTok{) }\SpecialCharTok{+}
+  \FunctionTok{geom\_vline}\NormalTok{(}\AttributeTok{xintercept =} \DecValTok{0}\NormalTok{, }\AttributeTok{linetype =} \StringTok{"dashed"}\NormalTok{) }\SpecialCharTok{+}
+  \FunctionTok{lims}\NormalTok{(}\AttributeTok{x =} \FunctionTok{c}\NormalTok{(}\SpecialCharTok{{-}}\DecValTok{1}\NormalTok{, }\FloatTok{1.5}\NormalTok{))}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{figure}[H]
+
+\centering{
+
+\pandocbounded{\includegraphics[keepaspectratio]{manuscript_files/figure-pdf/fig-nas-prop-r-1.pdf}}
+
+}
+
+\caption{\label{fig-nas-prop-r}}
+
+\end{figure}%
+
+There is a lot of uncertainty within and between speakers: while the
+distributions of most speakers are located in the positive range, some
+expected distributions (see bottom of figure) do span both negative and
+positive values. In other words, while most speakers are expected to
+have a larger nasalisation proportion in voiceless NC sequences, a few
+in fact might have the opposite pattern. Even among those speakers that
+do have a positive difference, there is a lot of uncertainty as to the
+magnitude of the difference.
 
 
   \bibliography{linguistics.bib}
