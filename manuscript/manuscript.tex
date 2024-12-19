@@ -469,8 +469,8 @@ scale, as in Bernoulli/binomial (aka logistic) regressions. From the
 summary, we see that speech rate (number of syllables per second) has a
 positive effect on voicing proportion: the 80\% CrI is between 0.01 and
 0.15 log-odds {[}\(\beta\) = 0.8, SD = 0.06{]}. Log-odds can be
-converted to odd ratios by exponentiating the value: 0.01-0.15 log odds
-correspond to an odd ratio of 1.01 to 1.16, or as percentages, to an
+converted to odd-ratios by exponentiating the value: 0.01-0.15 log odds
+correspond to an odd-ratio of 1.01 to 1.16, or as percentages, to an
 increase of voicing of 1 to 16\% for every increase of one syllable per
 second. Since this is an 80\% CrI, we can be 80\% confident that the
 true effect of speech rate is between 1-16\% increase of voicing
@@ -480,7 +480,8 @@ measures (like CrIs) but not with moments like the mean and standard
 deviation: to correctly get mean and SDs in the transformed scale, you
 must first extract the posterior draws (see below), convert them and
 then take moments such as mean and SD (for a more detailed explanation,
-see XXX).
+see XXX). In the avoidance of doubt, we will always transform the drawn
+values first and then take summary measures.
 
 Turning now to the coefficients for vowel and C2, given the indexing
 approach of coding these variables the model summary and the output of
@@ -729,7 +730,21 @@ the draws of /p/.
 Once we have the posterior difference, we can obtain CrIs of the
 difference using \texttt{quantile2()} from the posterior package. Beware
 that the values of the difference are in log-odds! We can convert these
-into odd ratios with \texttt{exp()}.
+into odd-ratios with \texttt{exp()}. odd-ratios indicate the ratio of
+the difference between A and B, so that 1 means no difference, values
+greater than 1 indicate an increase in A relative to B and values lower
+than 1 indicate a decrease in A relative to B. odd-ratios are useful
+when looking at differences that are in log-odds because while the
+relative magnitude of the difference in proportion between two groups is
+the same independent of the baseline proportion, the \emph{absolute}
+magnitude of the difference depends on the baseline value. For example,
+an odd-ratio difference of 1.25 would correspond to a proportion
+increase of 13 percentage points if the baseline proportion is 0.62 but
+it would correspond to a proportion increase of 17 percentage points if
+the baseline proportion is 0.73. Of course, in real research contexts it
+is still usefull to think about absolute magnitudes and their relevance
+from a conceptual and methodological perspective. In this tutorial we
+just focus on odd-ratios for simplicity.
 
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -761,16 +776,17 @@ The following objects are masked from 'package:base':
 \begin{Shaded}
 \begin{Highlighting}[]
 \NormalTok{voi\_prop\_bm\_diff }\SpecialCharTok{|\textgreater{}} 
+  \FunctionTok{mutate}\NormalTok{(}\AttributeTok{c2p\_tk\_diff\_ratio =} \FunctionTok{exp}\NormalTok{(c2p\_tk\_diff)) }\SpecialCharTok{|\textgreater{}} 
   \FunctionTok{reframe}\NormalTok{(}
     \CommentTok{\# 90\% CrI}
-    \AttributeTok{q90 =} \FunctionTok{quantile2}\NormalTok{(c2p\_tk\_diff, }\AttributeTok{probs =} \FunctionTok{c}\NormalTok{(}\FloatTok{0.05}\NormalTok{, }\FloatTok{0.95}\NormalTok{)),}
+    \AttributeTok{q90 =} \FunctionTok{quantile2}\NormalTok{(c2p\_tk\_diff\_ratio, }\AttributeTok{probs =} \FunctionTok{c}\NormalTok{(}\FloatTok{0.05}\NormalTok{, }\FloatTok{0.95}\NormalTok{)),}
     \CommentTok{\# 80\% CrI}
-    \AttributeTok{q80 =} \FunctionTok{quantile2}\NormalTok{(c2p\_tk\_diff, }\AttributeTok{probs =} \FunctionTok{c}\NormalTok{(}\FloatTok{0.1}\NormalTok{, }\FloatTok{0.9}\NormalTok{)),}
+    \AttributeTok{q80 =} \FunctionTok{quantile2}\NormalTok{(c2p\_tk\_diff\_ratio, }\AttributeTok{probs =} \FunctionTok{c}\NormalTok{(}\FloatTok{0.1}\NormalTok{, }\FloatTok{0.9}\NormalTok{)),}
     \CommentTok{\# 60\% CrI}
-    \AttributeTok{q60 =} \FunctionTok{quantile2}\NormalTok{(c2p\_tk\_diff, }\AttributeTok{probs =} \FunctionTok{c}\NormalTok{(}\FloatTok{0.2}\NormalTok{, }\FloatTok{0.8}\NormalTok{)),}
+    \AttributeTok{q60 =} \FunctionTok{quantile2}\NormalTok{(c2p\_tk\_diff\_ratio, }\AttributeTok{probs =} \FunctionTok{c}\NormalTok{(}\FloatTok{0.2}\NormalTok{, }\FloatTok{0.8}\NormalTok{)),}
 \NormalTok{  ) }\SpecialCharTok{|\textgreater{}} 
-  \CommentTok{\# exponentiate to get odd ratios and round to 2 digits}
-  \FunctionTok{mutate}\NormalTok{(}\FunctionTok{across}\NormalTok{(}\FunctionTok{everything}\NormalTok{(), }\SpecialCharTok{\textasciitilde{}}\FunctionTok{round}\NormalTok{(}\FunctionTok{exp}\NormalTok{(.x), }\DecValTok{2}\NormalTok{)))}
+  \CommentTok{\# round to 2 digits}
+  \FunctionTok{mutate}\NormalTok{(}\FunctionTok{across}\NormalTok{(}\FunctionTok{everything}\NormalTok{(), }\SpecialCharTok{\textasciitilde{}}\FunctionTok{round}\NormalTok{(.x, }\DecValTok{2}\NormalTok{)))}
 \end{Highlighting}
 \end{Shaded}
 
@@ -871,29 +887,24 @@ German short vowels /i, e, a, o, u/ when followed by /nt/ or /nd/, using
 a Bayesian beta regression model. The proportion was calculated as the
 proportion of the nasal interval to the duration of the vowel. The nasal
 interval was defined thus: the interval between the time of peak
-velocity of velum opening to the offset of the vowel.
+velocity of velum opening to the offset of the vowel. We will use the
+results of the regression model to answer the following questions:
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+\tightlist
+\item
+  Is the nasalisation proportion, on average across vowels, greater in
+  voiceless NC sequences?
+\item
+  Is there individual speaker variation?
+\end{enumerate}
 
 First, let's read and plot the data.
 
 \begin{Shaded}
 \begin{Highlighting}[]
 \NormalTok{nasal }\OtherTok{\textless{}{-}} \FunctionTok{read\_csv}\NormalTok{(}\StringTok{"data/carignan2021/nasal.csv"}\NormalTok{)}
-\end{Highlighting}
-\end{Shaded}
-
-\begin{verbatim}
-Rows: 705 Columns: 6
--- Column specification --------------------------------------------------------
-Delimiter: ","
-chr (5): speaker, label, vowel, NC, voicing
-dbl (1): nas_prop
-
-i Use `spec()` to retrieve the full column specification for this data.
-i Specify the column types or set `show_col_types = FALSE` to quiet this message.
-\end{verbatim}
-
-\begin{Shaded}
-\begin{Highlighting}[]
 \NormalTok{nasal}
 \end{Highlighting}
 \end{Shaded}
@@ -1020,8 +1031,8 @@ clearer.
 
 \pandocbounded{\includegraphics[keepaspectratio]{manuscript_files/figure-pdf/nas-prop-1.pdf}}
 
-Now that we fitted the model we can use the draws to answer two
-questions:
+Now that we fitted the model we can use the draws to answer the two
+research questions (repeated from above):
 
 \begin{enumerate}
 \def\labelenumi{\arabic{enumi}.}
@@ -1080,49 +1091,108 @@ Warning: Dropping 'draws_df' class as required metadata was removed.
 \end{verbatim}
 
 Now let's calculate the mean nasalisation proportion within each draw by
-voicing, and plot the resulting posterior distributions.
+voicing, and plot the resulting posterior distributions. Note that, as
+discussed for Case study 1, when working wit log-odds it is important to
+first do all necessary calculations in log-odds, here calculate the mean
+log-odds across vowels, and \emph{then} transform the calculated
+estimands to proportions/probabilities.
 
 \begin{Shaded}
 \begin{Highlighting}[]
 \NormalTok{nas\_prop\_bm\_draws\_long\_voicing }\OtherTok{\textless{}{-}}\NormalTok{ nas\_prop\_bm\_draws\_long }\SpecialCharTok{|\textgreater{}} 
   \CommentTok{\# grouping by .draw and voicing ensures that averaging applies only within draw and voicing}
   \FunctionTok{group\_by}\NormalTok{(.draw, voicing) }\SpecialCharTok{|\textgreater{}} 
-  \CommentTok{\# calculate the mean value within draw/voicing}
   \FunctionTok{summarise}\NormalTok{(}
-    \AttributeTok{value\_mean =} \FunctionTok{mean}\NormalTok{(value), }\AttributeTok{.groups =} \StringTok{"drop"}
+    \CommentTok{\# calculate the mean value within draw/voicing in log{-}odds}
+    \AttributeTok{value\_mean =} \FunctionTok{mean}\NormalTok{(value),}
+    \CommentTok{\# we can now transform log{-}odds to proportion with plogis()}
+    \AttributeTok{value\_mean\_prop =} \FunctionTok{plogis}\NormalTok{(value\_mean),}
+    \AttributeTok{.groups =} \StringTok{"drop"}
 \NormalTok{  )}
 
+\NormalTok{nas\_prop\_bm\_draws\_long\_voicing}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+# A tibble: 8,000 x 4
+   .draw voicing          value_mean value_mean_prop
+   <int> <chr>                 <dbl>           <dbl>
+ 1     1 voicingvoiced       -0.406            0.400
+ 2     1 voicingvoiceless    -0.0804           0.480
+ 3     2 voicingvoiced       -0.391            0.404
+ 4     2 voicingvoiceless    -0.123            0.469
+ 5     3 voicingvoiced       -0.444            0.391
+ 6     3 voicingvoiceless    -0.132            0.467
+ 7     4 voicingvoiced       -0.439            0.392
+ 8     4 voicingvoiceless    -0.0982           0.475
+ 9     5 voicingvoiced       -0.383            0.405
+10     5 voicingvoiceless    -0.266            0.434
+# i 7,990 more rows
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
 \NormalTok{nas\_prop\_bm\_draws\_long\_voicing }\SpecialCharTok{|\textgreater{}} 
-  \FunctionTok{ggplot}\NormalTok{(}\FunctionTok{aes}\NormalTok{(}\FunctionTok{plogis}\NormalTok{(value\_mean), voicing)) }\SpecialCharTok{+}
+  \FunctionTok{ggplot}\NormalTok{(}\FunctionTok{aes}\NormalTok{(value\_mean\_prop, voicing)) }\SpecialCharTok{+}
   \FunctionTok{stat\_halfeye}\NormalTok{(}\AttributeTok{.width =} \FunctionTok{c}\NormalTok{(}\FloatTok{0.6}\NormalTok{, }\FloatTok{0.8}\NormalTok{))}
 \end{Highlighting}
 \end{Shaded}
 
-\pandocbounded{\includegraphics[keepaspectratio]{manuscript_files/figure-pdf/nas-prop-bm-draws-long-voicing-1.pdf}}
+\pandocbounded{\includegraphics[keepaspectratio]{manuscript_files/figure-pdf/nas-prop-bm-draws-long-voicing-plot-1.pdf}}
 
 The plot suggests an overall greater nasalisation proportion in
 voiceless NC sequences. Let's quantify how greater as we did in Case
-Study 1.
+Study 1. We will use odd-ratios in this context as well, i.e.~we will
+convert log-odds to odd-ratios using the \texttt{exp()} (exponential)
+function (and as before we first calculate the difference and then
+exponentiate the resulting values, after which we can take summary
+measures, like means and quantile-based measures such as CrIs).
 
 \begin{Shaded}
 \begin{Highlighting}[]
 \NormalTok{nas\_prop\_bm\_diff }\OtherTok{\textless{}{-}}\NormalTok{ nas\_prop\_bm\_draws\_long\_voicing }\SpecialCharTok{|\textgreater{}} 
   \CommentTok{\# pivot data to create one column per voicing with the mean drawn values,}
-  \CommentTok{\# with one draw per raw}
+  \CommentTok{\# with one draw per raw. we need to drop the value\_mean\_prop col}
+  \FunctionTok{select}\NormalTok{(}\SpecialCharTok{{-}}\NormalTok{value\_mean\_prop) }\SpecialCharTok{|\textgreater{}} 
   \FunctionTok{pivot\_wider}\NormalTok{(}\AttributeTok{names\_from =}\NormalTok{ voicing, }\AttributeTok{values\_from =}\NormalTok{ value\_mean) }\SpecialCharTok{|\textgreater{}} 
   \FunctionTok{mutate}\NormalTok{(}
-    \CommentTok{\# calculate the difference of voiceless and voiced}
-    \AttributeTok{voicing\_diff =}\NormalTok{ voicingvoiceless }\SpecialCharTok{{-}}\NormalTok{ voicingvoiced}
+    \CommentTok{\# calculate the difference of voiceless and voiced in log{-}odds}
+    \AttributeTok{voicing\_diff =}\NormalTok{ voicingvoiceless }\SpecialCharTok{{-}}\NormalTok{ voicingvoiced,}
+    \CommentTok{\# now transform with exp() to get the ratio difference}
+    \AttributeTok{voicing\_diff\_ratio =} \FunctionTok{exp}\NormalTok{(voicing\_diff)}
 \NormalTok{  )}
+\NormalTok{nas\_prop\_bm\_diff}
+\end{Highlighting}
+\end{Shaded}
 
+\begin{verbatim}
+# A tibble: 4,000 x 5
+   .draw voicingvoiced voicingvoiceless voicing_diff voicing_diff_ratio
+   <int>         <dbl>            <dbl>        <dbl>              <dbl>
+ 1     1        -0.406          -0.0804        0.325               1.38
+ 2     2        -0.391          -0.123         0.268               1.31
+ 3     3        -0.444          -0.132         0.312               1.37
+ 4     4        -0.439          -0.0982        0.340               1.41
+ 5     5        -0.383          -0.266         0.117               1.12
+ 6     6        -0.541          -0.0903        0.450               1.57
+ 7     7        -0.512          -0.111         0.401               1.49
+ 8     8        -0.493          -0.152         0.341               1.41
+ 9     9        -0.527          -0.175         0.352               1.42
+10    10        -0.491          -0.257         0.234               1.26
+# i 3,990 more rows
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
 \NormalTok{nas\_prop\_bm\_diff }\SpecialCharTok{|\textgreater{}} 
   \FunctionTok{reframe}\NormalTok{(}
     \CommentTok{\# 90\% CrI}
-    \AttributeTok{q90 =} \FunctionTok{quantile2}\NormalTok{(}\FunctionTok{exp}\NormalTok{(voicing\_diff), }\AttributeTok{probs =} \FunctionTok{c}\NormalTok{(}\FloatTok{0.05}\NormalTok{, }\FloatTok{0.95}\NormalTok{)),}
+    \AttributeTok{q90 =} \FunctionTok{quantile2}\NormalTok{(voicing\_diff\_ratio, }\AttributeTok{probs =} \FunctionTok{c}\NormalTok{(}\FloatTok{0.05}\NormalTok{, }\FloatTok{0.95}\NormalTok{)),}
     \CommentTok{\# 80\% CrI}
-    \AttributeTok{q80 =} \FunctionTok{quantile2}\NormalTok{(}\FunctionTok{exp}\NormalTok{(voicing\_diff), }\AttributeTok{probs =} \FunctionTok{c}\NormalTok{(}\FloatTok{0.1}\NormalTok{, }\FloatTok{0.9}\NormalTok{)),}
+    \AttributeTok{q80 =} \FunctionTok{quantile2}\NormalTok{(voicing\_diff\_ratio, }\AttributeTok{probs =} \FunctionTok{c}\NormalTok{(}\FloatTok{0.1}\NormalTok{, }\FloatTok{0.9}\NormalTok{)),}
     \CommentTok{\# 60\% CrI}
-    \AttributeTok{q60 =} \FunctionTok{quantile2}\NormalTok{(}\FunctionTok{exp}\NormalTok{(voicing\_diff), }\AttributeTok{probs =} \FunctionTok{c}\NormalTok{(}\FloatTok{0.2}\NormalTok{, }\FloatTok{0.8}\NormalTok{)),}
+    \AttributeTok{q60 =} \FunctionTok{quantile2}\NormalTok{(voicing\_diff\_ratio, }\AttributeTok{probs =} \FunctionTok{c}\NormalTok{(}\FloatTok{0.2}\NormalTok{, }\FloatTok{0.8}\NormalTok{)),}
 \NormalTok{  ) }\SpecialCharTok{|\textgreater{}} 
   \FunctionTok{mutate}\NormalTok{(}\FunctionTok{across}\NormalTok{(}\FunctionTok{everything}\NormalTok{(), }\SpecialCharTok{\textasciitilde{}}\FunctionTok{round}\NormalTok{(.x, }\DecValTok{2}\NormalTok{)))}
 \end{Highlighting}
@@ -1148,27 +1218,18 @@ terms (in brms these are the coefficients that start with \texttt{r\_}).
 There is quite a few steps of processing to get from the raw draws to
 the estimand we need: while we have commented the following code, we
 encourage readers to test each line sequentialy and inspect the
-intermediate output to fully understand the process.
+intermediate output to fully understand the process. We assume that
+readers are familiar enough with models with varying terms (aka random
+effects, mixed-effects models). What readers should note is that to
+obtain the expected predictions of nasalisation proportion for each
+speaker, the constant terms and the varying terms should be added (since
+the varying terms indicate the deviation of each speaker from the
+overall estimate).
 
 \begin{Shaded}
 \begin{Highlighting}[]
 \FunctionTok{library}\NormalTok{(tidybayes)}
-\end{Highlighting}
-\end{Shaded}
 
-\begin{verbatim}
-
-Attaching package: 'tidybayes'
-\end{verbatim}
-
-\begin{verbatim}
-The following objects are masked from 'package:brms':
-
-    dstudent_t, pstudent_t, qstudent_t, rstudent_t
-\end{verbatim}
-
-\begin{Shaded}
-\begin{Highlighting}[]
 \NormalTok{nas\_prop\_r }\OtherTok{\textless{}{-}}\NormalTok{ nas\_prop\_bm }\SpecialCharTok{|\textgreater{}} 
   \CommentTok{\# extract draws from model, only \textasciigrave{}r\_speaker\textasciigrave{} varying terms}
   \FunctionTok{spread\_draws}\NormalTok{(r\_speaker[speaker,voicingvowel]) }\SpecialCharTok{|\textgreater{}} 
@@ -1188,20 +1249,7 @@ The following objects are masked from 'package:brms':
   \FunctionTok{pivot\_wider}\NormalTok{(}\AttributeTok{names\_from =}\NormalTok{ voicing, }\AttributeTok{values\_from =}\NormalTok{ r\_speaker\_value\_mean) }\SpecialCharTok{|\textgreater{}} 
   \CommentTok{\# finally, calculate the difference in expected log{-}odds of voiceless and voiced}
   \FunctionTok{mutate}\NormalTok{(}\AttributeTok{voicing\_diff =}\NormalTok{ voicingvoiceless }\SpecialCharTok{{-}}\NormalTok{ voicingvoiced)}
-\end{Highlighting}
-\end{Shaded}
 
-\begin{verbatim}
-Joining with `by = join_by(voicing, vowel, .chain, .iteration, .draw)`
-\end{verbatim}
-
-\begin{verbatim}
-`summarise()` has grouped output by '.draw', 'speaker'. You can override using
-the `.groups` argument.
-\end{verbatim}
-
-\begin{Shaded}
-\begin{Highlighting}[]
 \NormalTok{nas\_prop\_r}
 \end{Highlighting}
 \end{Shaded}
@@ -1258,12 +1306,13 @@ between voiceless and voiced NC).
 
 There is a lot of uncertainty within and between speakers: while the
 distributions of most speakers are located in the positive range, some
-expected distributions (see bottom of figure) do span both negative and
-positive values. In other words, while most speakers are expected to
-have a larger nasalisation proportion in voiceless NC sequences, a few
-in fact might have the opposite pattern. Even among those speakers that
-do have a positive difference, there is a lot of uncertainty as to the
-magnitude of the difference.
+expected distributions (see last 5 speakers at the bottom of figure) do
+substantially span both negative and positive values. In other words,
+while most speakers are more likely to have a larger nasalisation
+proportion in voiceless NC sequences, a few might in fact have the
+opposite pattern. Even among those speakers that do have a more robust
+positive difference, there is a lot of uncertainty as to the magnitude
+of the difference.
 
 
   \bibliography{linguistics.bib}
