@@ -22,7 +22,9 @@ keywords:
   - keyword1
   - keyword2
 date: last-modified
-bibliography: linguistics.bib
+bibliography: 
+  - linguistics.bib
+  - statistics.bib
 format:
   elsevier-pdf:
     keep-tex: true
@@ -48,11 +50,21 @@ Phonetic research often involves numeric continuous outcome variables, like dura
 
 Regression models are very common, but there is a tendency of using Gaussian distribution families (i.e. probability distributions for the outcome variable) for anything that is numeric. A possible reason is that the base R function for fitting regression models, `lm()`, and the lme4 function used to fit regression models with varying terms, `lmer()`, both fit Gaussian regressions by default and the user does not have to specify the distribution family. This tacit defaulting to Gaussian models is also reflected in teaching practices, where test and models using the Gaussian distribution are the first to be taught, due to their relative simplicity and the fact that other models are generalisations of Gaussian models.
 
-However, proportion are naturally not Gaussian, since they are limited between 0 and 1. The theoretical distribution that generates values with this characteristics is the beta distribution. Thus, regression models with proportions as the outcome variable should be fitted using a beta distribution as the distribution family. This tutorial introduces researchers to beta regression models in R using the package brms. Familiarity with regression modelling in R with a package like lme4 is assumed, but no prior knowledge of Bayesian statistics is necessary.
+However, proportion are usually not Gaussian, since they are limited between 0 and 1. Thus, regression models with proportions as outcome variable should be fitted using a likelihood family that assumes such unit interval data. A common and flexible distribution for this purpose is the beta distribution. 
+This tutorial introduces researchers to beta regression models in R using the package brms. Familiarity with regression modelling in R with a package like lme4 is assumed, but no prior knowledge of Bayesian statistics is necessary.
 
 # The beta distribution
 
-...
+The beta distribution is often considered as *the* distribution for the modeling of unit interval data [@ferrari_beta_2004; @cribari-neto_beta_2010]. It has been extensively studied theoretically [@krysicki_new_1999; @gupta_handbook_2014; @espinheira_beta_2008] and is used a baseline to compare other unit interval distributions against [@kieschnick_regression_2003; @bonat_regression_2013; @lopez_bayesian_2013]. Specifically in Bayesian regression models, it was shown to perform well across a wide range of scenarios [@scholz_posterior_2023; @scholz_prediction_2025], which is why we focus on the beta distribution in this tutorial.
+
+We use a common mean parameterization for the beta distribution with mean parameter $\mu$, bounded between 0 and 1, and positive precision parameter $\phi$ that is roughly proportional to the inverse of the variance $\text{Var}(y) = \frac{\mu \, (1 - \mu)}{\phi + 1}$. That is, the larger $\phi$ the smaller the variance of the corresponding beta distribution. While the mathematical details are not needed to understand the content of this tutorial, we still write down the density below for reasons of completeness:
+
+$$
+p(y \mid \mu, \phi) = \frac{1}{B(\mu \, \phi, \; (1-\mu) \, \phi)} \; y^{\mu \, \phi -1} \; (1-y)^{(1-\mu) \, \phi -1},
+$$
+
+where $B$ is the Beta function, a complex integral for whose numerical approximation efficient algorithms
+exist in every programming language.
 
 # Case study 1: voicing within consonant closure
 
