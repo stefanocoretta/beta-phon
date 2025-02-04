@@ -262,18 +262,44 @@ and models using the Gaussian distribution are the first to be taught,
 due to their relative simplicity and the fact that other models are
 generalisations of Gaussian models.
 
-However, proportion are naturally not Gaussian, since they are limited
-between 0 and 1. The theoretical distribution that generates values with
-this characteristics is the beta distribution. Thus, regression models
-with proportions as the outcome variable should be fitted using a beta
-distribution as the distribution family. This tutorial introduces
-researchers to beta regression models in R using the package brms.
-Familiarity with regression modelling in R with a package like lme4 is
-assumed, but no prior knowledge of Bayesian statistics is necessary.
+However, proportion are usually not Gaussian, since they are limited
+between 0 and 1. Thus, regression models with proportions as outcome
+variable should be fitted using a likelihood family that assumes such
+unit interval data. A common and flexible distribution for this purpose
+is the beta distribution. This tutorial introduces researchers to beta
+regression models in R using the package brms. Familiarity with
+regression modelling in R with a package like lme4 is assumed, but no
+prior knowledge of Bayesian statistics is necessary.
 
 \section{The beta distribution}\label{the-beta-distribution}
 
-\ldots{}
+The beta distribution is often considered as \emph{the} distribution for
+the modeling of unit interval data
+\citep{ferrari_beta_2004, cribari-neto_beta_2010}. It has been
+extensively studied theoretically
+\citep{krysicki_new_1999, gupta_handbook_2014, espinheira_beta_2008} and
+is used a baseline to compare other unit interval distributions against
+\citep{kieschnick_regression_2003, bonat_regression_2013, lopez_bayesian_2013}.
+Specifically in Bayesian regression models, it was shown to perform well
+across a wide range of scenarios
+\citep{scholz_posterior_2023, scholz_prediction_2025}, which is why we
+focus on the beta distribution in this tutorial.
+
+We use a common mean parameterization for the beta distribution with
+mean parameter \(\mu\), bounded between 0 and 1, and positive precision
+parameter \(\phi\) that is roughly proportional to the inverse of the
+variance \(\text{Var}(y) = \frac{\mu \, (1 - \mu)}{\phi + 1}\). That is,
+the larger \(\phi\) the smaller the variance of the corresponding beta
+distribution. While the mathematical details are not needed to
+understand the content of this tutorial, we still write down the density
+below for reasons of completeness:
+
+\[
+p(y \mid \mu, \phi) = \frac{1}{B(\mu \, \phi, \; (1-\mu) \, \phi)} \; y^{\mu \, \phi -1} \; (1-y)^{(1-\mu) \, \phi -1},
+\]
+
+where \(B\) is the Beta function, a complex integral for whose numerical
+approximation efficient algorithms exist in every programming language.
 
 \section{Case study 1: voicing within consonant
 closure}\label{case-study-1-voicing-within-consonant-closure}
@@ -319,36 +345,34 @@ smaller than 0 and greater than 1. The variables \texttt{vowel} and
 \end{Highlighting}
 \end{Shaded}
 
-Here is what the tibble looks like.
+Table~\ref{tbl-ita-egg} shows the first ten rows of the tibble (only
+relevant columns are included).
 
-\begin{Shaded}
-\begin{Highlighting}[]
-\NormalTok{ita\_egg}
-\end{Highlighting}
-\end{Shaded}
+\begin{longtable}[]{@{}llllr@{}}
 
-\begin{verbatim}
-# A tibble: 2,419 x 53
-   speaker ipu    stimulus    sentence_ons sentence_off word_ons word_off v1_ons
-   <chr>   <chr>  <chr>              <dbl>        <dbl>    <dbl>    <dbl>  <dbl>
- 1 it01    ipu_1  Ripete 'po~         13.2         14.9     13.7     14.1   13.9
- 2 it01    ipu_2  Ripete 'to~         16.9         18.6     17.4     17.9   17.5
- 3 it01    ipu_3  Ripete 'pa~         20.2         21.9     20.7     21.1   20.8
- 4 it01    ipu_4  Sentivo 't~         23.5         25.1     24.0     24.4   24.1
- 5 it01    ipu_5  Sentivo 't~         26.3         27.8     26.8     27.2   26.9
- 6 it01    ipu_6  Scrivete '~         29.2         30.9     29.7     30.1   29.8
- 7 it01    ipu_7  Sentivo 'c~         32.1         33.6     32.6     33.1   32.8
- 8 it01    ipu_8  Scrivete '~         35.0         36.6     35.5     35.9   35.6
- 9 it01    ipu_9  Ha detto '~         41.9         43.5     42.3     42.7   42.4
-10 it01    ipu_10 Sentivo 'p~         47.4         48.9     47.9     48.4   48.1
-# i 2,409 more rows
-# i 45 more variables: c2_ons <dbl>, v2_ons <dbl>, voice_ons <dbl>,
-#   voice_off <dbl>, c1_rel <dbl>, c2_rel <dbl>, stimulus_id <dbl>,
-#   sentence <chr>, word <chr>, c1 <chr>, vowel <fct>, c2 <fct>,
-#   backness <chr>, height <fct>, c1_place <fct>, c2_place <fct>,
-#   v1_duration <dbl>, c2_clos_duration <dbl>, rel_voff <dbl>,
-#   sent_duration <dbl>, speech_rate <dbl>, speech_rate_c <dbl>, ...
-\end{verbatim}
+\caption{\label{tbl-ita-egg}First 10 rows of the data of voicing
+proportion within stop closure.}
+
+\tabularnewline
+
+\toprule\noalign{}
+speaker & word & vowel & c2 & voi\_clo\_prop \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+it01 & poto & o & t & 0.0457950 \\
+it01 & topo & o & p & 0.3522513 \\
+it01 & pato & a & t & 0.1440749 \\
+it01 & teto & e & t & 0.3610916 \\
+it01 & toto & o & t & 0.2743519 \\
+it01 & puco & u & k & 0.1943984 \\
+it01 & chipo & i & p & 0.2227896 \\
+it01 & peco & e & k & 0.1835596 \\
+it01 & poco & o & k & 0.1771007 \\
+it01 & poto & o & t & 0.1525163 \\
+
+\end{longtable}
 
 Figure~\ref{fig-ita-egg} shows the raw voicing duration proportion
 values split by vowel /i, e, a, ɔ, u/ and second consonant /k, t, p/ in
@@ -413,7 +437,9 @@ the readers to XXX.
 The \texttt{summary()} function prints the full model summary. For
 conciseness, we will use the \texttt{fixef()} function which prints the
 regression coefficients. {[}EXPLAIN EXPECTED PREDICTIONS XXX{]}. The
-full summary with an explanation of each part can be found in XXX. For
+full summary with an explanation of each part can be found in XXX.
+Table~\ref{tbl-voi-prop-fixef} reports the output of \texttt{fixef()} as
+a table (we round all values to the nearest 2 digits for clarity.). For
 each coefficient in the model, \texttt{fixef()} prints the name of the
 coefficient, the mean estimate, the estimate error and the lower and
 upper limits of a Bayesian Credible interval (CrI). Here, we print an
@@ -432,37 +458,45 @@ in this case study but we strongly recommend researchers to always
 obtain CrIs at different levels of probability and base their inferences
 on all and not one in particular. To reiterate, in Bayesian inference,
 an 80\% CrI indicates the range of values within which the true estimate
-falls at 80\% probability or confidence. We round all values to the
-nearest 2 digits for clarity.
+falls at 80\% probability or confidence.
 
 \begin{Shaded}
 \begin{Highlighting}[]
-\FunctionTok{round}\NormalTok{(}
-  \FunctionTok{fixef}\NormalTok{(voi\_prop\_bm, }\AttributeTok{prob =} \FunctionTok{c}\NormalTok{(}\FloatTok{0.1}\NormalTok{, }\FloatTok{0.9}\NormalTok{)),}
-  \AttributeTok{digits =} \DecValTok{2}
-\NormalTok{)}
+\FunctionTok{fixef}\NormalTok{(voi\_prop\_bm, }\AttributeTok{prob =} \FunctionTok{c}\NormalTok{(}\FloatTok{0.1}\NormalTok{, }\FloatTok{0.9}\NormalTok{))}
 \end{Highlighting}
 \end{Shaded}
 
-\begin{verbatim}
-              Estimate Est.Error   Q10   Q90
-speech_rate_c     0.08      0.06  0.01  0.15
-voweli:c2k       -0.91      0.14 -1.08 -0.74
-vowele:c2k       -1.08      0.11 -1.22 -0.94
-vowela:c2k       -0.99      0.12 -1.14 -0.84
-vowelo:c2k       -0.79      0.14 -0.96 -0.62
-vowelu:c2k       -1.00      0.16 -1.20 -0.80
-voweli:c2t       -0.66      0.11 -0.79 -0.53
-vowele:c2t       -0.84      0.14 -1.02 -0.66
-vowela:c2t       -1.43      0.13 -1.60 -1.26
-vowelo:c2t       -1.15      0.13 -1.31 -0.99
-vowelu:c2t       -0.68      0.12 -0.83 -0.54
-voweli:c2p       -0.68      0.11 -0.81 -0.54
-vowele:c2p       -0.88      0.15 -1.07 -0.68
-vowela:c2p       -1.14      0.13 -1.31 -0.98
-vowelo:c2p       -0.66      0.11 -0.80 -0.53
-vowelu:c2p       -0.44      0.12 -0.59 -0.28
-\end{verbatim}
+\begin{longtable}[]{@{}lrrrr@{}}
+
+\caption{\label{tbl-voi-prop-fixef}Regression coefficients of a beta
+regression of voicing proportion (\texttt{voi\_prop\_bm}).}
+
+\tabularnewline
+
+\toprule\noalign{}
+& Estimate & Est.Error & Q10 & Q90 \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+speech\_rate\_c & 0.08 & 0.06 & 0.01 & 0.15 \\
+voweli:c2k & -0.91 & 0.14 & -1.08 & -0.74 \\
+vowele:c2k & -1.08 & 0.11 & -1.22 & -0.94 \\
+vowela:c2k & -0.99 & 0.12 & -1.14 & -0.84 \\
+vowelo:c2k & -0.79 & 0.14 & -0.96 & -0.62 \\
+vowelu:c2k & -1.00 & 0.16 & -1.20 & -0.80 \\
+voweli:c2t & -0.66 & 0.11 & -0.79 & -0.53 \\
+vowele:c2t & -0.84 & 0.14 & -1.02 & -0.66 \\
+vowela:c2t & -1.43 & 0.13 & -1.60 & -1.26 \\
+vowelo:c2t & -1.15 & 0.13 & -1.31 & -0.99 \\
+vowelu:c2t & -0.68 & 0.12 & -0.83 & -0.54 \\
+voweli:c2p & -0.68 & 0.11 & -0.81 & -0.54 \\
+vowele:c2p & -0.88 & 0.15 & -1.07 & -0.68 \\
+vowela:c2p & -1.14 & 0.13 & -1.31 & -0.98 \\
+vowelo:c2p & -0.66 & 0.11 & -0.80 & -0.53 \\
+vowelu:c2p & -0.44 & 0.12 & -0.59 & -0.28 \\
+
+\end{longtable}
 
 The coefficients of a beta regression are estimated on the log-odds
 scale, as in Bernoulli/binomial (aka logistic) regressions. From the
@@ -506,7 +540,9 @@ of the constant regression coefficients (model variables starting with
 \texttt{b\_}). To check which coefficients are available in a model, use
 \texttt{get\_variables()} from the tidybayes package.
 \texttt{as\_draws\_df()} returns a tibble where each column contains the
-drawn values of a coefficient. The probability distribution of the drawn
+drawn values of a coefficient. Table~\ref{tbl-voi-prop-draws} shows the
+first ten rows and first five columns of the output of
+\texttt{as\_draws\_df()}. The probability distribution of the drawn
 values of each coefficient is the posterior probability distribution of
 that coefficient. Note that, due to the indexing coding of vowel and C2,
 all coefficient except \texttt{b\_speech\_rate\_c} are \emph{predicted
@@ -520,40 +556,57 @@ do this when plotting below).
 \begin{Highlighting}[]
 \CommentTok{\# extract only coefficient variables starting with "b\_"}
 \NormalTok{voi\_prop\_bm\_draws }\OtherTok{\textless{}{-}} \FunctionTok{as\_draws\_df}\NormalTok{(voi\_prop\_bm, }\AttributeTok{variable =} \StringTok{"\^{}b\_"}\NormalTok{, }\AttributeTok{regex =} \ConstantTok{TRUE}\NormalTok{)}
-\NormalTok{voi\_prop\_bm\_draws}
 \end{Highlighting}
 \end{Shaded}
 
 \begin{verbatim}
-# A draws_df: 1000 iterations, 4 chains, and 16 variables
-   b_speech_rate_c b_voweli:c2k b_vowele:c2k b_vowela:c2k b_vowelo:c2k
-1            0.159        -0.72        -1.05        -1.12        -1.02
-2            0.035        -0.75        -1.39        -1.06        -0.89
-3            0.126        -0.85        -0.98        -1.10        -0.64
-4            0.064        -0.70        -1.07        -1.05        -0.83
-5            0.032        -0.77        -1.18        -0.94        -0.70
-6            0.073        -0.85        -1.23        -1.06        -0.77
-7            0.101        -0.95        -1.07        -1.14        -0.86
-8            0.074        -1.02        -1.07        -1.17        -0.83
-9            0.087        -1.04        -1.07        -1.26        -0.79
-10           0.092        -1.20        -1.04        -0.92        -0.64
-   b_vowelu:c2k b_voweli:c2t b_vowele:c2t
-1         -1.05        -0.62        -0.80
-2         -1.04        -0.67        -0.99
-3         -0.91        -0.66        -0.80
-4         -1.07        -0.53        -0.87
-5         -1.06        -0.63        -0.87
-6         -1.00        -0.69        -0.73
-7         -1.22        -0.74        -1.08
-8         -1.22        -0.73        -1.04
-9         -1.14        -0.66        -0.91
-10        -0.84        -0.63        -0.61
-# ... with 3990 more draws, and 8 more variables
-# ... hidden reserved variables {'.chain', '.iteration', '.draw'}
+Warning: Dropping 'draws_df' class as required metadata was removed.
 \end{verbatim}
 
+\begin{longtable}[]{@{}
+  >{\raggedleft\arraybackslash}p{(\linewidth - 8\tabcolsep) * \real{0.2353}}
+  >{\raggedleft\arraybackslash}p{(\linewidth - 8\tabcolsep) * \real{0.1912}}
+  >{\raggedleft\arraybackslash}p{(\linewidth - 8\tabcolsep) * \real{0.1912}}
+  >{\raggedleft\arraybackslash}p{(\linewidth - 8\tabcolsep) * \real{0.1912}}
+  >{\raggedleft\arraybackslash}p{(\linewidth - 8\tabcolsep) * \real{0.1912}}@{}}
+
+\caption{\label{tbl-voi-prop-draws}First ten rows and 5 columns of the
+posterior draws for the model \texttt{voi\_prop\_bm}.}
+
+\tabularnewline
+
+\toprule\noalign{}
+\begin{minipage}[b]{\linewidth}\raggedleft
+b\_speech\_rate\_c
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedleft
+b\_voweli:c2k
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedleft
+b\_vowele:c2k
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedleft
+b\_vowela:c2k
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedleft
+b\_vowelo:c2k
+\end{minipage} \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+0.1593890 & -0.7213516 & -1.046577 & -1.1197185 & -1.0191525 \\
+0.0351033 & -0.7492306 & -1.385450 & -1.0633164 & -0.8854320 \\
+0.1259352 & -0.8472495 & -0.975776 & -1.0972735 & -0.6440836 \\
+0.0640492 & -0.7033469 & -1.068626 & -1.0475190 & -0.8328252 \\
+0.0319081 & -0.7659281 & -1.177656 & -0.9357499 & -0.6955130 \\
+0.0729965 & -0.8494392 & -1.226692 & -1.0635364 & -0.7692243 \\
+0.1009609 & -0.9546148 & -1.072955 & -1.1408255 & -0.8566750 \\
+0.0735392 & -1.0160675 & -1.065025 & -1.1736263 & -0.8334884 \\
+0.0870061 & -1.0436475 & -1.069337 & -1.2632061 & -0.7941857 \\
+0.0923815 & -1.2042168 & -1.041238 & -0.9158689 & -0.6444492 \\
+
+\end{longtable}
+
 We can now wrangle this tibble and plot the posterior distributions for
-each vowel/C2 combination.
+each vowel/C2 combination. Table~\ref{tbl-voi-long} shows the first ten
+rows.
 
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -567,59 +620,43 @@ each vowel/C2 combination.
 \end{Highlighting}
 \end{Shaded}
 
-\begin{verbatim}
-Warning: Dropping 'draws_df' class as required metadata was removed.
-\end{verbatim}
+\begin{longtable}[]{@{}rrrlllr@{}}
 
-\begin{Shaded}
-\begin{Highlighting}[]
-\NormalTok{voi\_prop\_bm\_draws\_long}
-\end{Highlighting}
-\end{Shaded}
+\caption{\label{tbl-voi-long}First ten rows of posterior draws from
+\texttt{voi\_prop\_bm} in long format.}
 
-\begin{verbatim}
-# A tibble: 60,000 x 7
-   .chain .iteration .draw type  vowel  c2     value
-    <int>      <int> <int> <chr> <chr>  <chr>  <dbl>
- 1      1          1     1 b     voweli c2k   -0.721
- 2      1          1     1 b     vowele c2k   -1.05 
- 3      1          1     1 b     vowela c2k   -1.12 
- 4      1          1     1 b     vowelo c2k   -1.02 
- 5      1          1     1 b     vowelu c2k   -1.05 
- 6      1          1     1 b     voweli c2t   -0.625
- 7      1          1     1 b     vowele c2t   -0.795
- 8      1          1     1 b     vowela c2t   -1.40 
- 9      1          1     1 b     vowelo c2t   -1.10 
-10      1          1     1 b     vowelu c2t   -0.668
-# i 59,990 more rows
-\end{verbatim}
+\tabularnewline
+
+\toprule\noalign{}
+.chain & .iteration & .draw & type & vowel & c2 & value \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+1 & 1 & 1 & b & voweli & c2k & -0.7213516 \\
+1 & 1 & 1 & b & vowele & c2k & -1.0465766 \\
+1 & 1 & 1 & b & vowela & c2k & -1.1197185 \\
+1 & 1 & 1 & b & vowelo & c2k & -1.0191525 \\
+1 & 1 & 1 & b & vowelu & c2k & -1.0523007 \\
+1 & 1 & 1 & b & voweli & c2t & -0.6248875 \\
+1 & 1 & 1 & b & vowele & c2t & -0.7951552 \\
+1 & 1 & 1 & b & vowela & c2t & -1.3999773 \\
+1 & 1 & 1 & b & vowelo & c2t & -1.0950180 \\
+1 & 1 & 1 & b & vowelu & c2t & -0.6682030 \\
+
+\end{longtable}
 
 For plotting, we can use ggplot2 statistics layers from the ggdist
 package. \texttt{stat\_halfeye()} plots the density of the posterior
 probability (in grey), its median (point) and CrIs (lines). Let's use 60
 and 80\% CrIs and transform the log-odds values to proportions with
-\texttt{plogis()}.
+\texttt{plogis()}. See Figure~\ref{fig-voi-prop-bm-1}.
 
 \begin{Shaded}
 \begin{Highlighting}[]
 \CommentTok{\# attach ggdist package}
 \FunctionTok{library}\NormalTok{(ggdist)}
-\end{Highlighting}
-\end{Shaded}
 
-\begin{verbatim}
-
-Attaching package: 'ggdist'
-\end{verbatim}
-
-\begin{verbatim}
-The following objects are masked from 'package:brms':
-
-    dstudent_t, pstudent_t, qstudent_t, rstudent_t
-\end{verbatim}
-
-\begin{Shaded}
-\begin{Highlighting}[]
 \NormalTok{voi\_prop\_bm\_draws\_long }\SpecialCharTok{|\textgreater{}} 
   \FunctionTok{ggplot}\NormalTok{(}\FunctionTok{aes}\NormalTok{(}\FunctionTok{plogis}\NormalTok{(value), vowel)) }\SpecialCharTok{+}
   \FunctionTok{stat\_halfeye}\NormalTok{(}\AttributeTok{.width =} \FunctionTok{c}\NormalTok{(}\FloatTok{0.6}\NormalTok{, }\FloatTok{0.8}\NormalTok{)) }\SpecialCharTok{+}
@@ -635,7 +672,8 @@ The following objects are masked from 'package:brms':
 
 }
 
-\caption{\label{fig-voi-prop-bm-1}}
+\caption{\label{fig-voi-prop-bm-1}Expected predictions of voicing
+proportion by vowel and consonant from \texttt{voi\_prop\_bm}.}
 
 \end{figure}%
 
@@ -655,22 +693,40 @@ distribution of voicing proportion for each consonant, assuming an
   \FunctionTok{summarise}\NormalTok{(}
     \AttributeTok{value\_mean =} \FunctionTok{mean}\NormalTok{(value), }\AttributeTok{.groups =} \StringTok{"drop"}
 \NormalTok{  )}
+\end{Highlighting}
+\end{Shaded}
 
+\begin{Shaded}
+\begin{Highlighting}[]
 \NormalTok{voi\_prop\_bm\_draws\_long\_c2 }\SpecialCharTok{|\textgreater{}} 
   \FunctionTok{ggplot}\NormalTok{(}\FunctionTok{aes}\NormalTok{(}\FunctionTok{plogis}\NormalTok{(value\_mean), c2)) }\SpecialCharTok{+}
   \FunctionTok{stat\_halfeye}\NormalTok{(}\AttributeTok{.width =} \FunctionTok{c}\NormalTok{(}\FloatTok{0.6}\NormalTok{, }\FloatTok{0.8}\NormalTok{))}
 \end{Highlighting}
 \end{Shaded}
 
-\pandocbounded{\includegraphics[keepaspectratio]{manuscript_files/figure-pdf/voi-prop-bm-draws-long-c2-1.pdf}}
+\begin{figure}[H]
 
-Based on the posterior distributions of the mean voicing proportion by
-consonant, /p/ has a somewhat higher voicing proportion than /k/ and
-/t/. The real question is: how much higher? We can quantify this by
-taking the difference of the drawn values for /p/ and those for /t, k/.
-Since we want to compare /t, k/ to /p/, we should first average the
-draws of /t, k/ and then take the difference of the averaged draws and
-the draws of /p/.
+\centering{
+
+\pandocbounded{\includegraphics[keepaspectratio]{manuscript_files/figure-pdf/fig-voi-pbdl-c2-1.pdf}}
+
+}
+
+\caption{\label{fig-voi-pbdl-c2}Expected predictions of voicing
+proportion by consonant, averaged across vowels.}
+
+\end{figure}%
+
+Based on the expected posterior distributions of the mean voicing
+proportion by consonant, /p/ has a somewhat higher voicing proportion
+than /k/ and /t/. The real question is: how much higher? We can quantify
+this by taking the difference of the drawn values for /p/ and those for
+/t, k/ (all averaged across vowels). Since we want to compare /t, k/
+with /p/, we should first average the average draws of /t, k/ and then
+take the difference of the averaged /t, k/ draws and the draws of /p/.
+Table~\ref{tbl-voi-pbd} shows the first ten rows of the resulting data
+frame. The posterior distribution of the expected difference is shown in
+Figure~\ref{fig-diff-p-tk}.
 
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -684,27 +740,34 @@ the draws of /p/.
     \CommentTok{\# calculate the difference of /p/ and /t, k/}
     \AttributeTok{c2p\_tk\_diff =}\NormalTok{ c2p }\SpecialCharTok{{-}}\NormalTok{ c2tk}
 \NormalTok{  )}
-
-\NormalTok{voi\_prop\_bm\_diff}
 \end{Highlighting}
 \end{Shaded}
 
-\begin{verbatim}
-# A tibble: 4,000 x 6
-   .draw    c2k    c2p    c2t   c2tk c2p_tk_diff
-   <int>  <dbl>  <dbl>  <dbl>  <dbl>       <dbl>
- 1     1 -0.992 -0.745 -0.917 -0.953      0.208 
- 2     2 -1.02  -0.790 -1.03  -0.953      0.163 
- 3     3 -0.895 -0.687 -0.890 -0.953      0.266 
- 4     4 -0.944 -0.814 -0.910 -0.953      0.140 
- 5     5 -0.928 -0.791 -0.920 -0.953      0.162 
- 6     6 -0.983 -0.728 -0.926 -0.953      0.225 
- 7     7 -1.05  -0.873 -1.08  -0.953      0.0802
- 8     8 -1.06  -0.875 -1.07  -0.953      0.0782
- 9     9 -1.06  -0.974 -1.05  -0.953     -0.0206
-10    10 -0.929 -0.829 -0.953 -0.953      0.125 
-# i 3,990 more rows
-\end{verbatim}
+\begin{longtable}[]{@{}rrrrrr@{}}
+
+\caption{\label{tbl-voi-pbd}First 10 rows of expected difference of
+voicing proportion between /t, k/ and /p/.}
+
+\tabularnewline
+
+\toprule\noalign{}
+.draw & c2k & c2p & c2t & c2tk & c2p\_tk\_diff \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+1 & -0.9918200 & -0.7450832 & -0.9166482 & -0.9533426 & 0.2082595 \\
+2 & -1.0240673 & -0.7904348 & -1.0322325 & -0.9533426 & 0.1629079 \\
+3 & -0.8954946 & -0.6873228 & -0.8904412 & -0.9533426 & 0.2660199 \\
+4 & -0.9442361 & -0.8135191 & -0.9095122 & -0.9533426 & 0.1398235 \\
+5 & -0.9278262 & -0.7908457 & -0.9200903 & -0.9533426 & 0.1624970 \\
+6 & -0.9825895 & -0.7283054 & -0.9262196 & -0.9533426 & 0.2250372 \\
+7 & -1.0482359 & -0.8731592 & -1.0841208 & -0.9533426 & 0.0801835 \\
+8 & -1.0613713 & -0.8751219 & -1.0741555 & -0.9533426 & 0.0782208 \\
+9 & -1.0622522 & -0.9739388 & -1.0481834 & -0.9533426 & -0.0205962 \\
+10 & -0.9293998 & -0.8287910 & -0.9526105 & -0.9533426 & 0.1245517 \\
+
+\end{longtable}
 
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -723,7 +786,9 @@ the draws of /p/.
 
 }
 
-\caption{\label{fig-diff-p-tk}}
+\caption{\label{fig-diff-p-tk}Posterior distribution of the difference
+between the expected voicing proportion of /t, k/ vs /p/, averaged
+across vowels.}
 
 \end{figure}%
 
@@ -1315,7 +1380,7 @@ positive difference, there is a lot of uncertainty as to the magnitude
 of the difference.
 
 
-  \bibliography{linguistics.bib}
+  \bibliography{linguistics.bib,statistics.bib}
 
 
 

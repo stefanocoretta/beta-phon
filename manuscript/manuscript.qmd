@@ -33,6 +33,8 @@ format:
       formatting: preprint
       model: 3p
       cite-style: authoryear
+execute:
+  cache: true
 ---
 
 ```{r}
@@ -93,12 +95,14 @@ ita_egg <- ita_egg |>
   )
 ```
 
-Here is what the tibble looks like.
+@tbl-ita-egg shows the first ten rows of the tibble (only relevant columns are included).
 
 ```{r}
-#| label: ita-egg
+#| label: tbl-ita-egg
+#| tbl-cap: "First 10 rows of the data of voicing proportion within stop closure."
+#| echo: false
 
-ita_egg
+ita_egg |> select(speaker, word, vowel, c2, voi_clo_prop) |> head(n = 10) |> knitr::kable()
 ```
 
 @fig-ita-egg shows the raw voicing duration proportion values split by vowel /i, e, a, ɔ, u/ and second consonant /k, t, p/ in the /CVCo/ target words. The plot suggests that, on average, the voicing proportion is slightly lower with /k/ than with /t, p/. Moreover, there is greater variability between vowels in /t, p/ than in /k/. We will use a beta regression model to assess these patterns. \["expectations" XXX\]
@@ -149,14 +153,26 @@ voi_prop_bm <- brm(
 )
 ```
 
-The `summary()` function prints the full model summary. For conciseness, we will use the `fixef()` function which prints the regression coefficients. \[EXPLAIN EXPECTED PREDICTIONS XXX\]. The full summary with an explanation of each part can be found in XXX. For each coefficient in the model, `fixef()` prints the name of the coefficient, the mean estimate, the estimate error and the lower and upper limits of a Bayesian Credible interval (CrI). Here, we print an 80% CrI. There is nothing special about 95% CrI within Bayesian inference and instead experts recommend to check and report a variety of CrIs. Bayesian CrIs indicate that at a certain probability levels the "true" estimate lies within that interval: so, for example, a 90% CrI \[A, B\] indicates that there is a 90% probability that the "true" estimate is between A and B. Different probability levels correspond to different levels of confidence: the higher the probability the higher the confidence (always conditional on data and model). Obtaining CrIs at different probability levels allows researchers to make more fine-grained inferential statements than the frequentist significance dichotomy affords. For simplicity of exposition, we will use 80% CrIs in this case study but we strongly recommend researchers to always obtain CrIs at different levels of probability and base their inferences on all and not one in particular. To reiterate, in Bayesian inference, an 80% CrI indicates the range of values within which the true estimate falls at 80% probability or confidence. We round all values to the nearest 2 digits for clarity.
+The `summary()` function prints the full model summary. For conciseness, we will use the `fixef()` function which prints the regression coefficients. \[EXPLAIN EXPECTED PREDICTIONS XXX\]. The full summary with an explanation of each part can be found in XXX. @tbl-voi-prop-fixef reports the output of `fixef()` as a table (we round all values to the nearest 2 digits for clarity.). For each coefficient in the model, `fixef()` prints the name of the coefficient, the mean estimate, the estimate error and the lower and upper limits of a Bayesian Credible interval (CrI). Here, we print an 80% CrI. There is nothing special about 95% CrI within Bayesian inference and instead experts recommend to check and report a variety of CrIs. Bayesian CrIs indicate that at a certain probability levels the "true" estimate lies within that interval: so, for example, a 90% CrI \[A, B\] indicates that there is a 90% probability that the "true" estimate is between A and B. Different probability levels correspond to different levels of confidence: the higher the probability the higher the confidence (always conditional on data and model). Obtaining CrIs at different probability levels allows researchers to make more fine-grained inferential statements than the frequentist significance dichotomy affords. For simplicity of exposition, we will use 80% CrIs in this case study but we strongly recommend researchers to always obtain CrIs at different levels of probability and base their inferences on all and not one in particular. To reiterate, in Bayesian inference, an 80% CrI indicates the range of values within which the true estimate falls at 80% probability or confidence.
 
 ```{r}
-#| label: voi-prop-bm-fixef
+#| label: voi-prop-fixef
+#| tbl-cap: "Regression coefficients of a beta regression of voicing proportion (`voi_prop_bm`)."
+#| eval: false
+
+fixef(voi_prop_bm, prob = c(0.1, 0.9))
+```
+
+
+```{r}
+#| label: tbl-voi-prop-fixef
+#| tbl-cap: "Regression coefficients of a beta regression of voicing proportion (`voi_prop_bm`)."
+#| echo: false
+
 round(
   fixef(voi_prop_bm, prob = c(0.1, 0.9)),
   digits = 2
-)
+) |> knitr::kable()
 ```
 
 The coefficients of a beta regression are estimated on the log-odds scale, as in Bernoulli/binomial (aka logistic) regressions. From the summary, we see that speech rate (number of syllables per second) has a positive effect on voicing proportion: the 80% CrI is between 0.01 and 0.15 log-odds \[$\beta$ = 0.08, SD = 0.06\]. Log-odds can be converted to odd-ratios by exponentiating the value: 0.01-0.15 log odds correspond to an odd-ratio of 1.01 to 1.16, or as percentages, to an increase of voicing of 1 to 16% for every increase of one syllable per second. Since this is an 80% CrI, we can be 80% confident that the true effect of speech rate is between 1-16% increase of voicing proportion, conditional on the data and model. Note that transforming measures this way is appropriate *only* with quantile-based measures (like CrIs) but not with moments like the mean and standard deviation: to correctly get mean and SDs in the transformed scale, you must first extract the posterior draws (see below), convert them and then take moments such as mean and SD (for a more detailed explanation, see XXX). In the avoidance of doubt, we will always transform the drawn values first and then take summary measures.
@@ -165,20 +181,29 @@ Turning now to the coefficients for vowel and C2, given the indexing approach of
 
 Next, we will plot the predicted proportions of each vowel/C2 combination at mean speech rate (i.e. centred speech rate = 0) and then calculate the average pair-wise difference in voicing proportion between /k, t, p/. Finally, we will assess whether there is greater between-vowel variability in /t, p/ relative to /k/.
 
-Before being able to plot the predictions, it's important to get familiar with the so-called posterior draws. \[Bayesian MCMC XXX\]. Posterior draws can be conveniently obtained with the `as_draws_df()`. For the moment, we will extract only the draws of the constant regression coefficients (model variables starting with `b_`). To check which coefficients are available in a model, use `get_variables()` from the tidybayes package. `as_draws_df()` returns a tibble where each column contains the drawn values of a coefficient. The probability distribution of the drawn values of each coefficient is the posterior probability distribution of that coefficient. Note that, due to the indexing coding of vowel and C2, all coefficient except `b_speech_rate_c` are *predicted log-odds* for each vowel/C2 combination (the drawn values for `b_speech_rate_c` are drawn *differences* in log-odds for each unit increase of speech rate). The drawn values are in log-odds, but we can convert them to proportions with `plogis()` (we will do this when plotting below).
+Before being able to plot the predictions, it's important to get familiar with the so-called posterior draws. \[Bayesian MCMC XXX\]. Posterior draws can be conveniently obtained with the `as_draws_df()`. For the moment, we will extract only the draws of the constant regression coefficients (model variables starting with `b_`). To check which coefficients are available in a model, use `get_variables()` from the tidybayes package. `as_draws_df()` returns a tibble where each column contains the drawn values of a coefficient. @tbl-voi-prop-draws shows the first ten rows and first five columns of the output of `as_draws_df()`. The probability distribution of the drawn values of each coefficient is the posterior probability distribution of that coefficient. Note that, due to the indexing coding of vowel and C2, all coefficient except `b_speech_rate_c` are *predicted log-odds* for each vowel/C2 combination (the drawn values for `b_speech_rate_c` are drawn *differences* in log-odds for each unit increase of speech rate). The drawn values are in log-odds, but we can convert them to proportions with `plogis()` (we will do this when plotting below).
 
 ```{r}
 #| label: voi-prop-bm-draws
 
 # extract only coefficient variables starting with "b_"
 voi_prop_bm_draws <- as_draws_df(voi_prop_bm, variable = "^b_", regex = TRUE)
-voi_prop_bm_draws
 ```
 
-We can now wrangle this tibble and plot the posterior distributions for each vowel/C2 combination.
+```{r}
+#| label: tbl-voi-prop-draws
+#| tbl-cap: "First ten rows and 5 columns of the posterior draws for the model `voi_prop_bm`."
+#| echo: false
+
+voi_prop_bm_draws[,1:5] |> head(n = 10) |> knitr::kable()
+```
+
+
+We can now wrangle this tibble and plot the posterior distributions for each vowel/C2 combination. @tbl-voi-long shows the first ten rows.
 
 ```{r}
 #| label: voi-prop-bm-draws-long
+#| warning: false
 
 voi_prop_bm_draws_long <- voi_prop_bm_draws |> 
   # drop b_speech_rate_c before pivoting
@@ -187,14 +212,23 @@ voi_prop_bm_draws_long <- voi_prop_bm_draws |>
   pivot_longer(`b_voweli:c2k`:`b_vowelu:c2p`, names_to = "coeff") |> 
   # separate "coeff" labels into type ("b"), vowel and c2
   separate(coeff, into = c("type", "vowel", "c2"))
-
-voi_prop_bm_draws_long
 ```
 
-For plotting, we can use ggplot2 statistics layers from the ggdist package. `stat_halfeye()` plots the density of the posterior probability (in grey), its median (point) and CrIs (lines). Let's use 60 and 80% CrIs and transform the log-odds values to proportions with `plogis()`.
+```{r}
+#| label: tbl-voi-long
+#| tbl-cap: "First ten rows of posterior draws from `voi_prop_bm` in long format."
+#| echo: false
+
+voi_prop_bm_draws_long |> head(n = 10) |> knitr::kable()
+```
+
+
+For plotting, we can use ggplot2 statistics layers from the ggdist package. `stat_halfeye()` plots the density of the posterior probability (in grey), its median (point) and CrIs (lines). Let's use 60 and 80% CrIs and transform the log-odds values to proportions with `plogis()`. See @fig-voi-prop-bm-1.
 
 ```{r}
 #| label: fig-voi-prop-bm-1
+#| fig-cap: "Expected predictions of voicing proportion by vowel and consonant from `voi_prop_bm`."
+#| message: false
 
 # attach ggdist package
 library(ggdist)
@@ -217,13 +251,17 @@ voi_prop_bm_draws_long_c2 <- voi_prop_bm_draws_long |>
   summarise(
     value_mean = mean(value), .groups = "drop"
   )
+```
 
+```{r}
+#| label: fig-voi-pbdl-c2
+#| fig-cap: "Expected predictions of voicing proportion by consonant, averaged across vowels."
 voi_prop_bm_draws_long_c2 |> 
   ggplot(aes(plogis(value_mean), c2)) +
   stat_halfeye(.width = c(0.6, 0.8))
 ```
 
-Based on the posterior distributions of the mean voicing proportion by consonant, /p/ has a somewhat higher voicing proportion than /k/ and /t/. The real question is: how much higher? We can quantify this by taking the difference of the drawn values for /p/ and those for /t, k/. Since we want to compare /t, k/ to /p/, we should first average the draws of /t, k/ and then take the difference of the averaged draws and the draws of /p/.
+Based on the expected posterior distributions of the mean voicing proportion by consonant, /p/ has a somewhat higher voicing proportion than /k/ and /t/. The real question is: how much higher? We can quantify this by taking the difference of the drawn values for /p/ and those for /t, k/ (all averaged across vowels). Since we want to compare /t, k/ with /p/, we should first average the average draws of /t, k/ and then take the difference of the averaged /t, k/ draws and the draws of /p/. @tbl-voi-pbd shows the first ten rows of the resulting data frame. The posterior distribution of the expected difference is shown in @fig-diff-p-tk.
 
 ```{r}
 #| label: voi-prop-bm-diff
@@ -238,12 +276,19 @@ voi_prop_bm_diff <- voi_prop_bm_draws_long_c2 |>
     # calculate the difference of /p/ and /t, k/
     c2p_tk_diff = c2p - c2tk
   )
+```
 
-voi_prop_bm_diff
+```{r}
+#| label: tbl-voi-pbd
+#| tbl-cap: "First 10 rows of expected difference of voicing proportion between /t, k/ and /p/."
+#| echo: false
+
+voi_prop_bm_diff |> head(n = 10) |> knitr::kable()
 ```
 
 ```{r}
 #| label: fig-diff-p-tk
+#| fig-cap: "Posterior distribution of the difference between the expected voicing proportion of /t, k/ vs /p/, averaged across vowels."
 
 voi_prop_bm_diff |> 
   ggplot(aes(c2p_tk_diff)) +
