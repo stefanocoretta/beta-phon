@@ -795,7 +795,8 @@ across vowels.}
 Once we have the posterior difference, we can obtain CrIs of the
 difference using \texttt{quantile2()} from the posterior package. Beware
 that the values of the difference are in log-odds! We can convert these
-into odd-ratios with \texttt{exp()}. odd-ratios indicate the ratio of
+into odd-ratios with \texttt{exp()}. The output of the code below is
+shown in Table~\ref{tbl-voi-bm-quant}. Odd-ratios indicate the ratio of
 the difference between A and B, so that 1 means no difference, values
 greater than 1 indicate an increase in A relative to B and values lower
 than 1 indicate a decrease in A relative to B. odd-ratios are useful
@@ -814,33 +815,8 @@ just focus on odd-ratios for simplicity.
 \begin{Shaded}
 \begin{Highlighting}[]
 \FunctionTok{library}\NormalTok{(posterior)}
-\end{Highlighting}
-\end{Shaded}
 
-\begin{verbatim}
-This is posterior version 1.6.0
-\end{verbatim}
-
-\begin{verbatim}
-
-Attaching package: 'posterior'
-\end{verbatim}
-
-\begin{verbatim}
-The following objects are masked from 'package:stats':
-
-    mad, sd, var
-\end{verbatim}
-
-\begin{verbatim}
-The following objects are masked from 'package:base':
-
-    %in%, match
-\end{verbatim}
-
-\begin{Shaded}
-\begin{Highlighting}[]
-\NormalTok{voi\_prop\_bm\_diff }\SpecialCharTok{|\textgreater{}} 
+\NormalTok{voi\_bm\_quant }\OtherTok{\textless{}{-}}\NormalTok{ voi\_prop\_bm\_diff }\SpecialCharTok{|\textgreater{}} 
   \FunctionTok{mutate}\NormalTok{(}\AttributeTok{c2p\_tk\_diff\_ratio =} \FunctionTok{exp}\NormalTok{(c2p\_tk\_diff)) }\SpecialCharTok{|\textgreater{}} 
   \FunctionTok{reframe}\NormalTok{(}
     \CommentTok{\# 90\% CrI}
@@ -855,26 +831,35 @@ The following objects are masked from 'package:base':
 \end{Highlighting}
 \end{Shaded}
 
-\begin{verbatim}
-# A tibble: 2 x 3
-    q90   q80   q60
-  <dbl> <dbl> <dbl>
-1  1.07  1.1   1.14
-2  1.38  1.34  1.3 
-\end{verbatim}
+\begin{longtable}[]{@{}rrr@{}}
 
-So, based on the model and data, there is a 90\% probability that the
+\caption{\label{tbl-voi-bm-quant}Upper and lower limits of 90, 80 and
+60\% Credible Intervals of the difference ratio of voicing proportion in
+/t, k/ vs /p/.}
+
+\tabularnewline
+
+\toprule\noalign{}
+q90 & q80 & q60 \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+1.07 & 1.10 & 1.14 \\
+1.38 & 1.34 & 1.30 \\
+
+\end{longtable}
+
+Based on the model and data, there is a 90\% probability that the
 voicing proportion in /p/ is 1.07-1.38 times longer (or 7-38\% increase)
 than in /t, k/. At 80\% confidence, the change ratio is 1.10-1.34 (or
 10-34\% increase) while at 60\% confidence is 1.14-1.30 (14-30\%
 increase). In other words we can be quite confident that the voicing
 proportion in /p/ is longer than in /t, k/ and that the increase is less
-than 35\%.
-
-brms comes with a convenient function, \texttt{conditional\_effects()},
-to plot posterior means and CrIs based on predictors in the model. In
-the following example, we plot the predicted proportion of voicing by
-consonant and vowel.
+than 35\%. The brms package comes with a convenient function,
+\texttt{conditional\_effects()}, to plot posterior means and CrIs based
+on predictors in the model. In Figure~\ref{fig-voi-prop-bm-cond}, we
+plot the predicted proportion of voicing by consonant and vowel.
 
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -882,7 +867,18 @@ consonant and vowel.
 \end{Highlighting}
 \end{Shaded}
 
-\pandocbounded{\includegraphics[keepaspectratio]{manuscript_files/figure-pdf/voi-prop-bm-cond-1.pdf}}
+\begin{figure}[H]
+
+\centering{
+
+\pandocbounded{\includegraphics[keepaspectratio]{manuscript_files/figure-pdf/fig-voi-prop-bm-cond-1.pdf}}
+
+}
+
+\caption{\label{fig-voi-prop-bm-cond}Expected voicing proportion by
+consonant and vowel with 95\% Credible Intervals.}
+
+\end{figure}%
 
 Finally, the package marginaleffects {[}XXX{]} has two other convenience
 functions that return CrIs of comparisons across predictor levels
@@ -894,39 +890,49 @@ predictor levels (\texttt{avg\_predictions}). {[}XXX{]}
 \FunctionTok{library}\NormalTok{(marginaleffects)}
 
 \FunctionTok{avg\_comparisons}\NormalTok{(voi\_prop\_bm, }\AttributeTok{variables =} \FunctionTok{list}\NormalTok{(}\AttributeTok{c2 =} \StringTok{"pairwise"}\NormalTok{), }\AttributeTok{conf\_level =} \FloatTok{0.8}\NormalTok{, }\AttributeTok{type =} \StringTok{"link"}\NormalTok{)}
-\end{Highlighting}
-\end{Shaded}
-
-\begin{verbatim}
-
-          Contrast Estimate   10.0 % 90.0 %
- mean(t) - mean(k)   0.0348 -0.00418 0.0738
- mean(p) - mean(k)   0.2176  0.17837 0.2558
- mean(p) - mean(t)   0.1829  0.14474 0.2192
-
-Term: c2
-Type:  link 
-Columns: term, contrast, estimate, conf.low, conf.high, predicted_lo, predicted_hi, predicted, tmp_idx 
-\end{verbatim}
-
-\begin{Shaded}
-\begin{Highlighting}[]
 \FunctionTok{avg\_predictions}\NormalTok{(voi\_prop\_bm, }\AttributeTok{variables =} \StringTok{"vowel"}\NormalTok{, }\AttributeTok{conf\_level =} \FloatTok{0.8}\NormalTok{)}
 \end{Highlighting}
 \end{Shaded}
 
-\begin{verbatim}
+\begin{longtable}[]{@{}llrrr@{}}
 
- vowel Estimate 10.0 % 90.0 %
-     i    0.331  0.325  0.338
-     e    0.300  0.293  0.307
-     a    0.245  0.238  0.252
-     o    0.305  0.298  0.312
-     u    0.348  0.341  0.354
+\caption{\label{tbl-marginal-1}Difference in expected voicing proportion
+by consonant, averaged across vowels, with 80\% CrIs.}
 
-Type:  response 
-Columns: vowel, estimate, conf.low, conf.high 
-\end{verbatim}
+\tabularnewline
+
+\toprule\noalign{}
+term & contrast & estimate & conf.low & conf.high \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+c2 & mean(t) - mean(k) & 0.035 & -0.004 & 0.074 \\
+c2 & mean(p) - mean(k) & 0.218 & 0.178 & 0.256 \\
+c2 & mean(p) - mean(t) & 0.183 & 0.145 & 0.219 \\
+
+\end{longtable}
+
+\begin{longtable}[]{@{}lrrr@{}}
+
+\caption{\label{tbl-marginal-2}Expected voicing proportion by vowel,
+averaged across vowels, with 80\% CrIs.}
+
+\tabularnewline
+
+\toprule\noalign{}
+vowel & estimate & conf.low & conf.high \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+i & 0.331 & 0.325 & 0.338 \\
+e & 0.300 & 0.293 & 0.307 \\
+a & 0.245 & 0.238 & 0.252 \\
+o & 0.305 & 0.298 & 0.312 \\
+u & 0.348 & 0.341 & 0.354 \\
+
+\end{longtable}
 
 \section{Case study 2: coarticulatory vowel
 nasalisation}\label{case-study-2-coarticulatory-vowel-nasalisation}
@@ -965,31 +971,8 @@ results of the regression model to answer the following questions:
   Is there individual speaker variation?
 \end{enumerate}
 
-First, let's read and plot the data.
-
-\begin{Shaded}
-\begin{Highlighting}[]
-\NormalTok{nasal }\OtherTok{\textless{}{-}} \FunctionTok{read\_csv}\NormalTok{(}\StringTok{"data/carignan2021/nasal.csv"}\NormalTok{)}
-\NormalTok{nasal}
-\end{Highlighting}
-\end{Shaded}
-
-\begin{verbatim}
-# A tibble: 705 x 6
-   speaker label               vowel NC    voicing   nas_prop
-   <chr>   <chr>               <chr> <chr> <chr>        <dbl>
- 1 S03     b__U_nt_@___N_B17/s u     nt    voiceless  0.367  
- 2 S03     b__a_nd_@___N_B19/s a     nd    voiced     0.195  
- 3 S03     b__a_nt_@___N_B15/s a     nt    voiceless  0.279  
- 4 S03     f__I_nt_@___N_B05/s i     nt    voiceless  0.764  
- 5 S03     l__I_nd_@___N_B06/s i     nd    voiced     0.00529
- 6 S03     p__E_nt_____N_B09/s e     nt    voiceless  0.335  
- 7 S03     r__a_nt_@___N_B06/s a     nt    voiceless  0.243  
- 8 S03     v__I_nd_@___N_B07/s i     nd    voiced     0.0248 
- 9 S03     v__I_nt_6___N_B15/s i     nt    voiceless  0.135  
-10 S03     z__E_nd_@___N_B17/s e     nd    voiced     0.538  
-# i 695 more rows
-\end{verbatim}
+Table~\ref{tbl-nasal} shows the first ten rows of the data. The data
+contains the following columns:
 
 \begin{itemize}
 \item
@@ -1006,6 +989,38 @@ First, let's read and plot the data.
   \texttt{nas\_prop} is the proportion of coarticulatory nasalisation of
   the vowel.
 \end{itemize}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{nasal }\OtherTok{\textless{}{-}} \FunctionTok{read\_csv}\NormalTok{(}\StringTok{"data/carignan2021/nasal.csv"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{longtable}[]{@{}lllllr@{}}
+
+\caption{\label{tbl-nasal}First ten rows of the nasal proportion data.}
+
+\tabularnewline
+
+\toprule\noalign{}
+speaker & label & vowel & NC & voicing & nas\_prop \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+S03 & b\_\emph{U\_nt}@\_\_\_N\_B17/s & u & nt & voiceless & 0.3668820 \\
+S03 & b\_\emph{a\_nd}@\_\_\_N\_B19/s & a & nd & voiced & 0.1954858 \\
+S03 & b\_\emph{a\_nt}@\_\_\_N\_B15/s & a & nt & voiceless & 0.2786485 \\
+S03 & f\_\emph{I\_nt}@\_\_\_N\_B05/s & i & nt & voiceless & 0.7642259 \\
+S03 & l\_\emph{I\_nd}@\_\_\_N\_B06/s & i & nd & voiced & 0.0052949 \\
+S03 & p\_\emph{E\_nt}\_\_\_\_N\_B09/s & e & nt & voiceless &
+0.3347331 \\
+S03 & r\_\emph{a\_nt}@\_\_\_N\_B06/s & a & nt & voiceless & 0.2431760 \\
+S03 & v\_\emph{I\_nd}@\_\_\_N\_B07/s & i & nd & voiced & 0.0247572 \\
+S03 & v\_\_I\_nt\_6\_\_\_N\_B15/s & i & nt & voiceless & 0.1350081 \\
+S03 & z\_\emph{E\_nd}@\_\_\_N\_B17/s & e & nd & voiced & 0.5378522 \\
+
+\end{longtable}
 
 \begin{figure}
 
@@ -1051,30 +1066,40 @@ with \texttt{0\ +}. Here's the code of the model.
 \end{Highlighting}
 \end{Shaded}
 
-Let's inspect the output of \texttt{fixef()}.
+Let's inspect the output of \texttt{fixef()}, reported in
+Table~\ref{tbl-nas-prop-fixef}.
 
 \begin{Shaded}
 \begin{Highlighting}[]
-\FunctionTok{round}\NormalTok{(}
-  \FunctionTok{fixef}\NormalTok{(nas\_prop\_bm, }\AttributeTok{prob =} \FunctionTok{c}\NormalTok{(}\FloatTok{0.1}\NormalTok{, }\FloatTok{0.9}\NormalTok{)),}
-  \AttributeTok{digits =} \DecValTok{2}
-\NormalTok{)}
+\FunctionTok{fixef}\NormalTok{(nas\_prop\_bm, }\AttributeTok{prob =} \FunctionTok{c}\NormalTok{(}\FloatTok{0.1}\NormalTok{, }\FloatTok{0.9}\NormalTok{))}
 \end{Highlighting}
 \end{Shaded}
 
-\begin{verbatim}
-                        Estimate Est.Error   Q10   Q90
-voicingvoiced:vowela       -0.61      0.12 -0.77 -0.46
-voicingvoiceless:vowela    -0.08      0.09 -0.19  0.04
-voicingvoiced:vowele       -0.19      0.16 -0.38  0.01
-voicingvoiceless:vowele    -0.25      0.10 -0.38 -0.12
-voicingvoiced:voweli       -0.74      0.19 -0.98 -0.51
-voicingvoiceless:voweli    -0.12      0.18 -0.35  0.10
-voicingvoiced:vowelo       -0.34      0.16 -0.54 -0.14
-voicingvoiceless:vowelo     0.25      0.15  0.05  0.44
-voicingvoiced:vowelu       -0.71      0.18 -0.94 -0.49
-voicingvoiceless:vowelu    -0.58      0.16 -0.78 -0.38
-\end{verbatim}
+\begin{longtable}[]{@{}lrrrr@{}}
+
+\caption{\label{tbl-nas-prop-fixef}Regression coefficients of a beta
+regression of nasalisation proportion (\texttt{nas\_prop\_bm}).}
+
+\tabularnewline
+
+\toprule\noalign{}
+& Estimate & Est.Error & Q10 & Q90 \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+voicingvoiced:vowela & -0.61 & 0.12 & -0.77 & -0.46 \\
+voicingvoiceless:vowela & -0.08 & 0.09 & -0.19 & 0.04 \\
+voicingvoiced:vowele & -0.19 & 0.16 & -0.38 & 0.01 \\
+voicingvoiceless:vowele & -0.25 & 0.10 & -0.38 & -0.12 \\
+voicingvoiced:voweli & -0.74 & 0.19 & -0.98 & -0.51 \\
+voicingvoiceless:voweli & -0.12 & 0.18 & -0.35 & 0.10 \\
+voicingvoiced:vowelo & -0.34 & 0.16 & -0.54 & -0.14 \\
+voicingvoiceless:vowelo & 0.25 & 0.15 & 0.05 & 0.44 \\
+voicingvoiced:vowelu & -0.71 & 0.18 & -0.94 & -0.49 \\
+voicingvoiceless:vowelu & -0.58 & 0.16 & -0.78 & -0.38 \\
+
+\end{longtable}
 
 Negative log-odds indicate a proportion that is smaller than 50\%, while
 positive log-odds a proportion that is greater than 50\%. Generally, the
@@ -1084,9 +1109,9 @@ the vowel. Moreover, the predictions are higher for voiceless NC
 sequences than for voiced NC sequences, indicating a greater proportion
 of nasalisation in the former. However there is vowel-specific
 variation, and there doesn't seem to be much of a difference in
-nasalisation proportion in /e/ and /u/. Plotting the expected
-predictions with \texttt{conditional\_effects()} should make this
-clearer.
+nasalisation proportion in /e/ and /u/. Figure~\ref{fig-nas-prop} shows
+the expected predictions with \texttt{conditional\_effects()}, which
+should make the interpretation clearer.
 
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -1094,7 +1119,18 @@ clearer.
 \end{Highlighting}
 \end{Shaded}
 
-\pandocbounded{\includegraphics[keepaspectratio]{manuscript_files/figure-pdf/nas-prop-1.pdf}}
+\begin{figure}[H]
+
+\centering{
+
+\pandocbounded{\includegraphics[keepaspectratio]{manuscript_files/figure-pdf/fig-nas-prop-1.pdf}}
+
+}
+
+\caption{\label{fig-nas-prop}Expected nasalisation proportion by vowel
+and voicing, with 95\% CrIs.}
+
+\end{figure}%
 
 Now that we fitted the model we can use the draws to answer the two
 research questions (repeated from above):
@@ -1111,7 +1147,8 @@ research questions (repeated from above):
 
 To answer question 1, we can calculate the average difference in
 nasalisation proportion by first calculating the average nasalisation
-across all vowels for voiced and voiceless sequences and then take the
+across all vowels for voiced and voiceless sequences (see
+Table~\ref{tbl-nas-draws} for the output of this step) and then take the
 difference of those, similarly to what we have done in the Case Study 1
 above.
 
@@ -1128,39 +1165,41 @@ above.
 \end{Highlighting}
 \end{Shaded}
 
-\begin{verbatim}
-Warning: Dropping 'draws_df' class as required metadata was removed.
-\end{verbatim}
+\begin{longtable}[]{@{}rrrlllr@{}}
 
-\begin{Shaded}
-\begin{Highlighting}[]
-\NormalTok{nas\_prop\_bm\_draws\_long}
-\end{Highlighting}
-\end{Shaded}
+\caption{\label{tbl-nas-draws}First ten rows of posterior draws from
+\texttt{nas\_prop\_bm} in long format.}
 
-\begin{verbatim}
-# A tibble: 40,000 x 7
-   .chain .iteration .draw type  voicing          vowel    value
-    <int>      <int> <int> <chr> <chr>            <chr>    <dbl>
- 1      1          1     1 b     voicingvoiced    vowela -0.463 
- 2      1          1     1 b     voicingvoiceless vowela -0.0944
- 3      1          1     1 b     voicingvoiced    vowele -0.155 
- 4      1          1     1 b     voicingvoiceless vowele -0.208 
- 5      1          1     1 b     voicingvoiced    voweli -0.481 
- 6      1          1     1 b     voicingvoiceless voweli -0.0529
- 7      1          1     1 b     voicingvoiced    vowelo -0.310 
- 8      1          1     1 b     voicingvoiceless vowelo  0.321 
- 9      1          1     1 b     voicingvoiced    vowelu -0.620 
-10      1          1     1 b     voicingvoiceless vowelu -0.368 
-# i 39,990 more rows
-\end{verbatim}
+\tabularnewline
+
+\toprule\noalign{}
+.chain & .iteration & .draw & type & voicing & vowel & value \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+1 & 1 & 1 & b & voicingvoiced & vowela & -0.4632870 \\
+1 & 1 & 1 & b & voicingvoiceless & vowela & -0.0943699 \\
+1 & 1 & 1 & b & voicingvoiced & vowele & -0.1546258 \\
+1 & 1 & 1 & b & voicingvoiceless & vowele & -0.2080810 \\
+1 & 1 & 1 & b & voicingvoiced & voweli & -0.4810383 \\
+1 & 1 & 1 & b & voicingvoiceless & voweli & -0.0529377 \\
+1 & 1 & 1 & b & voicingvoiced & vowelo & -0.3096219 \\
+1 & 1 & 1 & b & voicingvoiceless & vowelo & 0.3212456 \\
+1 & 1 & 1 & b & voicingvoiced & vowelu & -0.6198312 \\
+1 & 1 & 1 & b & voicingvoiceless & vowelu & -0.3680900 \\
+
+\end{longtable}
 
 Now let's calculate the mean nasalisation proportion within each draw by
 voicing, and plot the resulting posterior distributions. Note that, as
 discussed for Case study 1, when working wit log-odds it is important to
 first do all necessary calculations in log-odds, here calculate the mean
 log-odds across vowels, and \emph{then} transform the calculated
-estimands to proportions/probabilities.
+estimands to proportions/probabilities. The output of the following code
+is show in Table~\ref{tbl-nas-long-voi} and the density plot of the
+calculated draws is in
+Figure~\ref{fig-nas-prop-bm-draws-long-voicing-plot}.
 
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -1174,27 +1213,34 @@ estimands to proportions/probabilities.
     \AttributeTok{value\_mean\_prop =} \FunctionTok{plogis}\NormalTok{(value\_mean),}
     \AttributeTok{.groups =} \StringTok{"drop"}
 \NormalTok{  )}
-
-\NormalTok{nas\_prop\_bm\_draws\_long\_voicing}
 \end{Highlighting}
 \end{Shaded}
 
-\begin{verbatim}
-# A tibble: 8,000 x 4
-   .draw voicing          value_mean value_mean_prop
-   <int> <chr>                 <dbl>           <dbl>
- 1     1 voicingvoiced       -0.406            0.400
- 2     1 voicingvoiceless    -0.0804           0.480
- 3     2 voicingvoiced       -0.391            0.404
- 4     2 voicingvoiceless    -0.123            0.469
- 5     3 voicingvoiced       -0.444            0.391
- 6     3 voicingvoiceless    -0.132            0.467
- 7     4 voicingvoiced       -0.439            0.392
- 8     4 voicingvoiceless    -0.0982           0.475
- 9     5 voicingvoiced       -0.383            0.405
-10     5 voicingvoiceless    -0.266            0.434
-# i 7,990 more rows
-\end{verbatim}
+\begin{longtable}[]{@{}rlrr@{}}
+
+\caption{\label{tbl-nas-long-voi}Mean nasalisation proportion by draw
+and voicing, averaged across vowels (first 10 rows).}
+
+\tabularnewline
+
+\toprule\noalign{}
+.draw & voicing & value\_mean & value\_mean\_prop \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+1 & voicingvoiced & -0.4056808 & 0.3999482 \\
+1 & voicingvoiceless & -0.0804466 & 0.4798992 \\
+2 & voicingvoiced & -0.3905744 & 0.4035790 \\
+2 & voicingvoiceless & -0.1227124 & 0.4693603 \\
+3 & voicingvoiced & -0.4436082 & 0.3908816 \\
+3 & voicingvoiceless & -0.1320190 & 0.4670431 \\
+4 & voicingvoiced & -0.4385607 & 0.3920840 \\
+4 & voicingvoiceless & -0.0981768 & 0.4754755 \\
+5 & voicingvoiced & -0.3827134 & 0.4054726 \\
+5 & voicingvoiceless & -0.2657250 & 0.4339569 \\
+
+\end{longtable}
 
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -1204,7 +1250,18 @@ estimands to proportions/probabilities.
 \end{Highlighting}
 \end{Shaded}
 
-\pandocbounded{\includegraphics[keepaspectratio]{manuscript_files/figure-pdf/nas-prop-bm-draws-long-voicing-plot-1.pdf}}
+\begin{figure}[H]
+
+\centering{
+
+\pandocbounded{\includegraphics[keepaspectratio]{manuscript_files/figure-pdf/fig-nas-prop-bm-draws-long-voicing-plot-1.pdf}}
+
+}
+
+\caption{\label{fig-nas-prop-bm-draws-long-voicing-plot}Expected
+nasalisation proportion by voicing, averaged across vowels.}
+
+\end{figure}%
 
 The plot suggests an overall greater nasalisation proportion in
 voiceless NC sequences. Let's quantify how greater as we did in Case
@@ -1213,6 +1270,9 @@ convert log-odds to odd-ratios using the \texttt{exp()} (exponential)
 function (and as before we first calculate the difference and then
 exponentiate the resulting values, after which we can take summary
 measures, like means and quantile-based measures such as CrIs).
+tbl-nas-prop-bm-diff-quant show the 90, 80 and 60\% CrIs of the
+difference ratio of nasalisation proportion in voiceless vs voiced NC
+sequences.
 
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -1227,30 +1287,8 @@ measures, like means and quantile-based measures such as CrIs).
     \CommentTok{\# now transform with exp() to get the ratio difference}
     \AttributeTok{voicing\_diff\_ratio =} \FunctionTok{exp}\NormalTok{(voicing\_diff)}
 \NormalTok{  )}
-\NormalTok{nas\_prop\_bm\_diff}
-\end{Highlighting}
-\end{Shaded}
 
-\begin{verbatim}
-# A tibble: 4,000 x 5
-   .draw voicingvoiced voicingvoiceless voicing_diff voicing_diff_ratio
-   <int>         <dbl>            <dbl>        <dbl>              <dbl>
- 1     1        -0.406          -0.0804        0.325               1.38
- 2     2        -0.391          -0.123         0.268               1.31
- 3     3        -0.444          -0.132         0.312               1.37
- 4     4        -0.439          -0.0982        0.340               1.41
- 5     5        -0.383          -0.266         0.117               1.12
- 6     6        -0.541          -0.0903        0.450               1.57
- 7     7        -0.512          -0.111         0.401               1.49
- 8     8        -0.493          -0.152         0.341               1.41
- 9     9        -0.527          -0.175         0.352               1.42
-10    10        -0.491          -0.257         0.234               1.26
-# i 3,990 more rows
-\end{verbatim}
-
-\begin{Shaded}
-\begin{Highlighting}[]
-\NormalTok{nas\_prop\_bm\_diff }\SpecialCharTok{|\textgreater{}} 
+\NormalTok{nas\_prop\_bm\_diff\_quant }\OtherTok{\textless{}{-}}\NormalTok{ nas\_prop\_bm\_diff }\SpecialCharTok{|\textgreater{}} 
   \FunctionTok{reframe}\NormalTok{(}
     \CommentTok{\# 90\% CrI}
     \AttributeTok{q90 =} \FunctionTok{quantile2}\NormalTok{(voicing\_diff\_ratio, }\AttributeTok{probs =} \FunctionTok{c}\NormalTok{(}\FloatTok{0.05}\NormalTok{, }\FloatTok{0.95}\NormalTok{)),}
@@ -1263,16 +1301,27 @@ measures, like means and quantile-based measures such as CrIs).
 \end{Highlighting}
 \end{Shaded}
 
-\begin{verbatim}
-# A tibble: 2 x 3
-    q90   q80   q60
-  <dbl> <dbl> <dbl>
-1  1.23  1.27  1.33
-2  1.69  1.63  1.56
-\end{verbatim}
+\begin{longtable}[]{@{}rrr@{}}
+
+\caption{\label{tbl-nas-prop-bm-diff-quant}Upper and lower limits of 90,
+80 and 60\% Credible Intervals of the difference ratio of nasalisation
+proportion in vowels followed by voiced vs voiceless consonants.}
+
+\tabularnewline
+
+\toprule\noalign{}
+q90 & q80 & q60 \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+1.23 & 1.27 & 1.33 \\
+1.69 & 1.63 & 1.56 \\
+
+\end{longtable}
 
 The CrIs of the ratio difference in nasalisation proportion in voiceless
-vs voiced NC sequences suggest a robust increase of nasalisation in the
+vs voiced NC sequences suggest an increase of nasalisation in the
 voiceless NC sequences, with a 90\% probability that the increase is
 between 23\% and 69\% of the proportion in voiced NC sequences.
 
@@ -1314,28 +1363,8 @@ overall estimate).
   \FunctionTok{pivot\_wider}\NormalTok{(}\AttributeTok{names\_from =}\NormalTok{ voicing, }\AttributeTok{values\_from =}\NormalTok{ r\_speaker\_value\_mean) }\SpecialCharTok{|\textgreater{}} 
   \CommentTok{\# finally, calculate the difference in expected log{-}odds of voiceless and voiced}
   \FunctionTok{mutate}\NormalTok{(}\AttributeTok{voicing\_diff =}\NormalTok{ voicingvoiceless }\SpecialCharTok{{-}}\NormalTok{ voicingvoiced)}
-
-\NormalTok{nas\_prop\_r}
 \end{Highlighting}
 \end{Shaded}
-
-\begin{verbatim}
-# A tibble: 140,000 x 5
-# Groups:   .draw, speaker [140,000]
-   .draw speaker voicingvoiced voicingvoiceless voicing_diff
-   <int> <chr>           <dbl>            <dbl>        <dbl>
- 1     1 S03          -1.42              0.0676      1.49   
- 2     1 S04           0.209             0.185      -0.0238 
- 3     1 S05          -0.284            -0.0546      0.229  
- 4     1 S06           0.00669          -0.324      -0.331  
- 5     1 S07          -0.446            -0.147       0.299  
- 6     1 S08          -0.610            -0.127       0.483  
- 7     1 S09          -0.473             0.0497      0.523  
- 8     1 S10          -0.556            -0.311       0.245  
- 9     1 S11           0.201            -0.426      -0.628  
-10     1 S12          -0.0812           -0.0856     -0.00439
-# i 139,990 more rows
-\end{verbatim}
 
 Figure~\ref{fig-nas-prop-r} plots the posterior distributions of the
 expected log-odd difference of coarticulatory nasalisation in voiceless
@@ -1365,7 +1394,9 @@ between voiceless and voiced NC).
 
 }
 
-\caption{\label{fig-nas-prop-r}}
+\caption{\label{fig-nas-prop-r}Expected log-odd difference of
+coarticulatory nasalisation in voiceless vs voiced NC sequences for each
+speaker.}
 
 \end{figure}%
 

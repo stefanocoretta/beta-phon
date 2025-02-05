@@ -44,6 +44,7 @@ execute:
 library(tidyverse)
 library(brms)
 library(collapse)
+library(marginaleffects)
 ```
 
 # Introduction
@@ -157,7 +158,6 @@ The `summary()` function prints the full model summary. For conciseness, we will
 
 ```{r}
 #| label: voi-prop-fixef
-#| tbl-cap: "Regression coefficients of a beta regression of voicing proportion (`voi_prop_bm`)."
 #| eval: false
 
 fixef(voi_prop_bm, prob = c(0.1, 0.9))
@@ -296,14 +296,15 @@ voi_prop_bm_diff |>
   geom_vline(xintercept = 0)
 ```
 
-Once we have the posterior difference, we can obtain CrIs of the difference using `quantile2()` from the posterior package. Beware that the values of the difference are in log-odds! We can convert these into odd-ratios with `exp()`. odd-ratios indicate the ratio of the difference between A and B, so that 1 means no difference, values greater than 1 indicate an increase in A relative to B and values lower than 1 indicate a decrease in A relative to B. odd-ratios are useful when looking at differences that are in log-odds because while the relative magnitude of the difference in proportion between two groups is the same independent of the baseline proportion, the *absolute* magnitude of the difference depends on the baseline value. For example, an odd-ratio difference of 1.25 would correspond to a proportion increase of 13 percentage points if the baseline proportion is 0.62 but it would correspond to a proportion increase of 17 percentage points if the baseline proportion is 0.73. Of course, in real research contexts it is still usefull to think about absolute magnitudes and their relevance from a conceptual and methodological perspective. In this tutorial we just focus on odd-ratios for simplicity.
+Once we have the posterior difference, we can obtain CrIs of the difference using `quantile2()` from the posterior package. Beware that the values of the difference are in log-odds! We can convert these into odd-ratios with `exp()`. The output of the code below is shown in @tbl-voi-bm-quant. Odd-ratios indicate the ratio of the difference between A and B, so that 1 means no difference, values greater than 1 indicate an increase in A relative to B and values lower than 1 indicate a decrease in A relative to B. odd-ratios are useful when looking at differences that are in log-odds because while the relative magnitude of the difference in proportion between two groups is the same independent of the baseline proportion, the *absolute* magnitude of the difference depends on the baseline value. For example, an odd-ratio difference of 1.25 would correspond to a proportion increase of 13 percentage points if the baseline proportion is 0.62 but it would correspond to a proportion increase of 17 percentage points if the baseline proportion is 0.73. Of course, in real research contexts it is still usefull to think about absolute magnitudes and their relevance from a conceptual and methodological perspective. In this tutorial we just focus on odd-ratios for simplicity.
 
 ```{r}
 #| label: voi-prop-bm-diff-cri
+#| message: false
 
 library(posterior)
 
-voi_prop_bm_diff |> 
+voi_bm_quant <- voi_prop_bm_diff |> 
   mutate(c2p_tk_diff_ratio = exp(c2p_tk_diff)) |> 
   reframe(
     # 90% CrI
@@ -317,24 +318,54 @@ voi_prop_bm_diff |>
   mutate(across(everything(), ~round(.x, 2)))
 ```
 
-So, based on the model and data, there is a 90% probability that the voicing proportion in /p/ is 1.07-1.38 times longer (or 7-38% increase) than in /t, k/. At 80% confidence, the change ratio is 1.10-1.34 (or 10-34% increase) while at 60% confidence is 1.14-1.30 (14-30% increase). In other words we can be quite confident that the voicing proportion in /p/ is longer than in /t, k/ and that the increase is less than 35%.
+```{r}
+#| label: tbl-voi-bm-quant
+#| tbl-cap: "Upper and lower limits of 90, 80 and 60% Credible Intervals of the difference ratio of voicing proportion in /t, k/ vs /p/."
+#| echo: false
 
-brms comes with a convenient function, `conditional_effects()`, to plot posterior means and CrIs based on predictors in the model. In the following example, we plot the predicted proportion of voicing by consonant and vowel.
+voi_bm_quant |> knitr::kable()
+```
+
+
+Based on the model and data, there is a 90% probability that the voicing proportion in /p/ is 1.07-1.38 times longer (or 7-38% increase) than in /t, k/. At 80% confidence, the change ratio is 1.10-1.34 (or 10-34% increase) while at 60% confidence is 1.14-1.30 (14-30% increase). In other words we can be quite confident that the voicing proportion in /p/ is longer than in /t, k/ and that the increase is less than 35%. The brms package comes with a convenient function, `conditional_effects()`, to plot posterior means and CrIs based on predictors in the model. In @fig-voi-prop-bm-cond, we plot the predicted proportion of voicing by consonant and vowel.
 
 ```{r}
-#| label: voi-prop-bm-cond
+#| label: fig-voi-prop-bm-cond
+#| fig-cap: "Expected voicing proportion by consonant and vowel with 95% Credible Intervals."
 conditional_effects(voi_prop_bm, "c2:vowel")
 ```
 
 Finally, the package marginaleffects [XXX] has two other convenience functions that return CrIs of comparisons across predictor levels (`avg_comparisons()`) and CrIs of posterior predictions across predictor levels (`avg_predictions`). \[XXX\]
 
 ```{r}
-#| label: marginal
+#| label: marginal-code
+#| eval: false
 
 library(marginaleffects)
 
 avg_comparisons(voi_prop_bm, variables = list(c2 = "pairwise"), conf_level = 0.8, type = "link")
 avg_predictions(voi_prop_bm, variables = "vowel", conf_level = 0.8)
+```
+
+```{r}
+#| label: tbl-marginal-1
+#| tbl-cap: "Difference in expected voicing proportion by consonant, averaged across vowels, with 80% CrIs."
+#| echo: false
+
+avg_comparisons(voi_prop_bm, variables = list(c2 = "pairwise"), conf_level = 0.8, type = "link") |>
+  mutate(across(where(is.numeric), ~round(.x, 3))) |>
+  select(-(predicted_lo:tmp_idx)) |> 
+  knitr::kable()
+```
+
+```{r}
+#| label: tbl-marginal-2
+#| tbl-cap: "Expected voicing proportion by vowel, averaged across vowels, with 80% CrIs."
+#| echo: false
+
+avg_predictions(voi_prop_bm, variables = "vowel", conf_level = 0.8) |>
+  mutate(across(where(is.numeric), ~round(.x, 3))) |>
+  knitr::kable()
 ```
 
 # Case study 2: coarticulatory vowel nasalisation
@@ -346,16 +377,7 @@ We will model the proportion of coarticulatory nasalisation in the German short 
 1.  Is the nasalisation proportion, on average across vowels, greater in voiceless NC sequences?
 2.  Is there individual speaker variation?
 
-First, let's read and plot the data.
-
-```{r}
-#| label: nasal
-#| message: false
-#| warning: false
-
-nasal <- read_csv("data/carignan2021/nasal.csv")
-nasal
-```
+@tbl-nasal shows the first ten rows of the data. The data contains the following columns:
 
 -   `speaker` indicates the speaker ID.
 
@@ -368,6 +390,22 @@ nasal
 -   `voicing` indicates the voicing of C.
 
 -   `nas_prop` is the proportion of coarticulatory nasalisation of the vowel.
+
+```{r}
+#| label: nasal
+#| message: false
+#| warning: false
+
+nasal <- read_csv("data/carignan2021/nasal.csv")
+```
+
+```{r}
+#| label: tbl-nasal
+#| tbl-cap: "First ten rows of the nasal proportion data."
+#| echo: false
+
+nasal |> head(n = 10) |> knitr::kable()
+```
 
 ```{r}
 #| label: fig-nasal
@@ -399,20 +437,32 @@ nas_prop_bm <- brm(
 )
 ```
 
-Let's inspect the output of `fixef()`.
+Let's inspect the output of `fixef()`, reported in @tbl-nas-prop-fixef.
 
 ```{r}
 #| label: nas-prop-bm-fixef
+#| eval: false
+
+fixef(nas_prop_bm, prob = c(0.1, 0.9))
+```
+
+
+```{r}
+#| label: tbl-nas-prop-fixef
+#| tbl-cap: "Regression coefficients of a beta regression of nasalisation proportion (`nas_prop_bm`)."
+#| echo: false
+
 round(
   fixef(nas_prop_bm, prob = c(0.1, 0.9)),
   digits = 2
-)
+) |> knitr::kable()
 ```
 
-Negative log-odds indicate a proportion that is smaller than 50%, while positive log-odds a proportion that is greater than 50%. Generally, the expected log-odd predictions are negative, indicating an overall tendency for the nasalisation to take less than 50% of the duration of the vowel. Moreover, the predictions are higher for voiceless NC sequences than for voiced NC sequences, indicating a greater proportion of nasalisation in the former. However there is vowel-specific variation, and there doesn't seem to be much of a difference in nasalisation proportion in /e/ and /u/. Plotting the expected predictions with `conditional_effects()` should make this clearer.
+Negative log-odds indicate a proportion that is smaller than 50%, while positive log-odds a proportion that is greater than 50%. Generally, the expected log-odd predictions are negative, indicating an overall tendency for the nasalisation to take less than 50% of the duration of the vowel. Moreover, the predictions are higher for voiceless NC sequences than for voiced NC sequences, indicating a greater proportion of nasalisation in the former. However there is vowel-specific variation, and there doesn't seem to be much of a difference in nasalisation proportion in /e/ and /u/. @fig-nas-prop shows the expected predictions with `conditional_effects()`, which should make the interpretation clearer.
 
 ```{r}
-#| label: nas-prop
+#| label: fig-nas-prop
+#| fig-cap: "Expected nasalisation proportion by vowel and voicing, with 95% CrIs."
 
 conditional_effects(nas_prop_bm, "vowel:voicing")
 
@@ -423,10 +473,11 @@ Now that we fitted the model we can use the draws to answer the two research que
 1.  Is the nasalisation proportion, on average across vowels, greater in voiceless NC sequences?
 2.  Is there individual speaker variation?
 
-To answer question 1, we can calculate the average difference in nasalisation proportion by first calculating the average nasalisation across all vowels for voiced and voiceless sequences and then take the difference of those, similarly to what we have done in the Case Study 1 above.
+To answer question 1, we can calculate the average difference in nasalisation proportion by first calculating the average nasalisation across all vowels for voiced and voiceless sequences (see @tbl-nas-draws for the output of this step) and then take the difference of those, similarly to what we have done in the Case Study 1 above.
 
 ```{r}
 #| label: nas-prop-bm-draws
+#| warning: false
 
 # extract only coefficient variables starting with "b_"
 nas_prop_bm_draws <- as_draws_df(nas_prop_bm, variable = "^b_", regex = TRUE)
@@ -436,11 +487,17 @@ nas_prop_bm_draws_long <- nas_prop_bm_draws |>
   pivot_longer(`b_voicingvoiced:vowela`:`b_voicingvoiceless:vowelu`, names_to = "coeff") |>
   # separate "coeff" labels into type ("b"), vowel and c2
   separate(coeff, into = c("type", "voicing", "vowel"))
-
-nas_prop_bm_draws_long
 ```
 
-Now let's calculate the mean nasalisation proportion within each draw by voicing, and plot the resulting posterior distributions. Note that, as discussed for Case study 1, when working wit log-odds it is important to first do all necessary calculations in log-odds, here calculate the mean log-odds across vowels, and *then* transform the calculated estimands to proportions/probabilities.
+```{r}
+#| label: tbl-nas-draws
+#| tbl-cap: "First ten rows of posterior draws from `nas_prop_bm` in long format."
+#| echo: false
+
+nas_prop_bm_draws_long |> head(n = 10) |> knitr::kable()
+```
+
+Now let's calculate the mean nasalisation proportion within each draw by voicing, and plot the resulting posterior distributions. Note that, as discussed for Case study 1, when working wit log-odds it is important to first do all necessary calculations in log-odds, here calculate the mean log-odds across vowels, and *then* transform the calculated estimands to proportions/probabilities. The output of the following code is show in @tbl-nas-long-voi and the density plot of the calculated draws is in @fig-nas-prop-bm-draws-long-voicing-plot.
 
 ```{r}
 #| label: nas-prop-bm-draws-long-voicing
@@ -455,19 +512,26 @@ nas_prop_bm_draws_long_voicing <- nas_prop_bm_draws_long |>
     value_mean_prop = plogis(value_mean),
     .groups = "drop"
   )
-
-nas_prop_bm_draws_long_voicing
 ```
 
 ```{r}
-#| label: nas-prop-bm-draws-long-voicing-plot
+#| label: tbl-nas-long-voi
+#| tbl-cap: "Mean nasalisation proportion by draw and voicing, averaged across vowels (first 10 rows)."
+#| echo: false
+
+nas_prop_bm_draws_long_voicing |> head(n = 10) |> knitr::kable()
+```
+
+```{r}
+#| label: fig-nas-prop-bm-draws-long-voicing-plot
+#| fig-cap: "Expected nasalisation proportion by voicing, averaged across vowels."
 
 nas_prop_bm_draws_long_voicing |> 
   ggplot(aes(value_mean_prop, voicing)) +
   stat_halfeye(.width = c(0.6, 0.8))
 ```
 
-The plot suggests an overall greater nasalisation proportion in voiceless NC sequences. Let's quantify how greater as we did in Case Study 1. We will use odd-ratios in this context as well, i.e. we will convert log-odds to odd-ratios using the `exp()` (exponential) function (and as before we first calculate the difference and then exponentiate the resulting values, after which we can take summary measures, like means and quantile-based measures such as CrIs).
+The plot suggests an overall greater nasalisation proportion in voiceless NC sequences. Let's quantify how greater as we did in Case Study 1. We will use odd-ratios in this context as well, i.e. we will convert log-odds to odd-ratios using the `exp()` (exponential) function (and as before we first calculate the difference and then exponentiate the resulting values, after which we can take summary measures, like means and quantile-based measures such as CrIs). tbl-nas-prop-bm-diff-quant show the 90, 80 and 60% CrIs of the difference ratio of nasalisation proportion in voiceless vs voiced NC sequences.
 
 ```{r}
 #| label: nas-prop-bm-diff
@@ -483,13 +547,8 @@ nas_prop_bm_diff <- nas_prop_bm_draws_long_voicing |>
     # now transform with exp() to get the ratio difference
     voicing_diff_ratio = exp(voicing_diff)
   )
-nas_prop_bm_diff
-```
 
-```{r}
-#| label: nas-prop-bm-diff-cris
-
-nas_prop_bm_diff |> 
+nas_prop_bm_diff_quant <- nas_prop_bm_diff |> 
   reframe(
     # 90% CrI
     q90 = quantile2(voicing_diff_ratio, probs = c(0.05, 0.95)),
@@ -501,7 +560,18 @@ nas_prop_bm_diff |>
   mutate(across(everything(), ~round(.x, 2)))
 ```
 
-The CrIs of the ratio difference in nasalisation proportion in voiceless vs voiced NC sequences suggest a robust increase of nasalisation in the voiceless NC sequences, with a 90% probability that the increase is between 23% and 69% of the proportion in voiced NC sequences.
+```{r}
+#| label: tbl-nas-prop-bm-diff-quant
+#| tbl-cap: "Upper and lower limits of 90, 80 and 60% Credible Intervals of the difference ratio of nasalisation proportion in vowels followed by voiced vs voiceless consonants."
+#| echo: false
+
+nas_prop_bm_diff_quant |> knitr::kable()
+
+```
+
+
+
+The CrIs of the ratio difference in nasalisation proportion in voiceless vs voiced NC sequences suggest an increase of nasalisation in the voiceless NC sequences, with a 90% probability that the increase is between 23% and 69% of the proportion in voiced NC sequences.
 
 Moving onto question 2: is there individual speaker variation? [TAMMINGA XXX] For this, we will use the `spread_draws()` function from tidybayes [XXX] to extract the draws of the varying terms (in brms these are the coefficients that start with `r_`). There is quite a few steps of processing to get from the raw draws to the estimand we need: while we have commented the following code, we encourage readers to test each line sequentialy and inspect the intermediate output to fully understand the process. We assume that readers are familiar enough with models with varying terms (aka random effects, mixed-effects models). What readers should note is that to obtain the expected predictions of nasalisation proportion for each speaker, the constant terms and the varying terms should be added (since the varying terms indicate the deviation of each speaker from the overall estimate).
 
@@ -530,14 +600,13 @@ nas_prop_r <- nas_prop_bm |>
   pivot_wider(names_from = voicing, values_from = r_speaker_value_mean) |> 
   # finally, calculate the difference in expected log-odds of voiceless and voiced
   mutate(voicing_diff = voicingvoiceless - voicingvoiced)
-
-nas_prop_r
 ```
 
 @fig-nas-prop-r plots the posterior distributions of the expected log-odd difference of coarticulatory nasalisation in voiceless vs voiced NC sequences (*x*-axis), for each speaker in the data (*y*-axis), as predicted by the model. The red solid vertical line indicates the constant (overall) expected log-odd difference based on the (constant) `b_` terms. The black dashed vertical line marks log-difference 0 (i.e., no difference in proportion of nasalisation between voiceless and voiced NC).
 
 ```{r}
 #| label: fig-nas-prop-r
+#| fig-cap: "Expected log-odd difference of coarticulatory nasalisation in voiceless vs voiced NC sequences for each speaker."
 #| warning: false
 #| fig-asp: 1.5
 
