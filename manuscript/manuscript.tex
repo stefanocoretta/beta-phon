@@ -350,7 +350,9 @@ sensible priors estimated from the data that facilitate convergence but
 bear virtually no influence on the estimated posteriors. Specifying
 priors requires a great deal of precise quantitative knowledge, which in
 most areas of phonetics we still do not possess, so that using default
-uninformative priors is, for the time being, theoretically sound.
+uninformative priors is, for the time being, theoretically sound. For
+practical guidance on prior specification, see
+\url{https://github.com/stan-dev/stan/wiki/Prior-Choice-Recommendations}.
 
 The output of Bayesian regression models is (posterior) probability
 distributions for the model parameters, through which researchers can
@@ -368,15 +370,16 @@ are referred to \citet{mcelreath2019}. Shorter introductions can be
 found in \citet{etz2018}, \citet{vasishth2018} and
 \citet{nalborczyk2019}.
 
-\section{Case study 1: voicing within consonant
+\section{Case study 1: coarticulatory voicing within consonant
 closure}\label{sec-case-1}
 
-For the first case study, we will model the proportion of voicing within
-consonant closure. The measurements come from a data set of audio and
-electroglottographic (EGG) recordings of 19 speakers of Northwestern
-Italian \citep{coretta2019k, coretta2020b}. The participants read frame
-sentences which included target words of the form /CVCo/, where /C/ was
-either /k, t, p/ in all permutations and /V/ was either /i, e, a, ɔ, u/
+For the first case study, we will model the proportion of coarticulatory
+progressive voicing within the consonant closure of voiceless stops. The
+measurements come from a data set of audio and electroglottographic
+(EGG) recordings of 19 speakers of Northwestern Italian
+\citep{coretta2019k, coretta2020b}. The participants read frame
+sentences which included target words of the form /CVCo/, where C was
+either /k, t, p/ in all permutations and V was either /i, e, a, o, u/
 (two resulting words, /peto/ and /kako/ were excluded because they are
 profanities), for a total of 43 target words. There were 4 different
 frame sentence: \emph{Scrivete X sul foglio} `Write X on the sheet',
@@ -386,17 +389,20 @@ repeating X since ever'. There is a total of 172 trials per participant
 (3,268 grand total). The actual observation count is 2,419, after
 removing speech errors, EGG measurement errors, and cases in which
 voicing ceased before the closure onset/after the closure offset of the
-second /C/.
+second consonant in the target word.
 
-The proportion of voicing during the closure of the second /C/ was
+The proportion of voicing during the closure of the second consonant was
 calculated as the proportion of contiguous voicing duration after
 closure onset to total duration of closure. The following code chunk
 attaches the tidyverse packages \citep[for reading and wrangling
 data,][]{wickham2019} and loads the \texttt{ita\_egg} tibble (data
 frame). The tibble is filtered so as to remove voicing proportions
 (\texttt{voi\_clo\_prop}) that are smaller than 0 and greater than 1.
-The variables \texttt{vowel} and \texttt{c2} are converted to factors to
-specify the order of the levels.
+The variables \texttt{vowel} (first vowel in the target word) and
+\texttt{c2} (second consonant in the target word) are converted to
+factors to specify the order of the levels. Table~\ref{tbl-ita-egg}
+shows the first ten rows of the tibble (only relevant columns are
+included).
 
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -416,9 +422,6 @@ specify the order of the levels.
 \NormalTok{  )}
 \end{Highlighting}
 \end{Shaded}
-
-Table~\ref{tbl-ita-egg} shows the first ten rows of the tibble (only
-relevant columns are included).
 
 \begin{longtable}[]{@{}llllr@{}}
 
@@ -447,12 +450,20 @@ it01 & poto & o & t & 0.1525163 \\
 \end{longtable}
 
 Figure~\ref{fig-ita-egg} shows the raw voicing duration proportion
-values split by vowel /i, e, a, ɔ, u/ and second consonant /k, t, p/ in
+values split by vowel /i, e, a, o, u/ and second consonant /k, t, p/ in
 the /CVCo/ target words. The plot suggests that, on average, the voicing
 proportion is slightly lower with /k/ than with /t, p/. Moreover, there
 is greater variability between vowels in /t, p/ than in /k/. We will use
-a beta regression model to assess these patterns. {[}``expectations''
-XXX{]}
+a beta regression model to assess whether the place of articulation of
+the consonant affects the proportion of coarticulatory progressive
+voicing, while averaging across vowels (of course, another question that
+could be answered with the same model is if different vowels lead to
+difference voicing proportions, but for sake of space we restrict this
+tutorial to the former question). A general expectation is that the
+proportion of progressive voicing should increase with fronter places of
+articulation (so from /k/ to /t/ to /p/) given the aerodynamic
+constraints which obtain with vocal fold vibration during a fully
+occluded oral tract \citep{vandenberg1958, rothenberg1967, ohala2011}.
 
 \begin{figure}
 
@@ -467,20 +478,24 @@ the second consonant in /CVCo/ words by vowel and the second consonant.}
 
 \end{figure}%
 
-We will use brms to fit Bayesian beta regressions \citep{burkner2017}.
+We will use brms to fit a Bayesian beta regression \citep{burkner2017}.
 The model has voicing proportion as the outcome variable and the
-following terms: an interaction between vowel (/i, e, a, ɔ, u/) and
+following terms: an interaction between vowel (/i, e, a, o, u/) and
 second consonant C2 (/k, t, p/), centred speech rate (number of
-syllables per second); as varying (aka random) terms, by-speaker varying
-coefficients for the vowel/consonant interaction and for centred speech
-rate.\footnote{Footnote about Gelman's terminology for random effects.}
-The categorical predictors vowel and C2 are coded using indexing rather
-than traditional R contrasts: in R, this corresponds to suppressing the
-model's intercept with the \texttt{0\ +} syntax; using indexing instead
-of contrasts makes it easier to specify priors. For pedagogical
-simplicity, the model will use the default priors, but note that in real
-data analyses contexts, priors should be specified by the user. I refer
-the readers to XXX.
+syllables per second); as varying (aka random) terms, we included
+by-speaker varying coefficients for the vowel/consonant interaction and
+for centred speech rate.\footnote{While the terms ``random effects,
+  intercept and slopes'' are commonly employed in applied statistical
+  work in linguistics and phonetics, we opt to use the conceptually more
+  appropriate terminology proposed by \citet{gelman2005}: varying terms,
+  intercepts, slopes, coefficients. Other common terms are multilevel
+  and hierarchical terms.} The categorical predictors vowel and C2 are
+coded using indexing rather than the traditional R contrasts: in R, this
+corresponds to suppressing the model's intercept with the \texttt{0\ +}
+syntax; using indexing instead of contrasts makes it easier to specify
+priors and uncertainty is distributed equally across all levels of
+categorical predictors. For pedagogical simplicity, the model will use
+the default priors as explained in Section~\ref{sec-bayes}.
 
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -508,23 +523,25 @@ the readers to XXX.
 
 The \texttt{summary()} function prints the full model summary. For
 conciseness, we will use the \texttt{fixef()} function which prints the
-regression coefficients. {[}EXPLAIN EXPECTED PREDICTIONS XXX{]}. The
-full summary with an explanation of each part can be found in XXX.
-Table~\ref{tbl-voi-prop-fixef} reports the output of \texttt{fixef()} as
-a table (we round all values to the nearest 2 digits for clarity.). For
-each coefficient in the model, \texttt{fixef()} prints the name of the
-coefficient, the mean estimate, the estimate error and the lower and
-upper limits of a Bayesian Credible interval (CrI). Here, we print an
-80\% CrI. There is nothing special about 95\% CrI within Bayesian
-inference and instead experts recommend to check and report a variety of
-CrIs. Obtaining CrIs at different probability levels allows researchers
-to make more fine-grained inferential statements than the frequentist
-significance dichotomy affords. For simplicity of exposition, we will
-use 80\% CrIs in this case study but we strongly recommend researchers
-to always obtain CrIs at different levels of probability and base their
-inferences on all and not one in particular. To reiterate, in Bayesian
-inference, an 80\% CrI indicates the range of values within which the
-true estimate falls at 80\% probability or confidence.
+regression coefficients. The full summary with an explanation of each
+part can be found in XXX. Table~\ref{tbl-voi-prop-fixef} reports the
+output of \texttt{fixef()} as a table (we round all values to the
+nearest 2 digits for clarity.). For each coefficient in the model,
+\texttt{fixef()} prints the name of the coefficient, the mean estimate,
+the estimate error and the lower and upper limits of a Bayesian Credible
+interval (CrI). Note that all values are in log-odds, since the link
+function in beta regressions is the logistic function, like in
+binomial/Bernoulli regressions. Here, we print an 80\% CrI. There is
+nothing special about 95\% CrI within Bayesian inference and instead
+experts recommend to check and report a variety of CrIs. Obtaining CrIs
+at different probability levels allows researchers to make more
+fine-grained inferential statements than the frequentist significance
+dichotomy affords. For simplicity of exposition, we will use 80\% CrIs
+in this case study but we strongly recommend researchers to always
+obtain CrIs at different levels of probability and base their inferences
+on all and not one in particular. To reiterate, in Bayesian inference,
+an 80\% CrI indicates the range of values within which the true estimate
+falls at 80\% probability or confidence.
 
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -564,24 +581,23 @@ vowelu:c2p & -0.44 & 0.12 & -0.59 & -0.28 \\
 
 \end{longtable}
 
-The coefficients of a beta regression are estimated on the log-odds
-scale, as in Bernoulli/binomial (aka logistic) regressions. From the
-summary, we see that speech rate (number of syllables per second) has a
-positive effect on voicing proportion: the 80\% CrI is between 0.01 and
-0.15 log-odds {[}\(\beta\) = 0.08, SD = 0.06{]}. Log-odds can be
-converted to odd-ratios by exponentiating the value: 0.01-0.15 log odds
-correspond to an odd-ratio of 1.01 to 1.16, or as percentages, to an
-increase of voicing of 1 to 16\% for every increase of one syllable per
-second. Since this is an 80\% CrI, we can be 80\% confident that the
-true effect of speech rate is between 1-16\% increase of voicing
-proportion, conditional on the data and model. Note that transforming
-measures this way is appropriate \emph{only} with quantile-based
-measures (like CrIs) but not with moments like the mean and standard
-deviation: to correctly get mean and SDs in the transformed scale, you
-must first extract the posterior draws (see below), convert them and
-then take moments such as mean and SD (for a more detailed explanation,
-see XXX). In the avoidance of doubt, we will always transform the drawn
-values first and then take summary measures.
+From the summary, we see that speech rate (number of syllables per
+second) has a positive effect on voicing proportion: the 80\% CrI is
+between 0.01 and 0.15 log-odds {[}\(\beta\) = 0.08, SD = 0.06{]}.
+Log-odds can be converted to odd-ratios by exponentiating the value:
+0.01-0.15 log odds correspond to an odd-ratio of 1.01 to 1.16, or as
+percentages, to an increase of voicing of 1 to 16\% for every increase
+of one syllable per second. Since this is an 80\% CrI, we can be 80\%
+confident that the true effect of speech rate is between 1-16\% increase
+of voicing proportion, conditional on the data and model. Note that
+transforming measures this way is appropriate \emph{only} with
+quantile-based measures (like CrIs) but not with moments like the mean
+and standard deviation: to correctly get mean and SDs in the transformed
+scale, you must first extract the posterior draws (see below), convert
+them and then take moments such as mean and SD \citep[for a more
+detailed explanation, see][p.~101]{burkner2025}. In the avoidance of
+doubt, we will always transform the drawn values first and then take
+summary measures.
 
 Turning now to the coefficients for vowel and C2, given the indexing
 approach of coding these variables the model summary and the output of
