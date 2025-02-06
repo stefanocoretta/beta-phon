@@ -243,38 +243,54 @@ tempus elit.
 \section{Introduction}\label{introduction}
 
 Phonetic research often involves numeric continuous outcome variables,
-like durations, frequencies, loudness and ratios. Another commonly
-employed type of outcome variable are proportions: for example,
-proportion of voicing during closure, vocal folds contact quotient,
-gesture amplitude, nasalance. Moreover, virtually any measure can be
-MIN-MAX normalised, a procedure which transforms values so that they are
-in the range 0--1.
+like durations, frequencies, loudness and ratios
+\citep{kluender1988, johnson2003, gick2013, ladefoged2014, abramson2017, roettger2018, coretta2023}.
+Another commonly employed type of outcome variable are proportions: for
+example, proportion of voicing during closure \citep{davidson2016},
+vocal folds contact quotient \citep{herbst2017}, gesture amplitude
+\citep{carignan2021}, nasalance \citep{carignan2021}. Moreover,
+virtually any measure can be MIN-MAX normalised, a procedure which
+transforms values so that they are in the range 0--1.
 
-Regression models are very common, but there is a tendency of using
-Gaussian distribution families (i.e.~probability distributions for the
-outcome variable) for anything that is numeric. A possible reason is
-that the base R function for fitting regression models, \texttt{lm()},
-and the lme4 function used to fit regression models with varying terms,
-\texttt{lmer()}, both fit Gaussian regressions by default and the user
-does not have to specify the distribution family. This tacit defaulting
-to Gaussian models is also reflected in teaching practices, where test
-and models using the Gaussian distribution are the first to be taught,
-due to their relative simplicity and the fact that other models are
-generalisations of Gaussian models.
+Regression models (and extensions like generalised additive models) have
+become a \emph{de facto} standard for the statistical analysis of a
+variety of measures in phonetic research
+\citep{kirby2018, politzerahles2018, tavakoli2024}. However, there is a
+tendency for researchers to use Gaussian distribution families
+(i.e.~probability distributions for the outcome variable) for any
+measure that is numeric, irrespective of whether the measure is
+unbounded, like in truly Gaussian variables, or bounded, like in
+proportions. A possible reason is that the base R function for fitting
+regression models, \texttt{lm()}, and the lme4 function used to fit
+regression models with varying terms, \texttt{lmer()} from lme4
+\citep{bates2015}, both fit Gaussian regressions by default and the user
+does not have to specify the distribution family. This tacit default of
+using Gaussian models is also reflected in teaching practices, where
+significance test and models using the Gaussian distribution are the
+first to be taught \citep{baayen2008, winter2020}, due to their relative
+simplicity and the fact that regression models with other families are
+conceptual generalisations of Gaussian regression models.
 
-However, proportion are usually not Gaussian, since they are limited
-between 0 and 1. Thus, regression models with proportions as outcome
-variable should be fitted using a likelihood family that assumes such
-unit interval data. A common and flexible distribution for this purpose
-is the beta distribution. This tutorial introduces researchers to beta
-regression models in R using the package brms. Familiarity with
-regression modelling in R with a package like lme4 is assumed, but no
-prior knowledge of Bayesian statistics is necessary.
+While most researchers approach proportions with Gaussian regression
+models, proportion are not Gaussian by nature, since they are continuous
+variables bounded between 0 and 1. Thus, regression models with
+proportions as outcome variable should be fitted using a likelihood
+family that assumes such unit interval data. A common and flexible
+distribution for this purpose is the beta distribution. This tutorial
+introduces researchers to beta regression models in R using the package
+brms. Familiarity with regression modelling in R with a package like
+lme4 is assumed, but no prior knowledge of Bayesian statistics is
+necessary. The rest of the paper is structured as follows:
+Section~\ref{sec-beta} introduces the mathematical underpinnings of the
+beta distribution, Section~\ref{sec-bayes} provides the readers with a
+brief explanation and justification of Bayesian regression models, while
+Section~\ref{sec-case-1} and Section~\ref{sec-case-2} illustrate how to
+fit Bayesian beta regression models with two case studies.
 
-\section{The beta distribution}\label{the-beta-distribution}
+\section{The beta distribution}\label{sec-beta}
 
 The beta distribution is often considered as \emph{the} distribution for
-the modeling of unit interval data
+the modelling of unit interval data
 \citep{ferrari_beta_2004, cribari-neto_beta_2010}. It has been
 extensively studied theoretically
 \citep{krysicki_new_1999, gupta_handbook_2014, espinheira_beta_2008} and
@@ -285,8 +301,8 @@ across a wide range of scenarios
 \citep{scholz_posterior_2023, scholz_prediction_2025}, which is why we
 focus on the beta distribution in this tutorial.
 
-We use a common mean parameterization for the beta distribution with
-mean parameter \(\mu\), bounded between 0 and 1, and positive precision
+We use a common mean parametrisation for the beta distribution with mean
+parameter \(\mu\), bounded between 0 and 1, and positive precision
 parameter \(\phi\) that is roughly proportional to the inverse of the
 variance \(\text{Var}(y) = \frac{\mu \, (1 - \mu)}{\phi + 1}\). That is,
 the larger \(\phi\) the smaller the variance of the corresponding beta
@@ -301,30 +317,86 @@ p(y \mid \mu, \phi) = \frac{1}{B(\mu \, \phi, \; (1-\mu) \, \phi)} \; y^{\mu \, 
 where \(B\) is the Beta function, a complex integral for whose numerical
 approximation efficient algorithms exist in every programming language.
 
+\section{Bayesian regression models}\label{sec-bayes}
+
+Bayesian regression models are being increasingly adopted within
+phonetics and language research more broadly
+\citep{vasishth2018, nalborczyk2019, verissimo2021}. Bayesian inference
+involves updating of prior probability distributions in light of
+evidence from data, to produce posterior probability distributions. In
+Bayesian regression models, model parameters are modelled as full
+probability distributions, rather than point estimates as in Null
+Hypothesis Significance Testing. Given the difficulty of analytical
+solutions of model equations, Bayesian regressions rely on sampling
+algorithms to reconstruct the posterior distributions. The statistical
+language Stan \citep{standevelopmentteam2017} employs efficient and
+robust Markov Chain Monte Carlo algorithms for fitting a variety of
+models, and the R package brms allows R users to interface with Stan
+from within R to fit Bayesian regression models
+\citep{burkner2017, burkner2018, burkner2021}.
+
+The main practical advantage of Bayesian regression models over
+maximum-likelihood-based frequentist regression models, like those
+fitted with the lme4 package \citep{bates2015}, is that Bayesian
+regression models don't suffer from the convergence issues that models
+fitted in lme4 \citep{bates2015} and other packages
+\citep{cribarineto2010} that fit frequentist models do, independent of
+sample size. A second, long-term advantage is that Bayesian regression
+models allow researchers to statistically re-use information from
+previous studies by specifying informative priors. While prior
+specification is one of the main features of Bayesian inference, in this
+tutorial we will use the default priors as set by brms. These are
+sensible priors estimated from the data that facilitate convergence but
+bear virtually no influence on the estimated posteriors. Specifying
+priors requires a great deal of precise quantitative knowledge, which in
+most areas of phonetics we still do not possess, so that using default
+uninformative priors is, for the time being, theoretically sound.
+
+The output of Bayesian regression models is (posterior) probability
+distributions for the model parameters, through which researchers can
+quantify (un)certainty. Bayesian Credible Intervals (CrIs) can be
+calculated from the posterior distributions at several probability
+levels (e.g.~95, 90, 80, 60\%) for a more complete view on estimated
+parameters. Bayesian CrIs indicate that at a certain probability levels
+the parameter's estimate lies within that interval: so, for example, a
+90\% CrI {[}A, B{]} indicates that there is a 90\% probability that the
+estimate is between A and B. Different probability levels correspond to
+different levels of confidence: the higher the probability the higher
+the confidence (always conditional on data and model). Readers
+interested in a full and accessible exposition of Bayesian statistics
+are referred to \citet{mcelreath2019}. Shorter introductions can be
+found in \citet{etz2018}, \citet{vasishth2018} and
+\citet{nalborczyk2019}.
+
 \section{Case study 1: voicing within consonant
-closure}\label{case-study-1-voicing-within-consonant-closure}
+closure}\label{sec-case-1}
 
 For the first case study, we will model the proportion of voicing within
 consonant closure. The measurements come from a data set of audio and
 electroglottographic (EGG) recordings of 19 speakers of Northwestern
-Italian. The participants read frame sentences which included target
-words of the form /CVCo/, where /C/ was either /k, t, p/ in all
-permutations and /V/ was either /i, e, a, ɔ, u/ (two resulting words,
-/peto/ and /kako/ were excluded because they are profanities), for a
-total of 43 target words. There were 4 different frame sentence, with a
-total of 172 trials per participant (3,268 grand total). The actual
-observation count is 2,419, after removing speech errors, EGG
-measurement errors, and cases in which voicing ceased before the closure
-onset/after the closure offset of the second /C/.
+Italian \citep{coretta2019k, coretta2020b}. The participants read frame
+sentences which included target words of the form /CVCo/, where /C/ was
+either /k, t, p/ in all permutations and /V/ was either /i, e, a, ɔ, u/
+(two resulting words, /peto/ and /kako/ were excluded because they are
+profanities), for a total of 43 target words. There were 4 different
+frame sentence: \emph{Scrivete X sul foglio} `Write X on the sheet',
+\emph{Ha detto X sei volte} `She said X six times', \emph{Sentivo X di
+nuovo} `I heard X again', \emph{Ripete X da sempre} `She's been
+repeating X since ever'. There is a total of 172 trials per participant
+(3,268 grand total). The actual observation count is 2,419, after
+removing speech errors, EGG measurement errors, and cases in which
+voicing ceased before the closure onset/after the closure offset of the
+second /C/.
 
 The proportion of voicing during the closure of the second /C/ was
 calculated as the proportion of contiguous voicing duration after
 closure onset to total duration of closure. The following code chunk
-attaches the tidyverse packages (for reading and wrangling data) and
-loads the \texttt{ita\_egg} tibble (data frame). The tibble is filtered
-so as to remove voicing proportions (\texttt{voi\_clo\_prop}) that are
-smaller than 0 and greater than 1. The variables \texttt{vowel} and
-\texttt{c2} are converted to factors to specify the order of the levels.
+attaches the tidyverse packages \citep[for reading and wrangling
+data,][]{wickham2019} and loads the \texttt{ita\_egg} tibble (data
+frame). The tibble is filtered so as to remove voicing proportions
+(\texttt{voi\_clo\_prop}) that are smaller than 0 and greater than 1.
+The variables \texttt{vowel} and \texttt{c2} are converted to factors to
+specify the order of the levels.
 
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -395,10 +467,10 @@ the second consonant in /CVCo/ words by vowel and the second consonant.}
 
 \end{figure}%
 
-We will use brms to fit Bayesian beta regressions. {[}XXX why
-Bayesian{]}. The model has voicing proportion as the outcome variable
-and the following terms: an interaction between vowel (/i, e, a, ɔ, u/)
-and second consonant C2 (/k, t, p/), centred speech rate (number of
+We will use brms to fit Bayesian beta regressions \citep{burkner2017}.
+The model has voicing proportion as the outcome variable and the
+following terms: an interaction between vowel (/i, e, a, ɔ, u/) and
+second consonant C2 (/k, t, p/), centred speech rate (number of
 syllables per second); as varying (aka random) terms, by-speaker varying
 coefficients for the vowel/consonant interaction and for centred speech
 rate.\footnote{Footnote about Gelman's terminology for random effects.}
@@ -445,20 +517,14 @@ coefficient, the mean estimate, the estimate error and the lower and
 upper limits of a Bayesian Credible interval (CrI). Here, we print an
 80\% CrI. There is nothing special about 95\% CrI within Bayesian
 inference and instead experts recommend to check and report a variety of
-CrIs. Bayesian CrIs indicate that at a certain probability levels the
-``true'' estimate lies within that interval: so, for example, a 90\% CrI
-{[}A, B{]} indicates that there is a 90\% probability that the ``true''
-estimate is between A and B. Different probability levels correspond to
-different levels of confidence: the higher the probability the higher
-the confidence (always conditional on data and model). Obtaining CrIs at
-different probability levels allows researchers to make more
-fine-grained inferential statements than the frequentist significance
-dichotomy affords. For simplicity of exposition, we will use 80\% CrIs
-in this case study but we strongly recommend researchers to always
-obtain CrIs at different levels of probability and base their inferences
-on all and not one in particular. To reiterate, in Bayesian inference,
-an 80\% CrI indicates the range of values within which the true estimate
-falls at 80\% probability or confidence.
+CrIs. Obtaining CrIs at different probability levels allows researchers
+to make more fine-grained inferential statements than the frequentist
+significance dichotomy affords. For simplicity of exposition, we will
+use 80\% CrIs in this case study but we strongly recommend researchers
+to always obtain CrIs at different levels of probability and base their
+inferences on all and not one in particular. To reiterate, in Bayesian
+inference, an 80\% CrI indicates the range of values within which the
+true estimate falls at 80\% probability or confidence.
 
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -935,7 +1001,7 @@ u & 0.348 & 0.341 & 0.354 \\
 \end{longtable}
 
 \section{Case study 2: coarticulatory vowel
-nasalisation}\label{case-study-2-coarticulatory-vowel-nasalisation}
+nasalisation}\label{sec-case-2}
 
 For the second case study we will use data from \citet{carignan2021}.
 The study looked at properties of nasality in German VNC sequences.

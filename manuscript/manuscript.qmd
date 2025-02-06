@@ -49,31 +49,37 @@ library(marginaleffects)
 
 # Introduction
 
-Phonetic research often involves numeric continuous outcome variables, like durations, frequencies, loudness and ratios. Another commonly employed type of outcome variable are proportions: for example, proportion of voicing during closure, vocal folds contact quotient, gesture amplitude, nasalance. Moreover, virtually any measure can be MIN-MAX normalised, a procedure which transforms values so that they are in the range 0--1.
+Phonetic research often involves numeric continuous outcome variables, like durations, frequencies, loudness and ratios [@kluender1988; @johnson2003; @gick2013; @ladefoged2014; @abramson2017; @roettger2018; @coretta2023]. Another commonly employed type of outcome variable are proportions: for example, proportion of voicing during closure [@davidson2016], vocal folds contact quotient [@herbst2017], gesture amplitude [@carignan2021], nasalance [@carignan2021]. Moreover, virtually any measure can be MIN-MAX normalised, a procedure which transforms values so that they are in the range 0--1.
 
-Regression models are very common, but there is a tendency of using Gaussian distribution families (i.e. probability distributions for the outcome variable) for anything that is numeric. A possible reason is that the base R function for fitting regression models, `lm()`, and the lme4 function used to fit regression models with varying terms, `lmer()`, both fit Gaussian regressions by default and the user does not have to specify the distribution family. This tacit defaulting to Gaussian models is also reflected in teaching practices, where test and models using the Gaussian distribution are the first to be taught, due to their relative simplicity and the fact that other models are generalisations of Gaussian models.
+Regression models (and extensions like generalised additive models) have become a *de facto* standard for the statistical analysis of a variety of measures in phonetic research [@kirby2018; @politzerahles2018; @tavakoli2024]. However, there is a tendency for researchers to use Gaussian distribution families (i.e. probability distributions for the outcome variable) for any measure that is numeric, irrespective of whether the measure is unbounded, like in truly Gaussian variables, or bounded, like in proportions. A possible reason is that the base R function for fitting regression models, `lm()`, and the lme4 function used to fit regression models with varying terms, `lmer()` from lme4 [@bates2015], both fit Gaussian regressions by default and the user does not have to specify the distribution family. This tacit default of using Gaussian models is also reflected in teaching practices, where significance test and models using the Gaussian distribution are the first to be taught [@baayen2008; @winter2020], due to their relative simplicity and the fact that regression models with other families are conceptual generalisations of Gaussian regression models.
 
-However, proportion are usually not Gaussian, since they are limited between 0 and 1. Thus, regression models with proportions as outcome variable should be fitted using a likelihood family that assumes such unit interval data. A common and flexible distribution for this purpose is the beta distribution. 
-This tutorial introduces researchers to beta regression models in R using the package brms. Familiarity with regression modelling in R with a package like lme4 is assumed, but no prior knowledge of Bayesian statistics is necessary.
+While most researchers approach proportions with Gaussian regression models, proportion are not Gaussian by nature, since they are continuous variables bounded between 0 and 1. Thus, regression models with proportions as outcome variable should be fitted using a likelihood family that assumes such unit interval data. A common and flexible distribution for this purpose is the beta distribution. This tutorial introduces researchers to beta regression models in R using the package brms. Familiarity with regression modelling in R with a package like lme4 is assumed, but no prior knowledge of Bayesian statistics is necessary. The rest of the paper is structured as follows: @sec-beta introduces the mathematical underpinnings of the beta distribution, @sec-bayes provides the readers with a brief explanation and justification of Bayesian regression models, while @sec-case-1 and @sec-case-2 illustrate how to fit Bayesian beta regression models with two case studies.
 
-# The beta distribution
+# The beta distribution  {#sec-beta}
 
-The beta distribution is often considered as *the* distribution for the modeling of unit interval data [@ferrari_beta_2004; @cribari-neto_beta_2010]. It has been extensively studied theoretically [@krysicki_new_1999; @gupta_handbook_2014; @espinheira_beta_2008] and is used a baseline to compare other unit interval distributions against [@kieschnick_regression_2003; @bonat_regression_2013; @lopez_bayesian_2013]. Specifically in Bayesian regression models, it was shown to perform well across a wide range of scenarios [@scholz_posterior_2023; @scholz_prediction_2025], which is why we focus on the beta distribution in this tutorial.
+The beta distribution is often considered as *the* distribution for the modelling of unit interval data [@ferrari_beta_2004; @cribari-neto_beta_2010]. It has been extensively studied theoretically [@krysicki_new_1999; @gupta_handbook_2014; @espinheira_beta_2008] and is used a baseline to compare other unit interval distributions against [@kieschnick_regression_2003; @bonat_regression_2013; @lopez_bayesian_2013]. Specifically in Bayesian regression models, it was shown to perform well across a wide range of scenarios [@scholz_posterior_2023; @scholz_prediction_2025], which is why we focus on the beta distribution in this tutorial.
 
-We use a common mean parameterization for the beta distribution with mean parameter $\mu$, bounded between 0 and 1, and positive precision parameter $\phi$ that is roughly proportional to the inverse of the variance $\text{Var}(y) = \frac{\mu \, (1 - \mu)}{\phi + 1}$. That is, the larger $\phi$ the smaller the variance of the corresponding beta distribution. While the mathematical details are not needed to understand the content of this tutorial, we still write down the density below for reasons of completeness:
+We use a common mean parametrisation for the beta distribution with mean parameter $\mu$, bounded between 0 and 1, and positive precision parameter $\phi$ that is roughly proportional to the inverse of the variance $\text{Var}(y) = \frac{\mu \, (1 - \mu)}{\phi + 1}$. That is, the larger $\phi$ the smaller the variance of the corresponding beta distribution. While the mathematical details are not needed to understand the content of this tutorial, we still write down the density below for reasons of completeness:
 
 $$
 p(y \mid \mu, \phi) = \frac{1}{B(\mu \, \phi, \; (1-\mu) \, \phi)} \; y^{\mu \, \phi -1} \; (1-y)^{(1-\mu) \, \phi -1},
 $$
 
-where $B$ is the Beta function, a complex integral for whose numerical approximation efficient algorithms
-exist in every programming language.
+where $B$ is the Beta function, a complex integral for whose numerical approximation efficient algorithms exist in every programming language.
 
-# Case study 1: voicing within consonant closure
+# Bayesian regression models  {#sec-bayes}
 
-For the first case study, we will model the proportion of voicing within consonant closure. The measurements come from a data set of audio and electroglottographic (EGG) recordings of 19 speakers of Northwestern Italian. The participants read frame sentences which included target words of the form /CVCo/, where /C/ was either /k, t, p/ in all permutations and /V/ was either /i, e, a, ɔ, u/ (two resulting words, /peto/ and /kako/ were excluded because they are profanities), for a total of 43 target words. There were 4 different frame sentence, with a total of 172 trials per participant (3,268 grand total). The actual observation count is 2,419, after removing speech errors, EGG measurement errors, and cases in which voicing ceased before the closure onset/after the closure offset of the second /C/.
+Bayesian regression models are being increasingly adopted within phonetics and language research more broadly [@vasishth2018; @nalborczyk2019; @verissimo2021]. Bayesian inference involves updating of prior probability distributions in light of evidence from data, to produce posterior probability distributions. In Bayesian regression models, model parameters are modelled as full probability distributions, rather than point estimates as in Null Hypothesis Significance Testing. Given the difficulty of analytical solutions of model equations, Bayesian regressions rely on sampling algorithms to reconstruct the posterior distributions. The statistical language Stan [@standevelopmentteam2017] employs efficient and robust Markov Chain Monte Carlo algorithms for fitting a variety of models, and the R package brms allows R users to interface with Stan from within R to fit Bayesian regression models [@burkner2017; @burkner2018; @burkner2021].
 
-The proportion of voicing during the closure of the second /C/ was calculated as the proportion of contiguous voicing duration after closure onset to total duration of closure. The following code chunk attaches the tidyverse packages (for reading and wrangling data) and loads the `ita_egg` tibble (data frame). The tibble is filtered so as to remove voicing proportions (`voi_clo_prop`) that are smaller than 0 and greater than 1. The variables `vowel` and `c2` are converted to factors to specify the order of the levels.
+The main practical advantage of Bayesian regression models over maximum-likelihood-based frequentist regression models, like those fitted with the lme4 package [@bates2015], is that Bayesian regression models don't suffer from the convergence issues that models fitted in lme4 [@bates2015] and other packages [@cribarineto2010] that fit frequentist models do, independent of sample size. A second, long-term advantage is that Bayesian regression models allow researchers to statistically re-use information from previous studies by specifying informative priors. While prior specification is one of the main features of Bayesian inference, in this tutorial we will use the default priors as set by brms. These are sensible priors estimated from the data that facilitate convergence but bear virtually no influence on the estimated posteriors. Specifying priors requires a great deal of precise quantitative knowledge, which in most areas of phonetics we still do not possess, so that using default uninformative priors is, for the time being, theoretically sound.
+
+The output of Bayesian regression models is (posterior) probability distributions for the model parameters, through which researchers can quantify (un)certainty. Bayesian Credible Intervals (CrIs) can be calculated from the posterior distributions at several probability levels (e.g. 95, 90, 80, 60%) for a more complete view on estimated parameters. Bayesian CrIs indicate that at a certain probability levels the parameter's estimate lies within that interval: so, for example, a 90% CrI \[A, B\] indicates that there is a 90% probability that the estimate is between A and B. Different probability levels correspond to different levels of confidence: the higher the probability the higher the confidence (always conditional on data and model). Readers interested in a full and accessible exposition of Bayesian statistics are referred to @mcelreath2019. Shorter introductions can be found in @etz2018, @vasishth2018 and @nalborczyk2019.
+
+# Case study 1: voicing within consonant closure  {#sec-case-1}
+
+For the first case study, we will model the proportion of voicing within consonant closure. The measurements come from a data set of audio and electroglottographic (EGG) recordings of 19 speakers of Northwestern Italian [@coretta2019k; @coretta2020b]. The participants read frame sentences which included target words of the form /CVCo/, where /C/ was either /k, t, p/ in all permutations and /V/ was either /i, e, a, ɔ, u/ (two resulting words, /peto/ and /kako/ were excluded because they are profanities), for a total of 43 target words. There were 4 different frame sentence: *Scrivete X sul foglio* 'Write X on the sheet', *Ha detto X sei volte* 'She said X six times', *Sentivo X di nuovo* 'I heard X again', *Ripete X da sempre* 'She's been repeating X since ever'. There is a total of 172 trials per participant (3,268 grand total). The actual observation count is 2,419, after removing speech errors, EGG measurement errors, and cases in which voicing ceased before the closure onset/after the closure offset of the second /C/.
+
+The proportion of voicing during the closure of the second /C/ was calculated as the proportion of contiguous voicing duration after closure onset to total duration of closure. The following code chunk attaches the tidyverse packages [for reading and wrangling data, @wickham2019] and loads the `ita_egg` tibble (data frame). The tibble is filtered so as to remove voicing proportions (`voi_clo_prop`) that are smaller than 0 and greater than 1. The variables `vowel` and `c2` are converted to factors to specify the order of the levels.
 
 ```{r}
 #| label: read-ita-egg
@@ -125,7 +131,7 @@ ita_egg |>
   theme(legend.position = "none")
 ```
 
-We will use brms to fit Bayesian beta regressions. \[XXX why Bayesian\]. The model has voicing proportion as the outcome variable and the following terms: an interaction between vowel (/i, e, a, ɔ, u/) and second consonant C2 (/k, t, p/), centred speech rate (number of syllables per second); as varying (aka random) terms, by-speaker varying coefficients for the vowel/consonant interaction and for centred speech rate.[^1] The categorical predictors vowel and C2 are coded using indexing rather than traditional R contrasts: in R, this corresponds to suppressing the model's intercept with the `0 +` syntax; using indexing instead of contrasts makes it easier to specify priors. For pedagogical simplicity, the model will use the default priors, but note that in real data analyses contexts, priors should be specified by the user. I refer the readers to XXX.
+We will use brms to fit Bayesian beta regressions [@burkner2017]. The model has voicing proportion as the outcome variable and the following terms: an interaction between vowel (/i, e, a, ɔ, u/) and second consonant C2 (/k, t, p/), centred speech rate (number of syllables per second); as varying (aka random) terms, by-speaker varying coefficients for the vowel/consonant interaction and for centred speech rate.[^1] The categorical predictors vowel and C2 are coded using indexing rather than traditional R contrasts: in R, this corresponds to suppressing the model's intercept with the `0 +` syntax; using indexing instead of contrasts makes it easier to specify priors. For pedagogical simplicity, the model will use the default priors, but note that in real data analyses contexts, priors should be specified by the user. I refer the readers to XXX.
 
 [^1]: Footnote about Gelman's terminology for random effects.
 
@@ -154,7 +160,7 @@ voi_prop_bm <- brm(
 )
 ```
 
-The `summary()` function prints the full model summary. For conciseness, we will use the `fixef()` function which prints the regression coefficients. \[EXPLAIN EXPECTED PREDICTIONS XXX\]. The full summary with an explanation of each part can be found in XXX. @tbl-voi-prop-fixef reports the output of `fixef()` as a table (we round all values to the nearest 2 digits for clarity.). For each coefficient in the model, `fixef()` prints the name of the coefficient, the mean estimate, the estimate error and the lower and upper limits of a Bayesian Credible interval (CrI). Here, we print an 80% CrI. There is nothing special about 95% CrI within Bayesian inference and instead experts recommend to check and report a variety of CrIs. Bayesian CrIs indicate that at a certain probability levels the "true" estimate lies within that interval: so, for example, a 90% CrI \[A, B\] indicates that there is a 90% probability that the "true" estimate is between A and B. Different probability levels correspond to different levels of confidence: the higher the probability the higher the confidence (always conditional on data and model). Obtaining CrIs at different probability levels allows researchers to make more fine-grained inferential statements than the frequentist significance dichotomy affords. For simplicity of exposition, we will use 80% CrIs in this case study but we strongly recommend researchers to always obtain CrIs at different levels of probability and base their inferences on all and not one in particular. To reiterate, in Bayesian inference, an 80% CrI indicates the range of values within which the true estimate falls at 80% probability or confidence.
+The `summary()` function prints the full model summary. For conciseness, we will use the `fixef()` function which prints the regression coefficients. \[EXPLAIN EXPECTED PREDICTIONS XXX\]. The full summary with an explanation of each part can be found in XXX. @tbl-voi-prop-fixef reports the output of `fixef()` as a table (we round all values to the nearest 2 digits for clarity.). For each coefficient in the model, `fixef()` prints the name of the coefficient, the mean estimate, the estimate error and the lower and upper limits of a Bayesian Credible interval (CrI). Here, we print an 80% CrI. There is nothing special about 95% CrI within Bayesian inference and instead experts recommend to check and report a variety of CrIs. Obtaining CrIs at different probability levels allows researchers to make more fine-grained inferential statements than the frequentist significance dichotomy affords. For simplicity of exposition, we will use 80% CrIs in this case study but we strongly recommend researchers to always obtain CrIs at different levels of probability and base their inferences on all and not one in particular. To reiterate, in Bayesian inference, an 80% CrI indicates the range of values within which the true estimate falls at 80% probability or confidence.
 
 ```{r}
 #| label: voi-prop-fixef
@@ -162,7 +168,6 @@ The `summary()` function prints the full model summary. For conciseness, we will
 
 fixef(voi_prop_bm, prob = c(0.1, 0.9))
 ```
-
 
 ```{r}
 #| label: tbl-voi-prop-fixef
@@ -198,7 +203,6 @@ voi_prop_bm_draws <- as_draws_df(voi_prop_bm, variable = "^b_", regex = TRUE)
 voi_prop_bm_draws[,1:5] |> head(n = 10) |> knitr::kable()
 ```
 
-
 We can now wrangle this tibble and plot the posterior distributions for each vowel/C2 combination. @tbl-voi-long shows the first ten rows.
 
 ```{r}
@@ -221,7 +225,6 @@ voi_prop_bm_draws_long <- voi_prop_bm_draws |>
 
 voi_prop_bm_draws_long |> head(n = 10) |> knitr::kable()
 ```
-
 
 For plotting, we can use ggplot2 statistics layers from the ggdist package. `stat_halfeye()` plots the density of the posterior probability (in grey), its median (point) and CrIs (lines). Let's use 60 and 80% CrIs and transform the log-odds values to proportions with `plogis()`. See @fig-voi-prop-bm-1.
 
@@ -326,7 +329,6 @@ voi_bm_quant <- voi_prop_bm_diff |>
 voi_bm_quant |> knitr::kable()
 ```
 
-
 Based on the model and data, there is a 90% probability that the voicing proportion in /p/ is 1.07-1.38 times longer (or 7-38% increase) than in /t, k/. At 80% confidence, the change ratio is 1.10-1.34 (or 10-34% increase) while at 60% confidence is 1.14-1.30 (14-30% increase). In other words we can be quite confident that the voicing proportion in /p/ is longer than in /t, k/ and that the increase is less than 35%. The brms package comes with a convenient function, `conditional_effects()`, to plot posterior means and CrIs based on predictors in the model. In @fig-voi-prop-bm-cond, we plot the predicted proportion of voicing by consonant and vowel.
 
 ```{r}
@@ -335,7 +337,7 @@ Based on the model and data, there is a 90% probability that the voicing proport
 conditional_effects(voi_prop_bm, "c2:vowel")
 ```
 
-Finally, the package marginaleffects [XXX] has two other convenience functions that return CrIs of comparisons across predictor levels (`avg_comparisons()`) and CrIs of posterior predictions across predictor levels (`avg_predictions`). \[XXX\]
+Finally, the package marginaleffects \[XXX\] has two other convenience functions that return CrIs of comparisons across predictor levels (`avg_comparisons()`) and CrIs of posterior predictions across predictor levels (`avg_predictions`). \[XXX\]
 
 ```{r}
 #| label: marginal-code
@@ -368,7 +370,7 @@ avg_predictions(voi_prop_bm, variables = "vowel", conf_level = 0.8) |>
   knitr::kable()
 ```
 
-# Case study 2: coarticulatory vowel nasalisation
+# Case study 2: coarticulatory vowel nasalisation  {#sec-case-2}
 
 For the second case study we will use data from @carignan2021. The study looked at properties of nasality in German VNC sequences. Here, we will focus on the effect of C voicing (voiceless /t/ vs voiced /d/) on the proportion of nasalisation within the vowel in the VNC sequence. Previous work on coarticulatory nasalisation in English has suggested that vowels followed by an NC sequence where C is voiceless (NT) should show earlier coarticulatory nasalisation than vowels followed by an NC sequence where C is voiced [ND, see review in @carignan2021]. This pattern has been suggested to be driven by the articulatory and acoustic incompatibility of voicelessness and nasalisation, by which the velum opening gesture of the nasal consonant is pushed away (i.e. earlier) when the consonant following the nasal is voiceless. Everything else being equal, a greater proportion of vowel nasalisation (from the perspective of time) should be found in vowels followed by NT than in vowels followed by ND.
 
@@ -445,7 +447,6 @@ Let's inspect the output of `fixef()`, reported in @tbl-nas-prop-fixef.
 
 fixef(nas_prop_bm, prob = c(0.1, 0.9))
 ```
-
 
 ```{r}
 #| label: tbl-nas-prop-fixef
@@ -569,11 +570,9 @@ nas_prop_bm_diff_quant |> knitr::kable()
 
 ```
 
-
-
 The CrIs of the ratio difference in nasalisation proportion in voiceless vs voiced NC sequences suggest an increase of nasalisation in the voiceless NC sequences, with a 90% probability that the increase is between 23% and 69% of the proportion in voiced NC sequences.
 
-Moving onto question 2: is there individual speaker variation? [TAMMINGA XXX] For this, we will use the `spread_draws()` function from tidybayes [XXX] to extract the draws of the varying terms (in brms these are the coefficients that start with `r_`). There is quite a few steps of processing to get from the raw draws to the estimand we need: while we have commented the following code, we encourage readers to test each line sequentialy and inspect the intermediate output to fully understand the process. We assume that readers are familiar enough with models with varying terms (aka random effects, mixed-effects models). What readers should note is that to obtain the expected predictions of nasalisation proportion for each speaker, the constant terms and the varying terms should be added (since the varying terms indicate the deviation of each speaker from the overall estimate).
+Moving onto question 2: is there individual speaker variation? \[TAMMINGA XXX\] For this, we will use the `spread_draws()` function from tidybayes \[XXX\] to extract the draws of the varying terms (in brms these are the coefficients that start with `r_`). There is quite a few steps of processing to get from the raw draws to the estimand we need: while we have commented the following code, we encourage readers to test each line sequentialy and inspect the intermediate output to fully understand the process. We assume that readers are familiar enough with models with varying terms (aka random effects, mixed-effects models). What readers should note is that to obtain the expected predictions of nasalisation proportion for each speaker, the constant terms and the varying terms should be added (since the varying terms indicate the deviation of each speaker from the overall estimate).
 
 ```{r}
 #| label: nas-prop-r
@@ -619,4 +618,3 @@ nas_prop_r |>
 ```
 
 There is a lot of uncertainty within and between speakers: while the distributions of most speakers are located in the positive range, some expected distributions (see last 5 speakers at the bottom of figure) do substantially span both negative and positive values. In other words, while most speakers are more likely to have a larger nasalisation proportion in voiceless NC sequences, a few might in fact have the opposite pattern. Even among those speakers that do have a more robust positive difference, there is a lot of uncertainty as to the magnitude of the difference.
-
