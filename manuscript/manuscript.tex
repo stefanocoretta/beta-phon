@@ -244,7 +244,7 @@ tempus elit.
 
 Phonetic research often involves numeric continuous outcome variables,
 like durations, frequencies, loudness and ratios
-\citep{kluender1988, johnson2003, gick2013, ladefoged2014, abramson2017, roettger2018, coretta2023}.
+\citep{kluender1988, johnson2003, gick2013, ladefoged2014, abramson2017, roettger2018, coretta2023, rosen2005}.
 Another commonly employed type of outcome variable are proportions: for
 example, proportion of voicing during closure \citep{davidson2016},
 vocal folds contact quotient \citep{herbst2017}, gesture amplitude
@@ -490,12 +490,13 @@ for centred speech rate.\footnote{While the terms ``random effects,
   appropriate terminology proposed by \citet{gelman2005}: varying terms,
   intercepts, slopes, coefficients. Other common terms are multilevel
   and hierarchical terms.} The categorical predictors vowel and C2 are
-coded using indexing rather than the traditional R contrasts: in R, this
-corresponds to suppressing the model's intercept with the \texttt{0\ +}
-syntax; using indexing instead of contrasts makes it easier to specify
-priors and uncertainty is distributed equally across all levels of
-categorical predictors. For pedagogical simplicity, the model will use
-the default priors as explained in Section~\ref{sec-bayes}.
+coded using indexing rather than the traditional R contrasts, as
+advocated in \citet{mcelreath2019}: in R, this corresponds to
+suppressing the model's intercept with the \texttt{0\ +} syntax; using
+indexing instead of contrasts makes it easier to specify priors and
+uncertainty is distributed equally across all levels of categorical
+predictors. For pedagogical simplicity, the model will use the default
+priors as explained in Section~\ref{sec-bayes}.
 
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -606,33 +607,44 @@ combination of vowel and C2, rather than differences between levels. The
 CrIs of the vowel/C2 coefficients span all negative log-odds values:
 these correspond to proportions that are lower than 0.5 (which is 0 in
 log-odds). This matches the general trends in the raw data, which we
-plotted in Figure~\ref{fig-ita-egg}.
-
-Next, we will plot the predicted proportions of each vowel/C2
-combination at mean speech rate (i.e.~centred speech rate = 0) and then
-calculate the average pair-wise difference in voicing proportion between
-/k, t, p/. Finally, we will assess whether there is greater
-between-vowel variability in /t, p/ relative to /k/.
+plotted in Figure~\ref{fig-ita-egg}. Next, we will plot the predicted
+proportions of each vowel/C2 combination at mean speech rate
+(i.e.~centred speech rate = 0) and then calculate the average pair-wise
+difference in voicing proportion between /k, t, p/.
 
 Before being able to plot the predictions, it's important to get
-familiar with the so-called posterior draws. {[}Bayesian MCMC XXX{]}.
+familiar with the so-called posterior draws. Bayesian regression models
+are fitted using Markov Chain Monte Carlo (MCMC) methods, as briefly
+explained in Section~\ref{sec-bayes}. The \texttt{brm()} function runs
+three MCMC chains with 2000 iterations each by default. These are
+sufficient in most cases. The first 1000 iterations of each chain are
+used for ``warmup'', where the MCMC algorithm is optimised to find the
+posterior probability. The second half of the iterations, 1000 per
+chain, are used for sampling from the posterior probability. Each
+iteration returns a drawn value for each parameter in the model. The
+list of values drawn during the Monte Carlo sampling are called the
+``posterior draws''. The posterior draws are used for inference: we can
+plot them, summarise them, transform them and combine them in any way to
+answer specific questions.
+
 Posterior draws can be conveniently obtained with the
-\texttt{as\_draws\_df()}. For the moment, we will extract only the draws
-of the constant regression coefficients (model variables starting with
-\texttt{b\_}). To check which coefficients are available in a model, use
-\texttt{get\_variables()} from the tidybayes package.
-\texttt{as\_draws\_df()} returns a tibble where each column contains the
-drawn values of a coefficient. Table~\ref{tbl-voi-prop-draws} shows the
-first ten rows and first five columns of the output of
-\texttt{as\_draws\_df()}. The probability distribution of the drawn
-values of each coefficient is the posterior probability distribution of
-that coefficient. Note that, due to the indexing coding of vowel and C2,
-all coefficient except \texttt{b\_speech\_rate\_c} are \emph{predicted
-log-odds} for each vowel/C2 combination (the drawn values for
-\texttt{b\_speech\_rate\_c} are drawn \emph{differences} in log-odds for
-each unit increase of speech rate). The drawn values are in log-odds,
-but we can convert them to proportions with \texttt{plogis()} (we will
-do this when plotting below).
+\texttt{as\_draws\_df()} from brms. For the moment, we will extract only
+the draws of the constant regression coefficients (model variables
+starting with \texttt{b\_}). To check which coefficients are available
+in a model, use \texttt{get\_variables()} from the tidybayes package
+\citep{kay2019}. \texttt{as\_draws\_df()} returns a tibble where each
+column contains the drawn values of a coefficient.
+Table~\ref{tbl-voi-prop-draws} shows the first ten rows and first five
+columns of the output of \texttt{as\_draws\_df()}. The probability
+distribution of the drawn values of each coefficient is the posterior
+probability distribution of that coefficient. Note that, due to the
+indexing coding of vowel and C2, all coefficient except
+\texttt{b\_speech\_rate\_c} are \emph{predicted log-odds} for each
+vowel/C2 combination (the drawn values for \texttt{b\_speech\_rate\_c}
+are drawn \emph{differences} in log-odds for each unit increase of
+speech rate). The drawn values are in log-odds, but we can convert them
+to proportions with \texttt{plogis()} (we will do this when plotting
+below).
 
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -729,10 +741,11 @@ rows.
 \end{longtable}
 
 For plotting, we can use ggplot2 statistics layers from the ggdist
-package. \texttt{stat\_halfeye()} plots the density of the posterior
-probability (in grey), its median (point) and CrIs (lines). Let's use 60
-and 80\% CrIs and transform the log-odds values to proportions with
-\texttt{plogis()}. See Figure~\ref{fig-voi-prop-bm-1}.
+package {[}\citet{kay2023}; kay2024{]}. \texttt{stat\_halfeye()} plots
+the density of the posterior probability (in grey), its median (point)
+and CrIs (lines). Let's use 60 and 80\% CrIs and transform the log-odds
+values to proportions with \texttt{plogis()}. See
+Figure~\ref{fig-voi-prop-bm-1}.
 
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -742,7 +755,10 @@ and 80\% CrIs and transform the log-odds values to proportions with
 \NormalTok{voi\_prop\_bm\_draws\_long }\SpecialCharTok{|\textgreater{}} 
   \FunctionTok{ggplot}\NormalTok{(}\FunctionTok{aes}\NormalTok{(}\FunctionTok{plogis}\NormalTok{(value), vowel)) }\SpecialCharTok{+}
   \FunctionTok{stat\_halfeye}\NormalTok{(}\AttributeTok{.width =} \FunctionTok{c}\NormalTok{(}\FloatTok{0.6}\NormalTok{, }\FloatTok{0.8}\NormalTok{)) }\SpecialCharTok{+}
-  \FunctionTok{facet\_grid}\NormalTok{(}\AttributeTok{rows =} \FunctionTok{vars}\NormalTok{(c2))}
+  \FunctionTok{facet\_grid}\NormalTok{(}\AttributeTok{rows =} \FunctionTok{vars}\NormalTok{(c2)) }\SpecialCharTok{+}
+  \FunctionTok{labs}\NormalTok{(}
+    \AttributeTok{caption =} \StringTok{"The points are the medians and the two lines are 60 and 80\% CrIs."}
+\NormalTok{  )}
 \end{Highlighting}
 \end{Shaded}
 
@@ -782,7 +798,10 @@ distribution of voicing proportion for each consonant, assuming an
 \begin{Highlighting}[]
 \NormalTok{voi\_prop\_bm\_draws\_long\_c2 }\SpecialCharTok{|\textgreater{}} 
   \FunctionTok{ggplot}\NormalTok{(}\FunctionTok{aes}\NormalTok{(}\FunctionTok{plogis}\NormalTok{(value\_mean), c2)) }\SpecialCharTok{+}
-  \FunctionTok{stat\_halfeye}\NormalTok{(}\AttributeTok{.width =} \FunctionTok{c}\NormalTok{(}\FloatTok{0.6}\NormalTok{, }\FloatTok{0.8}\NormalTok{))}
+  \FunctionTok{stat\_halfeye}\NormalTok{(}\AttributeTok{.width =} \FunctionTok{c}\NormalTok{(}\FloatTok{0.6}\NormalTok{, }\FloatTok{0.8}\NormalTok{)) }\SpecialCharTok{+}
+  \FunctionTok{labs}\NormalTok{(}
+    \AttributeTok{caption =} \StringTok{"The points are the medians and the two lines are 60 and 80\% CrIs."}
+\NormalTok{  )}
 \end{Highlighting}
 \end{Shaded}
 
@@ -875,24 +894,25 @@ across vowels.}
 \end{figure}%
 
 Once we have the posterior difference, we can obtain CrIs of the
-difference using \texttt{quantile2()} from the posterior package. Beware
-that the values of the difference are in log-odds! We can convert these
-into odd-ratios with \texttt{exp()}. The output of the code below is
-shown in Table~\ref{tbl-voi-bm-quant}. Odd-ratios indicate the ratio of
-the difference between A and B, so that 1 means no difference, values
-greater than 1 indicate an increase in A relative to B and values lower
-than 1 indicate a decrease in A relative to B. odd-ratios are useful
-when looking at differences that are in log-odds because while the
-relative magnitude of the difference in proportion between two groups is
-the same independent of the baseline proportion, the \emph{absolute}
-magnitude of the difference depends on the baseline value. For example,
-an odd-ratio difference of 1.25 would correspond to a proportion
-increase of 13 percentage points if the baseline proportion is 0.62 but
-it would correspond to a proportion increase of 17 percentage points if
-the baseline proportion is 0.73. Of course, in real research contexts it
-is still usefull to think about absolute magnitudes and their relevance
-from a conceptual and methodological perspective. In this tutorial we
-just focus on odd-ratios for simplicity.
+difference using \texttt{quantile2()} from the posterior package
+\citep{burkner2024}. Beware that the values of the difference are in
+log-odds! We can convert these into odd-ratios with \texttt{exp()}. The
+output of the code below is shown in Table~\ref{tbl-voi-bm-quant}.
+Odd-ratios indicate the ratio of the difference between A and B, so that
+1 means no difference, values greater than 1 indicate an increase in A
+relative to B and values lower than 1 indicate a decrease in A relative
+to B. Odd-ratios are useful when looking at differences that are in
+log-odds because while the relative magnitude of the difference in
+proportion between two groups is the same independent of the baseline
+proportion, the \emph{absolute} magnitude of the difference depends on
+the baseline value. For example, an odd-ratio difference of 1.25 would
+correspond to a proportion increase of about 3 percentage points if the
+baseline proportion is 0.62 but it would correspond to a proportion
+increase of 5 percentage points if the baseline proportion is 0.73 and 1
+percentage point if the baseline is 0.99. Of course, in real research
+contexts it is still useful to think about absolute magnitudes and their
+relevance from a conceptual and methodological perspective. In this
+tutorial we just focus on odd-ratios for simplicity.
 
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -962,10 +982,18 @@ consonant and vowel with 95\% Credible Intervals.}
 
 \end{figure}%
 
-Finally, the package marginaleffects {[}XXX{]} has two other convenience
-functions that return CrIs of comparisons across predictor levels
-(\texttt{avg\_comparisons()}) and CrIs of posterior predictions across
-predictor levels (\texttt{avg\_predictions}). {[}XXX{]}
+Finally, the package marginaleffects \citep{arelbundock2025} has two
+other convenience functions that return CrIs of comparisons across
+predictor levels (\texttt{avg\_comparisons()}) and CrIs of posterior
+predictions across predictor levels (\texttt{avg\_predictions}). Both
+functions take the model and a list of variables as arguments.
+Optionally, you can set the confidence level with the
+\texttt{conf\_level} argument (here, we set it to 0.8, or 80\%).
+\texttt{avg\_comparisons()} allows the user to specify the type of
+comparison for each variable: here we set \texttt{"pairwise"} to
+calculate pairwise comparisons of each level of \texttt{c2}. The output
+of the two functions is shows in Table~\ref{tbl-marginal-1} and
+Table~\ref{tbl-marginal-2}.
 
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -1026,14 +1054,15 @@ Here, we will focus on the effect of C voicing (voiceless /t/ vs voiced
 sequence. Previous work on coarticulatory nasalisation in English has
 suggested that vowels followed by an NC sequence where C is voiceless
 (NT) should show earlier coarticulatory nasalisation than vowels
-followed by an NC sequence where C is voiced \citep[ND, see review
-in][]{carignan2021}. This pattern has been suggested to be driven by the
-articulatory and acoustic incompatibility of voicelessness and
-nasalisation, by which the velum opening gesture of the nasal consonant
-is pushed away (i.e.~earlier) when the consonant following the nasal is
-voiceless. Everything else being equal, a greater proportion of vowel
-nasalisation (from the perspective of time) should be found in vowels
-followed by NT than in vowels followed by ND.
+followed by an NC sequence where C is voiced (ND). This pattern has been
+suggested to be driven by the articulatory and acoustic incompatibility
+of voicelessness and nasalisation, by which the velum opening gesture of
+the nasal consonant is pushed away (i.e.~earlier) when the consonant
+following the nasal is voiceless
+\citep{fowler2005, beddor2009, cho2017, carignan2015}. Everything else
+being equal, a greater proportion of vowel nasalisation (from the
+perspective of time) should be found in vowels followed by NT than in
+vowels followed by ND.
 
 We will model the proportion of coarticulatory nasalisation in the
 German short vowels /i, e, a, o, u/ when followed by /nt/ or /nd/, using
@@ -1064,7 +1093,7 @@ contains the following columns:
 \item
   \texttt{vowel} is the target vowel in the VNC sequence.
 \item
-  \texttt{NC} is the NC sequence.
+  \texttt{NC} is the NC sequence (voiceless /nt/ or voiced /nd/).
 \item
   \texttt{voicing} indicates the voicing of C.
 \item
@@ -1185,15 +1214,16 @@ voicingvoiceless:vowelu & -0.58 & 0.16 & -0.78 & -0.38 \\
 
 Negative log-odds indicate a proportion that is smaller than 50\%, while
 positive log-odds a proportion that is greater than 50\%. Generally, the
-expected log-odd predictions are negative, indicating an overall
-tendency for the nasalisation to take less than 50\% of the duration of
-the vowel. Moreover, the predictions are higher for voiceless NC
-sequences than for voiced NC sequences, indicating a greater proportion
-of nasalisation in the former. However there is vowel-specific
-variation, and there doesn't seem to be much of a difference in
-nasalisation proportion in /e/ and /u/. Figure~\ref{fig-nas-prop} shows
-the expected predictions with \texttt{conditional\_effects()}, which
-should make the interpretation clearer.
+expected log-odd predictions in Table~\ref{tbl-nas-prop-fixef} are
+negative, indicating an overall tendency for the nasalisation to take
+less than 50\% of the duration of the vowel. Moreover, the predictions
+are higher for voiceless NC sequences than for voiced NC sequences,
+indicating a greater proportion of nasalisation in the former. However
+there is vowel-specific variation, and there doesn't seem to be much of
+a difference in nasalisation proportion in /e/ and /u/.
+Figure~\ref{fig-nas-prop} shows the expected predictions with
+\texttt{conditional\_effects()}, which should make the interpretation of
+the predictions from Table~\ref{tbl-nas-prop-fixef} clearer.
 
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -1214,8 +1244,8 @@ and voicing, with 95\% CrIs.}
 
 \end{figure}%
 
-Now that we fitted the model we can use the draws to answer the two
-research questions (repeated from above):
+Now that we fitted the model we can use the posterior draws to answer
+the two research questions (repeated from above):
 
 \begin{enumerate}
 \def\labelenumi{\arabic{enumi}.}
@@ -1231,8 +1261,8 @@ To answer question 1, we can calculate the average difference in
 nasalisation proportion by first calculating the average nasalisation
 across all vowels for voiced and voiceless sequences (see
 Table~\ref{tbl-nas-draws} for the output of this step) and then take the
-difference of those, similarly to what we have done in the Case Study 1
-above.
+difference of those, similarly to what we have done in the case study in
+Section~\ref{sec-case-1}.
 
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -1275,12 +1305,12 @@ above.
 
 Now let's calculate the mean nasalisation proportion within each draw by
 voicing, and plot the resulting posterior distributions. Note that, as
-discussed for Case study 1, when working wit log-odds it is important to
-first do all necessary calculations in log-odds, here calculate the mean
-log-odds across vowels, and \emph{then} transform the calculated
-estimands to proportions/probabilities. The output of the following code
-is show in Table~\ref{tbl-nas-long-voi} and the density plot of the
-calculated draws is in
+discussed in Section~\ref{sec-case-1}, when working with log-odds it is
+important to first do all necessary calculations in log-odds (here
+calculate the mean log-odds across vowels) and \emph{then} transform the
+calculated estimands to proportions/probabilities. The output of the
+following code is show in Table~\ref{tbl-nas-long-voi} and the density
+plot of the calculated draws is in
 Figure~\ref{fig-nas-prop-bm-draws-long-voicing-plot}.
 
 \begin{Shaded}
@@ -1346,15 +1376,15 @@ nasalisation proportion by voicing, averaged across vowels.}
 \end{figure}%
 
 The plot suggests an overall greater nasalisation proportion in
-voiceless NC sequences. Let's quantify how greater as we did in Case
-Study 1. We will use odd-ratios in this context as well, i.e.~we will
-convert log-odds to odd-ratios using the \texttt{exp()} (exponential)
-function (and as before we first calculate the difference and then
-exponentiate the resulting values, after which we can take summary
-measures, like means and quantile-based measures such as CrIs).
-tbl-nas-prop-bm-diff-quant show the 90, 80 and 60\% CrIs of the
-difference ratio of nasalisation proportion in voiceless vs voiced NC
-sequences.
+voiceless NC sequences. Let's quantify how greater as we did in
+Section~\ref{sec-case-1}. We will use odd-ratios in this context as
+well, i.e.~we will convert log-odds to odd-ratios using the
+\texttt{exp()} (exponential) function (and as before we first calculate
+the difference and then exponentiate the resulting values, after which
+we can take summary measures, like means and quantile-based measures
+such as CrIs). Table~\ref{tbl-nas-prop-bm-diff-quant} show the 90, 80
+and 60\% CrIs of the difference ratio of nasalisation proportion in
+voiceless vs voiced NC sequences.
 
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -1407,20 +1437,23 @@ vs voiced NC sequences suggest an increase of nasalisation in the
 voiceless NC sequences, with a 90\% probability that the increase is
 between 23\% and 69\% of the proportion in voiced NC sequences.
 
-Moving onto question 2: is there individual speaker variation?
-{[}TAMMINGA XXX{]} For this, we will use the \texttt{spread\_draws()}
-function from tidybayes {[}XXX{]} to extract the draws of the varying
-terms (in brms these are the coefficients that start with \texttt{r\_}).
-There is quite a few steps of processing to get from the raw draws to
-the estimand we need: while we have commented the following code, we
-encourage readers to test each line sequentialy and inspect the
-intermediate output to fully understand the process. We assume that
-readers are familiar enough with models with varying terms (aka random
-effects, mixed-effects models). What readers should note is that to
-obtain the expected predictions of nasalisation proportion for each
-speaker, the constant terms and the varying terms should be added (since
-the varying terms indicate the deviation of each speaker from the
-overall estimate).
+Moving onto question 2: is there individual speaker variation? While in
+the recent tradition of linguistic research to use varying (aka random)
+effects to \emph{control} for differences across participants, it has
+been proposed to use the estimates of the varying coefficients to
+investigate individual differences \citep{tamminga2016}. We will use the
+\texttt{spread\_draws()} function from tidybayes \citep{kay2019} to
+extract the draws of the varying terms (in brms these are the
+coefficients that start with \texttt{r\_}). There is quite a few steps
+of processing to get from the raw draws to the estimand we need: while
+we have commented the following code, we encourage readers to test each
+line sequentially and inspect the intermediate output to fully
+understand the process. We assume that readers are familiar enough with
+models with varying terms (aka random effects, mixed-effects models).
+What readers should note is that to obtain the expected predictions of
+nasalisation proportion for each speaker, the constant terms and the
+varying terms should be added (since the varying terms indicate the
+deviation of each speaker from the overall estimate).
 
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -1491,6 +1524,18 @@ proportion in voiceless NC sequences, a few might in fact have the
 opposite pattern. Even among those speakers that do have a more robust
 positive difference, there is a lot of uncertainty as to the magnitude
 of the difference.
+
+\section{Conclusion}\label{conclusion}
+
+In this tutorial we have presented two case studies where the outcome
+variable is a beta variable, i.e.~a numeric continuous variable bounded
+between 0 and 1. We have shown how to fit Bayesian beta regressions to
+coarticulatory progressive voicing in voiceless stops in Italian in
+Section~\ref{sec-case-1} and coarticulatory regressive nasalisation in
+vowels in German in Section~\ref{sec-case-2}. While this tutorial alone
+will not be sufficient to be able to independently run full Bayesian
+analyses, it will serve as a first introduction for readers to jump
+start their learning.
 
 
   \bibliography{linguistics.bib,statistics.bib}

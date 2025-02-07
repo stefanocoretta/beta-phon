@@ -405,6 +405,13 @@
   school = {University of Ottawa}
 }
 
+@article{arelbundock2025,
+  title = {How to interpret statistical models using marginaleffects in {{R}} and {{Python}}},
+  author = {{Arel-Bundock}, Vincent and Greifer, Noah and Heiss, Andrew},
+  year = {2025},
+  journal = {Journal of Statistical Software}
+}
+
 @book{arnason2011,
   title = {The phonology of {{Icelandic}} and {{Faroese}}},
   author = {Árnason, Kristján},
@@ -1990,8 +1997,14 @@
   doi = {10.18637/jss.v100.i05}
 }
 
+@misc{burkner2024,
+  title = {posterior: {{Tools}} for working with posterior distributions},
+  author = {Bürkner, Paul Christian and Gabry, Jonah and Kay, Matthew and Vehtari, Aki},
+  year = {2024}
+}
+
 @book{burkner2025,
-  title = {The brms {{Book}}: {{Applied Bayesian}} regression modelling using {{R}} and {{Stan}}},
+  title = {The brms book: {{Applied Bayesian}} regression modelling using {{R}} and {{Stan}}},
   author = {Bürkner, Paul Christian},
   year = {2025}
 }
@@ -2170,6 +2183,20 @@
   author = {Cardona, Giorgio Raimondo},
   year = {1981},
   publisher = {Torino: Loescher}
+}
+
+@article{carignan2015,
+  title = {A real-time {{MRI}} investigation of the role of lingual and pharyngeal articulation in the production of the nasal vowel system of {{French}}},
+  author = {Carignan, Christopher and Shosted, Ryan K. and Fu, Maojing and Liang, Zhi-Pei and Sutton, Bradley P.},
+  year = {2015},
+  month = may,
+  journal = {Journal of Phonetics},
+  volume = {50},
+  pages = {34--51},
+  issn = {00954470},
+  doi = {10.1016/j.wocn.2015.01.001},
+  urldate = {2025-02-07},
+  langid = {english}
 }
 
 @inproceedings{carignan2019,
@@ -2578,6 +2605,20 @@
   pages = {EL384--EL390},
   publisher = {ASA},
   doi = {10.1121/1.4800179}
+}
+
+@article{cho2017,
+  title = {Prosodically-conditioned fine-tuning of coarticulatory vowel nasalization in {{English}}},
+  author = {Cho, Taehong and Kim, Daejin and Kim, Sahyang},
+  year = {2017},
+  month = sep,
+  journal = {Journal of Phonetics},
+  volume = {64},
+  pages = {71--89},
+  issn = {00954470},
+  doi = {10.1016/j.wocn.2016.12.003},
+  urldate = {2025-02-07},
+  langid = {english}
 }
 
 @article{chodroff2019,
@@ -5291,6 +5332,23 @@
   pages = {143--165},
   publisher = {Elsevier Science},
   doi = {10.1016/S0095-4470(19)30244-X}
+}
+
+@article{fowler2005,
+  title = {Parsing coarticulated speech in perception: effects of coarticulation resistance},
+  shorttitle = {Parsing coarticulated speech in perception},
+  author = {Fowler, Carol A.},
+  year = {2005},
+  month = apr,
+  journal = {Journal of Phonetics},
+  volume = {33},
+  number = {2},
+  pages = {199--213},
+  issn = {00954470},
+  doi = {10.1016/j.wocn.2004.10.003},
+  urldate = {2025-02-07},
+  copyright = {https://www.elsevier.com/tdm/userlicense/1.0/},
+  langid = {english}
 }
 
 @article{fox2003,
@@ -8524,6 +8582,32 @@
   author = {Kay, Matthew},
   year = {2019},
   annotation = {Published: R package version 1.1.0}
+}
+
+@article{kay2023,
+  title = {ggdist: {{Visualizations}} of {{Distributions}} and {{Uncertainty}} in the {{Grammar}} of {{Graphics}}},
+  shorttitle = {ggdist},
+  author = {Kay, Matthew},
+  year = {2023},
+  journal = {IEEE Transactions on Visualization and Computer Graphics},
+  pages = {1--11},
+  issn = {1077-2626, 1941-0506, 2160-9306},
+  doi = {10.1109/TVCG.2023.3327195},
+  urldate = {2025-02-07},
+  copyright = {https://ieeexplore.ieee.org/Xplorehelp/downloads/license-information/IEEE.html}
+}
+
+@misc{kay2024,
+  title = {ggdist: {{Visualizations}} of distributions and uncertainty},
+  shorttitle = {ggdist},
+  author = {Kay, Matthew},
+  year = {2024},
+  month = mar,
+  doi = {10.5281/ZENODO.3879620},
+  urldate = {2025-02-07},
+  abstract = {Major changes: The geom\_slabinterval() and geom\_dotsinterval() families gain "sub-guides", which can be passed to the subguide parameter to create axis annotations for the thickness aesthetic (for slabs) and the dot count (for dots) (\#183). The weight aesthetic is now supported in stat\_slabinterval(), including weighted calculations for densities, CDFs, all interval types (quantile intervals, highest density intervals, and highest density continuous intervals), and all point summaries (mean, median, and mode) (\#41). This includes support for the upcoming weighted random variable type in the posterior package. Blurry dotplots are now supported using geom\_blur\_dots(), which accepts an sd aesthetic to set the standard deviation of the blur on each dot. Intervals can also be used in place of blur by passing blur = "interval". This geom is used by the new stat\_mcse\_dots() to show quantiles along with their error using blur (\#63). The new breaks\_quantiles() histogram breaks function allows the construction of quantile histograms with density\_histogram(), stat\_histinterval(), etc. The color ramp scales (e.g. scale\_colour\_ramp\_continuous(), ...) now use an explicit data type, partial\_colour\_ramp(), to encode color ramps and their origin colors, and provide the ramp\_colours() function for applying colour ramps. This should make it easier to pass explicit color ramps without using scale functions, and for packages building on \{ggdist\} to use the colour ramp scales (\#209). Minor changes: The default histogram bin selection algorithm is now "Scott" instead of "Sturges", as "Sturges" tends to be too conservative (\#214). The at parameter to stat\_spike() (or its names) now determines values of an at computed variable, which can be mapped onto aesthetics via after\_stat() to more easily label spikes. (\#203; thanks @mattansb for the suggestion). The arrow parameter is now supported for intervals in geom\_slabinterval() (\#206; thanks to @ASKurz for the suggestion). The default value of overflow in geom\_dotsinterval() is now the new "warn" mode, which works the same as "keep" except that it warns users if the dots will overflow the geometry bounds and suggests solutions (\#213). Optional arguments to automatically partially-applied functions can now be passed a waiver() to use their default value (see auto\_partial()). Several dependency reductions: removed \{cowplot\}, \{purrr\}, \{forcats\}, \{palmerpenguins\}, and \{modelr\} from Suggests; moved \{tidyselect\} and \{dplyr\} from Imports to Suggests. The latter two are only strictly necessary for curve\_interval() due to its use of grouped data frames and tidy selection to specify which columns are conditional and which are joint (the use of grouped data frames with point\_interval() is less strictly necessary, and not used by stats, so is easier to avoid as an absolute dependency). Documentation: The pkgdown documentation now includes an online article on the thickness aesthetic with comprehensive examples of how slab scaling works (\#205). Bug fixes: Ensure Mode() works on analytical constant distributions. Various fixes to ensure compatibility with \{ggplot2\} 3.5.0.},
+  copyright = {GNU General Public License v3.0 or later},
+  howpublished = {Zenodo}
 }
 
 @incollection{kaye1985,
