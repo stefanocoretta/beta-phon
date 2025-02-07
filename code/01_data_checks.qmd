@@ -4,7 +4,7 @@ author: "Stefano Coretta"
 format: html
 ---
 
-## Voicing within closure
+## Beta not Gaussian
 
 ```{r}
 #| label: setup
@@ -12,7 +12,35 @@ format: html
 library(tidyverse)
 library(coretta2018itaegg)
 library(Hmisc)
+library(brms)
 ```
+
+```{r}
+set.seed(8923)
+x <- rbeta(1000, 4, 0.5)
+
+plot(density(x))
+
+bg <- brm(
+  x ~ 1,
+  data = data.frame(x),
+  file = "data/cache/bg"
+)
+
+pp_check(bg, ndraws = 10)
+
+bb <- brm(
+  x ~ 1,
+  family = Beta,
+  data = data.frame(x),
+  file = "data/cache/bb"
+)
+
+pp_check(bb, ndraws = 10)
+```
+
+
+## Voicing within closure
 
 ```{r}
 #| label: load-ita-egg
