@@ -12,5 +12,5 @@ The rendered HTML version of the paper and the data checks can be found
 on the [repository
 website](https://stefanocoretta.github.io/beta-phon/):
 
--   [manuscript](manuscript/manuscript.html).
--   [data checks](code/01_data_checks.html).
+-   [Manuscript](manuscript/manuscript.html).
+-   [Data checks](code/01_data_checks.html).
