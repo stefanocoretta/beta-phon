@@ -1,5 +1,5 @@
 ---
-title: A tutorial of Bayesian beta regressions with brms in R
+title: "Bayesian beta regressions with brms in R: A tutorial for phoneticians"
 author:
   - name: Stefano Coretta
     email: s.coretta@ed.ac.uk
@@ -33,6 +33,7 @@ format:
       formatting: preprint
       model: 3p
       cite-style: authoryear
+  elsevier-html: default
 execute:
   cache: true
 ---
