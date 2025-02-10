@@ -8,19 +8,28 @@ author:
           name: University of Edinburgh
           department: Linguistics and English Language
           address: 3 George Sq
-          city: Edinburgh
-          state: United Kingdom
+          city: Edinburgh, United Kingdom
           postal-code: EH8 9AD
     attributes:
         corresponding: true
     note: This is the first author footnote.
   - name: Paul Bürkner
     email: paul.buerkner@gmail.com
+    affiliations:
+        - id: dort
+          name: TU Dortmund University
+          department: Department of Statistics
+          adress: Technische Universität Dortmund
+          city: Dortmund, Germany
+          postal-code: 44221
 abstract: |
-  This is the abstract. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum augue turpis, dictum non malesuada a, volutpat eget velit. Nam placerat turpis purus, eu tristique ex tincidunt et. Mauris sed augue eget turpis ultrices tincidunt. Sed et mi in leo porta egestas. Aliquam non laoreet velit. Nunc quis ex vitae eros aliquet auctor nec ac libero. Duis laoreet sapien eu mi luctus, in bibendum leo molestie. Sed hendrerit diam diam, ac dapibus nisl volutpat vitae. Aliquam bibendum varius libero, eu efficitur justo rutrum at. Sed at tempus elit.
+  Phonetic research frequently involves analyzing numeric continuous outcome variables, such as durations, frequencies, loudness, and ratios. Another commonly used outcome type is proportions, including measures like the proportion of voicing during closure, gesture amplitude, and nasalance. Despite their bounded nature, proportions are often modeled using Gaussian regression, largely due to the default settings of commonly used statistical functions in R (e.g., lm() and lmer() from lme4). This practice persists in teaching and research, despite the fact that Gaussian models assume unbounded continuous data and may poorly fit proportion data. To address this issue, this tutorial introduces beta regression models, a more appropriate statistical approach for analyzing proportions. The beta distribution provides a flexible framework for modelling continuous data constrained between 0 and 1. The tutorial employs the brms package in R and assumes familiarity with regression modeling but no prior knowledge of Bayesian statistics. The tutorial includes two case studies illustrating the practical implementation of Bayesian beta regression models. Data and code are available at <https://github.com/stefanocoretta/beta-phon>.
 keywords: 
-  - keyword1
-  - keyword2
+  - acoustics
+  - articulation
+  - proportions
+  - Bayesian regressions
+  - beta distribution
 date: last-modified
 bibliography: 
   - linguistics.bib
@@ -69,7 +78,7 @@ pp_check(bg, ndraws = 10)
 ```
 
 
-While most researchers approach proportions with Gaussian regression models, proportion are not Gaussian by nature, since they are continuous variables bounded between 0 and 1. Thus, regression models with proportions as outcome variable should be fitted using a likelihood family that assumes such unit interval data. A common and flexible distribution for this purpose is the beta distribution. This tutorial introduces researchers to beta regression models in R using the package brms. Familiarity with regression modelling in R with a package like lme4 is assumed, but no prior knowledge of Bayesian statistics is necessary. The rest of the paper is structured as follows: @sec-beta introduces the mathematical underpinnings of the beta distribution, @sec-bayes provides the readers with a brief explanation and justification of Bayesian regression models, while @sec-case-1 and @sec-case-2 illustrate how to fit Bayesian beta regression models with two case studies.
+While most researchers approach proportions with Gaussian regression models, proportion are not Gaussian by nature, since they are continuous variables bounded between 0 and 1. Thus, regression models with proportions as outcome variable should be fitted using a likelihood family that assumes such unit interval data. A common and flexible distribution for this purpose is the beta distribution. This tutorial introduces researchers to beta regression models in R using the package brms. Familiarity with regression modelling in R with a package like lme4 is assumed, but no prior knowledge of Bayesian statistics is necessary. The rest of the paper is structured as follows: @sec-beta introduces the mathematical underpinnings of the beta distribution, @sec-bayes provides the readers with a brief explanation and justification of Bayesian regression models, while @sec-case-1 and @sec-case-2 illustrate how to fit Bayesian beta regression models with two case studies. The research compendium with data and code can be found at <https://github.com/stefanocoretta/beta-phon>.
 
 # The beta distribution {#sec-beta}
 

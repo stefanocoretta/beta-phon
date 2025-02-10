@@ -8,7 +8,7 @@
 
 <meta name="author" content="Stefano Coretta">
 <meta name="author" content="Paul Bürkner">
-<meta name="keywords" content="keyword1, keyword2">
+<meta name="keywords" content="acoustics, articulation, proportions, Bayesian regressions, beta distribution">
 
 <title>Bayesian beta regressions with brms in R: A tutorial for phoneticians</title>
 <style>
@@ -138,7 +138,7 @@ window.Quarto = {
 
 <div class="quarto-title-meta-author">
   <div class="quarto-title-meta-heading">Authors</div>
-  <div class="quarto-title-meta-heading">Affiliation</div>
+  <div class="quarto-title-meta-heading">Affiliations</div>
   
     <div class="quarto-title-meta-contents">
     <p class="author">Stefano Coretta <a href="mailto:s.coretta@ed.ac.uk" class="quarto-title-author-email"><i class="bi bi-envelope"></i></a> </p>
@@ -152,6 +152,9 @@ window.Quarto = {
     <p class="author">Paul Bürkner <a href="mailto:paul.buerkner@gmail.com" class="quarto-title-author-email"><i class="bi bi-envelope"></i></a> </p>
   </div>
   <div class="quarto-title-meta-contents">
+        <p class="affiliation">
+            TU Dortmund University
+          </p>
       </div>
   </div>
 
@@ -171,14 +174,14 @@ window.Quarto = {
 <div>
   <div class="abstract">
     <div class="block-title">Abstract</div>
-    <p>This is the abstract. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum augue turpis, dictum non malesuada a, volutpat eget velit. Nam placerat turpis purus, eu tristique ex tincidunt et. Mauris sed augue eget turpis ultrices tincidunt. Sed et mi in leo porta egestas. Aliquam non laoreet velit. Nunc quis ex vitae eros aliquet auctor nec ac libero. Duis laoreet sapien eu mi luctus, in bibendum leo molestie. Sed hendrerit diam diam, ac dapibus nisl volutpat vitae. Aliquam bibendum varius libero, eu efficitur justo rutrum at. Sed at tempus elit.</p>
+    <p>Phonetic research frequently involves analyzing numeric continuous outcome variables, such as durations, frequencies, loudness, and ratios. Another commonly used outcome type is proportions, including measures like the proportion of voicing during closure, gesture amplitude, and nasalance. Despite their bounded nature, proportions are often modeled using Gaussian regression, largely due to the default settings of commonly used statistical functions in R (e.g., lm() and lmer() from lme4). This practice persists in teaching and research, despite the fact that Gaussian models assume unbounded continuous data and may poorly fit proportion data. To address this issue, this tutorial introduces beta regression models, a more appropriate statistical approach for analyzing proportions. The beta distribution provides a flexible framework for modelling continuous data constrained between 0 and 1. The tutorial employs the brms package in R and assumes familiarity with regression modeling but no prior knowledge of Bayesian statistics. The tutorial includes two case studies illustrating the practical implementation of Bayesian beta regression models. Data and code are available at <a href="https://github.com/stefanocoretta/beta-phon" class="uri">https://github.com/stefanocoretta/beta-phon</a>.</p>
   </div>
 </div>
 
 <div>
   <div class="keywords">
     <div class="block-title">Keywords</div>
-    <p>keyword1, keyword2</p>
+    <p>acoustics, articulation, proportions, Bayesian regressions, beta distribution</p>
   </div>
 </div>
 
@@ -203,7 +206,7 @@ Figure&nbsp;1: Gaussian model fitted to beta-distributed data. The dark blue lin
 </div>
 </div>
 </div>
-<p>While most researchers approach proportions with Gaussian regression models, proportion are not Gaussian by nature, since they are continuous variables bounded between 0 and 1. Thus, regression models with proportions as outcome variable should be fitted using a likelihood family that assumes such unit interval data. A common and flexible distribution for this purpose is the beta distribution. This tutorial introduces researchers to beta regression models in R using the package brms. Familiarity with regression modelling in R with a package like lme4 is assumed, but no prior knowledge of Bayesian statistics is necessary. The rest of the paper is structured as follows: <a href="#sec-beta" class="quarto-xref">Section&nbsp;2</a> introduces the mathematical underpinnings of the beta distribution, <a href="#sec-bayes" class="quarto-xref">Section&nbsp;3</a> provides the readers with a brief explanation and justification of Bayesian regression models, while <a href="#sec-case-1" class="quarto-xref">Section&nbsp;4</a> and <a href="#sec-case-2" class="quarto-xref">Section&nbsp;5</a> illustrate how to fit Bayesian beta regression models with two case studies.</p>
+<p>While most researchers approach proportions with Gaussian regression models, proportion are not Gaussian by nature, since they are continuous variables bounded between 0 and 1. Thus, regression models with proportions as outcome variable should be fitted using a likelihood family that assumes such unit interval data. A common and flexible distribution for this purpose is the beta distribution. This tutorial introduces researchers to beta regression models in R using the package brms. Familiarity with regression modelling in R with a package like lme4 is assumed, but no prior knowledge of Bayesian statistics is necessary. The rest of the paper is structured as follows: <a href="#sec-beta" class="quarto-xref">Section&nbsp;2</a> introduces the mathematical underpinnings of the beta distribution, <a href="#sec-bayes" class="quarto-xref">Section&nbsp;3</a> provides the readers with a brief explanation and justification of Bayesian regression models, while <a href="#sec-case-1" class="quarto-xref">Section&nbsp;4</a> and <a href="#sec-case-2" class="quarto-xref">Section&nbsp;5</a> illustrate how to fit Bayesian beta regression models with two case studies. The research compendium with data and code can be found at <a href="https://github.com/stefanocoretta/beta-phon" class="uri">https://github.com/stefanocoretta/beta-phon</a>.</p>
 </section>
 <section id="sec-beta" class="level1">
 <h1>The beta distribution</h1>

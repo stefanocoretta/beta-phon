@@ -186,7 +186,8 @@
 \hypersetup{
   pdftitle={Bayesian beta regressions with brms in R: A tutorial for phoneticians},
   pdfauthor={Stefano Coretta; Paul Bürkner},
-  pdfkeywords={keyword1, keyword2},
+  pdfkeywords={acoustics, articulation, proportions, Bayesian
+regressions, beta distribution},
   colorlinks=true,
   linkcolor={blue},
   filecolor={Maroon},
@@ -205,29 +206,40 @@ phoneticians}
 \corref{cor1}%
 \fnref{fn1}}
  \ead{s.coretta@ed.ac.uk} 
-\author[]{Paul Bürkner%
+\author[2]{Paul Bürkner%
 %
 }
  \ead{paul.buerkner@gmail.com} 
 
 \affiliation[1]{organization={University of Edinburgh, Linguistics and
-English Language},addressline={3 George
-Sq},city={Edinburgh},postcode={EH8 9AD},postcodesep={}}
+English Language},addressline={3 George Sq},city={Edinburgh, United
+Kingdom},postcode={EH8 9AD},postcodesep={}}
+\affiliation[2]{organization={TU Dortmund University, Department of
+Statistics},city={Dortmund, Germany},postcode={44221},postcodesep={}}
 
 \cortext[cor1]{Corresponding author}
 \fntext[fn1]{This is the first author footnote.}
 
         
 \begin{abstract}
-This is the abstract. Lorem ipsum dolor sit amet, consectetur adipiscing
-elit. Vestibulum augue turpis, dictum non malesuada a, volutpat eget
-velit. Nam placerat turpis purus, eu tristique ex tincidunt et. Mauris
-sed augue eget turpis ultrices tincidunt. Sed et mi in leo porta
-egestas. Aliquam non laoreet velit. Nunc quis ex vitae eros aliquet
-auctor nec ac libero. Duis laoreet sapien eu mi luctus, in bibendum leo
-molestie. Sed hendrerit diam diam, ac dapibus nisl volutpat vitae.
-Aliquam bibendum varius libero, eu efficitur justo rutrum at. Sed at
-tempus elit.
+Phonetic research frequently involves analyzing numeric continuous
+outcome variables, such as durations, frequencies, loudness, and ratios.
+Another commonly used outcome type is proportions, including measures
+like the proportion of voicing during closure, gesture amplitude, and
+nasalance. Despite their bounded nature, proportions are often modeled
+using Gaussian regression, largely due to the default settings of
+commonly used statistical functions in R (e.g., lm() and lmer() from
+lme4). This practice persists in teaching and research, despite the fact
+that Gaussian models assume unbounded continuous data and may poorly fit
+proportion data. To address this issue, this tutorial introduces beta
+regression models, a more appropriate statistical approach for analyzing
+proportions. The beta distribution provides a flexible framework for
+modelling continuous data constrained between 0 and 1. The tutorial
+employs the brms package in R and assumes familiarity with regression
+modeling but no prior knowledge of Bayesian statistics. The tutorial
+includes two case studies illustrating the practical implementation of
+Bayesian beta regression models. Data and code are available at
+\url{https://github.com/stefanocoretta/beta-phon}.
 \end{abstract}
 
 
@@ -235,8 +247,9 @@ tempus elit.
 
 
 \begin{keyword}
-    keyword1 \sep 
-    keyword2
+    acoustics \sep articulation \sep proportions \sep Bayesian
+regressions \sep 
+    beta distribution
 \end{keyword}
 \end{frontmatter}
     
@@ -309,7 +322,9 @@ Section~\ref{sec-beta} introduces the mathematical underpinnings of the
 beta distribution, Section~\ref{sec-bayes} provides the readers with a
 brief explanation and justification of Bayesian regression models, while
 Section~\ref{sec-case-1} and Section~\ref{sec-case-2} illustrate how to
-fit Bayesian beta regression models with two case studies.
+fit Bayesian beta regression models with two case studies. The research
+compendium with data and code can be found at
+\url{https://github.com/stefanocoretta/beta-phon}.
 
 \section{The beta distribution}\label{sec-beta}
 
