@@ -398,7 +398,7 @@ distributions for the model parameters, through which researchers can
 quantify (un)certainty. Bayesian Credible Intervals (CrIs) can be
 calculated from the posterior distributions at several probability
 levels (e.g.~95, 90, 80, 60\%) for a more complete view on estimated
-parameters. Bayesian CrIs indicate that at a certain probability levels
+parameters. Bayesian CrIs indicate that, at a certain probability level,
 the parameter's estimate lies within that interval: so, for example, a
 90\% CrI {[}A, B{]} indicates that there is a 90\% probability that the
 estimate is between A and B. Different probability levels correspond to
@@ -497,7 +497,7 @@ a beta regression model to assess whether the place of articulation of
 the consonant affects the proportion of coarticulatory progressive
 voicing, while averaging across vowels (of course, another question that
 could be answered with the same model is if different vowels lead to
-difference voicing proportions, but for sake of space we restrict this
+different voicing proportions, but for sake of space we restrict this
 tutorial to the former question). A general expectation is that the
 proportion of progressive voicing should increase with fronter places of
 articulation (so from /k/ to /t/ to /p/) given the aerodynamic
@@ -563,8 +563,7 @@ priors as explained in Section~\ref{sec-bayes}.
 
 The \texttt{summary()} function prints the full model summary. For
 conciseness, we will use the \texttt{fixef()} function which prints the
-regression coefficients. The full summary with an explanation of each
-part can be found in XXX. Table~\ref{tbl-voi-prop-fixef} reports the
+regression coefficients. Table~\ref{tbl-voi-prop-fixef} reports the
 output of \texttt{fixef()} as a table (we round all values to the
 nearest 2 digits for clarity.). For each coefficient in the model,
 \texttt{fixef()} prints the name of the coefficient, the mean estimate,
@@ -655,35 +654,36 @@ Before being able to plot the predictions, it's important to get
 familiar with the so-called posterior draws. Bayesian regression models
 are fitted using Markov Chain Monte Carlo (MCMC) methods, as briefly
 explained in Section~\ref{sec-bayes}. The \texttt{brm()} function runs
-three MCMC chains with 2000 iterations each by default. These are
+four MCMC chains with 2000 iterations each by default. These are
 sufficient in most cases. The first 1000 iterations of each chain are
 used for ``warmup'', where the MCMC algorithm is optimised to find the
 posterior probability. The second half of the iterations, 1000 per
 chain, are used for sampling from the posterior probability. Each
 iteration returns a drawn value for each parameter in the model. The
 list of values drawn during the Monte Carlo sampling are called the
-``posterior draws''. The posterior draws are used for inference: we can
-plot them, summarise them, transform them and combine them in any way to
-answer specific questions.
+``posterior draws''. Since four chains are run, a total of 4000
+posterior values are generated. The posterior draws are used for
+inference: we can plot them, summarise them, transform them and combine
+them in any way to answer specific questions.
 
 Posterior draws can be conveniently obtained with the
 \texttt{as\_draws\_df()} from brms. For the moment, we will extract only
-the draws of the constant regression coefficients (model variables
-starting with \texttt{b\_}). To check which coefficients are available
-in a model, use \texttt{get\_variables()} from the tidybayes package
-\citep{kay2019}. \texttt{as\_draws\_df()} returns a tibble where each
-column contains the drawn values of a coefficient.
+the draws of the constant (aka fixed) regression coefficients (model
+variables starting with \texttt{b\_}). To check which coefficients are
+available in a model, use \texttt{get\_variables()} from the tidybayes
+package \citep{kay2019}. \texttt{as\_draws\_df()} returns a tibble where
+each column contains the drawn values of a coefficient.
 Table~\ref{tbl-voi-prop-draws} shows the first ten rows and first five
 columns of the output of \texttt{as\_draws\_df()}. The probability
 distribution of the drawn values of each coefficient is the posterior
 probability distribution of that coefficient. Note that, due to the
 indexing coding of vowel and C2, all coefficient except
-\texttt{b\_speech\_rate\_c} are \emph{predicted log-odds} for each
+\texttt{b\_speech\_rate\_c} are drawn \emph{log-odds values} for each
 vowel/C2 combination (the drawn values for \texttt{b\_speech\_rate\_c}
-are drawn \emph{differences} in log-odds for each unit increase of
-speech rate). The drawn values are in log-odds, but we can convert them
-to proportions with \texttt{plogis()} (we will do this when plotting
-below).
+are drawn \emph{differences} in log-odds values for each unit increase
+of speech rate). The drawn values are in log-odds, but we can convert
+them to proportions with \texttt{plogis()} (we will do this when
+plotting below).
 
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -819,7 +819,7 @@ three consonants /k, t, p/? One approach is to take the mean across
 vowels within each consonant for each posterior draw, and the posterior
 distribution of the resulting list of values is the predicted posterior
 distribution of voicing proportion for each consonant, assuming an
-``average'' vowel.
+``average'' vowel. See Figure~\ref{fig-voi-pbdl-c2}.
 
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -996,8 +996,8 @@ voicing proportion in /p/ is 1.07-1.38 times longer (or 7-38\% increase)
 than in /t, k/. At 80\% confidence, the change ratio is 1.10-1.34 (or
 10-34\% increase) while at 60\% confidence is 1.14-1.30 (14-30\%
 increase). In other words we can be quite confident that the voicing
-proportion in /p/ is longer than in /t, k/ and that the increase is less
-than 35\%. The brms package comes with a convenient function,
+proportion in /p/ is greater than in /t, k/ and that the increase is
+less than 35\%. The brms package comes with a convenient function,
 \texttt{conditional\_effects()}, to plot posterior means and CrIs based
 on predictors in the model. In Figure~\ref{fig-voi-prop-bm-cond}, we
 plot the predicted proportion of voicing by consonant and vowel.
@@ -1031,7 +1031,7 @@ Optionally, you can set the confidence level with the
 \texttt{avg\_comparisons()} allows the user to specify the type of
 comparison for each variable: here we set \texttt{"pairwise"} to
 calculate pairwise comparisons of each level of \texttt{c2}. The output
-of the two functions is shows in Table~\ref{tbl-marginal-1} and
+of the two functions is shown in Table~\ref{tbl-marginal-1} and
 Table~\ref{tbl-marginal-2}.
 
 \begin{Shaded}
@@ -1477,9 +1477,9 @@ voiceless NC sequences, with a 90\% probability that the increase is
 between 23\% and 69\% of the proportion in voiced NC sequences.
 
 Moving onto question 2: is there individual speaker variation? While in
-the recent tradition of linguistic research to use varying (aka random)
-effects to \emph{control} for differences across participants, it has
-been proposed to use the estimates of the varying coefficients to
+the recent tradition of linguistic research, varying (aka random)
+effects are used to \emph{control} for differences across participants,
+it has been proposed to use the estimates of the varying coefficients to
 investigate individual differences \citep{tamminga2016}. We will use the
 \texttt{spread\_draws()} function from tidybayes \citep{kay2019} to
 extract the draws of the varying terms (in brms these are the
@@ -1488,11 +1488,12 @@ of processing to get from the raw draws to the estimand we need: while
 we have commented the following code, we encourage readers to test each
 line sequentially and inspect the intermediate output to fully
 understand the process. We assume that readers are familiar enough with
-models with varying terms (aka random effects, mixed-effects models).
-What readers should note is that to obtain the expected predictions of
-nasalisation proportion for each speaker, the constant terms and the
-varying terms should be added (since the varying terms indicate the
-deviation of each speaker from the overall estimate).
+models with varying terms (aka random effects, mixed-effects,
+hierarchical, multilevel, nested models). What readers should note is
+that to obtain the expected predictions of nasalisation proportion for
+each speaker, the constant terms and the varying terms should be added
+(since the varying terms indicate the deviation of each speaker from the
+overall estimate).
 
 \begin{Shaded}
 \begin{Highlighting}[]
