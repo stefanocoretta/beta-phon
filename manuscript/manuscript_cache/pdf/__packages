@@ -11,7 +11,7 @@ lubridate
 Rcpp
 brms
 collapse
-ggdist
-posterior
 marginaleffects
+posterior
+ggdist
 tidybayes

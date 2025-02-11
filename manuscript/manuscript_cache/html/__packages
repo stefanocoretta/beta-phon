@@ -12,6 +12,6 @@ Rcpp
 brms
 collapse
 marginaleffects
-ggdist
 posterior
+ggdist
 tidybayes
