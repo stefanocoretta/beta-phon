@@ -1,5 +1,6 @@
 ---
 title: "Bayesian beta regressions with brms in R: A tutorial for phoneticians"
+doi: "10.31219/osf.io/f9rqg_v1"
 author:
   - name: Stefano Coretta
     email: s.coretta@ed.ac.uk
