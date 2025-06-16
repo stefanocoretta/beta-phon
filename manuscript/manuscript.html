@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.6.40">
+<meta name="generator" content="quarto-1.7.31">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
@@ -24,8 +24,9 @@ ul.task-list li input[type="checkbox"] {
   vertical-align: middle;
 }
 /* CSS for syntax highlighting */
+html { -webkit-text-size-adjust: 100%; }
 pre > code.sourceCode { white-space: pre; position: relative; }
-pre > code.sourceCode > span { line-height: 1.25; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
 pre > code.sourceCode > span:empty { height: 1.2em; }
 .sourceCode { overflow: visible; }
 code.sourceCode > span { color: inherit; text-decoration: inherit; }
@@ -36,7 +37,7 @@ div.sourceCode { overflow: auto; }
 }
 @media print {
 pre > code.sourceCode { white-space: pre-wrap; }
-pre > code.sourceCode > span { display: inline-block; text-indent: -5em; padding-left: 5em; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
 }
 pre.numberSource code
   { counter-reset: source-line 0; }
@@ -81,15 +82,16 @@ div.csl-indent {
 
 
 <script src="manuscript_files/libs/clipboard/clipboard.min.js"></script>
-<script src="manuscript_files/libs/quarto-html/quarto.js"></script>
+<script src="manuscript_files/libs/quarto-html/quarto.js" type="module"></script>
+<script src="manuscript_files/libs/quarto-html/tabsets/tabsets.js" type="module"></script>
 <script src="manuscript_files/libs/quarto-html/popper.min.js"></script>
 <script src="manuscript_files/libs/quarto-html/tippy.umd.min.js"></script>
 <script src="manuscript_files/libs/quarto-html/anchor.min.js"></script>
 <link href="manuscript_files/libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="manuscript_files/libs/quarto-html/quarto-syntax-highlighting-549806ee2085284f45b00abea8c6df48.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<link href="manuscript_files/libs/quarto-html/quarto-syntax-highlighting-e1a5c8363afafaef2c763b6775fbf3ca.css" rel="stylesheet" id="quarto-text-highlighting-styles">
 <script src="manuscript_files/libs/bootstrap/bootstrap.min.js"></script>
 <link href="manuscript_files/libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="manuscript_files/libs/bootstrap/bootstrap-973236bd072d72a04ee9cd82dcc9cb29.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<link href="manuscript_files/libs/bootstrap/bootstrap-81267100e462c21b3d6c0d5bf76a3417.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
 
   <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
   <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
@@ -123,7 +125,7 @@ window.Quarto = {
 
 </head>
 
-<body>
+<body class="quarto-light">
 
 <div id="quarto-content" class="page-columns page-rows-contents page-layout-article">
 <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
@@ -164,7 +166,7 @@ window.Quarto = {
     <div>
     <div class="quarto-title-meta-heading">Published</div>
     <div class="quarto-title-meta-contents">
-      <p class="date">Friday, February 14, 2025</p>
+      <p class="date">Monday, June 16, 2025</p>
     </div>
   </div>
   
@@ -198,8 +200,8 @@ window.Quarto = {
 
 <section id="introduction" class="level1">
 <h1>Introduction</h1>
-<p>Phonetic research often involves numeric continuous outcome variables, like durations, frequencies, loudness and ratios <span class="citation" data-cites="kluender1988 johnson2003 gick2013 ladefoged2014 abramson2017 roettger2018 coretta2023 rosen2005">(<a href="#ref-abramson2017" role="doc-biblioref">Abramson and Whalen, 2017</a>; <a href="#ref-coretta2023" role="doc-biblioref">Coretta et al., 2023</a>; <a href="#ref-gick2013" role="doc-biblioref">Gick et al., 2013</a>; <a href="#ref-johnson2003" role="doc-biblioref">Johnson, 2003</a>; <a href="#ref-kluender1988" role="doc-biblioref">Kluender et al., 1988</a>; <a href="#ref-ladefoged2014" role="doc-biblioref">Ladefoged and Johnson, 2014</a>; <a href="#ref-roettger2018" role="doc-biblioref">Roettger et al., 2018</a>; <a href="#ref-rosen2005" role="doc-biblioref">Rosen, 2005</a>)</span>. Another commonly employed type of outcome variable are proportions: for example, proportion of voicing during closure <span class="citation" data-cites="davidson2016">(<a href="#ref-davidson2016" role="doc-biblioref">Davidson, 2016</a>)</span>, vocal folds contact quotient <span class="citation" data-cites="herbst2017">(<a href="#ref-herbst2017" role="doc-biblioref">Herbst et al., 2017</a>)</span>, gesture amplitude <span class="citation" data-cites="carignan2021">(<a href="#ref-carignan2021" role="doc-biblioref">Carignan, 2021</a>)</span>, nasalance <span class="citation" data-cites="carignan2021">(<a href="#ref-carignan2021" role="doc-biblioref">Carignan, 2021</a>)</span>. Moreover, virtually any measure can be MIN-MAX normalised, a procedure which transforms values so that they are in the range 0–1.</p>
-<p>Regression models (and extensions like generalised additive models) have become a <em>de facto</em> standard for the statistical analysis of a variety of measures in phonetic research <span class="citation" data-cites="kirby2018 politzerahles2018 tavakoli2024">(<a href="#ref-kirby2018" role="doc-biblioref">Kirby and Sonderegger, 2018</a>; <a href="#ref-politzerahles2018" role="doc-biblioref">Politzer-Ahles and Piccinini, 2018</a>; <a href="#ref-tavakoli2024" role="doc-biblioref">Tavakoli et al., 2024</a>)</span>. However, there is a tendency for researchers to use Gaussian distribution families (i.e.&nbsp;probability distributions for the outcome variable) for any measure that is numeric, irrespective of whether the measure is unbounded, like in truly Gaussian variables, or bounded, like in proportions. A possible reason is that the base R function for fitting regression models, <code>lm()</code>, and the lme4 function used to fit regression models with varying terms, <code>lmer()</code> from lme4 <span class="citation" data-cites="bates2015">(<a href="#ref-bates2015" role="doc-biblioref">Bates et al., 2015</a>)</span>, both fit Gaussian regressions by default and the user does not have to specify the distribution family. This tacit default of using Gaussian models is also reflected in teaching practices, where significance test and models using the Gaussian distribution are the first to be taught <span class="citation" data-cites="baayen2008 winter2020">(<a href="#ref-baayen2008" role="doc-biblioref">Baayen, 2008</a>; <a href="#ref-winter2020" role="doc-biblioref">Winter, 2020</a>)</span>, due to their relative simplicity and the fact that regression models with other families are conceptual generalisations of Gaussian regression models. <a href="#fig-bg" class="quarto-xref">Figure&nbsp;1</a> shows how poorly a Gaussian regression model fits beta-distributed data: the dark blue line is the density of data simulated to be distributed according to a beta distribution; the light blue lines are predicted distributions as generated by a Gaussian model of the data. The predicted Gaussian distributions over-predict values between 0.5 and 0.75 and under-predict values between 0.75 and 1. Moreover, the density peak (median) of the Gaussian distributions is lower than the peak in the original data.</p>
+<p>Phonetic research often involves numeric continuous outcome variables, like durations, frequencies, loudness and ratios <span class="citation" data-cites="kluender1988 johnson2003 gick2013 ladefoged2014 abramson2017 roettger2018 coretta2023 rosen2005">(<a href="#ref-abramson2017" role="doc-biblioref">Abramson and Whalen, 2017</a>; <a href="#ref-coretta2023" role="doc-biblioref">Coretta et al., 2023</a>; <a href="#ref-gick2013" role="doc-biblioref">Gick et al., 2013</a>; <a href="#ref-johnson2003" role="doc-biblioref">Johnson, 2003</a>; <a href="#ref-kluender1988" role="doc-biblioref">Kluender et al., 1988</a>; <a href="#ref-ladefoged2014" role="doc-biblioref">Ladefoged and Johnson, 2014</a>; <a href="#ref-roettger2018" role="doc-biblioref">Roettger et al., 2018</a>; <a href="#ref-rosen2005" role="doc-biblioref">Rosen, 2005</a>)</span>. Another commonly employed type of outcome variable is data that is bounded between 0 and 1: for example, proportion of voicing during closure <span class="citation" data-cites="davidson2016">(<a href="#ref-davidson2016" role="doc-biblioref">Davidson, 2016</a>)</span>, vocal folds contact quotient <span class="citation" data-cites="herbst2017">(<a href="#ref-herbst2017" role="doc-biblioref">Herbst et al., 2017</a>)</span>, gesture amplitude <span class="citation" data-cites="carignan2021">(<a href="#ref-carignan2021" role="doc-biblioref">Carignan, 2021</a>)</span>, nasalance <span class="citation" data-cites="carignan2021">(<a href="#ref-carignan2021" role="doc-biblioref">Carignan, 2021</a>)</span>, and data from slider answers where participants can indicate responses of qualities from 0 to 100.</p>
+<p>Regression models (and extensions like generalised additive models) have become a <em>de facto</em> standard for the statistical analysis of a variety of measures in phonetic research <span class="citation" data-cites="kirby2018 politzerahles2018 tavakoli2024">(<a href="#ref-kirby2018" role="doc-biblioref">Kirby and Sonderegger, 2018</a>; <a href="#ref-politzerahles2018" role="doc-biblioref">Politzer-Ahles and Piccinini, 2018</a>; <a href="#ref-tavakoli2024" role="doc-biblioref">Tavakoli et al., 2024</a>)</span>. However, there is a tendency for researchers to use Gaussian distribution families (i.e.&nbsp;probability distributions for the outcome variable) for any measure that is numeric, irrespective of whether the measure is unbounded, like in truly Gaussian variables, or bounded, like in proportions. A possible reason is that the base R function for fitting regression models, <code>lm()</code>, and the lme4 function used to fit regression models with varying terms, <code>lmer()</code> from lme4 <span class="citation" data-cites="bates2015">(<a href="#ref-bates2015" role="doc-biblioref">Bates et al., 2015</a>)</span>, both fit Gaussian regressions by default and the user does not have to specify the distribution family. This tacit default of using Gaussian models is also reflected in teaching practices, where significance test and models using the Gaussian distribution are the first to be taught <span class="citation" data-cites="baayen2008 winter2020">(<a href="#ref-baayen2008" role="doc-biblioref">Baayen, 2008</a>; <a href="#ref-winter2020" role="doc-biblioref">Winter, 2020</a>)</span>, due to their relative simplicity and the fact that regression models with other families are conceptual generalisations of Gaussian regression models. <a href="#fig-bg" class="quarto-xref">Figure&nbsp;1</a> shows how poorly a Gaussian regression model fits beta-distributed data: the dark blue line is the density of data simulated to be distributed according to a beta distribution; the light blue lines are predicted distributions as generated by a Gaussian model of the data. The predicted Gaussian distributions over-predict values between 0.5 and 0.75 and under-predict values between 0.75 and 1. Furthermore, a Gaussian distribution predicts values above 1, which are not possible given the bounded nature of the data. Moreover, the density peak (median) of the Gaussian distributions is lower than the peak in the original data.</p>
 <div class="cell">
 <div class="cell-output-display">
 <div id="fig-bg" class="quarto-float quarto-figure quarto-figure-center anchored">
@@ -214,21 +216,36 @@ Figure&nbsp;1: Gaussian model fitted to beta-distributed data. The dark blue lin
 </div>
 </div>
 </div>
-<p>While most researchers approach proportions with Gaussian regression models, proportion are not Gaussian by nature, since they are continuous variables bounded between 0 and 1. Thus, regression models with proportions as outcome variable should be fitted using a likelihood family that assumes such unit interval data. A common and flexible distribution for this purpose is the beta distribution. This tutorial introduces researchers to beta regression models in R using the package brms. Familiarity with regression modelling in R with a package like lme4 is assumed, but no prior knowledge of Bayesian statistics is necessary. The rest of the paper is structured as follows: <a href="#sec-beta" class="quarto-xref">Section&nbsp;2</a> introduces the mathematical underpinnings of the beta distribution, <a href="#sec-bayes" class="quarto-xref">Section&nbsp;3</a> provides the readers with a brief explanation and justification of Bayesian regression models, while <a href="#sec-case-1" class="quarto-xref">Section&nbsp;4</a> and <a href="#sec-case-2" class="quarto-xref">Section&nbsp;5</a> illustrate how to fit Bayesian beta regression models with two case studies. The research compendium with data and code can be found at <a href="https://github.com/stefanocoretta/beta-phon" class="uri">https://github.com/stefanocoretta/beta-phon</a>.</p>
+<p>While most researchers approach proportions with Gaussian regression models, proportion are not Gaussian by nature, since they are continuous variables bounded between 0 and 1. Thus, regression models with proportions as outcome variable should be fitted using a likelihood family that assumes such unit interval data. A common and flexible distribution for this purpose is the beta distribution. Note that the beta distribution supports variables in the interval [0, 1], i.e.&nbsp;excluding 0 and 1; variables in the interval (0, 1), including 0 and 1, can be modelled with zero and zero/one inflated beta distributions (see <a href="#sec-beta" class="quarto-xref">Section&nbsp;2</a>). This tutorial introduces researchers to beta regression models in R using the package brms. Familiarity with regression modelling in R with a package like lme4 is assumed, but no prior knowledge of Bayesian statistics is necessary. The rest of the paper is structured as follows: <a href="#sec-beta" class="quarto-xref">Section&nbsp;2</a> introduces the mathematical underpinnings of the beta distribution, <a href="#sec-bayes" class="quarto-xref">Section&nbsp;3</a> provides the readers with a brief explanation and justification of Bayesian regression models, while <a href="#sec-case-1" class="quarto-xref">Section&nbsp;4</a> and <a href="#sec-case-2" class="quarto-xref">Section&nbsp;5</a> illustrate how to fit Bayesian beta regression models with two case studies. The research compendium with data and code can be found at <a href="https://github.com/stefanocoretta/beta-phon" class="uri">https://github.com/stefanocoretta/beta-phon</a>.</p>
 </section>
 <section id="sec-beta" class="level1">
 <h1>The beta distribution</h1>
-<p>The beta distribution is often considered as <em>the</em> distribution for the modelling of unit interval data <span class="citation" data-cites="ferrari_beta_2004 cribari-neto_beta_2010">(<a href="#ref-cribari-neto_beta_2010" role="doc-biblioref">Cribari-Neto and Zeileis, 2010a</a>; <a href="#ref-ferrari_beta_2004" role="doc-biblioref">Ferrari and Cribari-Neto, 2004</a>)</span>. It has been extensively studied theoretically <span class="citation" data-cites="krysicki_new_1999 gupta_handbook_2014 espinheira_beta_2008">(<a href="#ref-espinheira_beta_2008" role="doc-biblioref">Espinheira et al., 2008</a>; <a href="#ref-gupta_handbook_2014" role="doc-biblioref">Gupta and Nadarajah, 2014</a>; <a href="#ref-krysicki_new_1999" role="doc-biblioref">Krysicki, 1999</a>)</span> and is used a baseline to compare other unit interval distributions against <span class="citation" data-cites="kieschnick_regression_2003 bonat_regression_2013 lopez_bayesian_2013">(<a href="#ref-bonat_regression_2013" role="doc-biblioref">Bonat et al., 2013</a>; <a href="#ref-kieschnick_regression_2003" role="doc-biblioref">Kieschnick and McCullough, 2003</a>; <a href="#ref-lopez_bayesian_2013" role="doc-biblioref">López, 2013</a>)</span>. Specifically in Bayesian regression models, it was shown to perform well across a wide range of scenarios <span class="citation" data-cites="scholz_posterior_2023 scholz_prediction_2025">(<a href="#ref-scholz_prediction_2025" role="doc-biblioref">Scholz and Bürkner, 2025</a>, <a href="#ref-scholz_posterior_2023" role="doc-biblioref">2023</a>)</span>, which is why we focus on the beta distribution in this tutorial.</p>
-<p>We use a common mean parametrisation for the beta distribution with mean parameter <span class="math inline">\(\mu\)</span>, bounded between 0 and 1, and positive precision parameter <span class="math inline">\(\phi\)</span> that is roughly proportional to the inverse of the variance <span class="math inline">\(\text{Var}(y) = \frac{\mu \, (1 - \mu)}{\phi + 1}\)</span>. That is, the larger <span class="math inline">\(\phi\)</span> the smaller the variance of the corresponding beta distribution. While the mathematical details are not needed to understand the content of this tutorial, we still write down the density below for reasons of completeness:</p>
+<p>The beta distribution is often considered as <em>the</em> distribution for the modelling of unit interval data, i.e.&nbsp;data that is in the interval [0, 1] <span class="citation" data-cites="ferrari_beta_2004 cribari-neto_beta_2010">(<a href="#ref-cribari-neto_beta_2010" role="doc-biblioref">Cribari-Neto and Zeileis, 2010a</a>; <a href="#ref-ferrari_beta_2004" role="doc-biblioref">Ferrari and Cribari-Neto, 2004</a>)</span>. It has been extensively studied theoretically <span class="citation" data-cites="krysicki_new_1999 gupta_handbook_2014 espinheira_beta_2008">(<a href="#ref-espinheira_beta_2008" role="doc-biblioref">Espinheira et al., 2008</a>; <a href="#ref-gupta_handbook_2014" role="doc-biblioref">Gupta and Nadarajah, 2014</a>; <a href="#ref-krysicki_new_1999" role="doc-biblioref">Krysicki, 1999</a>)</span> and is used a baseline to compare other unit interval distributions against <span class="citation" data-cites="kieschnick_regression_2003 bonat_regression_2013 lopez_bayesian_2013">(<a href="#ref-bonat_regression_2013" role="doc-biblioref">Bonat et al., 2013</a>; <a href="#ref-kieschnick_regression_2003" role="doc-biblioref">Kieschnick and McCullough, 2003</a>; <a href="#ref-lopez_bayesian_2013" role="doc-biblioref">López, 2013</a>)</span>. Specifically in Bayesian regression models, it was shown to perform well across a wide range of scenarios <span class="citation" data-cites="scholz_posterior_2023 scholz_prediction_2025">(<a href="#ref-scholz_prediction_2025" role="doc-biblioref">Scholz and Bürkner, 2025</a>, <a href="#ref-scholz_posterior_2023" role="doc-biblioref">2023</a>)</span>, which is why we focus on the beta distribution in this tutorial.</p>
+<p>We use a common mean parametrisation for the beta distribution with mean parameter <span class="math inline">\(\mu\)</span>, bounded between 0 and 1, and positive precision parameter <span class="math inline">\(\phi\)</span> that is roughly proportional to the inverse of the variance <span class="math inline">\(\text{Var}(y) = \frac{\mu \, (1 - \mu)}{\phi + 1}\)</span>.<a href="#fn1" class="footnote-ref" id="fnref1" role="doc-noteref"><sup>1</sup></a> That is, the larger <span class="math inline">\(\phi\)</span> the smaller the variance of the corresponding beta distribution. While the mathematical details are not needed to understand the content of this tutorial, we still write down the density below for reasons of completeness:</p>
 <p><span class="math display">\[
 p(y \mid \mu, \phi) = \frac{1}{B(\mu \, \phi, \; (1-\mu) \, \phi)} \; y^{\mu \, \phi -1} \; (1-y)^{(1-\mu) \, \phi -1},
 \]</span></p>
-<p>where <span class="math inline">\(B\)</span> is the Beta function, a complex integral for whose numerical approximation efficient algorithms exist in every programming language.</p>
+<p>where <span class="math inline">\(B\)</span> is the Beta function, a complex integral for whose numerical approximation efficient algorithms exist in every programming language. See <a href="#fig-beta" class="quarto-xref">Figure&nbsp;2</a> for an illustration of different beta distributions based on various <span class="math inline">\(\mu\)</span> and <span class="math inline">\(\phi\)</span> values.</p>
+<div class="cell">
+<div class="cell-output-display">
+<div id="fig-beta" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-beta-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="manuscript_files/figure-html/fig-beta-1.png" class="img-fluid figure-img" width="672">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-beta-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;2: Beta distributions for various <span class="math inline">\(\mu\)</span>, <span class="math inline">\(\phi\)</span> values.
+</figcaption>
+</figure>
+</div>
+</div>
+</div>
+<p>As mentioned earlier, the beta distribution handles data in the interval [0, 1], thus excluding 0 and 1. To model (0, 1) data (including 0 and 1), the zero and zero/one inflated extensions of the beta distribution can be used. Both of these are supported in the software used in this tutorial, but will not be treated here. We refer readers to <span class="citation" data-cites="heiss2021">(<a href="#ref-heiss2021" role="doc-biblioref">Heiss, 2021</a>)</span>.</p>
 </section>
 <section id="sec-bayes" class="level1">
 <h1>Bayesian regression models</h1>
 <p>Bayesian regression models are being increasingly adopted within phonetics and language research more broadly <span class="citation" data-cites="vasishth2018 nalborczyk2019 verissimo2021">(<a href="#ref-nalborczyk2019" role="doc-biblioref">Nalborczyk et al., 2019</a>; <a href="#ref-vasishth2018" role="doc-biblioref">Vasishth et al., 2018</a>; <a href="#ref-verissimo2021" role="doc-biblioref">Verissimo, 2021</a>)</span>. Bayesian inference involves updating of prior probability distributions in light of evidence from data, to produce posterior probability distributions. In Bayesian regression models, model parameters are modelled as full probability distributions, rather than point estimates as in Null Hypothesis Significance Testing. Given the difficulty of analytical solutions of model equations, Bayesian regressions rely on sampling algorithms to reconstruct the posterior distributions. The statistical language Stan <span class="citation" data-cites="standevelopmentteam2017">(<a href="#ref-standevelopmentteam2017" role="doc-biblioref">Stan Development Team, 2017</a>)</span> employs efficient and robust Markov Chain Monte Carlo algorithms for fitting a variety of models, and the R package brms allows R users to interface with Stan from within R to fit Bayesian regression models <span class="citation" data-cites="burkner2017 burkner2018 burkner2021">(<a href="#ref-burkner2021" role="doc-biblioref">Bürkner, 2021</a>, <a href="#ref-burkner2018" role="doc-biblioref">2018</a>, <a href="#ref-burkner2017" role="doc-biblioref">2017</a>)</span>.</p>
-<p>The main practical advantage of Bayesian regression models over maximum-likelihood-based frequentist regression models, like those fitted with the lme4 package <span class="citation" data-cites="bates2015">(<a href="#ref-bates2015" role="doc-biblioref">Bates et al., 2015</a>)</span>, is that Bayesian regression models don’t suffer from the convergence issues that models fitted in lme4 <span class="citation" data-cites="bates2015">(<a href="#ref-bates2015" role="doc-biblioref">Bates et al., 2015</a>)</span> and other packages <span class="citation" data-cites="cribarineto2010">(<a href="#ref-cribarineto2010" role="doc-biblioref">Cribari-Neto and Zeileis, 2010b</a>)</span> that fit frequentist models do, independent of sample size. A second, long-term advantage is that Bayesian regression models allow researchers to statistically re-use information from previous studies by specifying informative priors. While prior specification is one of the main features of Bayesian inference, in this tutorial we will use the default priors as set by brms. These are sensible priors estimated from the data that facilitate convergence but bear virtually no influence on the estimated posteriors. Specifying priors requires a great deal of precise quantitative knowledge, which in most areas of phonetics we still do not possess, so that using default uninformative priors is, for the time being, theoretically sound. For practical guidance on prior specification, see <a href="https://github.com/stan-dev/stan/wiki/Prior-Choice-Recommendations" class="uri">https://github.com/stan-dev/stan/wiki/Prior-Choice-Recommendations</a>.</p>
+<p>The main practical advantage of Bayesian regression models over maximum-likelihood-based frequentist regression models, like those fitted with the lme4 package <span class="citation" data-cites="bates2015">(<a href="#ref-bates2015" role="doc-biblioref">Bates et al., 2015</a>)</span>, is that Bayesian regression models don’t suffer from the convergence issues that models fitted in lme4 <span class="citation" data-cites="bates2015">(<a href="#ref-bates2015" role="doc-biblioref">Bates et al., 2015</a>)</span> and other packages <span class="citation" data-cites="cribarineto2010">(<a href="#ref-cribarineto2010" role="doc-biblioref">Cribari-Neto and Zeileis, 2010b</a>)</span> that fit frequentist models do, independent of sample size. A second, long-term advantage is that Bayesian regression models allow researchers to statistically re-use information from previous studies by specifying informative priors. While prior specification is one of the main features of Bayesian inference, in this tutorial we will use the default priors as set by brms. These are sensible priors estimated from the data that facilitate convergence but bear virtually no influence on the estimated posteriors. Specifying priors requires a great deal of precise quantitative knowledge, which in some areas of phonetics is difficult to determine, so that using the default priors provided by brms is, for the purposes of this article (and initial analyses), an acceptable practice. For practical guidance on prior specification and prior predictive checks, see <span class="citation" data-cites="bockting2024">(<a href="#ref-bockting2024" role="doc-biblioref">Bockting et al., 2024</a>)</span>, <span class="citation" data-cites="mikkola2024">(<a href="#ref-mikkola2024" role="doc-biblioref">Mikkola et al., 2024</a>)</span> and the Wiki page https://github.com/stan-dev/stan/wiki/Prior-Choice, and <span class="citation" data-cites="mcelreath2020">(<a href="#ref-mcelreath2020" role="doc-biblioref">McElreath, 2020, pp. 82–84</a>)</span>.</p>
 <p>The output of Bayesian regression models is (posterior) probability distributions for the model parameters, through which researchers can quantify (un)certainty. Bayesian Credible Intervals (CrIs) can be calculated from the posterior distributions at several probability levels (e.g.&nbsp;95, 90, 80, 60%) for a more complete view on estimated parameters. Bayesian CrIs indicate that, at a certain probability level, the parameter’s estimate lies within that interval: so, for example, a 90% CrI [A, B] indicates that there is a 90% probability that the estimate is between A and B. Different probability levels correspond to different levels of confidence: the higher the probability the higher the confidence (always conditional on data and model). Readers interested in a full and accessible exposition of Bayesian statistics are referred to <span class="citation" data-cites="mcelreath2019">(<a href="#ref-mcelreath2019" role="doc-biblioref">McElreath, 2019</a>)</span>. Shorter introductions can be found in <span class="citation" data-cites="etz2018">(<a href="#ref-etz2018" role="doc-biblioref">Etz et al., 2018</a>)</span>, <span class="citation" data-cites="vasishth2018">(<a href="#ref-vasishth2018" role="doc-biblioref">Vasishth et al., 2018</a>)</span> and <span class="citation" data-cites="nalborczyk2019">(<a href="#ref-nalborczyk2019" role="doc-biblioref">Nalborczyk et al., 2019</a>)</span>.</p>
 </section>
 <section id="sec-case-1" class="level1">
@@ -347,7 +364,7 @@ Table&nbsp;1: First 10 rows of the data of voicing proportion within stop closur
 </figure>
 </div>
 </div>
-<p><a href="#fig-ita-egg" class="quarto-xref">Figure&nbsp;2</a> shows the raw voicing duration proportion values split by vowel /i, e, a, o, u/ and second consonant /k, t, p/ in the /CVCo/ target words. The plot suggests that, on average, the voicing proportion is slightly lower with /k/ than with /t, p/. Moreover, there is greater variability between vowels in /t, p/ than in /k/. We will use a beta regression model to assess whether the place of articulation of the consonant affects the proportion of coarticulatory progressive voicing, while averaging across vowels (of course, another question that could be answered with the same model is if different vowels lead to different voicing proportions, but for sake of space we restrict this tutorial to the former question). A general expectation is that the proportion of progressive voicing should increase with fronter places of articulation (so from /k/ to /t/ to /p/) given the aerodynamic constraints which obtain with vocal fold vibration during a fully occluded oral tract <span class="citation" data-cites="vandenberg1958 rothenberg1967 ohala2011">(<a href="#ref-ohala2011" role="doc-biblioref">Ohala, 2011</a>; <a href="#ref-rothenberg1967" role="doc-biblioref">Rothenberg, 1967</a>; <a href="#ref-vandenberg1958" role="doc-biblioref">van den Berg, 1958</a>)</span>.</p>
+<p><a href="#fig-ita-egg" class="quarto-xref">Figure&nbsp;3</a> shows the raw voicing duration proportion values split by vowel /i, e, a, o, u/ and second consonant /k, t, p/ in the /CVCo/ target words. The plot suggests that, on average, the voicing proportion is slightly lower with /k/ than with /t, p/. Moreover, there is greater variability between vowels in /t, p/ than in /k/. We will use a beta regression model to assess whether the place of articulation of the consonant affects the proportion of coarticulatory progressive voicing, while averaging across vowels (of course, another question that could be answered with the same model is if different vowels lead to different voicing proportions, but for sake of space we restrict this tutorial to the former question). A general expectation is that the proportion of progressive voicing should increase with fronter places of articulation (so from /k/ to /t/ to /p/) given the aerodynamic constraints which obtain with vocal fold vibration during a fully occluded oral tract <span class="citation" data-cites="vandenberg1958 rothenberg1967 ohala2011">(<a href="#ref-ohala2011" role="doc-biblioref">Ohala, 2011</a>; <a href="#ref-rothenberg1967" role="doc-biblioref">Rothenberg, 1967</a>; <a href="#ref-vandenberg1958" role="doc-biblioref">van den Berg, 1958</a>)</span>.</p>
 <div class="cell">
 <div class="cell-output-display">
 <div id="fig-ita-egg" class="quarto-float quarto-figure quarto-figure-center anchored">
@@ -356,13 +373,13 @@ Table&nbsp;1: First 10 rows of the data of voicing proportion within stop closur
 <img src="manuscript_files/figure-html/fig-ita-egg-1.png" class="img-fluid figure-img" width="672">
 </div>
 <figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-ita-egg-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-Figure&nbsp;2: Proportion of voicing during the closure of the second consonant in /CVCo/ words by vowel and the second consonant.
+Figure&nbsp;3: Proportion of voicing during the closure of the second consonant in /CVCo/ words by vowel and the second consonant.
 </figcaption>
 </figure>
 </div>
 </div>
 </div>
-<p>We will use brms to fit a Bayesian beta regression <span class="citation" data-cites="burkner2017">(<a href="#ref-burkner2017" role="doc-biblioref">Bürkner, 2017</a>)</span>. The model has voicing proportion as the outcome variable and the following terms: an interaction between vowel (/i, e, a, o, u/) and second consonant C2 (/k, t, p/), centred speech rate (number of syllables per second); as varying (aka random) terms, we included by-speaker varying coefficients for the vowel/consonant interaction and for centred speech rate.<a href="#fn1" class="footnote-ref" id="fnref1" role="doc-noteref"><sup>1</sup></a> The categorical predictors vowel and C2 are coded using indexing rather than the traditional R contrasts, as advocated in <span class="citation" data-cites="mcelreath2019">(<a href="#ref-mcelreath2019" role="doc-biblioref">McElreath, 2019</a>)</span>: in R, this corresponds to suppressing the model’s intercept with the <code>0 +</code> syntax; using indexing instead of contrasts makes it easier to specify priors and uncertainty is distributed equally across all levels of categorical predictors. For pedagogical simplicity, the model will use the default priors as explained in <a href="#sec-bayes" class="quarto-xref">Section&nbsp;3</a>.</p>
+<p>We will use brms to fit a Bayesian beta regression <span class="citation" data-cites="burkner2017">(<a href="#ref-burkner2017" role="doc-biblioref">Bürkner, 2017</a>)</span>. The model has voicing proportion as the outcome variable and the following terms: an interaction between vowel (/i, e, a, o, u/) and second consonant C2 (/k, t, p/), centred speech rate (number of syllables per second); as varying (aka random) terms, we included by-speaker varying coefficients for the vowel/consonant interaction and for centred speech rate.<a href="#fn2" class="footnote-ref" id="fnref2" role="doc-noteref"><sup>2</sup></a> The categorical predictors vowel and C2 are coded using indexing rather than the traditional R contrasts (such as treatment or sum), as advocated in <span class="citation" data-cites="mcelreath2019">(<a href="#ref-mcelreath2019" role="doc-biblioref">McElreath, 2019</a>, p 155, Ch 8)</span>: in R, this corresponds to suppressing the model’s intercept with the <code>0 +</code> syntax. One benefit of using indexing is that uncertainty is equally distributed across all levels of categorical predictors, since priors apply on the mean of each level, rather than on the difference of subsequent levels from the reference level (the latter scenario, which applies in traditional contrasts, including treatment and sum, makes estimates of the last level in the predictor more uncertain than the estimates of the other levels, given that the uncertainty of the intercept is added to the uncertainty of the difference). As explained in <a href="#sec-bayes" class="quarto-xref">Section&nbsp;3</a>, using the default priors calculated by brms is an acceptable method in the absence of very specific quantitative expectation, given that the default priors are weak enough to bear little effect on posteriors. Researchers should use their own judgement and expertise in a case by case fashion.</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="co"># attach brms</span></span>
 <span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(brms)</span>
@@ -526,8 +543,8 @@ Table&nbsp;2: Regression coefficients of a beta regression of voicing proportion
 </figure>
 </div>
 </div>
-<p>From the summary, we see that speech rate (number of syllables per second) has a positive effect on voicing proportion: the 80% CrI is between 0.01 and 0.15 log-odds [<span class="math inline">\(\beta\)</span> = 0.08, SD = 0.06]. Log-odds can be converted to odd-ratios by exponentiating the value: 0.01-0.15 log odds correspond to an odd-ratio of 1.01 to 1.16, or as percentages, to an increase of voicing of 1 to 16% for every increase of one syllable per second. Since this is an 80% CrI, we can be 80% confident that the true effect of speech rate is between 1-16% increase of voicing proportion, conditional on the data and model. Note that transforming measures this way is appropriate <em>only</em> with quantile-based measures (like CrIs) but not with moments like the mean and standard deviation: to correctly get mean and SDs in the transformed scale, you must first extract the posterior draws (see below), convert them and then take moments such as mean and SD <span class="citation" data-cites="burkner2025">(for a more detailed explanation, see <a href="#ref-burkner2025" role="doc-biblioref">Bürkner, 2025, p. 101</a>)</span>. In the avoidance of doubt, we will always transform the drawn values first and then take summary measures.</p>
-<p>Turning now to the coefficients for vowel and C2, given the indexing approach of coding these variables the model summary and the output of <code>fixef()</code> reports the <em>predictions</em> in log-odds for each combination of vowel and C2, rather than differences between levels. The CrIs of the vowel/C2 coefficients span all negative log-odds values: these correspond to proportions that are lower than 0.5 (which is 0 in log-odds). This matches the general trends in the raw data, which we plotted in <a href="#fig-ita-egg" class="quarto-xref">Figure&nbsp;2</a>. Next, we will plot the predicted proportions of each vowel/C2 combination at mean speech rate (i.e.&nbsp;centred speech rate = 0) and then calculate the average pair-wise difference in voicing proportion between /k, t, p/.</p>
+<p>From the summary, we see that speech rate (number of syllables per second) has a positive effect on voicing proportion: the 80% CrI is between 0.01 and 0.15 log-odds [<span class="math inline">\(\beta\)</span> = 0.08, SD = 0.06]. Log-odds can be converted to odds-ratios by exponentiating the value: 0.01-0.15 log odds correspond to an odds-ratio of 1.01 to 1.16, or as percentages, to an increase of voicing of 1 to 16% for every increase of one syllable per second. Since this is an 80% CrI, we can be 80% confident that the true effect of speech rate is between 1-16% increase of voicing proportion, conditional on the data and model. Note that transforming measures this way is appropriate <em>only</em> with quantile-based measures (like CrIs) but not with moments like the mean and standard deviation: to correctly get mean and SDs in the transformed scale, you must first extract the posterior draws (see below), convert them and then take moments such as mean and SD <span class="citation" data-cites="burkner2025">(for a more detailed explanation, see <a href="#ref-burkner2025" role="doc-biblioref">Bürkner, 2025, p. 101</a>)</span>. In the avoidance of doubt, we will always transform the drawn values first and then take summary measures.</p>
+<p>Turning now to the coefficients for vowel and C2, given the indexing approach of coding these variables the model summary and the output of <code>fixef()</code> reports the <em>predictions</em> in log-odds for each combination of vowel and C2, rather than differences between levels. The CrIs of the vowel/C2 coefficients span all negative log-odds values: these correspond to proportions that are lower than 0.5 (which is 0 in log-odds). This matches the general trends in the raw data, which we plotted in <a href="#fig-ita-egg" class="quarto-xref">Figure&nbsp;3</a>. Next, we will plot the predicted proportions of each vowel/C2 combination at mean speech rate (i.e.&nbsp;centred speech rate = 0) and then calculate the average pair-wise difference in voicing proportion between /k, t, p/.</p>
 <p>Before being able to plot the predictions, it’s important to get familiar with the so-called posterior draws. Bayesian regression models are fitted using Markov Chain Monte Carlo (MCMC) methods, as briefly explained in <a href="#sec-bayes" class="quarto-xref">Section&nbsp;3</a>. The <code>brm()</code> function runs four MCMC chains with 2000 iterations each by default. These are sufficient in most cases. The first 1000 iterations of each chain are used for “warmup”, where the MCMC algorithm is optimised to find the posterior probability. The second half of the iterations, 1000 per chain, are used for sampling from the posterior probability. Each iteration returns a drawn value for each parameter in the model. The list of values drawn during the Monte Carlo sampling are called the “posterior draws”. Since four chains are run, a total of 4000 posterior values are generated. The posterior draws are used for inference: we can plot them, summarise them, transform them and combine them in any way to answer specific questions.</p>
 <p>Posterior draws can be conveniently obtained with the <code>as_draws_df()</code> from brms. For the moment, we will extract only the draws of the constant (aka fixed) regression coefficients (model variables starting with <code>b_</code>). To check which coefficients are available in a model, use <code>get_variables()</code> from the tidybayes package <span class="citation" data-cites="kay2019">(<a href="#ref-kay2019" role="doc-biblioref">Kay, 2019</a>)</span>. <code>as_draws_df()</code> returns a tibble where each column contains the drawn values of a coefficient. <a href="#tbl-voi-prop-draws" class="quarto-xref">Table&nbsp;3</a> shows the first ten rows and first five columns of the output of <code>as_draws_df()</code>. The probability distribution of the drawn values of each coefficient is the posterior probability distribution of that coefficient. Note that, due to the indexing coding of vowel and C2, all coefficient except <code>b_speech_rate_c</code> are drawn <em>log-odds values</em> for each vowel/C2 combination (the drawn values for <code>b_speech_rate_c</code> are drawn <em>differences</em> in log-odds values for each unit increase of speech rate). The drawn values are in log-odds, but we can convert them to proportions with <code>plogis()</code> (we will do this when plotting below).</p>
 <div class="cell">
@@ -535,9 +552,6 @@ Table&nbsp;2: Regression coefficients of a beta regression of voicing proportion
 <span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>voi_prop_bm_draws <span class="ot">&lt;-</span> <span class="fu">as_draws_df</span>(voi_prop_bm, <span class="at">variable =</span> <span class="st">"^b_"</span>, <span class="at">regex =</span> <span class="cn">TRUE</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <div class="cell">
-<div class="cell-output cell-output-stderr">
-<pre><code>Warning: Dropping 'draws_df' class as required metadata was removed.</code></pre>
-</div>
 <div id="tbl-voi-prop-draws" class="cell quarto-float quarto-figure quarto-figure-center anchored">
 <figure class="quarto-float quarto-float-tbl figure">
 <figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-tbl" id="tbl-voi-prop-draws-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
@@ -642,13 +656,13 @@ Table&nbsp;3: First ten rows and 5 columns of the posterior draws for the model 
 </div>
 <p>We can now wrangle this tibble and plot the posterior distributions for each vowel/C2 combination. <a href="#tbl-voi-long" class="quarto-xref">Table&nbsp;4</a> shows the first ten rows.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>voi_prop_bm_draws_long <span class="ot">&lt;-</span> voi_prop_bm_draws <span class="sc">|&gt;</span> </span>
-<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>  <span class="co"># drop b_speech_rate_c before pivoting</span></span>
-<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(<span class="sc">-</span>b_speech_rate_c) <span class="sc">|&gt;</span> </span>
-<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a>  <span class="co"># pivot vowel:c2 columns</span></span>
-<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">pivot_longer</span>(<span class="st">`</span><span class="at">b_voweli:c2k</span><span class="st">`</span><span class="sc">:</span><span class="st">`</span><span class="at">b_vowelu:c2p</span><span class="st">`</span>, <span class="at">names_to =</span> <span class="st">"coeff"</span>) <span class="sc">|&gt;</span> </span>
-<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a>  <span class="co"># separate "coeff" labels into type ("b"), vowel and c2</span></span>
-<span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">separate</span>(coeff, <span class="at">into =</span> <span class="fu">c</span>(<span class="st">"type"</span>, <span class="st">"vowel"</span>, <span class="st">"c2"</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>voi_prop_bm_draws_long <span class="ot">&lt;-</span> voi_prop_bm_draws <span class="sc">|&gt;</span> </span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>  <span class="co"># drop b_speech_rate_c before pivoting</span></span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(<span class="sc">-</span>b_speech_rate_c) <span class="sc">|&gt;</span> </span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>  <span class="co"># pivot vowel:c2 columns</span></span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">pivot_longer</span>(<span class="st">`</span><span class="at">b_voweli:c2k</span><span class="st">`</span><span class="sc">:</span><span class="st">`</span><span class="at">b_vowelu:c2p</span><span class="st">`</span>, <span class="at">names_to =</span> <span class="st">"coeff"</span>) <span class="sc">|&gt;</span> </span>
+<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a>  <span class="co"># separate "coeff" labels into type ("b"), vowel and c2</span></span>
+<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">separate</span>(coeff, <span class="at">into =</span> <span class="fu">c</span>(<span class="st">"type"</span>, <span class="st">"vowel"</span>, <span class="st">"c2"</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <div class="cell">
 <div id="tbl-voi-long" class="cell quarto-float quarto-figure quarto-figure-center anchored">
@@ -768,18 +782,18 @@ Table&nbsp;4: First ten rows of posterior draws from <code>voi_prop_bm</code> in
 </figure>
 </div>
 </div>
-<p>For plotting, we can use ggplot2 statistics layers from the ggdist package [<span class="citation" data-cites="kay2023">(<a href="#ref-kay2023" role="doc-biblioref">Kay, 2023</a>)</span>; kay2024]. <code>stat_halfeye()</code> plots the density of the posterior probability (in grey), its median (point) and CrIs (lines). Let’s use 60 and 80% CrIs and transform the log-odds values to proportions with <code>plogis()</code>. See <a href="#fig-voi-prop-bm-1" class="quarto-xref">Figure&nbsp;3</a>.</p>
+<p>For plotting, we can use ggplot2 statistics layers from the ggdist package [<span class="citation" data-cites="kay2023">(<a href="#ref-kay2023" role="doc-biblioref">Kay, 2023</a>)</span>; kay2024]. <code>stat_halfeye()</code> plots the density of the posterior probability (in grey), its median (point) and CrIs (lines). Let’s use 60 and 80% CrIs and transform the log-odds values to proportions with <code>plogis()</code>. See <a href="#fig-voi-prop-bm-1" class="quarto-xref">Figure&nbsp;4</a>.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="co"># attach ggdist package</span></span>
-<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggdist)</span>
-<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a>voi_prop_bm_draws_long <span class="sc">|&gt;</span> </span>
-<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="fu">plogis</span>(value), vowel)) <span class="sc">+</span></span>
-<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">stat_halfeye</span>(<span class="at">.width =</span> <span class="fu">c</span>(<span class="fl">0.6</span>, <span class="fl">0.8</span>)) <span class="sc">+</span></span>
-<span id="cb7-7"><a href="#cb7-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">facet_grid</span>(<span class="at">rows =</span> <span class="fu">vars</span>(c2)) <span class="sc">+</span></span>
-<span id="cb7-8"><a href="#cb7-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(</span>
-<span id="cb7-9"><a href="#cb7-9" aria-hidden="true" tabindex="-1"></a>    <span class="at">caption =</span> <span class="st">"The points are the medians and the two lines are 60 and 80% CrIs."</span></span>
-<span id="cb7-10"><a href="#cb7-10" aria-hidden="true" tabindex="-1"></a>  )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="co"># attach ggdist package</span></span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggdist)</span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a>voi_prop_bm_draws_long <span class="sc">|&gt;</span> </span>
+<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="fu">plogis</span>(value), vowel)) <span class="sc">+</span></span>
+<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">stat_halfeye</span>(<span class="at">.width =</span> <span class="fu">c</span>(<span class="fl">0.6</span>, <span class="fl">0.8</span>)) <span class="sc">+</span></span>
+<span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">facet_grid</span>(<span class="at">rows =</span> <span class="fu">vars</span>(c2)) <span class="sc">+</span></span>
+<span id="cb6-8"><a href="#cb6-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(</span>
+<span id="cb6-9"><a href="#cb6-9" aria-hidden="true" tabindex="-1"></a>    <span class="at">caption =</span> <span class="st">"The points are the medians and the two lines are 60 and 80% CrIs."</span></span>
+<span id="cb6-10"><a href="#cb6-10" aria-hidden="true" tabindex="-1"></a>  )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <div id="fig-voi-prop-bm-1" class="quarto-float quarto-figure quarto-figure-center anchored">
 <figure class="quarto-float quarto-float-fig figure">
@@ -787,29 +801,29 @@ Table&nbsp;4: First ten rows of posterior draws from <code>voi_prop_bm</code> in
 <img src="manuscript_files/figure-html/fig-voi-prop-bm-1-1.png" class="img-fluid figure-img" width="672">
 </div>
 <figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-voi-prop-bm-1-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-Figure&nbsp;3: Expected predictions of voicing proportion by vowel and consonant from <code>voi_prop_bm</code>.
+Figure&nbsp;4: Expected predictions of voicing proportion by vowel and consonant from <code>voi_prop_bm</code>.
 </figcaption>
 </figure>
 </div>
 </div>
 </div>
-<p>What if we want to plot the average predicted voicing proportion for the three consonants /k, t, p/? One approach is to take the mean across vowels within each consonant for each posterior draw, and the posterior distribution of the resulting list of values is the predicted posterior distribution of voicing proportion for each consonant, assuming an “average” vowel. See <a href="#fig-voi-pbdl-c2" class="quarto-xref">Figure&nbsp;4</a>.</p>
+<p>What if we want to plot the average predicted voicing proportion for the three consonants /k, t, p/? We can “marginalise” over vowel, i.e.&nbsp;take the mean across vowels within each consonant for each posterior draw, and the posterior distribution of the resulting list of values is the predicted posterior distribution of voicing proportion for each consonant, assuming an “average” vowel. See <a href="#fig-voi-pbdl-c2" class="quarto-xref">Figure&nbsp;5</a> for the density of these posteriors. For a detailed treatment of various approaches to marginalisation that apply to more complex cases like those involving numeric predictors, see <span class="citation" data-cites="arelbundock2024">(<a href="#ref-arelbundock2024" role="doc-biblioref">Arel-Bundock et al., 2024</a>)</span>.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>voi_prop_bm_draws_long_c2 <span class="ot">&lt;-</span> voi_prop_bm_draws_long <span class="sc">|&gt;</span> </span>
-<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>  <span class="co"># grouping by .draw and c2 ensures that averaging applies only within draw and c2</span></span>
-<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(.draw, c2) <span class="sc">|&gt;</span> </span>
-<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a>  <span class="co"># calculate the mean value within draw/c2</span></span>
-<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise</span>(</span>
-<span id="cb8-6"><a href="#cb8-6" aria-hidden="true" tabindex="-1"></a>    <span class="at">value_mean =</span> <span class="fu">mean</span>(value), <span class="at">.groups =</span> <span class="st">"drop"</span></span>
-<span id="cb8-7"><a href="#cb8-7" aria-hidden="true" tabindex="-1"></a>  )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>voi_prop_bm_draws_long_c2 <span class="ot">&lt;-</span> voi_prop_bm_draws_long <span class="sc">|&gt;</span> </span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>  <span class="co"># grouping by .draw and c2 ensures that averaging applies only within draw and c2</span></span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(.draw, c2) <span class="sc">|&gt;</span> </span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a>  <span class="co"># calculate the mean value within draw/c2</span></span>
+<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise</span>(</span>
+<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a>    <span class="at">value_mean =</span> <span class="fu">mean</span>(value), <span class="at">.groups =</span> <span class="st">"drop"</span></span>
+<span id="cb7-7"><a href="#cb7-7" aria-hidden="true" tabindex="-1"></a>  )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>voi_prop_bm_draws_long_c2 <span class="sc">|&gt;</span> </span>
-<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="fu">plogis</span>(value_mean), c2)) <span class="sc">+</span></span>
-<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">stat_halfeye</span>(<span class="at">.width =</span> <span class="fu">c</span>(<span class="fl">0.6</span>, <span class="fl">0.8</span>)) <span class="sc">+</span></span>
-<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(</span>
-<span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">caption =</span> <span class="st">"The points are the medians and the two lines are 60 and 80% CrIs."</span></span>
-<span id="cb9-6"><a href="#cb9-6" aria-hidden="true" tabindex="-1"></a>  )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>voi_prop_bm_draws_long_c2 <span class="sc">|&gt;</span> </span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="fu">plogis</span>(value_mean), c2)) <span class="sc">+</span></span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">stat_halfeye</span>(<span class="at">.width =</span> <span class="fu">c</span>(<span class="fl">0.6</span>, <span class="fl">0.8</span>)) <span class="sc">+</span></span>
+<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(</span>
+<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">caption =</span> <span class="st">"The points are the medians and the two lines are 60 and 80% CrIs."</span></span>
+<span id="cb8-6"><a href="#cb8-6" aria-hidden="true" tabindex="-1"></a>  )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <div id="fig-voi-pbdl-c2" class="quarto-float quarto-figure quarto-figure-center anchored">
 <figure class="quarto-float quarto-float-fig figure">
@@ -817,24 +831,24 @@ Figure&nbsp;3: Expected predictions of voicing proportion by vowel and consonant
 <img src="manuscript_files/figure-html/fig-voi-pbdl-c2-1.png" class="img-fluid figure-img" width="672">
 </div>
 <figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-voi-pbdl-c2-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-Figure&nbsp;4: Expected predictions of voicing proportion by consonant, averaged across vowels.
+Figure&nbsp;5: Expected predictions of voicing proportion by consonant, averaged across vowels.
 </figcaption>
 </figure>
 </div>
 </div>
 </div>
-<p>Based on the expected posterior distributions of the mean voicing proportion by consonant, /p/ has a somewhat higher voicing proportion than /k/ and /t/. The real question is: how much higher? We can quantify this by taking the difference of the drawn values for /p/ and those for /t, k/ (all averaged across vowels). Since we want to compare /t, k/ with /p/, we should first average the average draws of /t, k/ and then take the difference of the averaged /t, k/ draws and the draws of /p/. <a href="#tbl-voi-pbd" class="quarto-xref">Table&nbsp;5</a> shows the first ten rows of the resulting data frame. The posterior distribution of the expected difference is shown in <a href="#fig-diff-p-tk" class="quarto-xref">Figure&nbsp;5</a>.</p>
+<p>Based on the expected posterior distributions of the mean voicing proportion by consonant, /p/ has a somewhat higher voicing proportion than /k/ and /t/. The real question is: how much higher? We can quantify this by taking the difference of the drawn values for /p/ and those for /t, k/ (all averaged across vowels). Since we want to compare /t, k/ with /p/, we should first average the average draws of /t, k/ and then take the difference of the averaged /t, k/ draws and the draws of /p/. <a href="#tbl-voi-pbd" class="quarto-xref">Table&nbsp;5</a> shows the first ten rows of the resulting data frame. The posterior distribution of the expected difference is shown in <a href="#fig-diff-p-tk" class="quarto-xref">Figure&nbsp;6</a>.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>voi_prop_bm_diff <span class="ot">&lt;-</span> voi_prop_bm_draws_long_c2 <span class="sc">|&gt;</span> </span>
-<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>  <span class="co"># pivot data to create one column per consonant with the mean drawn values,</span></span>
-<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a>  <span class="co"># with one draw per raw</span></span>
-<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">pivot_wider</span>(<span class="at">names_from =</span> c2, <span class="at">values_from =</span> value_mean) <span class="sc">|&gt;</span> </span>
-<span id="cb10-5"><a href="#cb10-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(</span>
-<span id="cb10-6"><a href="#cb10-6" aria-hidden="true" tabindex="-1"></a>    <span class="co"># calculate the mean of /k/ and /t/, for each draw</span></span>
-<span id="cb10-7"><a href="#cb10-7" aria-hidden="true" tabindex="-1"></a>    <span class="at">c2tk =</span> <span class="fu">mean</span>(<span class="fu">c</span>(c2k, c2t)),</span>
-<span id="cb10-8"><a href="#cb10-8" aria-hidden="true" tabindex="-1"></a>    <span class="co"># calculate the difference of /p/ and /t, k/</span></span>
-<span id="cb10-9"><a href="#cb10-9" aria-hidden="true" tabindex="-1"></a>    <span class="at">c2p_tk_diff =</span> c2p <span class="sc">-</span> c2tk</span>
-<span id="cb10-10"><a href="#cb10-10" aria-hidden="true" tabindex="-1"></a>  )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>voi_prop_bm_diff <span class="ot">&lt;-</span> voi_prop_bm_draws_long_c2 <span class="sc">|&gt;</span> </span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>  <span class="co"># pivot data to create one column per consonant with the mean drawn values,</span></span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>  <span class="co"># with one draw per raw</span></span>
+<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">pivot_wider</span>(<span class="at">names_from =</span> c2, <span class="at">values_from =</span> value_mean) <span class="sc">|&gt;</span> </span>
+<span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(</span>
+<span id="cb9-6"><a href="#cb9-6" aria-hidden="true" tabindex="-1"></a>    <span class="co"># calculate the mean of /k/ and /t/, for each draw</span></span>
+<span id="cb9-7"><a href="#cb9-7" aria-hidden="true" tabindex="-1"></a>    <span class="at">c2tk =</span> <span class="fu">mean</span>(<span class="fu">c</span>(c2k, c2t)),</span>
+<span id="cb9-8"><a href="#cb9-8" aria-hidden="true" tabindex="-1"></a>    <span class="co"># calculate the difference of /p/ and /t, k/</span></span>
+<span id="cb9-9"><a href="#cb9-9" aria-hidden="true" tabindex="-1"></a>    <span class="at">c2p_tk_diff =</span> c2p <span class="sc">-</span> c2tk</span>
+<span id="cb9-10"><a href="#cb9-10" aria-hidden="true" tabindex="-1"></a>  )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <div class="cell">
 <div id="tbl-voi-pbd" class="cell quarto-float quarto-figure quarto-figure-center anchored">
@@ -944,10 +958,10 @@ Table&nbsp;5: First 10 rows of expected difference of voicing proportion between
 </div>
 </div>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>voi_prop_bm_diff <span class="sc">|&gt;</span> </span>
-<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(c2p_tk_diff)) <span class="sc">+</span></span>
-<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">stat_halfeye</span>(<span class="at">.width =</span> <span class="fu">c</span>(<span class="fl">0.6</span>, <span class="fl">0.8</span>, <span class="fl">0.9</span>)) <span class="sc">+</span></span>
-<span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_vline</span>(<span class="at">xintercept =</span> <span class="dv">0</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>voi_prop_bm_diff <span class="sc">|&gt;</span> </span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(c2p_tk_diff)) <span class="sc">+</span></span>
+<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">stat_halfeye</span>(<span class="at">.width =</span> <span class="fu">c</span>(<span class="fl">0.6</span>, <span class="fl">0.8</span>, <span class="fl">0.9</span>)) <span class="sc">+</span></span>
+<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_vline</span>(<span class="at">xintercept =</span> <span class="dv">0</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <div id="fig-diff-p-tk" class="quarto-float quarto-figure quarto-figure-center anchored">
 <figure class="quarto-float quarto-float-fig figure">
@@ -955,28 +969,28 @@ Table&nbsp;5: First 10 rows of expected difference of voicing proportion between
 <img src="manuscript_files/figure-html/fig-diff-p-tk-1.png" class="img-fluid figure-img" width="672">
 </div>
 <figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-diff-p-tk-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-Figure&nbsp;5: Posterior distribution of the difference between the expected voicing proportion of /t, k/ vs /p/, averaged across vowels.
+Figure&nbsp;6: Posterior distribution of the difference between the expected voicing proportion of /t, k/ vs /p/, averaged across vowels.
 </figcaption>
 </figure>
 </div>
 </div>
 </div>
-<p>Once we have the posterior difference, we can obtain CrIs of the difference using <code>quantile2()</code> from the posterior package <span class="citation" data-cites="burkner2024">(<a href="#ref-burkner2024" role="doc-biblioref">Bürkner et al., 2024</a>)</span>. Beware that the values of the difference are in log-odds! We can convert these into odd-ratios with <code>exp()</code>. The output of the code below is shown in <a href="#tbl-voi-bm-quant" class="quarto-xref">Table&nbsp;6</a>. Odd-ratios indicate the ratio of the difference between A and B, so that 1 means no difference, values greater than 1 indicate an increase in A relative to B and values lower than 1 indicate a decrease in A relative to B. Odd-ratios are useful when looking at differences that are in log-odds because while the relative magnitude of the difference in proportion between two groups is the same independent of the baseline proportion, the <em>absolute</em> magnitude of the difference depends on the baseline value. For example, an odd-ratio difference of 1.25 would correspond to a proportion increase of about 3 percentage points if the baseline proportion is 0.62 but it would correspond to a proportion increase of 5 percentage points if the baseline proportion is 0.73 and 1 percentage point if the baseline is 0.99. Of course, in real research contexts it is still useful to think about absolute magnitudes and their relevance from a conceptual and methodological perspective. In this tutorial we just focus on odd-ratios for simplicity.</p>
+<p>Once we have the posterior difference, we can obtain CrIs of the difference using <code>quantile2()</code> from the posterior package <span class="citation" data-cites="burkner2024">(<a href="#ref-burkner2024" role="doc-biblioref">Bürkner et al., 2024</a>)</span>. Beware that the values of the difference are in log-odds! We can convert these into odds-ratios with <code>exp()</code>. The output of the code below is shown in <a href="#tbl-voi-bm-quant" class="quarto-xref">Table&nbsp;6</a>. Odds-ratios indicate the ratio of the difference between A and B, so that 1 means no difference, values greater than 1 indicate an increase in A relative to B and values lower than 1 indicate a decrease in A relative to B. Odds-ratios are useful when looking at differences that are in log-odds because while the relative magnitude of the difference in proportion between two groups is the same independent of the baseline proportion, the <em>absolute</em> magnitude of the difference depends on the baseline value. For example, an odds-ratio difference of 1.25 would correspond to a proportion increase of about 3 percentage points if the baseline proportion is 0.62 but it would correspond to a proportion increase of 5 percentage points if the baseline proportion is 0.73 and 1 percentage point if the baseline is 0.99. Of course, in real research contexts it is still useful to think about absolute magnitudes and their relevance from a conceptual and methodological perspective. In this tutorial we just focus on odds-ratios for simplicity.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(posterior)</span>
-<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a>voi_bm_quant <span class="ot">&lt;-</span> voi_prop_bm_diff <span class="sc">|&gt;</span> </span>
-<span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">c2p_tk_diff_ratio =</span> <span class="fu">exp</span>(c2p_tk_diff)) <span class="sc">|&gt;</span> </span>
-<span id="cb12-5"><a href="#cb12-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">reframe</span>(</span>
-<span id="cb12-6"><a href="#cb12-6" aria-hidden="true" tabindex="-1"></a>    <span class="co"># 90% CrI</span></span>
-<span id="cb12-7"><a href="#cb12-7" aria-hidden="true" tabindex="-1"></a>    <span class="at">q90 =</span> <span class="fu">quantile2</span>(c2p_tk_diff_ratio, <span class="at">probs =</span> <span class="fu">c</span>(<span class="fl">0.05</span>, <span class="fl">0.95</span>)),</span>
-<span id="cb12-8"><a href="#cb12-8" aria-hidden="true" tabindex="-1"></a>    <span class="co"># 80% CrI</span></span>
-<span id="cb12-9"><a href="#cb12-9" aria-hidden="true" tabindex="-1"></a>    <span class="at">q80 =</span> <span class="fu">quantile2</span>(c2p_tk_diff_ratio, <span class="at">probs =</span> <span class="fu">c</span>(<span class="fl">0.1</span>, <span class="fl">0.9</span>)),</span>
-<span id="cb12-10"><a href="#cb12-10" aria-hidden="true" tabindex="-1"></a>    <span class="co"># 60% CrI</span></span>
-<span id="cb12-11"><a href="#cb12-11" aria-hidden="true" tabindex="-1"></a>    <span class="at">q60 =</span> <span class="fu">quantile2</span>(c2p_tk_diff_ratio, <span class="at">probs =</span> <span class="fu">c</span>(<span class="fl">0.2</span>, <span class="fl">0.8</span>)),</span>
-<span id="cb12-12"><a href="#cb12-12" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">|&gt;</span> </span>
-<span id="cb12-13"><a href="#cb12-13" aria-hidden="true" tabindex="-1"></a>  <span class="co"># round to 2 digits</span></span>
-<span id="cb12-14"><a href="#cb12-14" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="fu">across</span>(<span class="fu">everything</span>(), <span class="sc">~</span><span class="fu">round</span>(.x, <span class="dv">2</span>)))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(posterior)</span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a>voi_bm_quant <span class="ot">&lt;-</span> voi_prop_bm_diff <span class="sc">|&gt;</span> </span>
+<span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">c2p_tk_diff_ratio =</span> <span class="fu">exp</span>(c2p_tk_diff)) <span class="sc">|&gt;</span> </span>
+<span id="cb11-5"><a href="#cb11-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">reframe</span>(</span>
+<span id="cb11-6"><a href="#cb11-6" aria-hidden="true" tabindex="-1"></a>    <span class="co"># 90% CrI</span></span>
+<span id="cb11-7"><a href="#cb11-7" aria-hidden="true" tabindex="-1"></a>    <span class="at">q90 =</span> <span class="fu">quantile2</span>(c2p_tk_diff_ratio, <span class="at">probs =</span> <span class="fu">c</span>(<span class="fl">0.05</span>, <span class="fl">0.95</span>)),</span>
+<span id="cb11-8"><a href="#cb11-8" aria-hidden="true" tabindex="-1"></a>    <span class="co"># 80% CrI</span></span>
+<span id="cb11-9"><a href="#cb11-9" aria-hidden="true" tabindex="-1"></a>    <span class="at">q80 =</span> <span class="fu">quantile2</span>(c2p_tk_diff_ratio, <span class="at">probs =</span> <span class="fu">c</span>(<span class="fl">0.1</span>, <span class="fl">0.9</span>)),</span>
+<span id="cb11-10"><a href="#cb11-10" aria-hidden="true" tabindex="-1"></a>    <span class="co"># 60% CrI</span></span>
+<span id="cb11-11"><a href="#cb11-11" aria-hidden="true" tabindex="-1"></a>    <span class="at">q60 =</span> <span class="fu">quantile2</span>(c2p_tk_diff_ratio, <span class="at">probs =</span> <span class="fu">c</span>(<span class="fl">0.2</span>, <span class="fl">0.8</span>)),</span>
+<span id="cb11-12"><a href="#cb11-12" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">|&gt;</span> </span>
+<span id="cb11-13"><a href="#cb11-13" aria-hidden="true" tabindex="-1"></a>  <span class="co"># round to 2 digits</span></span>
+<span id="cb11-14"><a href="#cb11-14" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="fu">across</span>(<span class="fu">everything</span>(), <span class="sc">~</span><span class="fu">round</span>(.x, <span class="dv">2</span>)))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <div class="cell">
 <div id="tbl-voi-bm-quant" class="cell quarto-float quarto-figure quarto-figure-center anchored">
@@ -1012,9 +1026,9 @@ Table&nbsp;6: Upper and lower limits of 90, 80 and 60% Credible Intervals of the
 </figure>
 </div>
 </div>
-<p>Based on the model and data, there is a 90% probability that the voicing proportion in /p/ is 1.07-1.38 times longer (or 7-38% increase) than in /t, k/. At 80% confidence, the change ratio is 1.10-1.34 (or 10-34% increase) while at 60% confidence is 1.14-1.30 (14-30% increase). In other words we can be quite confident that the voicing proportion in /p/ is greater than in /t, k/ and that the increase is less than 35%. The brms package comes with a convenient function, <code>conditional_effects()</code>, to plot posterior means and CrIs based on predictors in the model. In <a href="#fig-voi-prop-bm-cond" class="quarto-xref">Figure&nbsp;6</a>, we plot the predicted proportion of voicing by consonant and vowel.</p>
+<p>Based on the model and data, there is a 90% probability that the voicing proportion in /p/ is 1.07-1.38 times longer (or 7-38% increase) than in /t, k/. At 80% confidence, the change ratio is 1.10-1.34 (or 10-34% increase) while at 60% confidence is 1.14-1.30 (14-30% increase). In other words we can be quite confident that the voicing proportion in /p/ is greater than in /t, k/ and that the increase is less than 35%. The brms package comes with a convenient function, <code>conditional_effects()</code>, to plot posterior means and CrIs based on predictors in the model. In <a href="#fig-voi-prop-bm-cond" class="quarto-xref">Figure&nbsp;7</a>, we plot the predicted proportion of voicing by consonant and vowel.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="fu">conditional_effects</span>(voi_prop_bm, <span class="st">"c2:vowel"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="fu">conditional_effects</span>(voi_prop_bm, <span class="st">"c2:vowel"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <div id="fig-voi-prop-bm-cond" class="quarto-float quarto-figure quarto-figure-center anchored">
 <figure class="quarto-float quarto-float-fig figure">
@@ -1022,18 +1036,18 @@ Table&nbsp;6: Upper and lower limits of 90, 80 and 60% Credible Intervals of the
 <img src="manuscript_files/figure-html/fig-voi-prop-bm-cond-1.png" class="img-fluid figure-img" width="672">
 </div>
 <figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-voi-prop-bm-cond-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-Figure&nbsp;6: Expected voicing proportion by consonant and vowel with 95% Credible Intervals.
+Figure&nbsp;7: Expected voicing proportion by consonant and vowel with 95% Credible Intervals.
 </figcaption>
 </figure>
 </div>
 </div>
 </div>
-<p>Finally, the package marginaleffects <span class="citation" data-cites="arelbundock2025">(<a href="#ref-arelbundock2025" role="doc-biblioref">Arel-Bundock et al., 2025</a>)</span> has two other convenience functions that return CrIs of comparisons across predictor levels (<code>avg_comparisons()</code>) and CrIs of posterior predictions across predictor levels (<code>avg_predictions</code>). Both functions take the model and a list of variables as arguments. Optionally, you can set the confidence level with the <code>conf_level</code> argument (here, we set it to 0.8, or 80%). <code>avg_comparisons()</code> allows the user to specify the type of comparison for each variable: here we set <code>"pairwise"</code> to calculate pairwise comparisons of each level of <code>c2</code>. The output of the two functions is shown in <a href="#tbl-marginal-1" class="quarto-xref">Table&nbsp;7</a> and <a href="#tbl-marginal-2" class="quarto-xref">Table&nbsp;8</a>.</p>
+<p>Finally, the package marginaleffects <span class="citation" data-cites="arelbundock2025">(<a href="#ref-arelbundock2025" role="doc-biblioref">Arel-Bundock et al., 2025</a>)</span> has two other convenience functions that return CrIs of comparisons across predictor levels (<code>avg_comparisons()</code>) and CrIs of posterior predictions across predictor levels (<code>avg_predictions</code>). Both functions take the model and a list of variables as arguments. Optionally, you can set the confidence level with the <code>conf_level</code> argument (here, we set it to 0.8, or 80%). <code>avg_comparisons()</code> allows the user to specify the type of comparison for each variable: here we set <code>"pairwise"</code> to calculate pairwise comparisons of each level of <code>c2</code>. The output of the two functions is shown in <a href="#tbl-marginal-1" class="quarto-xref">Table&nbsp;7</a> and <a href="#tbl-marginal-2" class="quarto-xref">Table&nbsp;8</a>. Note that even when multiple comparisons are made, there is no need to apply any correction as it is commonly done with <em>p</em>-values in frequentist statistics <span class="citation" data-cites="gelman2012">(see <a href="#ref-gelman2012" role="doc-biblioref">Gelman et al., 2012</a>)</span>.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(marginaleffects)</span>
-<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a><span class="fu">avg_comparisons</span>(voi_prop_bm, <span class="at">variables =</span> <span class="fu">list</span>(<span class="at">c2 =</span> <span class="st">"pairwise"</span>), <span class="at">conf_level =</span> <span class="fl">0.8</span>, <span class="at">type =</span> <span class="st">"link"</span>)</span>
-<span id="cb14-4"><a href="#cb14-4" aria-hidden="true" tabindex="-1"></a><span class="fu">avg_predictions</span>(voi_prop_bm, <span class="at">variables =</span> <span class="st">"vowel"</span>, <span class="at">conf_level =</span> <span class="fl">0.8</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(marginaleffects)</span>
+<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a><span class="fu">avg_comparisons</span>(voi_prop_bm, <span class="at">variables =</span> <span class="fu">list</span>(<span class="at">c2 =</span> <span class="st">"pairwise"</span>), <span class="at">conf_level =</span> <span class="fl">0.8</span>, <span class="at">type =</span> <span class="st">"link"</span>)</span>
+<span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a><span class="fu">avg_predictions</span>(voi_prop_bm, <span class="at">variables =</span> <span class="st">"vowel"</span>, <span class="at">conf_level =</span> <span class="fl">0.8</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <div class="cell">
 <div id="tbl-marginal-1" class="cell quarto-float quarto-figure quarto-figure-center anchored">
@@ -1056,24 +1070,24 @@ Table&nbsp;7: Difference in expected voicing proportion by consonant, averaged a
 <tbody>
 <tr class="odd">
 <td style="text-align: left;">c2</td>
-<td style="text-align: left;">mean(t) - mean(k)</td>
-<td style="text-align: right;">0.035</td>
-<td style="text-align: right;">-0.004</td>
-<td style="text-align: right;">0.074</td>
-</tr>
-<tr class="even">
-<td style="text-align: left;">c2</td>
-<td style="text-align: left;">mean(p) - mean(k)</td>
+<td style="text-align: left;">p - k</td>
 <td style="text-align: right;">0.218</td>
 <td style="text-align: right;">0.178</td>
 <td style="text-align: right;">0.256</td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td style="text-align: left;">c2</td>
-<td style="text-align: left;">mean(p) - mean(t)</td>
+<td style="text-align: left;">p - t</td>
 <td style="text-align: right;">0.183</td>
 <td style="text-align: right;">0.145</td>
 <td style="text-align: right;">0.219</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">c2</td>
+<td style="text-align: left;">t - k</td>
+<td style="text-align: right;">0.035</td>
+<td style="text-align: right;">-0.004</td>
+<td style="text-align: right;">0.074</td>
 </tr>
 </tbody>
 </table>
@@ -1156,7 +1170,7 @@ Table&nbsp;8: Expected voicing proportion by vowel, averaged across vowels, with
 <li><p><code>nas_prop</code> is the proportion of coarticulatory nasalisation of the vowel.</p></li>
 </ul>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a>nasal <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="st">"data/carignan2021/nasal.csv"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a>nasal <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="st">"data/carignan2021/nasal.csv"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <div class="cell">
 <div id="tbl-nasal" class="cell quarto-float quarto-figure quarto-figure-center anchored">
@@ -1273,27 +1287,27 @@ Table&nbsp;9: First ten rows of the nasal proportion data.
 <img src="manuscript_files/figure-html/fig-nasal-1.png" class="img-fluid figure-img" width="672">
 </div>
 <figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-nasal-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-Figure&nbsp;7: Proportion of coarticulatory nasalisation during the vowel in VNC sequences in German, depending on C voicing.
+Figure&nbsp;8: Proportion of coarticulatory nasalisation during the vowel in VNC sequences in German, depending on C voicing.
 </figcaption>
 </figure>
 </div>
 </div>
 </div>
-<p><a href="#fig-nasal" class="quarto-xref">Figure&nbsp;7</a> shows the proportion of coarticulatory nasalisation in vowels followed by /nd/ (voiced) vs /nt/ (voiceless) sequences, for the short vowels /i, e, a, o, u/. We can see a pattern of higher nasalisation proportion in vowels followed by /nt/, at least in the vowels /a, i, o/. For /e, u/, the distribution of nasalisation proportion seems to be similar between the voiced and voiceless contexts.</p>
+<p><a href="#fig-nasal" class="quarto-xref">Figure&nbsp;8</a> shows the proportion of coarticulatory nasalisation in vowels followed by /nd/ (voiced) vs /nt/ (voiceless) sequences, for the short vowels /i, e, a, o, u/. We can see a pattern of higher nasalisation proportion in vowels followed by /nt/, at least in the vowels /a, i, o/. For /e, u/, the distribution of nasalisation proportion seems to be similar between the voiced and voiceless contexts.</p>
 <p>Now onto modelling with a beta regression. Note that a full appropriate model would include further predictors (both constant and varying), but for simplicity here we include only the following predictors: voicing (voiced /nd/ vs voiceless /nt/), vowel (/i, e, a, o, u/), including an interaction between them. As varying terms, we include a varying intercept by speaker and a by-speaker varying slope for voicing and vowel in interaction. As with the model from the first case study, voicing and vowel are coded using indexing, by suppressing the intercept with <code>0 +</code>. Here’s the code of the model.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb16"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a>nas_prop_bm <span class="ot">&lt;-</span> <span class="fu">brm</span>(</span>
-<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a>  nas_prop <span class="sc">~</span> <span class="dv">0</span> <span class="sc">+</span> voicing<span class="sc">:</span>vowel <span class="sc">+</span> (<span class="dv">0</span> <span class="sc">+</span> voicing<span class="sc">:</span>vowel <span class="sc">|</span> speaker),</span>
-<span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">data =</span> nasal,</span>
-<span id="cb16-4"><a href="#cb16-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">family =</span> Beta,</span>
-<span id="cb16-5"><a href="#cb16-5" aria-hidden="true" tabindex="-1"></a>  <span class="at">cores =</span> <span class="dv">4</span>,</span>
-<span id="cb16-6"><a href="#cb16-6" aria-hidden="true" tabindex="-1"></a>  <span class="at">seed =</span> <span class="dv">3749</span>,</span>
-<span id="cb16-7"><a href="#cb16-7" aria-hidden="true" tabindex="-1"></a>  <span class="at">file =</span> <span class="st">"data/cache/nas_prop_bm"</span></span>
-<span id="cb16-8"><a href="#cb16-8" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a>nas_prop_bm <span class="ot">&lt;-</span> <span class="fu">brm</span>(</span>
+<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a>  nas_prop <span class="sc">~</span> <span class="dv">0</span> <span class="sc">+</span> voicing<span class="sc">:</span>vowel <span class="sc">+</span> (<span class="dv">0</span> <span class="sc">+</span> voicing<span class="sc">:</span>vowel <span class="sc">|</span> speaker),</span>
+<span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">data =</span> nasal,</span>
+<span id="cb15-4"><a href="#cb15-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">family =</span> Beta,</span>
+<span id="cb15-5"><a href="#cb15-5" aria-hidden="true" tabindex="-1"></a>  <span class="at">cores =</span> <span class="dv">4</span>,</span>
+<span id="cb15-6"><a href="#cb15-6" aria-hidden="true" tabindex="-1"></a>  <span class="at">seed =</span> <span class="dv">3749</span>,</span>
+<span id="cb15-7"><a href="#cb15-7" aria-hidden="true" tabindex="-1"></a>  <span class="at">file =</span> <span class="st">"data/cache/nas_prop_bm"</span></span>
+<span id="cb15-8"><a href="#cb15-8" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>Let’s inspect the output of <code>fixef()</code>, reported in <a href="#tbl-nas-prop-fixef" class="quarto-xref">Table&nbsp;10</a>.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb17"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="fu">fixef</span>(nas_prop_bm, <span class="at">prob =</span> <span class="fu">c</span>(<span class="fl">0.1</span>, <span class="fl">0.9</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb16"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="fu">fixef</span>(nas_prop_bm, <span class="at">prob =</span> <span class="fu">c</span>(<span class="fl">0.1</span>, <span class="fl">0.9</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <div class="cell">
 <div id="tbl-nas-prop-fixef" class="cell quarto-float quarto-figure quarto-figure-center anchored">
@@ -1391,9 +1405,9 @@ Table&nbsp;10: Regression coefficients of a beta regression of nasalisation prop
 </figure>
 </div>
 </div>
-<p>Negative log-odds indicate a proportion that is smaller than 50%, while positive log-odds a proportion that is greater than 50%. Generally, the expected log-odd predictions in <a href="#tbl-nas-prop-fixef" class="quarto-xref">Table&nbsp;10</a> are negative, indicating an overall tendency for the nasalisation to take less than 50% of the duration of the vowel. Moreover, the predictions are higher for voiceless NC sequences than for voiced NC sequences, indicating a greater proportion of nasalisation in the former. However there is vowel-specific variation, and there doesn’t seem to be much of a difference in nasalisation proportion in /e/ and /u/. <a href="#fig-nas-prop" class="quarto-xref">Figure&nbsp;8</a> shows the expected predictions with <code>conditional_effects()</code>, which should make the interpretation of the predictions from <a href="#tbl-nas-prop-fixef" class="quarto-xref">Table&nbsp;10</a> clearer.</p>
+<p>Negative log-odds indicate a proportion that is smaller than 50%, while positive log-odds a proportion that is greater than 50%. Generally, the expected log-odd predictions in <a href="#tbl-nas-prop-fixef" class="quarto-xref">Table&nbsp;10</a> are negative, indicating an overall tendency for the nasalisation to take less than 50% of the duration of the vowel. Moreover, the predictions are higher for voiceless NC sequences than for voiced NC sequences, indicating a greater proportion of nasalisation in the former. However there is vowel-specific variation, and there doesn’t seem to be much of a difference in nasalisation proportion in /e/ and /u/. <a href="#fig-nas-prop" class="quarto-xref">Figure&nbsp;9</a> shows the expected predictions with <code>conditional_effects()</code>, which should make the interpretation of the predictions from <a href="#tbl-nas-prop-fixef" class="quarto-xref">Table&nbsp;10</a> clearer.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb18"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="fu">conditional_effects</span>(nas_prop_bm, <span class="st">"vowel:voicing"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb17"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="fu">conditional_effects</span>(nas_prop_bm, <span class="st">"vowel:voicing"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <div id="fig-nas-prop" class="quarto-float quarto-figure quarto-figure-center anchored">
 <figure class="quarto-float quarto-float-fig figure">
@@ -1401,7 +1415,7 @@ Table&nbsp;10: Regression coefficients of a beta regression of nasalisation prop
 <img src="manuscript_files/figure-html/fig-nas-prop-1.png" class="img-fluid figure-img" width="672">
 </div>
 <figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-nas-prop-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-Figure&nbsp;8: Expected nasalisation proportion by vowel and voicing, with 95% CrIs.
+Figure&nbsp;9: Expected nasalisation proportion by vowel and voicing, with 95% CrIs.
 </figcaption>
 </figure>
 </div>
@@ -1414,14 +1428,14 @@ Figure&nbsp;8: Expected nasalisation proportion by vowel and voicing, with 95% C
 </ol>
 <p>To answer question 1, we can calculate the average difference in nasalisation proportion by first calculating the average nasalisation across all vowels for voiced and voiceless sequences (see <a href="#tbl-nas-draws" class="quarto-xref">Table&nbsp;11</a> for the output of this step) and then take the difference of those, similarly to what we have done in the case study in <a href="#sec-case-1" class="quarto-xref">Section&nbsp;4</a>.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb19"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a><span class="co"># extract only coefficient variables starting with "b_"</span></span>
-<span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a>nas_prop_bm_draws <span class="ot">&lt;-</span> <span class="fu">as_draws_df</span>(nas_prop_bm, <span class="at">variable =</span> <span class="st">"^b_"</span>, <span class="at">regex =</span> <span class="cn">TRUE</span>)</span>
-<span id="cb19-3"><a href="#cb19-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb19-4"><a href="#cb19-4" aria-hidden="true" tabindex="-1"></a>nas_prop_bm_draws_long <span class="ot">&lt;-</span> nas_prop_bm_draws <span class="sc">|&gt;</span> </span>
-<span id="cb19-5"><a href="#cb19-5" aria-hidden="true" tabindex="-1"></a>  <span class="co"># pivot vowel:c2 columns</span></span>
-<span id="cb19-6"><a href="#cb19-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">pivot_longer</span>(<span class="st">`</span><span class="at">b_voicingvoiced:vowela</span><span class="st">`</span><span class="sc">:</span><span class="st">`</span><span class="at">b_voicingvoiceless:vowelu</span><span class="st">`</span>, <span class="at">names_to =</span> <span class="st">"coeff"</span>) <span class="sc">|&gt;</span></span>
-<span id="cb19-7"><a href="#cb19-7" aria-hidden="true" tabindex="-1"></a>  <span class="co"># separate "coeff" labels into type ("b"), vowel and c2</span></span>
-<span id="cb19-8"><a href="#cb19-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">separate</span>(coeff, <span class="at">into =</span> <span class="fu">c</span>(<span class="st">"type"</span>, <span class="st">"voicing"</span>, <span class="st">"vowel"</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb18"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="co"># extract only coefficient variables starting with "b_"</span></span>
+<span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a>nas_prop_bm_draws <span class="ot">&lt;-</span> <span class="fu">as_draws_df</span>(nas_prop_bm, <span class="at">variable =</span> <span class="st">"^b_"</span>, <span class="at">regex =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb18-3"><a href="#cb18-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-4"><a href="#cb18-4" aria-hidden="true" tabindex="-1"></a>nas_prop_bm_draws_long <span class="ot">&lt;-</span> nas_prop_bm_draws <span class="sc">|&gt;</span> </span>
+<span id="cb18-5"><a href="#cb18-5" aria-hidden="true" tabindex="-1"></a>  <span class="co"># pivot vowel:c2 columns</span></span>
+<span id="cb18-6"><a href="#cb18-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">pivot_longer</span>(<span class="st">`</span><span class="at">b_voicingvoiced:vowela</span><span class="st">`</span><span class="sc">:</span><span class="st">`</span><span class="at">b_voicingvoiceless:vowelu</span><span class="st">`</span>, <span class="at">names_to =</span> <span class="st">"coeff"</span>) <span class="sc">|&gt;</span></span>
+<span id="cb18-7"><a href="#cb18-7" aria-hidden="true" tabindex="-1"></a>  <span class="co"># separate "coeff" labels into type ("b"), vowel and c2</span></span>
+<span id="cb18-8"><a href="#cb18-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">separate</span>(coeff, <span class="at">into =</span> <span class="fu">c</span>(<span class="st">"type"</span>, <span class="st">"voicing"</span>, <span class="st">"vowel"</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <div class="cell">
 <div id="tbl-nas-draws" class="cell quarto-float quarto-figure quarto-figure-center anchored">
@@ -1541,18 +1555,18 @@ Table&nbsp;11: First ten rows of posterior draws from <code>nas_prop_bm</code> i
 </figure>
 </div>
 </div>
-<p>Now let’s calculate the mean nasalisation proportion within each draw by voicing, and plot the resulting posterior distributions. Note that, as discussed in <a href="#sec-case-1" class="quarto-xref">Section&nbsp;4</a>, when working with log-odds it is important to first do all necessary calculations in log-odds (here calculate the mean log-odds across vowels) and <em>then</em> transform the calculated estimands to proportions/probabilities. The output of the following code is show in <a href="#tbl-nas-long-voi" class="quarto-xref">Table&nbsp;12</a> and the density plot of the calculated draws is in <a href="#fig-nas-prop-bm-draws-long-voicing-plot" class="quarto-xref">Figure&nbsp;9</a>.</p>
+<p>Now let’s calculate the mean nasalisation proportion within each draw by voicing, and plot the resulting posterior distributions. Note that, as discussed in <a href="#sec-case-1" class="quarto-xref">Section&nbsp;4</a>, when working with log-odds it is important to first do all necessary calculations in log-odds (here calculate the mean log-odds across vowels) and <em>then</em> transform the calculated estimands to proportions/probabilities. The output of the following code is shown in <a href="#tbl-nas-long-voi" class="quarto-xref">Table&nbsp;12</a> and the density plot of the calculated draws is in <a href="#fig-nas-prop-bm-draws-long-voicing-plot" class="quarto-xref">Figure&nbsp;10</a>.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb20"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a>nas_prop_bm_draws_long_voicing <span class="ot">&lt;-</span> nas_prop_bm_draws_long <span class="sc">|&gt;</span> </span>
-<span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a>  <span class="co"># grouping by .draw and voicing ensures that averaging applies only within draw and voicing</span></span>
-<span id="cb20-3"><a href="#cb20-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(.draw, voicing) <span class="sc">|&gt;</span> </span>
-<span id="cb20-4"><a href="#cb20-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise</span>(</span>
-<span id="cb20-5"><a href="#cb20-5" aria-hidden="true" tabindex="-1"></a>    <span class="co"># calculate the mean value within draw/voicing in log-odds</span></span>
-<span id="cb20-6"><a href="#cb20-6" aria-hidden="true" tabindex="-1"></a>    <span class="at">value_mean =</span> <span class="fu">mean</span>(value),</span>
-<span id="cb20-7"><a href="#cb20-7" aria-hidden="true" tabindex="-1"></a>    <span class="co"># we can now transform log-odds to proportion with plogis()</span></span>
-<span id="cb20-8"><a href="#cb20-8" aria-hidden="true" tabindex="-1"></a>    <span class="at">value_mean_prop =</span> <span class="fu">plogis</span>(value_mean),</span>
-<span id="cb20-9"><a href="#cb20-9" aria-hidden="true" tabindex="-1"></a>    <span class="at">.groups =</span> <span class="st">"drop"</span></span>
-<span id="cb20-10"><a href="#cb20-10" aria-hidden="true" tabindex="-1"></a>  )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb19"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a>nas_prop_bm_draws_long_voicing <span class="ot">&lt;-</span> nas_prop_bm_draws_long <span class="sc">|&gt;</span> </span>
+<span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a>  <span class="co"># grouping by .draw and voicing ensures that averaging applies only within draw and voicing</span></span>
+<span id="cb19-3"><a href="#cb19-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(.draw, voicing) <span class="sc">|&gt;</span> </span>
+<span id="cb19-4"><a href="#cb19-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise</span>(</span>
+<span id="cb19-5"><a href="#cb19-5" aria-hidden="true" tabindex="-1"></a>    <span class="co"># calculate the mean value within draw/voicing in log-odds</span></span>
+<span id="cb19-6"><a href="#cb19-6" aria-hidden="true" tabindex="-1"></a>    <span class="at">value_mean =</span> <span class="fu">mean</span>(value),</span>
+<span id="cb19-7"><a href="#cb19-7" aria-hidden="true" tabindex="-1"></a>    <span class="co"># we can now transform log-odds to proportion with plogis()</span></span>
+<span id="cb19-8"><a href="#cb19-8" aria-hidden="true" tabindex="-1"></a>    <span class="at">value_mean_prop =</span> <span class="fu">plogis</span>(value_mean),</span>
+<span id="cb19-9"><a href="#cb19-9" aria-hidden="true" tabindex="-1"></a>    <span class="at">.groups =</span> <span class="st">"drop"</span></span>
+<span id="cb19-10"><a href="#cb19-10" aria-hidden="true" tabindex="-1"></a>  )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <div class="cell">
 <div id="tbl-nas-long-voi" class="cell quarto-float quarto-figure quarto-figure-center anchored">
@@ -1640,9 +1654,9 @@ Table&nbsp;12: Mean nasalisation proportion by draw and voicing, averaged across
 </div>
 </div>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb21"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a>nas_prop_bm_draws_long_voicing <span class="sc">|&gt;</span> </span>
-<span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(value_mean_prop, voicing)) <span class="sc">+</span></span>
-<span id="cb21-3"><a href="#cb21-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">stat_halfeye</span>(<span class="at">.width =</span> <span class="fu">c</span>(<span class="fl">0.6</span>, <span class="fl">0.8</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb20"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a>nas_prop_bm_draws_long_voicing <span class="sc">|&gt;</span> </span>
+<span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(value_mean_prop, voicing)) <span class="sc">+</span></span>
+<span id="cb20-3"><a href="#cb20-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">stat_halfeye</span>(<span class="at">.width =</span> <span class="fu">c</span>(<span class="fl">0.6</span>, <span class="fl">0.8</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <div id="fig-nas-prop-bm-draws-long-voicing-plot" class="quarto-float quarto-figure quarto-figure-center anchored">
 <figure class="quarto-float quarto-float-fig figure">
@@ -1650,36 +1664,36 @@ Table&nbsp;12: Mean nasalisation proportion by draw and voicing, averaged across
 <img src="manuscript_files/figure-html/fig-nas-prop-bm-draws-long-voicing-plot-1.png" class="img-fluid figure-img" width="672">
 </div>
 <figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-nas-prop-bm-draws-long-voicing-plot-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-Figure&nbsp;9: Expected nasalisation proportion by voicing, averaged across vowels.
+Figure&nbsp;10: Expected nasalisation proportion by voicing, averaged across vowels.
 </figcaption>
 </figure>
 </div>
 </div>
 </div>
-<p>The plot suggests an overall greater nasalisation proportion in voiceless NC sequences. Let’s quantify how greater as we did in <a href="#sec-case-1" class="quarto-xref">Section&nbsp;4</a>. We will use odd-ratios in this context as well, i.e.&nbsp;we will convert log-odds to odd-ratios using the <code>exp()</code> (exponential) function (and as before we first calculate the difference and then exponentiate the resulting values, after which we can take summary measures, like means and quantile-based measures such as CrIs). <a href="#tbl-nas-prop-bm-diff-quant" class="quarto-xref">Table&nbsp;13</a> show the 90, 80 and 60% CrIs of the difference ratio of nasalisation proportion in voiceless vs voiced NC sequences.</p>
+<p>The plot suggests an overall greater nasalisation proportion in voiceless NC sequences. Let’s quantify how much greater it is, as we did in <a href="#sec-case-1" class="quarto-xref">Section&nbsp;4</a>. We will use odds-ratios in this context as well, i.e.&nbsp;we will convert log-odds to odds-ratios using the <code>exp()</code> (exponential) function (and as before we first calculate the difference and then exponentiate the resulting values, after which we can take summary measures, like means and quantile-based measures such as CrIs). <a href="#tbl-nas-prop-bm-diff-quant" class="quarto-xref">Table&nbsp;13</a> show the 90, 80 and 60% CrIs of the difference ratio of nasalisation proportion in voiceless vs voiced NC sequences.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb22"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a>nas_prop_bm_diff <span class="ot">&lt;-</span> nas_prop_bm_draws_long_voicing <span class="sc">|&gt;</span> </span>
-<span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a>  <span class="co"># pivot data to create one column per voicing with the mean drawn values,</span></span>
-<span id="cb22-3"><a href="#cb22-3" aria-hidden="true" tabindex="-1"></a>  <span class="co"># with one draw per raw. we need to drop the value_mean_prop col</span></span>
-<span id="cb22-4"><a href="#cb22-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(<span class="sc">-</span>value_mean_prop) <span class="sc">|&gt;</span> </span>
-<span id="cb22-5"><a href="#cb22-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">pivot_wider</span>(<span class="at">names_from =</span> voicing, <span class="at">values_from =</span> value_mean) <span class="sc">|&gt;</span> </span>
-<span id="cb22-6"><a href="#cb22-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(</span>
-<span id="cb22-7"><a href="#cb22-7" aria-hidden="true" tabindex="-1"></a>    <span class="co"># calculate the difference of voiceless and voiced in log-odds</span></span>
-<span id="cb22-8"><a href="#cb22-8" aria-hidden="true" tabindex="-1"></a>    <span class="at">voicing_diff =</span> voicingvoiceless <span class="sc">-</span> voicingvoiced,</span>
-<span id="cb22-9"><a href="#cb22-9" aria-hidden="true" tabindex="-1"></a>    <span class="co"># now transform with exp() to get the ratio difference</span></span>
-<span id="cb22-10"><a href="#cb22-10" aria-hidden="true" tabindex="-1"></a>    <span class="at">voicing_diff_ratio =</span> <span class="fu">exp</span>(voicing_diff)</span>
-<span id="cb22-11"><a href="#cb22-11" aria-hidden="true" tabindex="-1"></a>  )</span>
-<span id="cb22-12"><a href="#cb22-12" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb22-13"><a href="#cb22-13" aria-hidden="true" tabindex="-1"></a>nas_prop_bm_diff_quant <span class="ot">&lt;-</span> nas_prop_bm_diff <span class="sc">|&gt;</span> </span>
-<span id="cb22-14"><a href="#cb22-14" aria-hidden="true" tabindex="-1"></a>  <span class="fu">reframe</span>(</span>
-<span id="cb22-15"><a href="#cb22-15" aria-hidden="true" tabindex="-1"></a>    <span class="co"># 90% CrI</span></span>
-<span id="cb22-16"><a href="#cb22-16" aria-hidden="true" tabindex="-1"></a>    <span class="at">q90 =</span> <span class="fu">quantile2</span>(voicing_diff_ratio, <span class="at">probs =</span> <span class="fu">c</span>(<span class="fl">0.05</span>, <span class="fl">0.95</span>)),</span>
-<span id="cb22-17"><a href="#cb22-17" aria-hidden="true" tabindex="-1"></a>    <span class="co"># 80% CrI</span></span>
-<span id="cb22-18"><a href="#cb22-18" aria-hidden="true" tabindex="-1"></a>    <span class="at">q80 =</span> <span class="fu">quantile2</span>(voicing_diff_ratio, <span class="at">probs =</span> <span class="fu">c</span>(<span class="fl">0.1</span>, <span class="fl">0.9</span>)),</span>
-<span id="cb22-19"><a href="#cb22-19" aria-hidden="true" tabindex="-1"></a>    <span class="co"># 60% CrI</span></span>
-<span id="cb22-20"><a href="#cb22-20" aria-hidden="true" tabindex="-1"></a>    <span class="at">q60 =</span> <span class="fu">quantile2</span>(voicing_diff_ratio, <span class="at">probs =</span> <span class="fu">c</span>(<span class="fl">0.2</span>, <span class="fl">0.8</span>)),</span>
-<span id="cb22-21"><a href="#cb22-21" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">|&gt;</span> </span>
-<span id="cb22-22"><a href="#cb22-22" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="fu">across</span>(<span class="fu">everything</span>(), <span class="sc">~</span><span class="fu">round</span>(.x, <span class="dv">2</span>)))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb21"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a>nas_prop_bm_diff <span class="ot">&lt;-</span> nas_prop_bm_draws_long_voicing <span class="sc">|&gt;</span> </span>
+<span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a>  <span class="co"># pivot data to create one column per voicing with the mean drawn values,</span></span>
+<span id="cb21-3"><a href="#cb21-3" aria-hidden="true" tabindex="-1"></a>  <span class="co"># with one draw per raw. we need to drop the value_mean_prop col</span></span>
+<span id="cb21-4"><a href="#cb21-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(<span class="sc">-</span>value_mean_prop) <span class="sc">|&gt;</span> </span>
+<span id="cb21-5"><a href="#cb21-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">pivot_wider</span>(<span class="at">names_from =</span> voicing, <span class="at">values_from =</span> value_mean) <span class="sc">|&gt;</span> </span>
+<span id="cb21-6"><a href="#cb21-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(</span>
+<span id="cb21-7"><a href="#cb21-7" aria-hidden="true" tabindex="-1"></a>    <span class="co"># calculate the difference of voiceless and voiced in log-odds</span></span>
+<span id="cb21-8"><a href="#cb21-8" aria-hidden="true" tabindex="-1"></a>    <span class="at">voicing_diff =</span> voicingvoiceless <span class="sc">-</span> voicingvoiced,</span>
+<span id="cb21-9"><a href="#cb21-9" aria-hidden="true" tabindex="-1"></a>    <span class="co"># now transform with exp() to get the ratio difference</span></span>
+<span id="cb21-10"><a href="#cb21-10" aria-hidden="true" tabindex="-1"></a>    <span class="at">voicing_diff_ratio =</span> <span class="fu">exp</span>(voicing_diff)</span>
+<span id="cb21-11"><a href="#cb21-11" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb21-12"><a href="#cb21-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb21-13"><a href="#cb21-13" aria-hidden="true" tabindex="-1"></a>nas_prop_bm_diff_quant <span class="ot">&lt;-</span> nas_prop_bm_diff <span class="sc">|&gt;</span> </span>
+<span id="cb21-14"><a href="#cb21-14" aria-hidden="true" tabindex="-1"></a>  <span class="fu">reframe</span>(</span>
+<span id="cb21-15"><a href="#cb21-15" aria-hidden="true" tabindex="-1"></a>    <span class="co"># 90% CrI</span></span>
+<span id="cb21-16"><a href="#cb21-16" aria-hidden="true" tabindex="-1"></a>    <span class="at">q90 =</span> <span class="fu">quantile2</span>(voicing_diff_ratio, <span class="at">probs =</span> <span class="fu">c</span>(<span class="fl">0.05</span>, <span class="fl">0.95</span>)),</span>
+<span id="cb21-17"><a href="#cb21-17" aria-hidden="true" tabindex="-1"></a>    <span class="co"># 80% CrI</span></span>
+<span id="cb21-18"><a href="#cb21-18" aria-hidden="true" tabindex="-1"></a>    <span class="at">q80 =</span> <span class="fu">quantile2</span>(voicing_diff_ratio, <span class="at">probs =</span> <span class="fu">c</span>(<span class="fl">0.1</span>, <span class="fl">0.9</span>)),</span>
+<span id="cb21-19"><a href="#cb21-19" aria-hidden="true" tabindex="-1"></a>    <span class="co"># 60% CrI</span></span>
+<span id="cb21-20"><a href="#cb21-20" aria-hidden="true" tabindex="-1"></a>    <span class="at">q60 =</span> <span class="fu">quantile2</span>(voicing_diff_ratio, <span class="at">probs =</span> <span class="fu">c</span>(<span class="fl">0.2</span>, <span class="fl">0.8</span>)),</span>
+<span id="cb21-21"><a href="#cb21-21" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">|&gt;</span> </span>
+<span id="cb21-22"><a href="#cb21-22" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="fu">across</span>(<span class="fu">everything</span>(), <span class="sc">~</span><span class="fu">round</span>(.x, <span class="dv">2</span>)))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <div class="cell">
 <div id="tbl-nas-prop-bm-diff-quant" class="cell quarto-float quarto-figure quarto-figure-center anchored">
@@ -1718,36 +1732,36 @@ Table&nbsp;13: Upper and lower limits of 90, 80 and 60% Credible Intervals of th
 <p>The CrIs of the ratio difference in nasalisation proportion in voiceless vs voiced NC sequences suggest an increase of nasalisation in the voiceless NC sequences, with a 90% probability that the increase is between 23% and 69% of the proportion in voiced NC sequences.</p>
 <p>Moving onto question 2: is there individual speaker variation? While in the recent tradition of linguistic research, varying (aka random) effects are used to <em>control</em> for differences across participants, it has been proposed to use the estimates of the varying coefficients to investigate individual differences <span class="citation" data-cites="tamminga2016">(<a href="#ref-tamminga2016" role="doc-biblioref">Tamminga et al., 2016</a>)</span>. We will use the <code>spread_draws()</code> function from tidybayes <span class="citation" data-cites="kay2019">(<a href="#ref-kay2019" role="doc-biblioref">Kay, 2019</a>)</span> to extract the draws of the varying terms (in brms these are the coefficients that start with <code>r_</code>). There is quite a few steps of processing to get from the raw draws to the estimand we need: while we have commented the following code, we encourage readers to test each line sequentially and inspect the intermediate output to fully understand the process. We assume that readers are familiar enough with models with varying terms (aka random effects, mixed-effects, hierarchical, multilevel, nested models). What readers should note is that to obtain the expected predictions of nasalisation proportion for each speaker, the constant terms and the varying terms should be added (since the varying terms indicate the deviation of each speaker from the overall estimate).</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb23"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidybayes)</span>
-<span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb23-3"><a href="#cb23-3" aria-hidden="true" tabindex="-1"></a>nas_prop_r <span class="ot">&lt;-</span> nas_prop_bm <span class="sc">|&gt;</span> </span>
-<span id="cb23-4"><a href="#cb23-4" aria-hidden="true" tabindex="-1"></a>  <span class="co"># extract draws from model, only `r_speaker` varying terms</span></span>
-<span id="cb23-5"><a href="#cb23-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">spread_draws</span>(r_speaker[speaker,voicingvowel]) <span class="sc">|&gt;</span> </span>
-<span id="cb23-6"><a href="#cb23-6" aria-hidden="true" tabindex="-1"></a>  <span class="co"># separate the column voicingvowel to two columns</span></span>
-<span id="cb23-7"><a href="#cb23-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">separate</span>(voicingvowel, <span class="fu">c</span>(<span class="st">"voicing"</span>, <span class="st">"vowel"</span>)) <span class="sc">|&gt;</span> </span>
-<span id="cb23-8"><a href="#cb23-8" aria-hidden="true" tabindex="-1"></a>  <span class="co"># join the draws with the `b_` terms</span></span>
-<span id="cb23-9"><a href="#cb23-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">left_join</span>(<span class="at">y =</span> nas_prop_bm_draws_long) <span class="sc">|&gt;</span> </span>
-<span id="cb23-10"><a href="#cb23-10" aria-hidden="true" tabindex="-1"></a>  <span class="co"># get the expected log-odd value of each speaker, in each draw</span></span>
-<span id="cb23-11"><a href="#cb23-11" aria-hidden="true" tabindex="-1"></a>  <span class="co"># this is the sum of the `value` from the b_ terms and the value from the</span></span>
-<span id="cb23-12"><a href="#cb23-12" aria-hidden="true" tabindex="-1"></a>  <span class="co"># r_speaker term.</span></span>
-<span id="cb23-13"><a href="#cb23-13" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">r_speaker_value =</span> value <span class="sc">+</span> r_speaker) <span class="sc">|&gt;</span> </span>
-<span id="cb23-14"><a href="#cb23-14" aria-hidden="true" tabindex="-1"></a>  <span class="co"># group the data for summarise</span></span>
-<span id="cb23-15"><a href="#cb23-15" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(.draw, speaker, voicing) <span class="sc">|&gt;</span> </span>
-<span id="cb23-16"><a href="#cb23-16" aria-hidden="true" tabindex="-1"></a>  <span class="co"># get mean expected log-odds by draw, speaker and voicing (averaging across vowel)</span></span>
-<span id="cb23-17"><a href="#cb23-17" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise</span>(<span class="at">r_speaker_value_mean =</span> <span class="fu">mean</span>(r_speaker_value)) <span class="sc">|&gt;</span> </span>
-<span id="cb23-18"><a href="#cb23-18" aria-hidden="true" tabindex="-1"></a>  <span class="co"># make the data wider: two columns, one for voiced and one for voiceless</span></span>
-<span id="cb23-19"><a href="#cb23-19" aria-hidden="true" tabindex="-1"></a>  <span class="fu">pivot_wider</span>(<span class="at">names_from =</span> voicing, <span class="at">values_from =</span> r_speaker_value_mean) <span class="sc">|&gt;</span> </span>
-<span id="cb23-20"><a href="#cb23-20" aria-hidden="true" tabindex="-1"></a>  <span class="co"># finally, calculate the difference in expected log-odds of voiceless and voiced</span></span>
-<span id="cb23-21"><a href="#cb23-21" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">voicing_diff =</span> voicingvoiceless <span class="sc">-</span> voicingvoiced)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb22"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidybayes)</span>
+<span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb22-3"><a href="#cb22-3" aria-hidden="true" tabindex="-1"></a>nas_prop_r <span class="ot">&lt;-</span> nas_prop_bm <span class="sc">|&gt;</span> </span>
+<span id="cb22-4"><a href="#cb22-4" aria-hidden="true" tabindex="-1"></a>  <span class="co"># extract draws from model, only `r_speaker` varying terms</span></span>
+<span id="cb22-5"><a href="#cb22-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">spread_draws</span>(r_speaker[speaker,voicingvowel]) <span class="sc">|&gt;</span> </span>
+<span id="cb22-6"><a href="#cb22-6" aria-hidden="true" tabindex="-1"></a>  <span class="co"># separate the column voicingvowel to two columns</span></span>
+<span id="cb22-7"><a href="#cb22-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">separate</span>(voicingvowel, <span class="fu">c</span>(<span class="st">"voicing"</span>, <span class="st">"vowel"</span>)) <span class="sc">|&gt;</span> </span>
+<span id="cb22-8"><a href="#cb22-8" aria-hidden="true" tabindex="-1"></a>  <span class="co"># join the draws with the `b_` terms</span></span>
+<span id="cb22-9"><a href="#cb22-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">left_join</span>(<span class="at">y =</span> nas_prop_bm_draws_long) <span class="sc">|&gt;</span> </span>
+<span id="cb22-10"><a href="#cb22-10" aria-hidden="true" tabindex="-1"></a>  <span class="co"># get the expected log-odd value of each speaker, in each draw</span></span>
+<span id="cb22-11"><a href="#cb22-11" aria-hidden="true" tabindex="-1"></a>  <span class="co"># this is the sum of the `value` from the b_ terms and the value from the</span></span>
+<span id="cb22-12"><a href="#cb22-12" aria-hidden="true" tabindex="-1"></a>  <span class="co"># r_speaker term.</span></span>
+<span id="cb22-13"><a href="#cb22-13" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">r_speaker_value =</span> value <span class="sc">+</span> r_speaker) <span class="sc">|&gt;</span> </span>
+<span id="cb22-14"><a href="#cb22-14" aria-hidden="true" tabindex="-1"></a>  <span class="co"># group the data for summarise</span></span>
+<span id="cb22-15"><a href="#cb22-15" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(.draw, speaker, voicing) <span class="sc">|&gt;</span> </span>
+<span id="cb22-16"><a href="#cb22-16" aria-hidden="true" tabindex="-1"></a>  <span class="co"># get mean expected log-odds by draw, speaker and voicing (averaging across vowel)</span></span>
+<span id="cb22-17"><a href="#cb22-17" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise</span>(<span class="at">r_speaker_value_mean =</span> <span class="fu">mean</span>(r_speaker_value)) <span class="sc">|&gt;</span> </span>
+<span id="cb22-18"><a href="#cb22-18" aria-hidden="true" tabindex="-1"></a>  <span class="co"># make the data wider: two columns, one for voiced and one for voiceless</span></span>
+<span id="cb22-19"><a href="#cb22-19" aria-hidden="true" tabindex="-1"></a>  <span class="fu">pivot_wider</span>(<span class="at">names_from =</span> voicing, <span class="at">values_from =</span> r_speaker_value_mean) <span class="sc">|&gt;</span> </span>
+<span id="cb22-20"><a href="#cb22-20" aria-hidden="true" tabindex="-1"></a>  <span class="co"># finally, calculate the difference in expected log-odds of voiceless and voiced</span></span>
+<span id="cb22-21"><a href="#cb22-21" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">voicing_diff =</span> voicingvoiceless <span class="sc">-</span> voicingvoiced)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<p><a href="#fig-nas-prop-r" class="quarto-xref">Figure&nbsp;10</a> plots the posterior distributions of the expected log-odd difference of coarticulatory nasalisation in voiceless vs voiced NC sequences (<em>x</em>-axis), for each speaker in the data (<em>y</em>-axis), as predicted by the model. The red solid vertical line indicates the constant (overall) expected log-odd difference based on the (constant) <code>b_</code> terms. The black dashed vertical line marks log-difference 0 (i.e., no difference in proportion of nasalisation between voiceless and voiced NC).</p>
+<p><a href="#fig-nas-prop-r" class="quarto-xref">Figure&nbsp;11</a> plots the posterior distributions of the expected log-odd difference of coarticulatory nasalisation in voiceless vs voiced NC sequences (<em>x</em>-axis), for each speaker in the data (<em>y</em>-axis), as predicted by the model. The red solid vertical line indicates the constant (overall) expected log-odd difference based on the (constant) <code>b_</code> terms. The black dashed vertical line marks log-difference 0 (i.e., no difference in proportion of nasalisation between voiceless and voiced NC).</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb24"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a>nas_prop_r <span class="sc">|&gt;</span> </span>
-<span id="cb24-2"><a href="#cb24-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(voicing_diff, <span class="fu">reorder</span>(speaker, voicing_diff))) <span class="sc">+</span></span>
-<span id="cb24-3"><a href="#cb24-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">stat_halfeye</span>() <span class="sc">+</span></span>
-<span id="cb24-4"><a href="#cb24-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_vline</span>(<span class="at">xintercept =</span> <span class="fu">mean</span>(nas_prop_bm_diff<span class="sc">$</span>voicing_diff), <span class="at">colour =</span> <span class="st">"red"</span>) <span class="sc">+</span></span>
-<span id="cb24-5"><a href="#cb24-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_vline</span>(<span class="at">xintercept =</span> <span class="dv">0</span>, <span class="at">linetype =</span> <span class="st">"dashed"</span>) <span class="sc">+</span></span>
-<span id="cb24-6"><a href="#cb24-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">lims</span>(<span class="at">x =</span> <span class="fu">c</span>(<span class="sc">-</span><span class="dv">1</span>, <span class="fl">1.5</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb23"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a>nas_prop_r <span class="sc">|&gt;</span> </span>
+<span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(voicing_diff, <span class="fu">reorder</span>(speaker, voicing_diff))) <span class="sc">+</span></span>
+<span id="cb23-3"><a href="#cb23-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">stat_halfeye</span>() <span class="sc">+</span></span>
+<span id="cb23-4"><a href="#cb23-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_vline</span>(<span class="at">xintercept =</span> <span class="fu">mean</span>(nas_prop_bm_diff<span class="sc">$</span>voicing_diff), <span class="at">colour =</span> <span class="st">"red"</span>) <span class="sc">+</span></span>
+<span id="cb23-5"><a href="#cb23-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_vline</span>(<span class="at">xintercept =</span> <span class="dv">0</span>, <span class="at">linetype =</span> <span class="st">"dashed"</span>) <span class="sc">+</span></span>
+<span id="cb23-6"><a href="#cb23-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">lims</span>(<span class="at">x =</span> <span class="fu">c</span>(<span class="sc">-</span><span class="dv">1</span>, <span class="fl">1.5</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <div id="fig-nas-prop-r" class="quarto-float quarto-figure quarto-figure-center anchored">
 <figure class="quarto-float quarto-float-fig figure">
@@ -1755,7 +1769,7 @@ Table&nbsp;13: Upper and lower limits of 90, 80 and 60% Credible Intervals of th
 <img src="manuscript_files/figure-html/fig-nas-prop-r-1.png" class="img-fluid figure-img" width="672">
 </div>
 <figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-nas-prop-r-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-Figure&nbsp;10: Expected log-odd difference of coarticulatory nasalisation in voiceless vs voiced NC sequences for each speaker.
+Figure&nbsp;11: Expected log-odd difference of coarticulatory nasalisation in voiceless vs voiced NC sequences for each speaker.
 </figcaption>
 </figure>
 </div>
@@ -1777,6 +1791,9 @@ Abramson, A.S., Whalen, D.H., 2017. Voice onset time (<span>VOT</span>) at 50: T
 <div id="ref-arelbundock2025" class="csl-entry" role="listitem">
 Arel-Bundock, V., Greifer, N., Heiss, A., 2025. How to interpret statistical models using marginaleffects in <span>R</span> and <span>Python</span>. Journal of Statistical Software.
 </div>
+<div id="ref-arelbundock2024" class="csl-entry" role="listitem">
+Arel-Bundock, V., Greifer, N., Heiss, A., 2024. How to interpret statistical models using <span class="nocase">marginaleffects</span> for <span>R</span> and <span>Python</span>. Journal of Statistical Software 111, 1–32. <a href="https://doi.org/10.18637/jss.v111.i09">https://doi.org/10.18637/jss.v111.i09</a>
+</div>
 <div id="ref-baayen2008" class="csl-entry" role="listitem">
 Baayen, R.H., 2008. Analyzing linguistic data: <span>A</span> practical introduction to statistics using <span>R</span>. Cambridge: Cambridge University Press. <a href="https://doi.org/10.1017/CBO9780511801686">https://doi.org/10.1017/CBO9780511801686</a>
 </div>
@@ -1785,6 +1802,9 @@ Bates, D., Mächler, M., Bolker, B., Walker, S., 2015. Fitting linear mixed-effe
 </div>
 <div id="ref-beddor2009" class="csl-entry" role="listitem">
 Beddor, P.S., 2009. A coarticulatory path to sound change. Language 785–821. <a href="https://doi.org/10.1353/lan.0.0165">https://doi.org/10.1353/lan.0.0165</a>
+</div>
+<div id="ref-bockting2024" class="csl-entry" role="listitem">
+Bockting, F., Radev, S.T., Bürkner, P.-C., 2024. Simulation-based prior knowledge elicitation for parametric Bayesian models. Scientific Reports 14, 17330. <a href="https://doi.org/10.1038/s41598-024-68090-7">https://doi.org/10.1038/s41598-024-68090-7</a>
 </div>
 <div id="ref-bonat_regression_2013" class="csl-entry" role="listitem">
 Bonat, W.H., Jr, P.J.R., Zeviani, W.M., 2013. Regression models with responses on the unity <span>Interval</span>: <span>Specification</span>, estimation and comparison. Biometric Brazilian Journal 30, 18.
@@ -1822,11 +1842,11 @@ Coretta, S., 2019. Vowel duration, voicing duration, and vowel height: Acoustic 
 <div id="ref-coretta2023" class="csl-entry" role="listitem">
 Coretta, S., Casillas, J.V., Roessig, S., Franke, M., Ahn, B., Al-Hoorie, A.H., Al-Tamimi, J., Alotaibi, N.E., AlShakhori, M.K., Altmiller, R.M., Arantes, P., Athanasopoulou, A., Baese-Berk, M.M., Bailey, G., Sangma, C.B.A., Beier, E.J., Benavides, G.M., Benker, N., BensonMeyer, E.P., Benway, N.R., Berry, G.M., Bing, L., Bjorndahl, C., Bolyanatz, M., Braver, A., Brown, V.A., Brown, A.M., Brugos, A., Buchanan, E.M., Butlin, T., Buxó-Lugo, A., Caillol, C., Cangemi, F., Carignan, C., Carraturo, S., Caudrelier, T., Chodroff, E., Cohn, M., Cronenberg, J., Crouzet, O., Dagar, E.L., Dawson, C., Diantoro, C.A., Dokovova, M., Drake, S., Du, F., Dubuis, M., Duême, F., Durward, M., Egurtzegi, A., Elsherif, M.M., Esser, J., Ferragne, E., Ferreira, F., Fink, L.K., Finley, S., Foster, K., Foulkes, P., Franzke, R., Frazer-McKee, G., Fromont, R., García, C., Geller, J., Grasso, C.L., Greca, P., Grice, M., Grose-Hodge, M.S., Gully, A.J., Halfacre, C., Hauser, I., Hay, J., Haywood, R., Hellmuth, S., Hilger, A.I., Holliday, N., Hoogland, D., Huang, Y., Hughes, V., Icardo Isasa, A., Ilchovska, Z.G., Jeon, H.-S., Jones, J., Junges, M.N., Kaefer, S., Kaland, C., Kelley, M.C., Kelly, N.E., Kettig, T., Khattab, G., Koolen, R., Krahmer, E., Krajewska, D., Krug, A., Kumar, A.A., Lander, A., Lentz, T.O., Li, W., Li, Y., Lialiou, M., Lima, R.M., Lo, J.J.H., Lopez Otero, J.C., Mackay, B., MacLeod, B., Mallard, M., McConnellogue, C.-A.M., Moroz, G., Murali, M., Nalborczyk, L., Nenadić, F., Nieder, J., Nikolić, D., Nogueira, F.G.S., Offerman, H.M., Passoni, E., Pélissier, M., Perry, S.J., Pfiffner, A.M., Proctor, M., Rhodes, R., Rodríguez, N., Roepke, E., Röer, J.P., Sbacco, L., Scarborough, R., Schaeffler, F., Schleef, E., Schmitz, D., Shiryaev, A., Sóskuthy, M., Spaniol, M., Stanley, J.A., Strickler, A., Tavano, A., Tomaschek, F., Tucker, B.V., Turnbull, R., Ugwuanyi, K.O., Urrestarazu-Porta, I., van de Vijver, R., Van Engen, K.J., van Miltenburg, E., Wang, B.X., Warner, N., Wehrle, S., Westerbeek, H., Wiener, S., Winters, S., Wong, S.G.-J., Wood, A., Wottawa, J., Xu, C., Zárate-Sández, G., Zellou, G., Zhang, C., Zhu, J., Roettger, T.B., 2023. Multidimensional <span>Signals</span> and <span>Analytic Flexibility</span>: <span>Estimating Degrees</span> of <span>Freedom</span> in <span>Human-Speech Analyses</span>. Advances in Methods and Practices in Psychological Science 6. <a href="https://doi.org/10.1177/25152459231162567">https://doi.org/10.1177/25152459231162567</a>
 </div>
-<div id="ref-cribarineto2010" class="csl-entry" role="listitem">
-Cribari-Neto, F., Zeileis, A., 2010b. Beta <span>Regression</span> in <span>R</span>. Journal of Statistical Software 34. <a href="https://doi.org/10.18637/jss.v034.i02">https://doi.org/10.18637/jss.v034.i02</a>
-</div>
 <div id="ref-cribari-neto_beta_2010" class="csl-entry" role="listitem">
 Cribari-Neto, F., Zeileis, A., 2010a. Beta <span>Regression</span> in <em>r</em>. Journal of Statistical Software 34. <a href="https://doi.org/10.18637/jss.v034.i02">https://doi.org/10.18637/jss.v034.i02</a>
+</div>
+<div id="ref-cribarineto2010" class="csl-entry" role="listitem">
+Cribari-Neto, F., Zeileis, A., 2010b. Beta <span>Regression</span> in <span>R</span>. Journal of Statistical Software 34. <a href="https://doi.org/10.18637/jss.v034.i02">https://doi.org/10.18637/jss.v034.i02</a>
 </div>
 <div id="ref-davidson2016" class="csl-entry" role="listitem">
 Davidson, L., 2016. Variability in the implementation of voicing in <span>American English</span> obstruents. Journal of Phonetics 54, 35–50. <a href="https://doi.org/10.1016/j.wocn.2015.09.003">https://doi.org/10.1016/j.wocn.2015.09.003</a>
@@ -1846,11 +1866,17 @@ Fowler, C.A., 2005. Parsing coarticulated speech in perception: Effects of coart
 <div id="ref-gelman2005" class="csl-entry" role="listitem">
 Gelman, A., 2005. Analysis of variance—why it is more important than ever. The Annals of Statistics 33. <a href="https://doi.org/10.1214/009053604000001048">https://doi.org/10.1214/009053604000001048</a>
 </div>
+<div id="ref-gelman2012" class="csl-entry" role="listitem">
+Gelman, A., Hill, J., Yajima, M., 2012. Why We (Usually) Don’t Have to Worry About Multiple Comparisons. Journal of Research on Educational Effectiveness 5, 189–211. <a href="https://doi.org/10.1080/19345747.2011.618213">https://doi.org/10.1080/19345747.2011.618213</a>
+</div>
 <div id="ref-gick2013" class="csl-entry" role="listitem">
 Gick, B., Wilson, I., Derrick, D., 2013. Articulatory phonetics. Wiley-Blackwell.
 </div>
 <div id="ref-gupta_handbook_2014" class="csl-entry" role="listitem">
 Gupta, A.K., Nadarajah, S., 2014. Handbook of <span>Beta</span> <span>Distribution</span> and <span>Its</span> <span>Applications</span>. CRC Press, Boca Raton. <a href="https://doi.org/10.1201/9781482276596">https://doi.org/10.1201/9781482276596</a>
+</div>
+<div id="ref-heiss2021" class="csl-entry" role="listitem">
+Heiss, A., 2021. <a href="https://www.andrewheiss.com/blog/2021/11/08/beta-regression-guide">A guide to modeling proportions with Bayesian beta and zero-inflated beta regression models</a>.
 </div>
 <div id="ref-herbst2017" class="csl-entry" role="listitem">
 Herbst, C.T., Schutte, H.K., Bowling, D.L., Svec, J.G., 2017. Comparing chalk with cheese: <span>The EGG</span> contact quotient is only a limited surrogate of the closed quotient. Journal of Voice 31, 401–409. <a href="https://doi.org/10.1016/j.jvoice.2016.11.007">https://doi.org/10.1016/j.jvoice.2016.11.007</a>
@@ -1882,11 +1908,17 @@ Ladefoged, P., Johnson, K., 2014. A course in phonetics. Cengage learning.
 <div id="ref-lopez_bayesian_2013" class="csl-entry" role="listitem">
 López, F.O., 2013. A <span>Bayesian</span> <span>Approach</span> to <span>Parameter</span> <span>Estimation</span> in <span>Simplex</span> <span>Regression</span> <span>Model</span>: <span>A</span> <span>Comparison</span> with <span>Beta</span> <span>Regression</span>. Revista Colombiana de Estadística 21.
 </div>
+<div id="ref-mcelreath2020" class="csl-entry" role="listitem">
+McElreath, R., 2020. Statistical rethinking: a Bayesian course with examples in R and Stan, Second edition. ed, Chapman &amp; Hall/CRC texts in statistical science series. CRC Press, Boca Raton.
+</div>
 <div id="ref-mcelreath2019" class="csl-entry" role="listitem">
 McElreath, R., 2019. Statistical rethinking: <span>A Bayesian</span> course with examples in <span>R</span> and <span>Stan</span>. Boca Raton, FL: CRC Press.
 </div>
+<div id="ref-mikkola2024" class="csl-entry" role="listitem">
+Mikkola, P., Martin, O.A., Chandramouli, S., Hartmann, M., Abril Pla, O., Thomas, O., Pesonen, H., Corander, J., Vehtari, A., Kaski, S., Bürkner, P.-C., Klami, A., 2024. Prior knowledge elicitation: The past, present, and future. Bayesian Analysis 19. <a href="https://doi.org/10.1214/23-BA1381">https://doi.org/10.1214/23-BA1381</a>
+</div>
 <div id="ref-nalborczyk2019" class="csl-entry" role="listitem">
-Nalborczyk, L., Batailler, C., Loevenbruck, H., Vilain, A., Bürkner, P.-C., 2019. An introduction to <span>Bayesian</span> multilevel models using brms: A case study of gender effects on vowel variability in <span>Standard Indonesian</span>. Journal of Speech, Language, and Hearing Research. <a href="https://doi.org/10.1044/2018_JSLHR-S-18-0006">https://doi.org/10.1044/2018_JSLHR-S-18-0006</a>
+Nalborczyk, L., Batailler, C., Loevenbruck, H., Vilain, A., Bürkner, P.-C., 2019. An introduction to bayesian multilevel models using brms: A case study of gender effects on vowel variability in standard indonesian. Journal of Speech, Language, and Hearing Research. <a href="https://doi.org/10.1044/2018_JSLHR-S-18-0006">https://doi.org/10.1044/2018_JSLHR-S-18-0006</a>
 </div>
 <div id="ref-ohala2011" class="csl-entry" role="listitem">
 Ohala, J.J., 2011. Accommodation to the aerodynamic voicing constraint and its phonological relevance, in: Proceedings of the 17th <span>International Congress</span> of <span>Phonetic Sciences</span>. pp. 64–67.
@@ -1936,241 +1968,248 @@ Winter, B., 2020. Statistics for <span>Linguists</span>: <span>An Introduction U
 </div></section><section id="footnotes" class="footnotes footnotes-end-of-document" role="doc-endnotes"><h2 class="anchored quarto-appendix-heading">Footnotes</h2>
 
 <ol>
-<li id="fn1"><p>While the terms “random effects, intercept and slopes” are commonly employed in applied statistical work in linguistics and phonetics, we opt to use the conceptually more appropriate terminology proposed by <span class="citation" data-cites="gelman2005">(<a href="#ref-gelman2005" role="doc-biblioref">Gelman, 2005</a>)</span>: varying terms, intercepts, slopes, coefficients. Other common terms are multilevel and hierarchical terms.<a href="#fnref1" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn1"><p>The <span class="math inline">\(\mu\)</span>, <span class="math inline">\(\phi\)</span> parametrisation is equivalent to the <span class="math inline">\(\alpha\)</span>, <span class="math inline">\(\beta\)</span> parametrisation in that <span class="math inline">\(\alpha = \mu\phi\)</span> and <span class="math inline">\(\beta = (1-\mu)\phi\)</span>. Using the former allows brms to exploit the same programmatic features of other distributions parametrised with a location parameter.<a href="#fnref1" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn2"><p>While the terms “random effects, intercept and slopes” are commonly employed in applied statistical work in linguistics and phonetics, we opt to use the conceptually more appropriate terminology proposed by <span class="citation" data-cites="gelman2005">(<a href="#ref-gelman2005" role="doc-biblioref">Gelman, 2005</a>)</span>: varying terms, intercepts, slopes, coefficients. Other common terms are multilevel and hierarchical terms. Note that with “varying terms” we refer specifically to model terms with partial pooling in opposition to “constant terms” estimated with no pooling <span class="citation" data-cites="mcelreath2020">(<a href="#ref-mcelreath2020" role="doc-biblioref">McElreath, 2020, p. 408</a>)</span>. See <span class="citation" data-cites="nalborczyk2019">(<a href="#ref-nalborczyk2019" role="doc-biblioref">Nalborczyk et al., 2019</a>)</span> for a detailed overview.<a href="#fnref2" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
 </ol>
 </section></div></main>
 <!-- /main column -->
 <script id="quarto-html-after-body" type="application/javascript">
-window.document.addEventListener("DOMContentLoaded", function (event) {
-  const toggleBodyColorMode = (bsSheetEl) => {
-    const mode = bsSheetEl.getAttribute("data-mode");
-    const bodyEl = window.document.querySelector("body");
-    if (mode === "dark") {
-      bodyEl.classList.add("quarto-dark");
-      bodyEl.classList.remove("quarto-light");
-    } else {
-      bodyEl.classList.add("quarto-light");
-      bodyEl.classList.remove("quarto-dark");
-    }
-  }
-  const toggleBodyColorPrimary = () => {
-    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
-    if (bsSheetEl) {
-      toggleBodyColorMode(bsSheetEl);
-    }
-  }
-  toggleBodyColorPrimary();  
-  const icon = "";
-  const anchorJS = new window.AnchorJS();
-  anchorJS.options = {
-    placement: 'right',
-    icon: icon
-  };
-  anchorJS.add('.anchored');
-  const isCodeAnnotation = (el) => {
-    for (const clz of el.classList) {
-      if (clz.startsWith('code-annotation-')) {                     
-        return true;
-      }
-    }
-    return false;
-  }
-  const onCopySuccess = function(e) {
-    // button target
-    const button = e.trigger;
-    // don't keep focus
-    button.blur();
-    // flash "checked"
-    button.classList.add('code-copy-button-checked');
-    var currentTitle = button.getAttribute("title");
-    button.setAttribute("title", "Copied!");
-    let tooltip;
-    if (window.bootstrap) {
-      button.setAttribute("data-bs-toggle", "tooltip");
-      button.setAttribute("data-bs-placement", "left");
-      button.setAttribute("data-bs-title", "Copied!");
-      tooltip = new bootstrap.Tooltip(button, 
-        { trigger: "manual", 
-          customClass: "code-copy-button-tooltip",
-          offset: [0, -8]});
-      tooltip.show();    
-    }
-    setTimeout(function() {
-      if (tooltip) {
-        tooltip.hide();
-        button.removeAttribute("data-bs-title");
-        button.removeAttribute("data-bs-toggle");
-        button.removeAttribute("data-bs-placement");
-      }
-      button.setAttribute("title", currentTitle);
-      button.classList.remove('code-copy-button-checked');
-    }, 1000);
-    // clear code selection
-    e.clearSelection();
-  }
-  const getTextToCopy = function(trigger) {
-      const codeEl = trigger.previousElementSibling.cloneNode(true);
-      for (const childEl of codeEl.children) {
-        if (isCodeAnnotation(childEl)) {
-          childEl.remove();
-        }
-      }
-      return codeEl.innerText;
-  }
-  const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
-    text: getTextToCopy
-  });
-  clipboard.on('success', onCopySuccess);
-  if (window.document.getElementById('quarto-embedded-source-code-modal')) {
-    const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
-      text: getTextToCopy,
-      container: window.document.getElementById('quarto-embedded-source-code-modal')
-    });
-    clipboardModal.on('success', onCopySuccess);
-  }
-    var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
-    var mailtoRegex = new RegExp(/^mailto:/);
-      var filterRegex = new RegExp('/' + window.location.host + '/');
-    var isInternal = (href) => {
-        return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
-    }
-    // Inspect non-navigation links and adorn them if external
- 	var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
-    for (var i=0; i<links.length; i++) {
-      const link = links[i];
-      if (!isInternal(link.href)) {
-        // undo the damage that might have been done by quarto-nav.js in the case of
-        // links that we want to consider external
-        if (link.dataset.originalHref !== undefined) {
-          link.href = link.dataset.originalHref;
-        }
-      }
-    }
-  function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
-    const config = {
-      allowHTML: true,
-      maxWidth: 500,
-      delay: 100,
-      arrow: false,
-      appendTo: function(el) {
-          return el.parentElement;
-      },
-      interactive: true,
-      interactiveBorder: 10,
-      theme: 'quarto',
-      placement: 'bottom-start',
+  window.document.addEventListener("DOMContentLoaded", function (event) {
+    const icon = "";
+    const anchorJS = new window.AnchorJS();
+    anchorJS.options = {
+      placement: 'right',
+      icon: icon
     };
-    if (contentFn) {
-      config.content = contentFn;
-    }
-    if (onTriggerFn) {
-      config.onTrigger = onTriggerFn;
-    }
-    if (onUntriggerFn) {
-      config.onUntrigger = onUntriggerFn;
-    }
-    window.tippy(el, config); 
-  }
-  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
-  for (var i=0; i<noterefs.length; i++) {
-    const ref = noterefs[i];
-    tippyHover(ref, function() {
-      // use id or data attribute instead here
-      let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
-      try { href = new URL(href).hash; } catch {}
-      const id = href.replace(/^#\/?/, "");
-      const note = window.document.getElementById(id);
-      if (note) {
-        return note.innerHTML;
-      } else {
-        return "";
-      }
-    });
-  }
-  const xrefs = window.document.querySelectorAll('a.quarto-xref');
-  const processXRef = (id, note) => {
-    // Strip column container classes
-    const stripColumnClz = (el) => {
-      el.classList.remove("page-full", "page-columns");
-      if (el.children) {
-        for (const child of el.children) {
-          stripColumnClz(child);
+    anchorJS.add('.anchored');
+    const isCodeAnnotation = (el) => {
+      for (const clz of el.classList) {
+        if (clz.startsWith('code-annotation-')) {                     
+          return true;
         }
       }
+      return false;
     }
-    stripColumnClz(note)
-    if (id === null || id.startsWith('sec-')) {
-      // Special case sections, only their first couple elements
-      const container = document.createElement("div");
-      if (note.children && note.children.length > 2) {
-        container.appendChild(note.children[0].cloneNode(true));
-        for (let i = 1; i < note.children.length; i++) {
-          const child = note.children[i];
-          if (child.tagName === "P" && child.innerText === "") {
-            continue;
-          } else {
-            container.appendChild(child.cloneNode(true));
-            break;
+    const onCopySuccess = function(e) {
+      // button target
+      const button = e.trigger;
+      // don't keep focus
+      button.blur();
+      // flash "checked"
+      button.classList.add('code-copy-button-checked');
+      var currentTitle = button.getAttribute("title");
+      button.setAttribute("title", "Copied!");
+      let tooltip;
+      if (window.bootstrap) {
+        button.setAttribute("data-bs-toggle", "tooltip");
+        button.setAttribute("data-bs-placement", "left");
+        button.setAttribute("data-bs-title", "Copied!");
+        tooltip = new bootstrap.Tooltip(button, 
+          { trigger: "manual", 
+            customClass: "code-copy-button-tooltip",
+            offset: [0, -8]});
+        tooltip.show();    
+      }
+      setTimeout(function() {
+        if (tooltip) {
+          tooltip.hide();
+          button.removeAttribute("data-bs-title");
+          button.removeAttribute("data-bs-toggle");
+          button.removeAttribute("data-bs-placement");
+        }
+        button.setAttribute("title", currentTitle);
+        button.classList.remove('code-copy-button-checked');
+      }, 1000);
+      // clear code selection
+      e.clearSelection();
+    }
+    const getTextToCopy = function(trigger) {
+        const codeEl = trigger.previousElementSibling.cloneNode(true);
+        for (const childEl of codeEl.children) {
+          if (isCodeAnnotation(childEl)) {
+            childEl.remove();
           }
         }
-        if (window.Quarto?.typesetMath) {
-          window.Quarto.typesetMath(container);
+        return codeEl.innerText;
+    }
+    const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+      text: getTextToCopy
+    });
+    clipboard.on('success', onCopySuccess);
+    if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+      const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+        text: getTextToCopy,
+        container: window.document.getElementById('quarto-embedded-source-code-modal')
+      });
+      clipboardModal.on('success', onCopySuccess);
+    }
+      var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+      var mailtoRegex = new RegExp(/^mailto:/);
+        var filterRegex = new RegExp('/' + window.location.host + '/');
+      var isInternal = (href) => {
+          return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+      }
+      // Inspect non-navigation links and adorn them if external
+     var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+      for (var i=0; i<links.length; i++) {
+        const link = links[i];
+        if (!isInternal(link.href)) {
+          // undo the damage that might have been done by quarto-nav.js in the case of
+          // links that we want to consider external
+          if (link.dataset.originalHref !== undefined) {
+            link.href = link.dataset.originalHref;
+          }
         }
-        return container.innerHTML
+      }
+    function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+      const config = {
+        allowHTML: true,
+        maxWidth: 500,
+        delay: 100,
+        arrow: false,
+        appendTo: function(el) {
+            return el.parentElement;
+        },
+        interactive: true,
+        interactiveBorder: 10,
+        theme: 'quarto',
+        placement: 'bottom-start',
+      };
+      if (contentFn) {
+        config.content = contentFn;
+      }
+      if (onTriggerFn) {
+        config.onTrigger = onTriggerFn;
+      }
+      if (onUntriggerFn) {
+        config.onUntrigger = onUntriggerFn;
+      }
+      window.tippy(el, config); 
+    }
+    const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+    for (var i=0; i<noterefs.length; i++) {
+      const ref = noterefs[i];
+      tippyHover(ref, function() {
+        // use id or data attribute instead here
+        let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+        try { href = new URL(href).hash; } catch {}
+        const id = href.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note) {
+          return note.innerHTML;
+        } else {
+          return "";
+        }
+      });
+    }
+    const xrefs = window.document.querySelectorAll('a.quarto-xref');
+    const processXRef = (id, note) => {
+      // Strip column container classes
+      const stripColumnClz = (el) => {
+        el.classList.remove("page-full", "page-columns");
+        if (el.children) {
+          for (const child of el.children) {
+            stripColumnClz(child);
+          }
+        }
+      }
+      stripColumnClz(note)
+      if (id === null || id.startsWith('sec-')) {
+        // Special case sections, only their first couple elements
+        const container = document.createElement("div");
+        if (note.children && note.children.length > 2) {
+          container.appendChild(note.children[0].cloneNode(true));
+          for (let i = 1; i < note.children.length; i++) {
+            const child = note.children[i];
+            if (child.tagName === "P" && child.innerText === "") {
+              continue;
+            } else {
+              container.appendChild(child.cloneNode(true));
+              break;
+            }
+          }
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(container);
+          }
+          return container.innerHTML
+        } else {
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(note);
+          }
+          return note.innerHTML;
+        }
       } else {
+        // Remove any anchor links if they are present
+        const anchorLink = note.querySelector('a.anchorjs-link');
+        if (anchorLink) {
+          anchorLink.remove();
+        }
         if (window.Quarto?.typesetMath) {
           window.Quarto.typesetMath(note);
         }
-        return note.innerHTML;
-      }
-    } else {
-      // Remove any anchor links if they are present
-      const anchorLink = note.querySelector('a.anchorjs-link');
-      if (anchorLink) {
-        anchorLink.remove();
-      }
-      if (window.Quarto?.typesetMath) {
-        window.Quarto.typesetMath(note);
-      }
-      if (note.classList.contains("callout")) {
-        return note.outerHTML;
-      } else {
-        return note.innerHTML;
+        if (note.classList.contains("callout")) {
+          return note.outerHTML;
+        } else {
+          return note.innerHTML;
+        }
       }
     }
-  }
-  for (var i=0; i<xrefs.length; i++) {
-    const xref = xrefs[i];
-    tippyHover(xref, undefined, function(instance) {
-      instance.disable();
-      let url = xref.getAttribute('href');
-      let hash = undefined; 
-      if (url.startsWith('#')) {
-        hash = url;
-      } else {
-        try { hash = new URL(url).hash; } catch {}
-      }
-      if (hash) {
-        const id = hash.replace(/^#\/?/, "");
-        const note = window.document.getElementById(id);
-        if (note !== null) {
-          try {
-            const html = processXRef(id, note.cloneNode(true));
-            instance.setContent(html);
-          } finally {
-            instance.enable();
-            instance.show();
+    for (var i=0; i<xrefs.length; i++) {
+      const xref = xrefs[i];
+      tippyHover(xref, undefined, function(instance) {
+        instance.disable();
+        let url = xref.getAttribute('href');
+        let hash = undefined; 
+        if (url.startsWith('#')) {
+          hash = url;
+        } else {
+          try { hash = new URL(url).hash; } catch {}
+        }
+        if (hash) {
+          const id = hash.replace(/^#\/?/, "");
+          const note = window.document.getElementById(id);
+          if (note !== null) {
+            try {
+              const html = processXRef(id, note.cloneNode(true));
+              instance.setContent(html);
+            } finally {
+              instance.enable();
+              instance.show();
+            }
+          } else {
+            // See if we can fetch this
+            fetch(url.split('#')[0])
+            .then(res => res.text())
+            .then(html => {
+              const parser = new DOMParser();
+              const htmlDoc = parser.parseFromString(html, "text/html");
+              const note = htmlDoc.getElementById(id);
+              if (note !== null) {
+                const html = processXRef(id, note);
+                instance.setContent(html);
+              } 
+            }).finally(() => {
+              instance.enable();
+              instance.show();
+            });
           }
         } else {
-          // See if we can fetch this
-          fetch(url.split('#')[0])
+          // See if we can fetch a full url (with no hash to target)
+          // This is a special case and we should probably do some content thinning / targeting
+          fetch(url)
           .then(res => res.text())
           .then(html => {
             const parser = new DOMParser();
             const htmlDoc = parser.parseFromString(html, "text/html");
-            const note = htmlDoc.getElementById(id);
+            const note = htmlDoc.querySelector('main.content');
             if (note !== null) {
-              const html = processXRef(id, note);
+              // This should only happen for chapter cross references
+              // (since there is no id in the URL)
+              // remove the first header
+              if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+                note.children[0].remove();
+              }
+              const html = processXRef(null, note);
               instance.setContent(html);
             } 
           }).finally(() => {
@@ -2178,185 +2217,161 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
             instance.show();
           });
         }
-      } else {
-        // See if we can fetch a full url (with no hash to target)
-        // This is a special case and we should probably do some content thinning / targeting
-        fetch(url)
-        .then(res => res.text())
-        .then(html => {
-          const parser = new DOMParser();
-          const htmlDoc = parser.parseFromString(html, "text/html");
-          const note = htmlDoc.querySelector('main.content');
-          if (note !== null) {
-            // This should only happen for chapter cross references
-            // (since there is no id in the URL)
-            // remove the first header
-            if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
-              note.children[0].remove();
-            }
-            const html = processXRef(null, note);
-            instance.setContent(html);
-          } 
-        }).finally(() => {
-          instance.enable();
-          instance.show();
-        });
-      }
-    }, function(instance) {
-    });
-  }
-      let selectedAnnoteEl;
-      const selectorForAnnotation = ( cell, annotation) => {
-        let cellAttr = 'data-code-cell="' + cell + '"';
-        let lineAttr = 'data-code-annotation="' +  annotation + '"';
-        const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
-        return selector;
-      }
-      const selectCodeLines = (annoteEl) => {
-        const doc = window.document;
-        const targetCell = annoteEl.getAttribute("data-target-cell");
-        const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
-        const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
-        const lines = annoteSpan.getAttribute("data-code-lines").split(",");
-        const lineIds = lines.map((line) => {
-          return targetCell + "-" + line;
-        })
-        let top = null;
-        let height = null;
-        let parent = null;
-        if (lineIds.length > 0) {
-            //compute the position of the single el (top and bottom and make a div)
-            const el = window.document.getElementById(lineIds[0]);
-            top = el.offsetTop;
-            height = el.offsetHeight;
-            parent = el.parentElement.parentElement;
-          if (lineIds.length > 1) {
-            const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
-            const bottom = lastEl.offsetTop + lastEl.offsetHeight;
-            height = bottom - top;
-          }
-          if (top !== null && height !== null && parent !== null) {
-            // cook up a div (if necessary) and position it 
-            let div = window.document.getElementById("code-annotation-line-highlight");
-            if (div === null) {
-              div = window.document.createElement("div");
-              div.setAttribute("id", "code-annotation-line-highlight");
-              div.style.position = 'absolute';
-              parent.appendChild(div);
-            }
-            div.style.top = top - 2 + "px";
-            div.style.height = height + 4 + "px";
-            div.style.left = 0;
-            let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
-            if (gutterDiv === null) {
-              gutterDiv = window.document.createElement("div");
-              gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
-              gutterDiv.style.position = 'absolute';
-              const codeCell = window.document.getElementById(targetCell);
-              const gutter = codeCell.querySelector('.code-annotation-gutter');
-              gutter.appendChild(gutterDiv);
-            }
-            gutterDiv.style.top = top - 2 + "px";
-            gutterDiv.style.height = height + 4 + "px";
-          }
-          selectedAnnoteEl = annoteEl;
-        }
-      };
-      const unselectCodeLines = () => {
-        const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
-        elementsIds.forEach((elId) => {
-          const div = window.document.getElementById(elId);
-          if (div) {
-            div.remove();
-          }
-        });
-        selectedAnnoteEl = undefined;
-      };
-        // Handle positioning of the toggle
-    window.addEventListener(
-      "resize",
-      throttle(() => {
-        elRect = undefined;
-        if (selectedAnnoteEl) {
-          selectCodeLines(selectedAnnoteEl);
-        }
-      }, 10)
-    );
-    function throttle(fn, ms) {
-    let throttle = false;
-    let timer;
-      return (...args) => {
-        if(!throttle) { // first call gets through
-            fn.apply(this, args);
-            throttle = true;
-        } else { // all the others get throttled
-            if(timer) clearTimeout(timer); // cancel #2
-            timer = setTimeout(() => {
-              fn.apply(this, args);
-              timer = throttle = false;
-            }, ms);
-        }
-      };
-    }
-      // Attach click handler to the DT
-      const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
-      for (const annoteDlNode of annoteDls) {
-        annoteDlNode.addEventListener('click', (event) => {
-          const clickedEl = event.target;
-          if (clickedEl !== selectedAnnoteEl) {
-            unselectCodeLines();
-            const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
-            if (activeEl) {
-              activeEl.classList.remove('code-annotation-active');
-            }
-            selectCodeLines(clickedEl);
-            clickedEl.classList.add('code-annotation-active');
-          } else {
-            // Unselect the line
-            unselectCodeLines();
-            clickedEl.classList.remove('code-annotation-active');
-          }
-        });
-      }
-  const findCites = (el) => {
-    const parentEl = el.parentElement;
-    if (parentEl) {
-      const cites = parentEl.dataset.cites;
-      if (cites) {
-        return {
-          el,
-          cites: cites.split(' ')
-        };
-      } else {
-        return findCites(el.parentElement)
-      }
-    } else {
-      return undefined;
-    }
-  };
-  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
-  for (var i=0; i<bibliorefs.length; i++) {
-    const ref = bibliorefs[i];
-    const citeInfo = findCites(ref);
-    if (citeInfo) {
-      tippyHover(citeInfo.el, function() {
-        var popup = window.document.createElement('div');
-        citeInfo.cites.forEach(function(cite) {
-          var citeDiv = window.document.createElement('div');
-          citeDiv.classList.add('hanging-indent');
-          citeDiv.classList.add('csl-entry');
-          var biblioDiv = window.document.getElementById('ref-' + cite);
-          if (biblioDiv) {
-            citeDiv.innerHTML = biblioDiv.innerHTML;
-          }
-          popup.appendChild(citeDiv);
-        });
-        return popup.innerHTML;
+      }, function(instance) {
       });
     }
-  }
-});
-</script>
+        let selectedAnnoteEl;
+        const selectorForAnnotation = ( cell, annotation) => {
+          let cellAttr = 'data-code-cell="' + cell + '"';
+          let lineAttr = 'data-code-annotation="' +  annotation + '"';
+          const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+          return selector;
+        }
+        const selectCodeLines = (annoteEl) => {
+          const doc = window.document;
+          const targetCell = annoteEl.getAttribute("data-target-cell");
+          const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+          const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+          const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+          const lineIds = lines.map((line) => {
+            return targetCell + "-" + line;
+          })
+          let top = null;
+          let height = null;
+          let parent = null;
+          if (lineIds.length > 0) {
+              //compute the position of the single el (top and bottom and make a div)
+              const el = window.document.getElementById(lineIds[0]);
+              top = el.offsetTop;
+              height = el.offsetHeight;
+              parent = el.parentElement.parentElement;
+            if (lineIds.length > 1) {
+              const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+              const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+              height = bottom - top;
+            }
+            if (top !== null && height !== null && parent !== null) {
+              // cook up a div (if necessary) and position it 
+              let div = window.document.getElementById("code-annotation-line-highlight");
+              if (div === null) {
+                div = window.document.createElement("div");
+                div.setAttribute("id", "code-annotation-line-highlight");
+                div.style.position = 'absolute';
+                parent.appendChild(div);
+              }
+              div.style.top = top - 2 + "px";
+              div.style.height = height + 4 + "px";
+              div.style.left = 0;
+              let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+              if (gutterDiv === null) {
+                gutterDiv = window.document.createElement("div");
+                gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+                gutterDiv.style.position = 'absolute';
+                const codeCell = window.document.getElementById(targetCell);
+                const gutter = codeCell.querySelector('.code-annotation-gutter');
+                gutter.appendChild(gutterDiv);
+              }
+              gutterDiv.style.top = top - 2 + "px";
+              gutterDiv.style.height = height + 4 + "px";
+            }
+            selectedAnnoteEl = annoteEl;
+          }
+        };
+        const unselectCodeLines = () => {
+          const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+          elementsIds.forEach((elId) => {
+            const div = window.document.getElementById(elId);
+            if (div) {
+              div.remove();
+            }
+          });
+          selectedAnnoteEl = undefined;
+        };
+          // Handle positioning of the toggle
+      window.addEventListener(
+        "resize",
+        throttle(() => {
+          elRect = undefined;
+          if (selectedAnnoteEl) {
+            selectCodeLines(selectedAnnoteEl);
+          }
+        }, 10)
+      );
+      function throttle(fn, ms) {
+      let throttle = false;
+      let timer;
+        return (...args) => {
+          if(!throttle) { // first call gets through
+              fn.apply(this, args);
+              throttle = true;
+          } else { // all the others get throttled
+              if(timer) clearTimeout(timer); // cancel #2
+              timer = setTimeout(() => {
+                fn.apply(this, args);
+                timer = throttle = false;
+              }, ms);
+          }
+        };
+      }
+        // Attach click handler to the DT
+        const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+        for (const annoteDlNode of annoteDls) {
+          annoteDlNode.addEventListener('click', (event) => {
+            const clickedEl = event.target;
+            if (clickedEl !== selectedAnnoteEl) {
+              unselectCodeLines();
+              const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+              if (activeEl) {
+                activeEl.classList.remove('code-annotation-active');
+              }
+              selectCodeLines(clickedEl);
+              clickedEl.classList.add('code-annotation-active');
+            } else {
+              // Unselect the line
+              unselectCodeLines();
+              clickedEl.classList.remove('code-annotation-active');
+            }
+          });
+        }
+    const findCites = (el) => {
+      const parentEl = el.parentElement;
+      if (parentEl) {
+        const cites = parentEl.dataset.cites;
+        if (cites) {
+          return {
+            el,
+            cites: cites.split(' ')
+          };
+        } else {
+          return findCites(el.parentElement)
+        }
+      } else {
+        return undefined;
+      }
+    };
+    var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+    for (var i=0; i<bibliorefs.length; i++) {
+      const ref = bibliorefs[i];
+      const citeInfo = findCites(ref);
+      if (citeInfo) {
+        tippyHover(citeInfo.el, function() {
+          var popup = window.document.createElement('div');
+          citeInfo.cites.forEach(function(cite) {
+            var citeDiv = window.document.createElement('div');
+            citeDiv.classList.add('hanging-indent');
+            citeDiv.classList.add('csl-entry');
+            var biblioDiv = window.document.getElementById('ref-' + cite);
+            if (biblioDiv) {
+              citeDiv.innerHTML = biblioDiv.innerHTML;
+            }
+            popup.appendChild(citeDiv);
+          });
+          return popup.innerHTML;
+        });
+      }
+    }
+  });
+  </script>
 </div> <!-- /content -->
 
 
