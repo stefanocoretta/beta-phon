@@ -130,7 +130,43 @@ Bayesian regression models are being increasingly adopted within phonetics and l
 
 The main practical advantage of Bayesian regression models over maximum-likelihood-based frequentist regression models, like those fitted with the lme4 package [@bates2015], is that Bayesian regression models don't suffer from the convergence issues that models fitted in lme4 [@bates2015] and other packages [@cribarineto2010] that fit frequentist models do, independent of sample size. A second, long-term advantage is that Bayesian regression models allow researchers to statistically re-use information from previous studies by specifying informative priors. While prior specification is one of the main features of Bayesian inference, in this tutorial we will use the default priors as set by brms. These are sensible priors estimated from the data that facilitate convergence but bear virtually no influence on the estimated posteriors. Specifying priors requires a great deal of precise quantitative knowledge, which in some areas of phonetics is difficult to determine, so that using the default priors provided by brms is, for the purposes of this article (and initial analyses), an acceptable practice. For practical guidance on prior specification and prior predictive checks, see @bockting2024, @mikkola2024 and the Wiki page https://github.com/stan-dev/stan/wiki/Prior-Choice, and @mcelreath2020 [p. 82-84].
 
-The output of Bayesian regression models is (posterior) probability distributions for the model parameters, through which researchers can quantify (un)certainty. Bayesian Credible Intervals (CrIs) can be calculated from the posterior distributions at several probability levels (e.g. 95, 90, 80, 60%) for a more complete view on estimated parameters. Bayesian CrIs indicate that, at a certain probability level, the parameter's estimate lies within that interval: so, for example, a 90% CrI \[A, B\] indicates that there is a 90% probability that the estimate is between A and B. Different probability levels correspond to different levels of confidence: the higher the probability the higher the confidence (always conditional on data and model). Readers interested in a full and accessible exposition of Bayesian statistics are referred to @mcelreath2019. Shorter introductions can be found in @etz2018, @vasishth2018 and @nalborczyk2019.
+The output of Bayesian regression models is (posterior) probability distributions for the model parameters, through which researchers can quantify (un)certainty. When obtaining the summary of the posterior probability distributions, the mean and standard deviation of the posterior distribution, together with Bayesian Credible Intervals are given for each parameter. The mean and standard deviation are appropriate since, due to the central limit theorem, the draws from the MCMC chains for each parameter usually follow a symmetric distribution (note that the nature of the posterior distribution of the parameters is not related to the nature of the distribution family chosen for the outcome, so while the outcome is modelled with a beta distribution, the posteriors of the parameters follow a symmetric distribution due to the central limit theorem). Bayesian Credible Intervals (CrIs) can be calculated from the posterior distributions at several probability levels (e.g. 95, 90, 80, 60%) for a more complete view on estimated parameters. Bayesian CrIs indicate that, at a certain probability level, the parameter's estimate lies within that interval: so, for example, a 90% CrI \[A, B\] indicates that there is a 90% probability that the estimate is between A and B. Different probability levels correspond to different levels of confidence: the higher the probability the higher the confidence (always conditional on data and model). Readers interested in a full and accessible exposition of Bayesian statistics are referred to @mcelreath2019. Shorter introductions can be found in @etz2018, @vasishth2018 and @nalborczyk2019.
+
+Beta regression models return coefficient estimates in log-odds, similarly to Bernoulli/binomial (aka logistic) regression models. Log-odds correspond to the logarithm of the odds $\log\left(\frac{p}{1 - p}\right)$. To convert log-odds into probabilities (or into a variable in the [0, 1] interval), the inverse logit function is used $\frac{1}{1 + e^{-x}}$, where $x$ is the log-odds value. @fig-p-log-odds illustrates the correspondence between log-odds and the [0, 1] values. In R, the inverse logit can be obtained with the base R function `plogis()`, while the logit can be obtained with the base R function `qlogis()`. Another relevant transformation of log-odds is exponentiation (with base R `exp()`) which returns the corresponding odds-ratio: odds-ratios indicate the rate of change in the values of the outcome variable relative to a baseline. An odds-ratio of 1 indicates no change, positive odds-ratios indicate an increase, while negative odds-ratios correspond to a decrease. For example, if the odds-ratio of the duration of /a/ vs the duration of /i/ is 1.2, this means that the duration of /a/ is grater than that of /i/. Moreover, odds-ratios can be interpreted as percentage change: an odds-ratio of 1.2 corresponds to a 20% *increase* relative to the baseline, an odds-ratio of 0.8 corresponds to a 20% *decrease* relative to the baseline, while an odds-ratio of 1 means a 0% change (i.e. no change).
+
+```{r}
+#| label: fig-p-log-odds
+#| fig-cap: "Correspondence between log-odds and probabilities."
+#| warning: false
+#| echo: false
+
+dots <- tibble(
+  p = seq(0.1, 0.9, by = 0.1),
+  log_odds = qlogis(p)
+)
+
+p_log_odds <- tibble(
+  p = seq(0, 1, by = 0.001),
+  log_odds = qlogis(p)
+) %>%
+  ggplot(aes(log_odds, p)) +
+  geom_hline(yintercept = 0.5, linetype = "dashed") +
+  geom_hline(yintercept = 0, colour = "#8856a7", linewidth = 1) +
+  geom_hline(yintercept = 1, colour = "#8856a7", linewidth = 1) +
+  geom_vline(xintercept = 0, alpha = 0.5) +
+  geom_line(linewidth = 2) +
+  # geom_point(data = dots, size = 4) +
+  geom_point(x = 0, y = 0.5, colour = "#8856a7", size = 4) +
+  annotate("text", x = -4, y = 0.8, label = "logit(p) = log-odds") +
+  scale_x_continuous(breaks = seq(-6, 6, by = 1), minor_breaks = NULL, limits = c(-6, 6)) +
+  scale_y_continuous(breaks = seq(0, 1, by = 0.1), minor_breaks = NULL) +
+  labs(
+    x = "Log-odds",
+    y = "Probability"
+  )
+p_log_odds
+```
+
 
 # Case study 1: coarticulatory voicing within consonant closure {#sec-case-1}
 
@@ -215,7 +251,7 @@ voi_prop_bm <- brm(
 )
 ```
 
-The `summary()` function prints the full model summary. For conciseness, we will use the `fixef()` function which prints the regression coefficients. @tbl-voi-prop-fixef reports the output of `fixef()` as a table (we round all values to the nearest 2 digits for clarity.). For each coefficient in the model, `fixef()` prints the name of the coefficient, the mean estimate, the estimate error and the lower and upper limits of a Bayesian Credible interval (CrI). Note that all values are in log-odds, since the link function in beta regressions is the logistic function, like in binomial/Bernoulli regressions. Here, we print an 80% CrI. There is nothing special about 95% CrI within Bayesian inference and instead experts recommend to check and report a variety of CrIs. Obtaining CrIs at different probability levels allows researchers to make more fine-grained inferential statements than the frequentist significance dichotomy affords. For simplicity of exposition, we will use 80% CrIs in this case study but we strongly recommend researchers to always obtain CrIs at different levels of probability and base their inferences on all and not one in particular. To reiterate, in Bayesian inference, an 80% CrI indicates the range of values within which the true estimate falls at 80% probability or confidence.
+The `summary()` function prints the full model summary. For conciseness, we will use the `fixef()` function which prints the regression coefficients. @tbl-voi-prop-fixef reports the output of `fixef()` as a table (we round all values to the nearest 2 digits for clarity.). For each coefficient in the model, `fixef()` prints the name of the coefficient, the mean estimate (i.e. the mean of the posterior distribution calculated from the MCMC draws), the estimate error (i.e. the standard deviation of the posterior distribution) and the lower and upper limits of a Bayesian Credible interval (CrI) of the posterior distribution. Note that all values are in log-odds, since the link function in beta regressions is the logistic function, like in binomial/Bernoulli regressions. Here, we print an 80% CrI. There is nothing special about 95% CrI within Bayesian inference and instead experts recommend to check and report a variety of CrIs. Obtaining CrIs at different probability levels allows researchers to make more fine-grained inferential statements than the frequentist significance dichotomy affords. For simplicity of exposition, we will use 80% CrIs in this case study but we strongly recommend researchers to always obtain CrIs at different levels of probability and base their inferences on all and not one in particular. To reiterate, in Bayesian inference, an 80% CrI indicates the range of values within which the true estimate falls at 80% probability or confidence.
 
 ```{r}
 #| label: voi-prop-fixef
@@ -237,7 +273,7 @@ round(
 
 From the summary, we see that speech rate (number of syllables per second) has a positive effect on voicing proportion: the 80% CrI is between 0.01 and 0.15 log-odds [$\beta$ = 0.08, SD = 0.06]. Log-odds can be converted to odds-ratios by exponentiating the value: 0.01-0.15 log odds correspond to an odds-ratio of 1.01 to 1.16, or as percentages, to an increase of voicing of 1 to 16% for every increase of one syllable per second. Since this is an 80% CrI, we can be 80% confident that the true effect of speech rate is between 1-16% increase of voicing proportion, conditional on the data and model. Note that transforming measures this way is appropriate *only* with quantile-based measures (like CrIs) but not with moments like the mean and standard deviation: to correctly get mean and SDs in the transformed scale, you must first extract the posterior draws (see below), convert them and then take moments such as mean and SD [for a more detailed explanation, see @burkner2025, p. 101]. In the avoidance of doubt, we will always transform the drawn values first and then take summary measures.
 
-Turning now to the coefficients for vowel and C2, given the indexing approach of coding these variables the model summary and the output of `fixef()` reports the *predictions* in log-odds for each combination of vowel and C2, rather than differences between levels. The CrIs of the vowel/C2 coefficients span all negative log-odds values: these correspond to proportions that are lower than 0.5 (which is 0 in log-odds). This matches the general trends in the raw data, which we plotted in @fig-ita-egg. Next, we will plot the predicted proportions of each vowel/C2 combination at mean speech rate (i.e. centred speech rate = 0) and then calculate the average pair-wise difference in voicing proportion between /k, t, p/.
+Turning now to the coefficients for vowel and C2, given the indexing approach of coding these variables the model summary and the output of `fixef()` reports the *predictions* in log-odds for each combination of vowel and C2, rather than differences between levels. The posteriors of the coefficients for vowel and C2 are the estimated $\mu$s of the beta distribution (since the beta distribution is parametrised with $\mu$ and $\phi$; we will not discuss $\phi$, although the estimate of this parameter can be found in the summary of the model, under "Further Distributional Parameters").The CrIs of the vowel/C2 coefficients span all negative log-odds values: these correspond to proportions that are lower than 0.5 (which is 0 in log-odds). This matches the general trends in the raw data, which we plotted in @fig-ita-egg. Next, we will plot the predicted proportions of each vowel/C2 combination at mean speech rate (i.e. centred speech rate = 0) and then calculate the average pair-wise difference in voicing proportion between /k, t, p/.
 
 Before being able to plot the predictions, it's important to get familiar with the so-called posterior draws. Bayesian regression models are fitted using Markov Chain Monte Carlo (MCMC) methods, as briefly explained in @sec-bayes. The `brm()` function runs four MCMC chains with 2000 iterations each by default. These are sufficient in most cases. The first 1000 iterations of each chain are used for "warmup", where the MCMC algorithm is optimised to find the posterior probability. The second half of the iterations, 1000 per chain, are used for sampling from the posterior probability. Each iteration returns a drawn value for each parameter in the model. The list of values drawn during the Monte Carlo sampling are called the "posterior draws". Since four chains are run, a total of 4000 posterior values are generated. The posterior draws are used for inference: we can plot them, summarise them, transform them and combine them in any way to answer specific questions.
 
@@ -294,11 +330,17 @@ For plotting, we can use ggplot2 statistics layers from the ggdist package [@kay
 library(ggdist)
 
 voi_prop_bm_draws_long |> 
+  mutate(
+    c2 = str_remove(c2, "c2"),
+    vowel = str_remove(vowel, "vowel")
+  ) |> 
   ggplot(aes(plogis(value), vowel)) +
   stat_halfeye(.width = c(0.6, 0.8)) +
   facet_grid(rows = vars(c2)) +
   labs(
-    caption = "The points are the medians and the two lines are 60 and 80% CrIs."
+    caption = "The points are the medians and the two lines are 60 and 80% CrIs.",
+    x = "Voicing during closure (prop)",
+    y = "Vowel"
   )
 ```
 
@@ -320,10 +362,15 @@ voi_prop_bm_draws_long_c2 <- voi_prop_bm_draws_long |>
 #| label: fig-voi-pbdl-c2
 #| fig-cap: "Expected predictions of voicing proportion by consonant, averaged across vowels."
 voi_prop_bm_draws_long_c2 |> 
+  mutate(
+    c2 = str_remove(c2, "c2")
+  ) |> 
   ggplot(aes(plogis(value_mean), c2)) +
   stat_halfeye(.width = c(0.6, 0.8)) +
   labs(
-    caption = "The points are the medians and the two lines are 60 and 80% CrIs."
+    caption = "The points are the medians and the two lines are 60 and 80% CrIs.",
+    x = "Voicing during closure (prop)",
+    y = "C2"
   )
 ```
 
@@ -359,7 +406,11 @@ voi_prop_bm_diff |> head(n = 10) |> knitr::kable()
 voi_prop_bm_diff |> 
   ggplot(aes(c2p_tk_diff)) +
   stat_halfeye(.width = c(0.6, 0.8, 0.9)) +
-  geom_vline(xintercept = 0)
+  geom_vline(xintercept = 0) +
+  labs(
+    x = "Log-odds difference in /p/ vs /t/",
+    y = element_blank()
+  )
 ```
 
 Once we have the posterior difference, we can obtain CrIs of the difference using `quantile2()` from the posterior package [@burkner2024]. Beware that the values of the difference are in log-odds! We can convert these into odds-ratios with `exp()`. The output of the code below is shown in @tbl-voi-bm-quant. Odds-ratios indicate the ratio of the difference between A and B, so that 1 means no difference, values greater than 1 indicate an increase in A relative to B and values lower than 1 indicate a decrease in A relative to B. Odds-ratios are useful when looking at differences that are in log-odds because while the relative magnitude of the difference in proportion between two groups is the same independent of the baseline proportion, the *absolute* magnitude of the difference depends on the baseline value. For example, an odds-ratio difference of 1.25 would correspond to a proportion increase of about 3 percentage points if the baseline proportion is 0.62 but it would correspond to a proportion increase of 5 percentage points if the baseline proportion is 0.73 and 1 percentage point if the baseline is 0.99. Of course, in real research contexts it is still useful to think about absolute magnitudes and their relevance from a conceptual and methodological perspective. In this tutorial we just focus on odds-ratios for simplicity.
@@ -415,7 +466,9 @@ Based on the model and data, there is a 90% probability that the voicing proport
 ```{r}
 #| label: fig-voi-prop-bm-cond
 #| fig-cap: "Expected voicing proportion by consonant and vowel with 95% Credible Intervals."
-conditional_effects(voi_prop_bm, "c2:vowel")
+ce <- conditional_effects(voi_prop_bm, "c2:vowel")
+p <- plot(ce, plot = FALSE)[[1]]
+p + labs(x = "C2", y = "Voicing during closure (prop)")
 ```
 
 Finally, the package marginaleffects [@arelbundock2025] has two other convenience functions that return CrIs of comparisons across predictor levels (`avg_comparisons()`) and CrIs of posterior predictions across predictor levels (`avg_predictions`). Both functions take the model and a list of variables as arguments. Optionally, you can set the confidence level with the `conf_level` argument (here, we set it to 0.8, or 80%). `avg_comparisons()` allows the user to specify the type of comparison for each variable: here we set `"pairwise"` to calculate pairwise comparisons of each level of `c2`. The output of the two functions is shown in @tbl-marginal-1 and @tbl-marginal-2. Note that even when multiple comparisons are made, there is no need to apply any correction as it is commonly done with *p*-values in frequentist statistics [see @gelman2012].
@@ -545,8 +598,12 @@ Negative log-odds indicate a proportion that is smaller than 50%, while positive
 #| label: fig-nas-prop
 #| fig-cap: "Expected nasalisation proportion by vowel and voicing, with 95% CrIs."
 
-conditional_effects(nas_prop_bm, "vowel:voicing")
-
+ce <- conditional_effects(nas_prop_bm, "vowel:voicing")
+p <- plot(ce, plot = FALSE)[[1]]
+p +
+  labs(
+    y = "Proportion of nasality"
+  )
 ```
 
 Now that we fitted the model we can use the posterior draws to answer the two research questions (repeated from above):
@@ -608,8 +665,14 @@ nas_prop_bm_draws_long_voicing |> head(n = 10) |> knitr::kable()
 #| fig-cap: "Expected nasalisation proportion by voicing, averaged across vowels."
 
 nas_prop_bm_draws_long_voicing |> 
+  mutate(
+    voicing = str_remove(voicing, "voicing")
+  ) |> 
   ggplot(aes(value_mean_prop, voicing)) +
-  stat_halfeye(.width = c(0.6, 0.8))
+  stat_halfeye(.width = c(0.6, 0.8)) +
+  labs(
+    x = "Nasalisation proportion"
+  )
 ```
 
 The plot suggests an overall greater nasalisation proportion in voiceless NC sequences. Let's quantify how much greater it is, as we did in @sec-case-1. We will use odds-ratios in this context as well, i.e. we will convert log-odds to odds-ratios using the `exp()` (exponential) function (and as before we first calculate the difference and then exponentiate the resulting values, after which we can take summary measures, like means and quantile-based measures such as CrIs). @tbl-nas-prop-bm-diff-quant show the 90, 80 and 60% CrIs of the difference ratio of nasalisation proportion in voiceless vs voiced NC sequences.
@@ -694,7 +757,11 @@ nas_prop_r |>
   stat_halfeye() +
   geom_vline(xintercept = mean(nas_prop_bm_diff$voicing_diff), colour = "red") +
   geom_vline(xintercept = 0, linetype = "dashed") +
-  lims(x = c(-1, 1.5))
+  lims(x = c(-1, 1.5)) +
+  labs(
+    x = "Log-odds difference between voiceless vs voiced NC sequences",
+    y = "Speaker"
+  )
 ```
 
 There is a lot of uncertainty within and between speakers: while the distributions of most speakers are located in the positive range, some expected distributions (see last 5 speakers at the bottom of figure) do substantially span both negative and positive values. In other words, while most speakers are more likely to have a larger nasalisation proportion in voiceless NC sequences, a few might in fact have the opposite pattern. Even among those speakers that do have a more robust positive difference, there is a lot of uncertainty as to the magnitude of the difference.

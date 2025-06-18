@@ -441,7 +441,17 @@ https://github.com/stan-dev/stan/wiki/Prior-Choice, and
 
 The output of Bayesian regression models is (posterior) probability
 distributions for the model parameters, through which researchers can
-quantify (un)certainty. Bayesian Credible Intervals (CrIs) can be
+quantify (un)certainty. When obtaining the summary of the posterior
+probability distributions, the mean and standard deviation of the
+posterior distribution, together with Bayesian Credible Intervals are
+given for each parameter. The mean and standard deviation are
+appropriate since, due to the central limit theorem, the draws from the
+MCMC chains for each parameter usually follow a symmetric distribution
+(note that the nature of the posterior distribution of the parameters is
+not related to the nature of the distribution family chosen for the
+outcome, so while the outcome is modelled with a beta distribution, the
+posteriors of the parameters follow a symmetric distribution due to the
+central limit theorem). Bayesian Credible Intervals (CrIs) can be
 calculated from the posterior distributions at several probability
 levels (e.g.~95, 90, 80, 60\%) for a more complete view on estimated
 parameters. Bayesian CrIs indicate that, at a certain probability level,
@@ -454,6 +464,42 @@ interested in a full and accessible exposition of Bayesian statistics
 are referred to \citet{mcelreath2019}. Shorter introductions can be
 found in \citet{etz2018}, \citet{vasishth2018} and
 \citet{nalborczyk2019}.
+
+Beta regression models return coefficient estimates in log-odds,
+similarly to Bernoulli/binomial (aka logistic) regression models.
+Log-odds correspond to the logarithm of the odds
+\(\log\left(\frac{p}{1 - p}\right)\). To convert log-odds into
+probabilities (or into a variable in the {[}0, 1{]} interval), the
+inverse logit function is used \(\frac{1}{1 + e^{-x}}\), where \(x\) is
+the log-odds value. Figure~\ref{fig-p-log-odds} illustrates the
+correspondence between log-odds and the {[}0, 1{]} values. In R, the
+inverse logit can be obtained with the base R function
+\texttt{plogis()}, while the logit can be obtained with the base R
+function \texttt{qlogis()}. Another relevant transformation of log-odds
+is exponentiation (with base R \texttt{exp()}) which returns the
+corresponding odds-ratio: odds-ratios indicate the rate of change in the
+values of the outcome variable relative to a baseline. An odds-ratio of
+1 indicates no change, positive odds-ratios indicate an increase, while
+negative odds-ratios correspond to a decrease. For example, if the
+odds-ratio of the duration of /a/ vs the duration of /i/ is 1.2, this
+means that the duration of /a/ is grater than that of /i/. Moreover,
+odds-ratios can be interpreted as percentage change: an odds-ratio of
+1.2 corresponds to a 20\% \emph{increase} relative to the baseline, an
+odds-ratio of 0.8 corresponds to a 20\% \emph{decrease} relative to the
+baseline, while an odds-ratio of 1 means a 0\% change (i.e.~no change).
+
+\begin{figure}
+
+\centering{
+
+\pandocbounded{\includegraphics[keepaspectratio]{manuscript_files/figure-pdf/fig-p-log-odds-1.pdf}}
+
+}
+
+\caption{\label{fig-p-log-odds}Correspondence between log-odds and
+probabilities.}
+
+\end{figure}%
 
 \section{Case study 1: coarticulatory voicing within consonant
 closure}\label{sec-case-1}
@@ -625,21 +671,23 @@ conciseness, we will use the \texttt{fixef()} function which prints the
 regression coefficients. Table~\ref{tbl-voi-prop-fixef} reports the
 output of \texttt{fixef()} as a table (we round all values to the
 nearest 2 digits for clarity.). For each coefficient in the model,
-\texttt{fixef()} prints the name of the coefficient, the mean estimate,
-the estimate error and the lower and upper limits of a Bayesian Credible
-interval (CrI). Note that all values are in log-odds, since the link
-function in beta regressions is the logistic function, like in
-binomial/Bernoulli regressions. Here, we print an 80\% CrI. There is
-nothing special about 95\% CrI within Bayesian inference and instead
-experts recommend to check and report a variety of CrIs. Obtaining CrIs
-at different probability levels allows researchers to make more
-fine-grained inferential statements than the frequentist significance
-dichotomy affords. For simplicity of exposition, we will use 80\% CrIs
-in this case study but we strongly recommend researchers to always
-obtain CrIs at different levels of probability and base their inferences
-on all and not one in particular. To reiterate, in Bayesian inference,
-an 80\% CrI indicates the range of values within which the true estimate
-falls at 80\% probability or confidence.
+\texttt{fixef()} prints the name of the coefficient, the mean estimate
+(i.e.~the mean of the posterior distribution calculated from the MCMC
+draws), the estimate error (i.e.~the standard deviation of the posterior
+distribution) and the lower and upper limits of a Bayesian Credible
+interval (CrI) of the posterior distribution. Note that all values are
+in log-odds, since the link function in beta regressions is the logistic
+function, like in binomial/Bernoulli regressions. Here, we print an 80\%
+CrI. There is nothing special about 95\% CrI within Bayesian inference
+and instead experts recommend to check and report a variety of CrIs.
+Obtaining CrIs at different probability levels allows researchers to
+make more fine-grained inferential statements than the frequentist
+significance dichotomy affords. For simplicity of exposition, we will
+use 80\% CrIs in this case study but we strongly recommend researchers
+to always obtain CrIs at different levels of probability and base their
+inferences on all and not one in particular. To reiterate, in Bayesian
+inference, an 80\% CrI indicates the range of values within which the
+true estimate falls at 80\% probability or confidence.
 
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -701,8 +749,13 @@ Turning now to the coefficients for vowel and C2, given the indexing
 approach of coding these variables the model summary and the output of
 \texttt{fixef()} reports the \emph{predictions} in log-odds for each
 combination of vowel and C2, rather than differences between levels. The
-CrIs of the vowel/C2 coefficients span all negative log-odds values:
-these correspond to proportions that are lower than 0.5 (which is 0 in
+posteriors of the coefficients for vowel and C2 are the estimated
+\(\mu\)s of the beta distribution (since the beta distribution is
+parametrised with \(\mu\) and \(\phi\); we will not discuss \(\phi\),
+although the estimate of this parameter can be found in the summary of
+the model, under ``Further Distributional Parameters'').The CrIs of the
+vowel/C2 coefficients span all negative log-odds values: these
+correspond to proportions that are lower than 0.5 (which is 0 in
 log-odds). This matches the general trends in the raw data, which we
 plotted in Figure~\ref{fig-ita-egg}. Next, we will plot the predicted
 proportions of each vowel/C2 combination at mean speech rate
@@ -847,11 +900,17 @@ Figure~\ref{fig-voi-prop-bm-1}.
 \FunctionTok{library}\NormalTok{(ggdist)}
 
 \NormalTok{voi\_prop\_bm\_draws\_long }\SpecialCharTok{|\textgreater{}} 
+  \FunctionTok{mutate}\NormalTok{(}
+    \AttributeTok{c2 =} \FunctionTok{str\_remove}\NormalTok{(c2, }\StringTok{"c2"}\NormalTok{),}
+    \AttributeTok{vowel =} \FunctionTok{str\_remove}\NormalTok{(vowel, }\StringTok{"vowel"}\NormalTok{)}
+\NormalTok{  ) }\SpecialCharTok{|\textgreater{}} 
   \FunctionTok{ggplot}\NormalTok{(}\FunctionTok{aes}\NormalTok{(}\FunctionTok{plogis}\NormalTok{(value), vowel)) }\SpecialCharTok{+}
   \FunctionTok{stat\_halfeye}\NormalTok{(}\AttributeTok{.width =} \FunctionTok{c}\NormalTok{(}\FloatTok{0.6}\NormalTok{, }\FloatTok{0.8}\NormalTok{)) }\SpecialCharTok{+}
   \FunctionTok{facet\_grid}\NormalTok{(}\AttributeTok{rows =} \FunctionTok{vars}\NormalTok{(c2)) }\SpecialCharTok{+}
   \FunctionTok{labs}\NormalTok{(}
-    \AttributeTok{caption =} \StringTok{"The points are the medians and the two lines are 60 and 80\% CrIs."}
+    \AttributeTok{caption =} \StringTok{"The points are the medians and the two lines are 60 and 80\% CrIs."}\NormalTok{,}
+    \AttributeTok{x =} \StringTok{"Voicing during closure (prop)"}\NormalTok{,}
+    \AttributeTok{y =} \StringTok{"Vowel"}
 \NormalTok{  )}
 \end{Highlighting}
 \end{Shaded}
@@ -895,10 +954,15 @@ to more complex cases like those involving numeric predictors, see
 \begin{Shaded}
 \begin{Highlighting}[]
 \NormalTok{voi\_prop\_bm\_draws\_long\_c2 }\SpecialCharTok{|\textgreater{}} 
+  \FunctionTok{mutate}\NormalTok{(}
+    \AttributeTok{c2 =} \FunctionTok{str\_remove}\NormalTok{(c2, }\StringTok{"c2"}\NormalTok{)}
+\NormalTok{  ) }\SpecialCharTok{|\textgreater{}} 
   \FunctionTok{ggplot}\NormalTok{(}\FunctionTok{aes}\NormalTok{(}\FunctionTok{plogis}\NormalTok{(value\_mean), c2)) }\SpecialCharTok{+}
   \FunctionTok{stat\_halfeye}\NormalTok{(}\AttributeTok{.width =} \FunctionTok{c}\NormalTok{(}\FloatTok{0.6}\NormalTok{, }\FloatTok{0.8}\NormalTok{)) }\SpecialCharTok{+}
   \FunctionTok{labs}\NormalTok{(}
-    \AttributeTok{caption =} \StringTok{"The points are the medians and the two lines are 60 and 80\% CrIs."}
+    \AttributeTok{caption =} \StringTok{"The points are the medians and the two lines are 60 and 80\% CrIs."}\NormalTok{,}
+    \AttributeTok{x =} \StringTok{"Voicing during closure (prop)"}\NormalTok{,}
+    \AttributeTok{y =} \StringTok{"C2"}
 \NormalTok{  )}
 \end{Highlighting}
 \end{Shaded}
@@ -973,7 +1037,11 @@ voicing proportion between /t, k/ and /p/.}
 \NormalTok{voi\_prop\_bm\_diff }\SpecialCharTok{|\textgreater{}} 
   \FunctionTok{ggplot}\NormalTok{(}\FunctionTok{aes}\NormalTok{(c2p\_tk\_diff)) }\SpecialCharTok{+}
   \FunctionTok{stat\_halfeye}\NormalTok{(}\AttributeTok{.width =} \FunctionTok{c}\NormalTok{(}\FloatTok{0.6}\NormalTok{, }\FloatTok{0.8}\NormalTok{, }\FloatTok{0.9}\NormalTok{)) }\SpecialCharTok{+}
-  \FunctionTok{geom\_vline}\NormalTok{(}\AttributeTok{xintercept =} \DecValTok{0}\NormalTok{)}
+  \FunctionTok{geom\_vline}\NormalTok{(}\AttributeTok{xintercept =} \DecValTok{0}\NormalTok{) }\SpecialCharTok{+}
+  \FunctionTok{labs}\NormalTok{(}
+    \AttributeTok{x =} \StringTok{"Log{-}odds difference in /p/ vs /t/"}\NormalTok{,}
+    \AttributeTok{y =} \FunctionTok{element\_blank}\NormalTok{()}
+\NormalTok{  )}
 \end{Highlighting}
 \end{Shaded}
 
@@ -1063,7 +1131,9 @@ plot the predicted proportion of voicing by consonant and vowel.
 
 \begin{Shaded}
 \begin{Highlighting}[]
-\FunctionTok{conditional\_effects}\NormalTok{(voi\_prop\_bm, }\StringTok{"c2:vowel"}\NormalTok{)}
+\NormalTok{ce }\OtherTok{\textless{}{-}} \FunctionTok{conditional\_effects}\NormalTok{(voi\_prop\_bm, }\StringTok{"c2:vowel"}\NormalTok{)}
+\NormalTok{p }\OtherTok{\textless{}{-}} \FunctionTok{plot}\NormalTok{(ce, }\AttributeTok{plot =} \ConstantTok{FALSE}\NormalTok{)[[}\DecValTok{1}\NormalTok{]]}
+\NormalTok{p }\SpecialCharTok{+} \FunctionTok{labs}\NormalTok{(}\AttributeTok{x =} \StringTok{"C2"}\NormalTok{, }\AttributeTok{y =} \StringTok{"Voicing during closure (prop)"}\NormalTok{)}
 \end{Highlighting}
 \end{Shaded}
 
@@ -1328,7 +1398,12 @@ the predictions from Table~\ref{tbl-nas-prop-fixef} clearer.
 
 \begin{Shaded}
 \begin{Highlighting}[]
-\FunctionTok{conditional\_effects}\NormalTok{(nas\_prop\_bm, }\StringTok{"vowel:voicing"}\NormalTok{)}
+\NormalTok{ce }\OtherTok{\textless{}{-}} \FunctionTok{conditional\_effects}\NormalTok{(nas\_prop\_bm, }\StringTok{"vowel:voicing"}\NormalTok{)}
+\NormalTok{p }\OtherTok{\textless{}{-}} \FunctionTok{plot}\NormalTok{(ce, }\AttributeTok{plot =} \ConstantTok{FALSE}\NormalTok{)[[}\DecValTok{1}\NormalTok{]]}
+\NormalTok{p }\SpecialCharTok{+}
+  \FunctionTok{labs}\NormalTok{(}
+    \AttributeTok{y =} \StringTok{"Proportion of nasality"}
+\NormalTok{  )}
 \end{Highlighting}
 \end{Shaded}
 
@@ -1458,8 +1533,14 @@ and voicing, averaged across vowels (first 10 rows).}
 \begin{Shaded}
 \begin{Highlighting}[]
 \NormalTok{nas\_prop\_bm\_draws\_long\_voicing }\SpecialCharTok{|\textgreater{}} 
+  \FunctionTok{mutate}\NormalTok{(}
+    \AttributeTok{voicing =} \FunctionTok{str\_remove}\NormalTok{(voicing, }\StringTok{"voicing"}\NormalTok{)}
+\NormalTok{  ) }\SpecialCharTok{|\textgreater{}} 
   \FunctionTok{ggplot}\NormalTok{(}\FunctionTok{aes}\NormalTok{(value\_mean\_prop, voicing)) }\SpecialCharTok{+}
-  \FunctionTok{stat\_halfeye}\NormalTok{(}\AttributeTok{.width =} \FunctionTok{c}\NormalTok{(}\FloatTok{0.6}\NormalTok{, }\FloatTok{0.8}\NormalTok{))}
+  \FunctionTok{stat\_halfeye}\NormalTok{(}\AttributeTok{.width =} \FunctionTok{c}\NormalTok{(}\FloatTok{0.6}\NormalTok{, }\FloatTok{0.8}\NormalTok{)) }\SpecialCharTok{+}
+  \FunctionTok{labs}\NormalTok{(}
+    \AttributeTok{x =} \StringTok{"Nasalisation proportion"}
+\NormalTok{  )}
 \end{Highlighting}
 \end{Shaded}
 
@@ -1599,7 +1680,11 @@ between voiceless and voiced NC).
   \FunctionTok{stat\_halfeye}\NormalTok{() }\SpecialCharTok{+}
   \FunctionTok{geom\_vline}\NormalTok{(}\AttributeTok{xintercept =} \FunctionTok{mean}\NormalTok{(nas\_prop\_bm\_diff}\SpecialCharTok{$}\NormalTok{voicing\_diff), }\AttributeTok{colour =} \StringTok{"red"}\NormalTok{) }\SpecialCharTok{+}
   \FunctionTok{geom\_vline}\NormalTok{(}\AttributeTok{xintercept =} \DecValTok{0}\NormalTok{, }\AttributeTok{linetype =} \StringTok{"dashed"}\NormalTok{) }\SpecialCharTok{+}
-  \FunctionTok{lims}\NormalTok{(}\AttributeTok{x =} \FunctionTok{c}\NormalTok{(}\SpecialCharTok{{-}}\DecValTok{1}\NormalTok{, }\FloatTok{1.5}\NormalTok{))}
+  \FunctionTok{lims}\NormalTok{(}\AttributeTok{x =} \FunctionTok{c}\NormalTok{(}\SpecialCharTok{{-}}\DecValTok{1}\NormalTok{, }\FloatTok{1.5}\NormalTok{)) }\SpecialCharTok{+}
+  \FunctionTok{labs}\NormalTok{(}
+    \AttributeTok{x =} \StringTok{"Log{-}odds difference between voiceless vs voiced NC sequences"}\NormalTok{,}
+    \AttributeTok{y =} \StringTok{"Speaker"}
+\NormalTok{  )}
 \end{Highlighting}
 \end{Shaded}
 

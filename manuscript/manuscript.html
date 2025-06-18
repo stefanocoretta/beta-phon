@@ -166,7 +166,7 @@ window.Quarto = {
     <div>
     <div class="quarto-title-meta-heading">Published</div>
     <div class="quarto-title-meta-contents">
-      <p class="date">Monday, June 16, 2025</p>
+      <p class="date">Wednesday, June 18, 2025</p>
     </div>
   </div>
   
@@ -246,7 +246,22 @@ Figure&nbsp;2: Beta distributions for various <span class="math inline">\(\mu\)<
 <h1>Bayesian regression models</h1>
 <p>Bayesian regression models are being increasingly adopted within phonetics and language research more broadly <span class="citation" data-cites="vasishth2018 nalborczyk2019 verissimo2021">(<a href="#ref-nalborczyk2019" role="doc-biblioref">Nalborczyk et al., 2019</a>; <a href="#ref-vasishth2018" role="doc-biblioref">Vasishth et al., 2018</a>; <a href="#ref-verissimo2021" role="doc-biblioref">Verissimo, 2021</a>)</span>. Bayesian inference involves updating of prior probability distributions in light of evidence from data, to produce posterior probability distributions. In Bayesian regression models, model parameters are modelled as full probability distributions, rather than point estimates as in Null Hypothesis Significance Testing. Given the difficulty of analytical solutions of model equations, Bayesian regressions rely on sampling algorithms to reconstruct the posterior distributions. The statistical language Stan <span class="citation" data-cites="standevelopmentteam2017">(<a href="#ref-standevelopmentteam2017" role="doc-biblioref">Stan Development Team, 2017</a>)</span> employs efficient and robust Markov Chain Monte Carlo algorithms for fitting a variety of models, and the R package brms allows R users to interface with Stan from within R to fit Bayesian regression models <span class="citation" data-cites="burkner2017 burkner2018 burkner2021">(<a href="#ref-burkner2021" role="doc-biblioref">Bürkner, 2021</a>, <a href="#ref-burkner2018" role="doc-biblioref">2018</a>, <a href="#ref-burkner2017" role="doc-biblioref">2017</a>)</span>.</p>
 <p>The main practical advantage of Bayesian regression models over maximum-likelihood-based frequentist regression models, like those fitted with the lme4 package <span class="citation" data-cites="bates2015">(<a href="#ref-bates2015" role="doc-biblioref">Bates et al., 2015</a>)</span>, is that Bayesian regression models don’t suffer from the convergence issues that models fitted in lme4 <span class="citation" data-cites="bates2015">(<a href="#ref-bates2015" role="doc-biblioref">Bates et al., 2015</a>)</span> and other packages <span class="citation" data-cites="cribarineto2010">(<a href="#ref-cribarineto2010" role="doc-biblioref">Cribari-Neto and Zeileis, 2010b</a>)</span> that fit frequentist models do, independent of sample size. A second, long-term advantage is that Bayesian regression models allow researchers to statistically re-use information from previous studies by specifying informative priors. While prior specification is one of the main features of Bayesian inference, in this tutorial we will use the default priors as set by brms. These are sensible priors estimated from the data that facilitate convergence but bear virtually no influence on the estimated posteriors. Specifying priors requires a great deal of precise quantitative knowledge, which in some areas of phonetics is difficult to determine, so that using the default priors provided by brms is, for the purposes of this article (and initial analyses), an acceptable practice. For practical guidance on prior specification and prior predictive checks, see <span class="citation" data-cites="bockting2024">(<a href="#ref-bockting2024" role="doc-biblioref">Bockting et al., 2024</a>)</span>, <span class="citation" data-cites="mikkola2024">(<a href="#ref-mikkola2024" role="doc-biblioref">Mikkola et al., 2024</a>)</span> and the Wiki page https://github.com/stan-dev/stan/wiki/Prior-Choice, and <span class="citation" data-cites="mcelreath2020">(<a href="#ref-mcelreath2020" role="doc-biblioref">McElreath, 2020, pp. 82–84</a>)</span>.</p>
-<p>The output of Bayesian regression models is (posterior) probability distributions for the model parameters, through which researchers can quantify (un)certainty. Bayesian Credible Intervals (CrIs) can be calculated from the posterior distributions at several probability levels (e.g.&nbsp;95, 90, 80, 60%) for a more complete view on estimated parameters. Bayesian CrIs indicate that, at a certain probability level, the parameter’s estimate lies within that interval: so, for example, a 90% CrI [A, B] indicates that there is a 90% probability that the estimate is between A and B. Different probability levels correspond to different levels of confidence: the higher the probability the higher the confidence (always conditional on data and model). Readers interested in a full and accessible exposition of Bayesian statistics are referred to <span class="citation" data-cites="mcelreath2019">(<a href="#ref-mcelreath2019" role="doc-biblioref">McElreath, 2019</a>)</span>. Shorter introductions can be found in <span class="citation" data-cites="etz2018">(<a href="#ref-etz2018" role="doc-biblioref">Etz et al., 2018</a>)</span>, <span class="citation" data-cites="vasishth2018">(<a href="#ref-vasishth2018" role="doc-biblioref">Vasishth et al., 2018</a>)</span> and <span class="citation" data-cites="nalborczyk2019">(<a href="#ref-nalborczyk2019" role="doc-biblioref">Nalborczyk et al., 2019</a>)</span>.</p>
+<p>The output of Bayesian regression models is (posterior) probability distributions for the model parameters, through which researchers can quantify (un)certainty. When obtaining the summary of the posterior probability distributions, the mean and standard deviation of the posterior distribution, together with Bayesian Credible Intervals are given for each parameter. The mean and standard deviation are appropriate since, due to the central limit theorem, the draws from the MCMC chains for each parameter usually follow a symmetric distribution (note that the nature of the posterior distribution of the parameters is not related to the nature of the distribution family chosen for the outcome, so while the outcome is modelled with a beta distribution, the posteriors of the parameters follow a symmetric distribution due to the central limit theorem). Bayesian Credible Intervals (CrIs) can be calculated from the posterior distributions at several probability levels (e.g.&nbsp;95, 90, 80, 60%) for a more complete view on estimated parameters. Bayesian CrIs indicate that, at a certain probability level, the parameter’s estimate lies within that interval: so, for example, a 90% CrI [A, B] indicates that there is a 90% probability that the estimate is between A and B. Different probability levels correspond to different levels of confidence: the higher the probability the higher the confidence (always conditional on data and model). Readers interested in a full and accessible exposition of Bayesian statistics are referred to <span class="citation" data-cites="mcelreath2019">(<a href="#ref-mcelreath2019" role="doc-biblioref">McElreath, 2019</a>)</span>. Shorter introductions can be found in <span class="citation" data-cites="etz2018">(<a href="#ref-etz2018" role="doc-biblioref">Etz et al., 2018</a>)</span>, <span class="citation" data-cites="vasishth2018">(<a href="#ref-vasishth2018" role="doc-biblioref">Vasishth et al., 2018</a>)</span> and <span class="citation" data-cites="nalborczyk2019">(<a href="#ref-nalborczyk2019" role="doc-biblioref">Nalborczyk et al., 2019</a>)</span>.</p>
+<p>Beta regression models return coefficient estimates in log-odds, similarly to Bernoulli/binomial (aka logistic) regression models. Log-odds correspond to the logarithm of the odds <span class="math inline">\(\log\left(\frac{p}{1 - p}\right)\)</span>. To convert log-odds into probabilities (or into a variable in the [0, 1] interval), the inverse logit function is used <span class="math inline">\(\frac{1}{1 + e^{-x}}\)</span>, where <span class="math inline">\(x\)</span> is the log-odds value. <a href="#fig-p-log-odds" class="quarto-xref">Figure&nbsp;3</a> illustrates the correspondence between log-odds and the [0, 1] values. In R, the inverse logit can be obtained with the base R function <code>plogis()</code>, while the logit can be obtained with the base R function <code>qlogis()</code>. Another relevant transformation of log-odds is exponentiation (with base R <code>exp()</code>) which returns the corresponding odds-ratio: odds-ratios indicate the rate of change in the values of the outcome variable relative to a baseline. An odds-ratio of 1 indicates no change, positive odds-ratios indicate an increase, while negative odds-ratios correspond to a decrease. For example, if the odds-ratio of the duration of /a/ vs the duration of /i/ is 1.2, this means that the duration of /a/ is grater than that of /i/. Moreover, odds-ratios can be interpreted as percentage change: an odds-ratio of 1.2 corresponds to a 20% <em>increase</em> relative to the baseline, an odds-ratio of 0.8 corresponds to a 20% <em>decrease</em> relative to the baseline, while an odds-ratio of 1 means a 0% change (i.e.&nbsp;no change).</p>
+<div class="cell">
+<div class="cell-output-display">
+<div id="fig-p-log-odds" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-p-log-odds-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="manuscript_files/figure-html/fig-p-log-odds-1.png" class="img-fluid figure-img" width="672">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-p-log-odds-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;3: Correspondence between log-odds and probabilities.
+</figcaption>
+</figure>
+</div>
+</div>
+</div>
 </section>
 <section id="sec-case-1" class="level1">
 <h1>Case study 1: coarticulatory voicing within consonant closure</h1>
@@ -364,7 +379,7 @@ Table&nbsp;1: First 10 rows of the data of voicing proportion within stop closur
 </figure>
 </div>
 </div>
-<p><a href="#fig-ita-egg" class="quarto-xref">Figure&nbsp;3</a> shows the raw voicing duration proportion values split by vowel /i, e, a, o, u/ and second consonant /k, t, p/ in the /CVCo/ target words. The plot suggests that, on average, the voicing proportion is slightly lower with /k/ than with /t, p/. Moreover, there is greater variability between vowels in /t, p/ than in /k/. We will use a beta regression model to assess whether the place of articulation of the consonant affects the proportion of coarticulatory progressive voicing, while averaging across vowels (of course, another question that could be answered with the same model is if different vowels lead to different voicing proportions, but for sake of space we restrict this tutorial to the former question). A general expectation is that the proportion of progressive voicing should increase with fronter places of articulation (so from /k/ to /t/ to /p/) given the aerodynamic constraints which obtain with vocal fold vibration during a fully occluded oral tract <span class="citation" data-cites="vandenberg1958 rothenberg1967 ohala2011">(<a href="#ref-ohala2011" role="doc-biblioref">Ohala, 2011</a>; <a href="#ref-rothenberg1967" role="doc-biblioref">Rothenberg, 1967</a>; <a href="#ref-vandenberg1958" role="doc-biblioref">van den Berg, 1958</a>)</span>.</p>
+<p><a href="#fig-ita-egg" class="quarto-xref">Figure&nbsp;4</a> shows the raw voicing duration proportion values split by vowel /i, e, a, o, u/ and second consonant /k, t, p/ in the /CVCo/ target words. The plot suggests that, on average, the voicing proportion is slightly lower with /k/ than with /t, p/. Moreover, there is greater variability between vowels in /t, p/ than in /k/. We will use a beta regression model to assess whether the place of articulation of the consonant affects the proportion of coarticulatory progressive voicing, while averaging across vowels (of course, another question that could be answered with the same model is if different vowels lead to different voicing proportions, but for sake of space we restrict this tutorial to the former question). A general expectation is that the proportion of progressive voicing should increase with fronter places of articulation (so from /k/ to /t/ to /p/) given the aerodynamic constraints which obtain with vocal fold vibration during a fully occluded oral tract <span class="citation" data-cites="vandenberg1958 rothenberg1967 ohala2011">(<a href="#ref-ohala2011" role="doc-biblioref">Ohala, 2011</a>; <a href="#ref-rothenberg1967" role="doc-biblioref">Rothenberg, 1967</a>; <a href="#ref-vandenberg1958" role="doc-biblioref">van den Berg, 1958</a>)</span>.</p>
 <div class="cell">
 <div class="cell-output-display">
 <div id="fig-ita-egg" class="quarto-float quarto-figure quarto-figure-center anchored">
@@ -373,7 +388,7 @@ Table&nbsp;1: First 10 rows of the data of voicing proportion within stop closur
 <img src="manuscript_files/figure-html/fig-ita-egg-1.png" class="img-fluid figure-img" width="672">
 </div>
 <figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-ita-egg-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-Figure&nbsp;3: Proportion of voicing during the closure of the second consonant in /CVCo/ words by vowel and the second consonant.
+Figure&nbsp;4: Proportion of voicing during the closure of the second consonant in /CVCo/ words by vowel and the second consonant.
 </figcaption>
 </figure>
 </div>
@@ -401,7 +416,7 @@ Figure&nbsp;3: Proportion of voicing during the closure of the second consonant 
 <span id="cb2-18"><a href="#cb2-18" aria-hidden="true" tabindex="-1"></a>  <span class="at">file =</span> <span class="st">"data/cache/voi_prop_bm"</span></span>
 <span id="cb2-19"><a href="#cb2-19" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<p>The <code>summary()</code> function prints the full model summary. For conciseness, we will use the <code>fixef()</code> function which prints the regression coefficients. <a href="#tbl-voi-prop-fixef" class="quarto-xref">Table&nbsp;2</a> reports the output of <code>fixef()</code> as a table (we round all values to the nearest 2 digits for clarity.). For each coefficient in the model, <code>fixef()</code> prints the name of the coefficient, the mean estimate, the estimate error and the lower and upper limits of a Bayesian Credible interval (CrI). Note that all values are in log-odds, since the link function in beta regressions is the logistic function, like in binomial/Bernoulli regressions. Here, we print an 80% CrI. There is nothing special about 95% CrI within Bayesian inference and instead experts recommend to check and report a variety of CrIs. Obtaining CrIs at different probability levels allows researchers to make more fine-grained inferential statements than the frequentist significance dichotomy affords. For simplicity of exposition, we will use 80% CrIs in this case study but we strongly recommend researchers to always obtain CrIs at different levels of probability and base their inferences on all and not one in particular. To reiterate, in Bayesian inference, an 80% CrI indicates the range of values within which the true estimate falls at 80% probability or confidence.</p>
+<p>The <code>summary()</code> function prints the full model summary. For conciseness, we will use the <code>fixef()</code> function which prints the regression coefficients. <a href="#tbl-voi-prop-fixef" class="quarto-xref">Table&nbsp;2</a> reports the output of <code>fixef()</code> as a table (we round all values to the nearest 2 digits for clarity.). For each coefficient in the model, <code>fixef()</code> prints the name of the coefficient, the mean estimate (i.e.&nbsp;the mean of the posterior distribution calculated from the MCMC draws), the estimate error (i.e.&nbsp;the standard deviation of the posterior distribution) and the lower and upper limits of a Bayesian Credible interval (CrI) of the posterior distribution. Note that all values are in log-odds, since the link function in beta regressions is the logistic function, like in binomial/Bernoulli regressions. Here, we print an 80% CrI. There is nothing special about 95% CrI within Bayesian inference and instead experts recommend to check and report a variety of CrIs. Obtaining CrIs at different probability levels allows researchers to make more fine-grained inferential statements than the frequentist significance dichotomy affords. For simplicity of exposition, we will use 80% CrIs in this case study but we strongly recommend researchers to always obtain CrIs at different levels of probability and base their inferences on all and not one in particular. To reiterate, in Bayesian inference, an 80% CrI indicates the range of values within which the true estimate falls at 80% probability or confidence.</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="fu">fixef</span>(voi_prop_bm, <span class="at">prob =</span> <span class="fu">c</span>(<span class="fl">0.1</span>, <span class="fl">0.9</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
@@ -544,7 +559,7 @@ Table&nbsp;2: Regression coefficients of a beta regression of voicing proportion
 </div>
 </div>
 <p>From the summary, we see that speech rate (number of syllables per second) has a positive effect on voicing proportion: the 80% CrI is between 0.01 and 0.15 log-odds [<span class="math inline">\(\beta\)</span> = 0.08, SD = 0.06]. Log-odds can be converted to odds-ratios by exponentiating the value: 0.01-0.15 log odds correspond to an odds-ratio of 1.01 to 1.16, or as percentages, to an increase of voicing of 1 to 16% for every increase of one syllable per second. Since this is an 80% CrI, we can be 80% confident that the true effect of speech rate is between 1-16% increase of voicing proportion, conditional on the data and model. Note that transforming measures this way is appropriate <em>only</em> with quantile-based measures (like CrIs) but not with moments like the mean and standard deviation: to correctly get mean and SDs in the transformed scale, you must first extract the posterior draws (see below), convert them and then take moments such as mean and SD <span class="citation" data-cites="burkner2025">(for a more detailed explanation, see <a href="#ref-burkner2025" role="doc-biblioref">Bürkner, 2025, p. 101</a>)</span>. In the avoidance of doubt, we will always transform the drawn values first and then take summary measures.</p>
-<p>Turning now to the coefficients for vowel and C2, given the indexing approach of coding these variables the model summary and the output of <code>fixef()</code> reports the <em>predictions</em> in log-odds for each combination of vowel and C2, rather than differences between levels. The CrIs of the vowel/C2 coefficients span all negative log-odds values: these correspond to proportions that are lower than 0.5 (which is 0 in log-odds). This matches the general trends in the raw data, which we plotted in <a href="#fig-ita-egg" class="quarto-xref">Figure&nbsp;3</a>. Next, we will plot the predicted proportions of each vowel/C2 combination at mean speech rate (i.e.&nbsp;centred speech rate = 0) and then calculate the average pair-wise difference in voicing proportion between /k, t, p/.</p>
+<p>Turning now to the coefficients for vowel and C2, given the indexing approach of coding these variables the model summary and the output of <code>fixef()</code> reports the <em>predictions</em> in log-odds for each combination of vowel and C2, rather than differences between levels. The posteriors of the coefficients for vowel and C2 are the estimated <span class="math inline">\(\mu\)</span>s of the beta distribution (since the beta distribution is parametrised with <span class="math inline">\(\mu\)</span> and <span class="math inline">\(\phi\)</span>; we will not discuss <span class="math inline">\(\phi\)</span>, although the estimate of this parameter can be found in the summary of the model, under “Further Distributional Parameters”).The CrIs of the vowel/C2 coefficients span all negative log-odds values: these correspond to proportions that are lower than 0.5 (which is 0 in log-odds). This matches the general trends in the raw data, which we plotted in <a href="#fig-ita-egg" class="quarto-xref">Figure&nbsp;4</a>. Next, we will plot the predicted proportions of each vowel/C2 combination at mean speech rate (i.e.&nbsp;centred speech rate = 0) and then calculate the average pair-wise difference in voicing proportion between /k, t, p/.</p>
 <p>Before being able to plot the predictions, it’s important to get familiar with the so-called posterior draws. Bayesian regression models are fitted using Markov Chain Monte Carlo (MCMC) methods, as briefly explained in <a href="#sec-bayes" class="quarto-xref">Section&nbsp;3</a>. The <code>brm()</code> function runs four MCMC chains with 2000 iterations each by default. These are sufficient in most cases. The first 1000 iterations of each chain are used for “warmup”, where the MCMC algorithm is optimised to find the posterior probability. The second half of the iterations, 1000 per chain, are used for sampling from the posterior probability. Each iteration returns a drawn value for each parameter in the model. The list of values drawn during the Monte Carlo sampling are called the “posterior draws”. Since four chains are run, a total of 4000 posterior values are generated. The posterior draws are used for inference: we can plot them, summarise them, transform them and combine them in any way to answer specific questions.</p>
 <p>Posterior draws can be conveniently obtained with the <code>as_draws_df()</code> from brms. For the moment, we will extract only the draws of the constant (aka fixed) regression coefficients (model variables starting with <code>b_</code>). To check which coefficients are available in a model, use <code>get_variables()</code> from the tidybayes package <span class="citation" data-cites="kay2019">(<a href="#ref-kay2019" role="doc-biblioref">Kay, 2019</a>)</span>. <code>as_draws_df()</code> returns a tibble where each column contains the drawn values of a coefficient. <a href="#tbl-voi-prop-draws" class="quarto-xref">Table&nbsp;3</a> shows the first ten rows and first five columns of the output of <code>as_draws_df()</code>. The probability distribution of the drawn values of each coefficient is the posterior probability distribution of that coefficient. Note that, due to the indexing coding of vowel and C2, all coefficient except <code>b_speech_rate_c</code> are drawn <em>log-odds values</em> for each vowel/C2 combination (the drawn values for <code>b_speech_rate_c</code> are drawn <em>differences</em> in log-odds values for each unit increase of speech rate). The drawn values are in log-odds, but we can convert them to proportions with <code>plogis()</code> (we will do this when plotting below).</p>
 <div class="cell">
@@ -782,18 +797,24 @@ Table&nbsp;4: First ten rows of posterior draws from <code>voi_prop_bm</code> in
 </figure>
 </div>
 </div>
-<p>For plotting, we can use ggplot2 statistics layers from the ggdist package [<span class="citation" data-cites="kay2023">(<a href="#ref-kay2023" role="doc-biblioref">Kay, 2023</a>)</span>; kay2024]. <code>stat_halfeye()</code> plots the density of the posterior probability (in grey), its median (point) and CrIs (lines). Let’s use 60 and 80% CrIs and transform the log-odds values to proportions with <code>plogis()</code>. See <a href="#fig-voi-prop-bm-1" class="quarto-xref">Figure&nbsp;4</a>.</p>
+<p>For plotting, we can use ggplot2 statistics layers from the ggdist package [<span class="citation" data-cites="kay2023">(<a href="#ref-kay2023" role="doc-biblioref">Kay, 2023</a>)</span>; kay2024]. <code>stat_halfeye()</code> plots the density of the posterior probability (in grey), its median (point) and CrIs (lines). Let’s use 60 and 80% CrIs and transform the log-odds values to proportions with <code>plogis()</code>. See <a href="#fig-voi-prop-bm-1" class="quarto-xref">Figure&nbsp;5</a>.</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="co"># attach ggdist package</span></span>
 <span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggdist)</span>
 <span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a>voi_prop_bm_draws_long <span class="sc">|&gt;</span> </span>
-<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="fu">plogis</span>(value), vowel)) <span class="sc">+</span></span>
-<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">stat_halfeye</span>(<span class="at">.width =</span> <span class="fu">c</span>(<span class="fl">0.6</span>, <span class="fl">0.8</span>)) <span class="sc">+</span></span>
-<span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">facet_grid</span>(<span class="at">rows =</span> <span class="fu">vars</span>(c2)) <span class="sc">+</span></span>
-<span id="cb6-8"><a href="#cb6-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(</span>
-<span id="cb6-9"><a href="#cb6-9" aria-hidden="true" tabindex="-1"></a>    <span class="at">caption =</span> <span class="st">"The points are the medians and the two lines are 60 and 80% CrIs."</span></span>
-<span id="cb6-10"><a href="#cb6-10" aria-hidden="true" tabindex="-1"></a>  )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(</span>
+<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a>    <span class="at">c2 =</span> <span class="fu">str_remove</span>(c2, <span class="st">"c2"</span>),</span>
+<span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a>    <span class="at">vowel =</span> <span class="fu">str_remove</span>(vowel, <span class="st">"vowel"</span>)</span>
+<span id="cb6-8"><a href="#cb6-8" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">|&gt;</span> </span>
+<span id="cb6-9"><a href="#cb6-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="fu">plogis</span>(value), vowel)) <span class="sc">+</span></span>
+<span id="cb6-10"><a href="#cb6-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">stat_halfeye</span>(<span class="at">.width =</span> <span class="fu">c</span>(<span class="fl">0.6</span>, <span class="fl">0.8</span>)) <span class="sc">+</span></span>
+<span id="cb6-11"><a href="#cb6-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">facet_grid</span>(<span class="at">rows =</span> <span class="fu">vars</span>(c2)) <span class="sc">+</span></span>
+<span id="cb6-12"><a href="#cb6-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(</span>
+<span id="cb6-13"><a href="#cb6-13" aria-hidden="true" tabindex="-1"></a>    <span class="at">caption =</span> <span class="st">"The points are the medians and the two lines are 60 and 80% CrIs."</span>,</span>
+<span id="cb6-14"><a href="#cb6-14" aria-hidden="true" tabindex="-1"></a>    <span class="at">x =</span> <span class="st">"Voicing during closure (prop)"</span>,</span>
+<span id="cb6-15"><a href="#cb6-15" aria-hidden="true" tabindex="-1"></a>    <span class="at">y =</span> <span class="st">"Vowel"</span></span>
+<span id="cb6-16"><a href="#cb6-16" aria-hidden="true" tabindex="-1"></a>  )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <div id="fig-voi-prop-bm-1" class="quarto-float quarto-figure quarto-figure-center anchored">
 <figure class="quarto-float quarto-float-fig figure">
@@ -801,13 +822,13 @@ Table&nbsp;4: First ten rows of posterior draws from <code>voi_prop_bm</code> in
 <img src="manuscript_files/figure-html/fig-voi-prop-bm-1-1.png" class="img-fluid figure-img" width="672">
 </div>
 <figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-voi-prop-bm-1-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-Figure&nbsp;4: Expected predictions of voicing proportion by vowel and consonant from <code>voi_prop_bm</code>.
+Figure&nbsp;5: Expected predictions of voicing proportion by vowel and consonant from <code>voi_prop_bm</code>.
 </figcaption>
 </figure>
 </div>
 </div>
 </div>
-<p>What if we want to plot the average predicted voicing proportion for the three consonants /k, t, p/? We can “marginalise” over vowel, i.e.&nbsp;take the mean across vowels within each consonant for each posterior draw, and the posterior distribution of the resulting list of values is the predicted posterior distribution of voicing proportion for each consonant, assuming an “average” vowel. See <a href="#fig-voi-pbdl-c2" class="quarto-xref">Figure&nbsp;5</a> for the density of these posteriors. For a detailed treatment of various approaches to marginalisation that apply to more complex cases like those involving numeric predictors, see <span class="citation" data-cites="arelbundock2024">(<a href="#ref-arelbundock2024" role="doc-biblioref">Arel-Bundock et al., 2024</a>)</span>.</p>
+<p>What if we want to plot the average predicted voicing proportion for the three consonants /k, t, p/? We can “marginalise” over vowel, i.e.&nbsp;take the mean across vowels within each consonant for each posterior draw, and the posterior distribution of the resulting list of values is the predicted posterior distribution of voicing proportion for each consonant, assuming an “average” vowel. See <a href="#fig-voi-pbdl-c2" class="quarto-xref">Figure&nbsp;6</a> for the density of these posteriors. For a detailed treatment of various approaches to marginalisation that apply to more complex cases like those involving numeric predictors, see <span class="citation" data-cites="arelbundock2024">(<a href="#ref-arelbundock2024" role="doc-biblioref">Arel-Bundock et al., 2024</a>)</span>.</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>voi_prop_bm_draws_long_c2 <span class="ot">&lt;-</span> voi_prop_bm_draws_long <span class="sc">|&gt;</span> </span>
 <span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>  <span class="co"># grouping by .draw and c2 ensures that averaging applies only within draw and c2</span></span>
@@ -819,11 +840,16 @@ Figure&nbsp;4: Expected predictions of voicing proportion by vowel and consonant
 </div>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>voi_prop_bm_draws_long_c2 <span class="sc">|&gt;</span> </span>
-<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="fu">plogis</span>(value_mean), c2)) <span class="sc">+</span></span>
-<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">stat_halfeye</span>(<span class="at">.width =</span> <span class="fu">c</span>(<span class="fl">0.6</span>, <span class="fl">0.8</span>)) <span class="sc">+</span></span>
-<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(</span>
-<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">caption =</span> <span class="st">"The points are the medians and the two lines are 60 and 80% CrIs."</span></span>
-<span id="cb8-6"><a href="#cb8-6" aria-hidden="true" tabindex="-1"></a>  )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(</span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>    <span class="at">c2 =</span> <span class="fu">str_remove</span>(c2, <span class="st">"c2"</span>)</span>
+<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">|&gt;</span> </span>
+<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="fu">plogis</span>(value_mean), c2)) <span class="sc">+</span></span>
+<span id="cb8-6"><a href="#cb8-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">stat_halfeye</span>(<span class="at">.width =</span> <span class="fu">c</span>(<span class="fl">0.6</span>, <span class="fl">0.8</span>)) <span class="sc">+</span></span>
+<span id="cb8-7"><a href="#cb8-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(</span>
+<span id="cb8-8"><a href="#cb8-8" aria-hidden="true" tabindex="-1"></a>    <span class="at">caption =</span> <span class="st">"The points are the medians and the two lines are 60 and 80% CrIs."</span>,</span>
+<span id="cb8-9"><a href="#cb8-9" aria-hidden="true" tabindex="-1"></a>    <span class="at">x =</span> <span class="st">"Voicing during closure (prop)"</span>,</span>
+<span id="cb8-10"><a href="#cb8-10" aria-hidden="true" tabindex="-1"></a>    <span class="at">y =</span> <span class="st">"C2"</span></span>
+<span id="cb8-11"><a href="#cb8-11" aria-hidden="true" tabindex="-1"></a>  )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <div id="fig-voi-pbdl-c2" class="quarto-float quarto-figure quarto-figure-center anchored">
 <figure class="quarto-float quarto-float-fig figure">
@@ -831,13 +857,13 @@ Figure&nbsp;4: Expected predictions of voicing proportion by vowel and consonant
 <img src="manuscript_files/figure-html/fig-voi-pbdl-c2-1.png" class="img-fluid figure-img" width="672">
 </div>
 <figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-voi-pbdl-c2-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-Figure&nbsp;5: Expected predictions of voicing proportion by consonant, averaged across vowels.
+Figure&nbsp;6: Expected predictions of voicing proportion by consonant, averaged across vowels.
 </figcaption>
 </figure>
 </div>
 </div>
 </div>
-<p>Based on the expected posterior distributions of the mean voicing proportion by consonant, /p/ has a somewhat higher voicing proportion than /k/ and /t/. The real question is: how much higher? We can quantify this by taking the difference of the drawn values for /p/ and those for /t, k/ (all averaged across vowels). Since we want to compare /t, k/ with /p/, we should first average the average draws of /t, k/ and then take the difference of the averaged /t, k/ draws and the draws of /p/. <a href="#tbl-voi-pbd" class="quarto-xref">Table&nbsp;5</a> shows the first ten rows of the resulting data frame. The posterior distribution of the expected difference is shown in <a href="#fig-diff-p-tk" class="quarto-xref">Figure&nbsp;6</a>.</p>
+<p>Based on the expected posterior distributions of the mean voicing proportion by consonant, /p/ has a somewhat higher voicing proportion than /k/ and /t/. The real question is: how much higher? We can quantify this by taking the difference of the drawn values for /p/ and those for /t, k/ (all averaged across vowels). Since we want to compare /t, k/ with /p/, we should first average the average draws of /t, k/ and then take the difference of the averaged /t, k/ draws and the draws of /p/. <a href="#tbl-voi-pbd" class="quarto-xref">Table&nbsp;5</a> shows the first ten rows of the resulting data frame. The posterior distribution of the expected difference is shown in <a href="#fig-diff-p-tk" class="quarto-xref">Figure&nbsp;7</a>.</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>voi_prop_bm_diff <span class="ot">&lt;-</span> voi_prop_bm_draws_long_c2 <span class="sc">|&gt;</span> </span>
 <span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>  <span class="co"># pivot data to create one column per consonant with the mean drawn values,</span></span>
@@ -961,7 +987,11 @@ Table&nbsp;5: First 10 rows of expected difference of voicing proportion between
 <div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>voi_prop_bm_diff <span class="sc">|&gt;</span> </span>
 <span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(c2p_tk_diff)) <span class="sc">+</span></span>
 <span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">stat_halfeye</span>(<span class="at">.width =</span> <span class="fu">c</span>(<span class="fl">0.6</span>, <span class="fl">0.8</span>, <span class="fl">0.9</span>)) <span class="sc">+</span></span>
-<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_vline</span>(<span class="at">xintercept =</span> <span class="dv">0</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_vline</span>(<span class="at">xintercept =</span> <span class="dv">0</span>) <span class="sc">+</span></span>
+<span id="cb10-5"><a href="#cb10-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(</span>
+<span id="cb10-6"><a href="#cb10-6" aria-hidden="true" tabindex="-1"></a>    <span class="at">x =</span> <span class="st">"Log-odds difference in /p/ vs /t/"</span>,</span>
+<span id="cb10-7"><a href="#cb10-7" aria-hidden="true" tabindex="-1"></a>    <span class="at">y =</span> <span class="fu">element_blank</span>()</span>
+<span id="cb10-8"><a href="#cb10-8" aria-hidden="true" tabindex="-1"></a>  )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <div id="fig-diff-p-tk" class="quarto-float quarto-figure quarto-figure-center anchored">
 <figure class="quarto-float quarto-float-fig figure">
@@ -969,7 +999,7 @@ Table&nbsp;5: First 10 rows of expected difference of voicing proportion between
 <img src="manuscript_files/figure-html/fig-diff-p-tk-1.png" class="img-fluid figure-img" width="672">
 </div>
 <figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-diff-p-tk-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-Figure&nbsp;6: Posterior distribution of the difference between the expected voicing proportion of /t, k/ vs /p/, averaged across vowels.
+Figure&nbsp;7: Posterior distribution of the difference between the expected voicing proportion of /t, k/ vs /p/, averaged across vowels.
 </figcaption>
 </figure>
 </div>
@@ -1026,9 +1056,11 @@ Table&nbsp;6: Upper and lower limits of 90, 80 and 60% Credible Intervals of the
 </figure>
 </div>
 </div>
-<p>Based on the model and data, there is a 90% probability that the voicing proportion in /p/ is 1.07-1.38 times longer (or 7-38% increase) than in /t, k/. At 80% confidence, the change ratio is 1.10-1.34 (or 10-34% increase) while at 60% confidence is 1.14-1.30 (14-30% increase). In other words we can be quite confident that the voicing proportion in /p/ is greater than in /t, k/ and that the increase is less than 35%. The brms package comes with a convenient function, <code>conditional_effects()</code>, to plot posterior means and CrIs based on predictors in the model. In <a href="#fig-voi-prop-bm-cond" class="quarto-xref">Figure&nbsp;7</a>, we plot the predicted proportion of voicing by consonant and vowel.</p>
+<p>Based on the model and data, there is a 90% probability that the voicing proportion in /p/ is 1.07-1.38 times longer (or 7-38% increase) than in /t, k/. At 80% confidence, the change ratio is 1.10-1.34 (or 10-34% increase) while at 60% confidence is 1.14-1.30 (14-30% increase). In other words we can be quite confident that the voicing proportion in /p/ is greater than in /t, k/ and that the increase is less than 35%. The brms package comes with a convenient function, <code>conditional_effects()</code>, to plot posterior means and CrIs based on predictors in the model. In <a href="#fig-voi-prop-bm-cond" class="quarto-xref">Figure&nbsp;8</a>, we plot the predicted proportion of voicing by consonant and vowel.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="fu">conditional_effects</span>(voi_prop_bm, <span class="st">"c2:vowel"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>ce <span class="ot">&lt;-</span> <span class="fu">conditional_effects</span>(voi_prop_bm, <span class="st">"c2:vowel"</span>)</span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>p <span class="ot">&lt;-</span> <span class="fu">plot</span>(ce, <span class="at">plot =</span> <span class="cn">FALSE</span>)[[<span class="dv">1</span>]]</span>
+<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a>p <span class="sc">+</span> <span class="fu">labs</span>(<span class="at">x =</span> <span class="st">"C2"</span>, <span class="at">y =</span> <span class="st">"Voicing during closure (prop)"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <div id="fig-voi-prop-bm-cond" class="quarto-float quarto-figure quarto-figure-center anchored">
 <figure class="quarto-float quarto-float-fig figure">
@@ -1036,7 +1068,7 @@ Table&nbsp;6: Upper and lower limits of 90, 80 and 60% Credible Intervals of the
 <img src="manuscript_files/figure-html/fig-voi-prop-bm-cond-1.png" class="img-fluid figure-img" width="672">
 </div>
 <figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-voi-prop-bm-cond-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-Figure&nbsp;7: Expected voicing proportion by consonant and vowel with 95% Credible Intervals.
+Figure&nbsp;8: Expected voicing proportion by consonant and vowel with 95% Credible Intervals.
 </figcaption>
 </figure>
 </div>
@@ -1287,13 +1319,13 @@ Table&nbsp;9: First ten rows of the nasal proportion data.
 <img src="manuscript_files/figure-html/fig-nasal-1.png" class="img-fluid figure-img" width="672">
 </div>
 <figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-nasal-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-Figure&nbsp;8: Proportion of coarticulatory nasalisation during the vowel in VNC sequences in German, depending on C voicing.
+Figure&nbsp;9: Proportion of coarticulatory nasalisation during the vowel in VNC sequences in German, depending on C voicing.
 </figcaption>
 </figure>
 </div>
 </div>
 </div>
-<p><a href="#fig-nasal" class="quarto-xref">Figure&nbsp;8</a> shows the proportion of coarticulatory nasalisation in vowels followed by /nd/ (voiced) vs /nt/ (voiceless) sequences, for the short vowels /i, e, a, o, u/. We can see a pattern of higher nasalisation proportion in vowels followed by /nt/, at least in the vowels /a, i, o/. For /e, u/, the distribution of nasalisation proportion seems to be similar between the voiced and voiceless contexts.</p>
+<p><a href="#fig-nasal" class="quarto-xref">Figure&nbsp;9</a> shows the proportion of coarticulatory nasalisation in vowels followed by /nd/ (voiced) vs /nt/ (voiceless) sequences, for the short vowels /i, e, a, o, u/. We can see a pattern of higher nasalisation proportion in vowels followed by /nt/, at least in the vowels /a, i, o/. For /e, u/, the distribution of nasalisation proportion seems to be similar between the voiced and voiceless contexts.</p>
 <p>Now onto modelling with a beta regression. Note that a full appropriate model would include further predictors (both constant and varying), but for simplicity here we include only the following predictors: voicing (voiced /nd/ vs voiceless /nt/), vowel (/i, e, a, o, u/), including an interaction between them. As varying terms, we include a varying intercept by speaker and a by-speaker varying slope for voicing and vowel in interaction. As with the model from the first case study, voicing and vowel are coded using indexing, by suppressing the intercept with <code>0 +</code>. Here’s the code of the model.</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb15"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a>nas_prop_bm <span class="ot">&lt;-</span> <span class="fu">brm</span>(</span>
@@ -1405,9 +1437,14 @@ Table&nbsp;10: Regression coefficients of a beta regression of nasalisation prop
 </figure>
 </div>
 </div>
-<p>Negative log-odds indicate a proportion that is smaller than 50%, while positive log-odds a proportion that is greater than 50%. Generally, the expected log-odd predictions in <a href="#tbl-nas-prop-fixef" class="quarto-xref">Table&nbsp;10</a> are negative, indicating an overall tendency for the nasalisation to take less than 50% of the duration of the vowel. Moreover, the predictions are higher for voiceless NC sequences than for voiced NC sequences, indicating a greater proportion of nasalisation in the former. However there is vowel-specific variation, and there doesn’t seem to be much of a difference in nasalisation proportion in /e/ and /u/. <a href="#fig-nas-prop" class="quarto-xref">Figure&nbsp;9</a> shows the expected predictions with <code>conditional_effects()</code>, which should make the interpretation of the predictions from <a href="#tbl-nas-prop-fixef" class="quarto-xref">Table&nbsp;10</a> clearer.</p>
+<p>Negative log-odds indicate a proportion that is smaller than 50%, while positive log-odds a proportion that is greater than 50%. Generally, the expected log-odd predictions in <a href="#tbl-nas-prop-fixef" class="quarto-xref">Table&nbsp;10</a> are negative, indicating an overall tendency for the nasalisation to take less than 50% of the duration of the vowel. Moreover, the predictions are higher for voiceless NC sequences than for voiced NC sequences, indicating a greater proportion of nasalisation in the former. However there is vowel-specific variation, and there doesn’t seem to be much of a difference in nasalisation proportion in /e/ and /u/. <a href="#fig-nas-prop" class="quarto-xref">Figure&nbsp;10</a> shows the expected predictions with <code>conditional_effects()</code>, which should make the interpretation of the predictions from <a href="#tbl-nas-prop-fixef" class="quarto-xref">Table&nbsp;10</a> clearer.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb17"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="fu">conditional_effects</span>(nas_prop_bm, <span class="st">"vowel:voicing"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb17"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a>ce <span class="ot">&lt;-</span> <span class="fu">conditional_effects</span>(nas_prop_bm, <span class="st">"vowel:voicing"</span>)</span>
+<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a>p <span class="ot">&lt;-</span> <span class="fu">plot</span>(ce, <span class="at">plot =</span> <span class="cn">FALSE</span>)[[<span class="dv">1</span>]]</span>
+<span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a>p <span class="sc">+</span></span>
+<span id="cb17-4"><a href="#cb17-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(</span>
+<span id="cb17-5"><a href="#cb17-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">y =</span> <span class="st">"Proportion of nasality"</span></span>
+<span id="cb17-6"><a href="#cb17-6" aria-hidden="true" tabindex="-1"></a>  )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <div id="fig-nas-prop" class="quarto-float quarto-figure quarto-figure-center anchored">
 <figure class="quarto-float quarto-float-fig figure">
@@ -1415,7 +1452,7 @@ Table&nbsp;10: Regression coefficients of a beta regression of nasalisation prop
 <img src="manuscript_files/figure-html/fig-nas-prop-1.png" class="img-fluid figure-img" width="672">
 </div>
 <figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-nas-prop-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-Figure&nbsp;9: Expected nasalisation proportion by vowel and voicing, with 95% CrIs.
+Figure&nbsp;10: Expected nasalisation proportion by vowel and voicing, with 95% CrIs.
 </figcaption>
 </figure>
 </div>
@@ -1555,7 +1592,7 @@ Table&nbsp;11: First ten rows of posterior draws from <code>nas_prop_bm</code> i
 </figure>
 </div>
 </div>
-<p>Now let’s calculate the mean nasalisation proportion within each draw by voicing, and plot the resulting posterior distributions. Note that, as discussed in <a href="#sec-case-1" class="quarto-xref">Section&nbsp;4</a>, when working with log-odds it is important to first do all necessary calculations in log-odds (here calculate the mean log-odds across vowels) and <em>then</em> transform the calculated estimands to proportions/probabilities. The output of the following code is shown in <a href="#tbl-nas-long-voi" class="quarto-xref">Table&nbsp;12</a> and the density plot of the calculated draws is in <a href="#fig-nas-prop-bm-draws-long-voicing-plot" class="quarto-xref">Figure&nbsp;10</a>.</p>
+<p>Now let’s calculate the mean nasalisation proportion within each draw by voicing, and plot the resulting posterior distributions. Note that, as discussed in <a href="#sec-case-1" class="quarto-xref">Section&nbsp;4</a>, when working with log-odds it is important to first do all necessary calculations in log-odds (here calculate the mean log-odds across vowels) and <em>then</em> transform the calculated estimands to proportions/probabilities. The output of the following code is shown in <a href="#tbl-nas-long-voi" class="quarto-xref">Table&nbsp;12</a> and the density plot of the calculated draws is in <a href="#fig-nas-prop-bm-draws-long-voicing-plot" class="quarto-xref">Figure&nbsp;11</a>.</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb19"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a>nas_prop_bm_draws_long_voicing <span class="ot">&lt;-</span> nas_prop_bm_draws_long <span class="sc">|&gt;</span> </span>
 <span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a>  <span class="co"># grouping by .draw and voicing ensures that averaging applies only within draw and voicing</span></span>
@@ -1655,8 +1692,14 @@ Table&nbsp;12: Mean nasalisation proportion by draw and voicing, averaged across
 </div>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb20"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a>nas_prop_bm_draws_long_voicing <span class="sc">|&gt;</span> </span>
-<span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(value_mean_prop, voicing)) <span class="sc">+</span></span>
-<span id="cb20-3"><a href="#cb20-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">stat_halfeye</span>(<span class="at">.width =</span> <span class="fu">c</span>(<span class="fl">0.6</span>, <span class="fl">0.8</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(</span>
+<span id="cb20-3"><a href="#cb20-3" aria-hidden="true" tabindex="-1"></a>    <span class="at">voicing =</span> <span class="fu">str_remove</span>(voicing, <span class="st">"voicing"</span>)</span>
+<span id="cb20-4"><a href="#cb20-4" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">|&gt;</span> </span>
+<span id="cb20-5"><a href="#cb20-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(value_mean_prop, voicing)) <span class="sc">+</span></span>
+<span id="cb20-6"><a href="#cb20-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">stat_halfeye</span>(<span class="at">.width =</span> <span class="fu">c</span>(<span class="fl">0.6</span>, <span class="fl">0.8</span>)) <span class="sc">+</span></span>
+<span id="cb20-7"><a href="#cb20-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(</span>
+<span id="cb20-8"><a href="#cb20-8" aria-hidden="true" tabindex="-1"></a>    <span class="at">x =</span> <span class="st">"Nasalisation proportion"</span></span>
+<span id="cb20-9"><a href="#cb20-9" aria-hidden="true" tabindex="-1"></a>  )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <div id="fig-nas-prop-bm-draws-long-voicing-plot" class="quarto-float quarto-figure quarto-figure-center anchored">
 <figure class="quarto-float quarto-float-fig figure">
@@ -1664,7 +1707,7 @@ Table&nbsp;12: Mean nasalisation proportion by draw and voicing, averaged across
 <img src="manuscript_files/figure-html/fig-nas-prop-bm-draws-long-voicing-plot-1.png" class="img-fluid figure-img" width="672">
 </div>
 <figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-nas-prop-bm-draws-long-voicing-plot-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-Figure&nbsp;10: Expected nasalisation proportion by voicing, averaged across vowels.
+Figure&nbsp;11: Expected nasalisation proportion by voicing, averaged across vowels.
 </figcaption>
 </figure>
 </div>
@@ -1754,14 +1797,18 @@ Table&nbsp;13: Upper and lower limits of 90, 80 and 60% Credible Intervals of th
 <span id="cb22-20"><a href="#cb22-20" aria-hidden="true" tabindex="-1"></a>  <span class="co"># finally, calculate the difference in expected log-odds of voiceless and voiced</span></span>
 <span id="cb22-21"><a href="#cb22-21" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">voicing_diff =</span> voicingvoiceless <span class="sc">-</span> voicingvoiced)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<p><a href="#fig-nas-prop-r" class="quarto-xref">Figure&nbsp;11</a> plots the posterior distributions of the expected log-odd difference of coarticulatory nasalisation in voiceless vs voiced NC sequences (<em>x</em>-axis), for each speaker in the data (<em>y</em>-axis), as predicted by the model. The red solid vertical line indicates the constant (overall) expected log-odd difference based on the (constant) <code>b_</code> terms. The black dashed vertical line marks log-difference 0 (i.e., no difference in proportion of nasalisation between voiceless and voiced NC).</p>
+<p><a href="#fig-nas-prop-r" class="quarto-xref">Figure&nbsp;12</a> plots the posterior distributions of the expected log-odd difference of coarticulatory nasalisation in voiceless vs voiced NC sequences (<em>x</em>-axis), for each speaker in the data (<em>y</em>-axis), as predicted by the model. The red solid vertical line indicates the constant (overall) expected log-odd difference based on the (constant) <code>b_</code> terms. The black dashed vertical line marks log-difference 0 (i.e., no difference in proportion of nasalisation between voiceless and voiced NC).</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb23"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a>nas_prop_r <span class="sc">|&gt;</span> </span>
 <span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(voicing_diff, <span class="fu">reorder</span>(speaker, voicing_diff))) <span class="sc">+</span></span>
 <span id="cb23-3"><a href="#cb23-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">stat_halfeye</span>() <span class="sc">+</span></span>
 <span id="cb23-4"><a href="#cb23-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_vline</span>(<span class="at">xintercept =</span> <span class="fu">mean</span>(nas_prop_bm_diff<span class="sc">$</span>voicing_diff), <span class="at">colour =</span> <span class="st">"red"</span>) <span class="sc">+</span></span>
 <span id="cb23-5"><a href="#cb23-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_vline</span>(<span class="at">xintercept =</span> <span class="dv">0</span>, <span class="at">linetype =</span> <span class="st">"dashed"</span>) <span class="sc">+</span></span>
-<span id="cb23-6"><a href="#cb23-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">lims</span>(<span class="at">x =</span> <span class="fu">c</span>(<span class="sc">-</span><span class="dv">1</span>, <span class="fl">1.5</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb23-6"><a href="#cb23-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">lims</span>(<span class="at">x =</span> <span class="fu">c</span>(<span class="sc">-</span><span class="dv">1</span>, <span class="fl">1.5</span>)) <span class="sc">+</span></span>
+<span id="cb23-7"><a href="#cb23-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(</span>
+<span id="cb23-8"><a href="#cb23-8" aria-hidden="true" tabindex="-1"></a>    <span class="at">x =</span> <span class="st">"Log-odds difference between voiceless vs voiced NC sequences"</span>,</span>
+<span id="cb23-9"><a href="#cb23-9" aria-hidden="true" tabindex="-1"></a>    <span class="at">y =</span> <span class="st">"Speaker"</span></span>
+<span id="cb23-10"><a href="#cb23-10" aria-hidden="true" tabindex="-1"></a>  )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <div id="fig-nas-prop-r" class="quarto-float quarto-figure quarto-figure-center anchored">
 <figure class="quarto-float quarto-float-fig figure">
@@ -1769,7 +1816,7 @@ Table&nbsp;13: Upper and lower limits of 90, 80 and 60% Credible Intervals of th
 <img src="manuscript_files/figure-html/fig-nas-prop-r-1.png" class="img-fluid figure-img" width="672">
 </div>
 <figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-nas-prop-r-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-Figure&nbsp;11: Expected log-odd difference of coarticulatory nasalisation in voiceless vs voiced NC sequences for each speaker.
+Figure&nbsp;12: Expected log-odd difference of coarticulatory nasalisation in voiceless vs voiced NC sequences for each speaker.
 </figcaption>
 </figure>
 </div>
