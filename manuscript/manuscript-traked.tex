@@ -1,0 +1,1886 @@
+% Options for packages loaded elsewhere
+%DIF LATEXDIFF DIFFERENCE FILE
+
+
+%DIF 2a2
+% Options for packages loaded elsewhere %DIF > 
+%DIF -------
+\PassOptionsToPackage{unicode}{hyperref}
+\PassOptionsToPackage{hyphens}{url}
+\PassOptionsToPackage{dvipsnames,svgnames,x11names}{xcolor}
+%
+\documentclass[
+  authoryear,
+  preprint,
+  3p]{elsarticle}
+%DIF 10c11
+%DIF < 
+%DIF -------
+\usepackage{xcolor} %DIF > 
+%DIF -------
+\usepackage{amsmath,amssymb}
+%DIF 12a13
+\setcounter{secnumdepth}{5} %DIF > 
+%DIF -------
+\usepackage{iftex}
+\ifPDFTeX
+  \usepackage[T1]{fontenc}
+  \usepackage[utf8]{inputenc}
+  \usepackage{textcomp} % provide euro and other symbols
+\else % if luatex or xetex
+%DIF 18c20
+%DIF <   \usepackage{unicode-math}
+%DIF -------
+  \usepackage{unicode-math} % this also loads fontspec %DIF > 
+%DIF -------
+  \defaultfontfeatures{Scale=MatchLowercase}
+  \defaultfontfeatures[\rmfamily]{Ligatures=TeX,Scale=1}
+\fi
+\usepackage{lmodern}
+\ifPDFTeX\else
+  % xetex/luatex font selection
+\fi
+% Use upquote if available, for straight quotes in verbatim environments
+\IfFileExists{upquote.sty}{\usepackage{upquote}}{}
+\IfFileExists{microtype.sty}{% use microtype if available
+  \usepackage[]{microtype}
+  \UseMicrotypeSet[protrusion]{basicmath} % disable protrusion for tt fonts
+}{}
+\makeatletter
+\@ifundefined{KOMAClassName}{% if non-KOMA class
+  \IfFileExists{parskip.sty}{%
+    \usepackage{parskip}
+  }{% else
+    \setlength{\parindent}{0pt}
+    \setlength{\parskip}{6pt plus 2pt minus 1pt}}
+}{% if KOMA class
+  \KOMAoptions{parskip=half}}
+\makeatother
+%DIF 42-44d44
+%DIF < \usepackage{xcolor}
+%DIF < \setlength{\emergencystretch}{3em} % prevent overfull lines
+%DIF < \setcounter{secnumdepth}{5}
+%DIF -------
+% Make \paragraph and \subparagraph free-standing
+\makeatletter
+\ifx\paragraph\undefined\else
+  \let\oldparagraph\paragraph
+  \renewcommand{\paragraph}{
+    \@ifstar
+      \xxxParagraphStar
+      \xxxParagraphNoStar
+  }
+  \newcommand{\xxxParagraphStar}[1]{\oldparagraph*{#1}\mbox{}}
+  \newcommand{\xxxParagraphNoStar}[1]{\oldparagraph{#1}\mbox{}}
+\fi
+\ifx\subparagraph\undefined\else
+  \let\oldsubparagraph\subparagraph
+  \renewcommand{\subparagraph}{
+    \@ifstar
+      \xxxSubParagraphStar
+      \xxxSubParagraphNoStar
+  }
+  \newcommand{\xxxSubParagraphStar}[1]{\oldsubparagraph*{#1}\mbox{}}
+  \newcommand{\xxxSubParagraphNoStar}[1]{\oldsubparagraph{#1}\mbox{}}
+\fi
+\makeatother
+
+\usepackage{color}
+\usepackage{fancyvrb}
+\newcommand{\VerbBar}{|}
+\newcommand{\VERB}{\Verb[commandchars=\\\{\}]}
+\DefineVerbatimEnvironment{Highlighting}{Verbatim}{commandchars=\\\{\}}
+% Add ',fontsize=\small' for more characters per line
+\usepackage{framed}
+\definecolor{shadecolor}{RGB}{241,243,245}
+\newenvironment{Shaded}{\begin{snugshade}}{\end{snugshade}}
+\newcommand{\AlertTok}[1]{\textcolor[rgb]{0.68,0.00,0.00}{#1}}
+\newcommand{\AnnotationTok}[1]{\textcolor[rgb]{0.37,0.37,0.37}{#1}}
+\newcommand{\AttributeTok}[1]{\textcolor[rgb]{0.40,0.45,0.13}{#1}}
+\newcommand{\BaseNTok}[1]{\textcolor[rgb]{0.68,0.00,0.00}{#1}}
+\newcommand{\BuiltInTok}[1]{\textcolor[rgb]{0.00,0.23,0.31}{#1}}
+\newcommand{\CharTok}[1]{\textcolor[rgb]{0.13,0.47,0.30}{#1}}
+\newcommand{\CommentTok}[1]{\textcolor[rgb]{0.37,0.37,0.37}{#1}}
+\newcommand{\CommentVarTok}[1]{\textcolor[rgb]{0.37,0.37,0.37}{\textit{#1}}}
+\newcommand{\ConstantTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{#1}}
+\newcommand{\ControlFlowTok}[1]{\textcolor[rgb]{0.00,0.23,0.31}{\textbf{#1}}}
+\newcommand{\DataTypeTok}[1]{\textcolor[rgb]{0.68,0.00,0.00}{#1}}
+\newcommand{\DecValTok}[1]{\textcolor[rgb]{0.68,0.00,0.00}{#1}}
+\newcommand{\DocumentationTok}[1]{\textcolor[rgb]{0.37,0.37,0.37}{\textit{#1}}}
+\newcommand{\ErrorTok}[1]{\textcolor[rgb]{0.68,0.00,0.00}{#1}}
+\newcommand{\ExtensionTok}[1]{\textcolor[rgb]{0.00,0.23,0.31}{#1}}
+\newcommand{\FloatTok}[1]{\textcolor[rgb]{0.68,0.00,0.00}{#1}}
+\newcommand{\FunctionTok}[1]{\textcolor[rgb]{0.28,0.35,0.67}{#1}}
+\newcommand{\ImportTok}[1]{\textcolor[rgb]{0.00,0.46,0.62}{#1}}
+\newcommand{\InformationTok}[1]{\textcolor[rgb]{0.37,0.37,0.37}{#1}}
+\newcommand{\KeywordTok}[1]{\textcolor[rgb]{0.00,0.23,0.31}{\textbf{#1}}}
+\newcommand{\NormalTok}[1]{\textcolor[rgb]{0.00,0.23,0.31}{#1}}
+\newcommand{\OperatorTok}[1]{\textcolor[rgb]{0.37,0.37,0.37}{#1}}
+\newcommand{\OtherTok}[1]{\textcolor[rgb]{0.00,0.23,0.31}{#1}}
+\newcommand{\PreprocessorTok}[1]{\textcolor[rgb]{0.68,0.00,0.00}{#1}}
+\newcommand{\RegionMarkerTok}[1]{\textcolor[rgb]{0.00,0.23,0.31}{#1}}
+\newcommand{\SpecialCharTok}[1]{\textcolor[rgb]{0.37,0.37,0.37}{#1}}
+\newcommand{\SpecialStringTok}[1]{\textcolor[rgb]{0.13,0.47,0.30}{#1}}
+\newcommand{\StringTok}[1]{\textcolor[rgb]{0.13,0.47,0.30}{#1}}
+\newcommand{\VariableTok}[1]{\textcolor[rgb]{0.07,0.07,0.07}{#1}}
+\newcommand{\VerbatimStringTok}[1]{\textcolor[rgb]{0.13,0.47,0.30}{#1}}
+\newcommand{\WarningTok}[1]{\textcolor[rgb]{0.37,0.37,0.37}{\textit{#1}}}
+
+%DIF 110-111c109
+%DIF < \providecommand{\tightlist}{%
+%DIF <   \setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}}\usepackage{longtable,booktabs,array}
+%DIF -------
+\usepackage{longtable,booktabs,array} %DIF > 
+%DIF -------
+\usepackage{calc} % for calculating minipage widths
+% Correct order of tables after \paragraph or \subparagraph
+\usepackage{etoolbox}
+\makeatletter
+\patchcmd\longtable{\par}{\if@noskipsec\mbox{}\fi\par}{}{}
+\makeatother
+% Allow footnotes in longtable head/foot
+\IfFileExists{footnotehyper.sty}{\usepackage{footnotehyper}}{\usepackage{footnote}}
+\makesavenoteenv{longtable}
+\usepackage{graphicx}
+\makeatletter
+\newsavebox\pandoc@box
+\newcommand*\pandocbounded[1]{% scales image to fit in text height/width
+  \sbox\pandoc@box{#1}%
+  \Gscale@div\@tempa{\textheight}{\dimexpr\ht\pandoc@box+\dp\pandoc@box\relax}%
+  \Gscale@div\@tempb{\linewidth}{\wd\pandoc@box}%
+  \ifdim\@tempb\p@<\@tempa\p@\let\@tempa\@tempb\fi% select the smaller of both
+  \ifdim\@tempa\p@<\p@\scalebox{\@tempa}{\usebox\pandoc@box}%
+  \else\usebox{\pandoc@box}%
+  \fi%
+}
+% Set default figure placement to htbp
+\def\fps@figure{htbp}
+\makeatother
+
+%DIF 137a135-150
+ %DIF > 
+ %DIF > 
+ %DIF > 
+ %DIF > 
+\setlength{\emergencystretch}{3em} % prevent overfull lines %DIF > 
+ %DIF > 
+\providecommand{\tightlist}{% %DIF > 
+  \setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}} %DIF > 
+ %DIF > 
+ %DIF > 
+ %DIF > 
+  %DIF > 
+\usepackage[]{natbib} %DIF > 
+\bibliographystyle{elsarticle-harv} %DIF > 
+ %DIF > 
+ %DIF > 
+%DIF -------
+\makeatletter
+\@ifpackageloaded{caption}{}{\usepackage{caption}}
+\AtBeginDocument{%
+\ifdefined\contentsname
+  \renewcommand*\contentsname{Table of contents}
+\else
+  \newcommand\contentsname{Table of contents}
+\fi
+\ifdefined\listfigurename
+  \renewcommand*\listfigurename{List of Figures}
+\else
+  \newcommand\listfigurename{List of Figures}
+\fi
+\ifdefined\listtablename
+  \renewcommand*\listtablename{List of Tables}
+\else
+  \newcommand\listtablename{List of Tables}
+\fi
+\ifdefined\figurename
+  \renewcommand*\figurename{Figure}
+\else
+  \newcommand\figurename{Figure}
+\fi
+\ifdefined\tablename
+  \renewcommand*\tablename{Table}
+\else
+  \newcommand\tablename{Table}
+\fi
+}
+\@ifpackageloaded{float}{}{\usepackage{float}}
+\floatstyle{ruled}
+\@ifundefined{c@chapter}{\newfloat{codelisting}{h}{lop}}{\newfloat{codelisting}{h}{lop}[chapter]}
+\floatname{codelisting}{Listing}
+\newcommand*\listoflistings{\listof{codelisting}{List of Listings}}
+\makeatother
+\makeatletter
+\makeatother
+\makeatletter
+\@ifpackageloaded{caption}{}{\usepackage{caption}}
+\@ifpackageloaded{subcaption}{}{\usepackage{subcaption}}
+\makeatother
+\journal{Journal Name}
+%DIF 179-181d193
+%DIF < 
+%DIF < \usepackage[]{natbib}
+%DIF < \bibliographystyle{elsarticle-harv}
+%DIF -------
+\usepackage{bookmark}
+%DIF 183d194
+%DIF < 
+%DIF -------
+\IfFileExists{xurl.sty}{\usepackage{xurl}}{} % add URL line breaks if available
+%DIF 185c195
+%DIF < \urlstyle{same} % disable monospaced font for URLs
+%DIF -------
+\urlstyle{same} %DIF > 
+%DIF -------
+\hypersetup{
+  pdftitle={Bayesian beta regressions with brms in R: A tutorial for phoneticians},
+  pdfauthor={Stefano Coretta; Paul Bürkner},
+  pdfkeywords={acoustics, articulation, proportions, Bayesian
+regressions, beta distribution},
+  colorlinks=true,
+  linkcolor={blue},
+  filecolor={Maroon},
+  citecolor={Blue},
+  urlcolor={Blue},
+  pdfcreator={LaTeX via pandoc}}
+
+
+\setlength{\parindent}{6pt}
+%DIF PREAMBLE EXTENSION ADDED BY LATEXDIFF
+%DIF UNDERLINE PREAMBLE %DIF PREAMBLE
+\RequirePackage[normalem]{ulem} %DIF PREAMBLE
+\RequirePackage{color}\definecolor{RED}{rgb}{1,0,0}\definecolor{BLUE}{rgb}{0,0,1} %DIF PREAMBLE
+\providecommand{\DIFadd}[1]{{\protect\color{blue}\uwave{#1}}} %DIF PREAMBLE
+\providecommand{\DIFdel}[1]{{\protect\color{red}\sout{#1}}}                      %DIF PREAMBLE
+%DIF SAFE PREAMBLE %DIF PREAMBLE
+\providecommand{\DIFaddbegin}{} %DIF PREAMBLE
+\providecommand{\DIFaddend}{} %DIF PREAMBLE
+\providecommand{\DIFdelbegin}{} %DIF PREAMBLE
+\providecommand{\DIFdelend}{} %DIF PREAMBLE
+\providecommand{\DIFmodbegin}{} %DIF PREAMBLE
+\providecommand{\DIFmodend}{} %DIF PREAMBLE
+%DIF FLOATSAFE PREAMBLE %DIF PREAMBLE
+\providecommand{\DIFaddFL}[1]{\DIFadd{#1}} %DIF PREAMBLE
+\providecommand{\DIFdelFL}[1]{\DIFdel{#1}} %DIF PREAMBLE
+\providecommand{\DIFaddbeginFL}{} %DIF PREAMBLE
+\providecommand{\DIFaddendFL}{} %DIF PREAMBLE
+\providecommand{\DIFdelbeginFL}{} %DIF PREAMBLE
+\providecommand{\DIFdelendFL}{} %DIF PREAMBLE
+\newcommand{\DIFscaledelfig}{0.5}
+%DIF HIGHLIGHTGRAPHICS PREAMBLE %DIF PREAMBLE
+\RequirePackage{settobox} %DIF PREAMBLE
+\RequirePackage{letltxmacro} %DIF PREAMBLE
+\newsavebox{\DIFdelgraphicsbox} %DIF PREAMBLE
+\newlength{\DIFdelgraphicswidth} %DIF PREAMBLE
+\newlength{\DIFdelgraphicsheight} %DIF PREAMBLE
+% store original definition of \includegraphics %DIF PREAMBLE
+\LetLtxMacro{\DIFOincludegraphics}{\includegraphics} %DIF PREAMBLE
+\newcommand{\DIFaddincludegraphics}[2][]{{\color{blue}\fbox{\DIFOincludegraphics[#1]{#2}}}} %DIF PREAMBLE
+\newcommand{\DIFdelincludegraphics}[2][]{% %DIF PREAMBLE
+\sbox{\DIFdelgraphicsbox}{\DIFOincludegraphics[#1]{#2}}% %DIF PREAMBLE
+\settoboxwidth{\DIFdelgraphicswidth}{\DIFdelgraphicsbox} %DIF PREAMBLE
+\settoboxtotalheight{\DIFdelgraphicsheight}{\DIFdelgraphicsbox} %DIF PREAMBLE
+\scalebox{\DIFscaledelfig}{% %DIF PREAMBLE
+\parbox[b]{\DIFdelgraphicswidth}{\usebox{\DIFdelgraphicsbox}\\[-\baselineskip] \rule{\DIFdelgraphicswidth}{0em}}\llap{\resizebox{\DIFdelgraphicswidth}{\DIFdelgraphicsheight}{% %DIF PREAMBLE
+\setlength{\unitlength}{\DIFdelgraphicswidth}% %DIF PREAMBLE
+\begin{picture}(1,1)% %DIF PREAMBLE
+\thicklines\linethickness{2pt} %DIF PREAMBLE
+{\color[rgb]{1,0,0}\put(0,0){\framebox(1,1){}}}% %DIF PREAMBLE
+{\color[rgb]{1,0,0}\put(0,0){\line( 1,1){1}}}% %DIF PREAMBLE
+{\color[rgb]{1,0,0}\put(0,1){\line(1,-1){1}}}% %DIF PREAMBLE
+\end{picture}% %DIF PREAMBLE
+}\hspace*{3pt}}} %DIF PREAMBLE
+} %DIF PREAMBLE
+\LetLtxMacro{\DIFOaddbegin}{\DIFaddbegin} %DIF PREAMBLE
+\LetLtxMacro{\DIFOaddend}{\DIFaddend} %DIF PREAMBLE
+\LetLtxMacro{\DIFOdelbegin}{\DIFdelbegin} %DIF PREAMBLE
+\LetLtxMacro{\DIFOdelend}{\DIFdelend} %DIF PREAMBLE
+\DeclareRobustCommand{\DIFaddbegin}{\DIFOaddbegin \let\includegraphics\DIFaddincludegraphics} %DIF PREAMBLE
+\DeclareRobustCommand{\DIFaddend}{\DIFOaddend \let\includegraphics\DIFOincludegraphics} %DIF PREAMBLE
+\DeclareRobustCommand{\DIFdelbegin}{\DIFOdelbegin \let\includegraphics\DIFdelincludegraphics} %DIF PREAMBLE
+\DeclareRobustCommand{\DIFdelend}{\DIFOaddend \let\includegraphics\DIFOincludegraphics} %DIF PREAMBLE
+\LetLtxMacro{\DIFOaddbeginFL}{\DIFaddbeginFL} %DIF PREAMBLE
+\LetLtxMacro{\DIFOaddendFL}{\DIFaddendFL} %DIF PREAMBLE
+\LetLtxMacro{\DIFOdelbeginFL}{\DIFdelbeginFL} %DIF PREAMBLE
+\LetLtxMacro{\DIFOdelendFL}{\DIFdelendFL} %DIF PREAMBLE
+\DeclareRobustCommand{\DIFaddbeginFL}{\DIFOaddbeginFL \let\includegraphics\DIFaddincludegraphics} %DIF PREAMBLE
+\DeclareRobustCommand{\DIFaddendFL}{\DIFOaddendFL \let\includegraphics\DIFOincludegraphics} %DIF PREAMBLE
+\DeclareRobustCommand{\DIFdelbeginFL}{\DIFOdelbeginFL \let\includegraphics\DIFdelincludegraphics} %DIF PREAMBLE
+\DeclareRobustCommand{\DIFdelendFL}{\DIFOaddendFL \let\includegraphics\DIFOincludegraphics} %DIF PREAMBLE
+%DIF END PREAMBLE EXTENSION ADDED BY LATEXDIFF
+
+\begin{document}
+
+\begin{frontmatter}
+\title{Bayesian beta regressions with brms in R: A tutorial for
+phoneticians}
+\author[1]{Stefano Coretta%
+\corref{cor1}%
+\fnref{fn1}}
+ \ead{s.coretta@ed.ac.uk} 
+\author[2]{Paul Bürkner%
+%
+}
+ \ead{paul.buerkner@gmail.com} 
+
+\affiliation[1]{organization={University of Edinburgh, Linguistics and
+English Language},addressline={3 George Sq},city={Edinburgh, United
+Kingdom},postcode={EH8 9AD},postcodesep={}}
+\affiliation[2]{organization={TU Dortmund University, Department of
+Statistics},city={Dortmund, Germany},postcode={44221},postcodesep={}}
+
+\cortext[cor1]{Corresponding author}
+\fntext[fn1]{This is the first author footnote.}
+
+        
+\begin{abstract}
+Phonetic research frequently involves analyzing numeric continuous
+outcome variables, such as durations, frequencies, loudness, and ratios.
+Another commonly used outcome type is proportions, including measures
+like the proportion of voicing during closure, gesture amplitude, and
+nasalance. Despite their bounded nature, proportions are often modeled
+using Gaussian regression, largely due to the default settings of
+commonly used statistical functions in R (e.g., lm() and lmer() from
+lme4). This practice persists in teaching and research, despite the fact
+that Gaussian models assume unbounded continuous data and may poorly fit
+proportion data. To address this issue, this tutorial introduces beta
+regression models, a more appropriate statistical approach for analyzing
+proportions. The beta distribution provides a flexible framework for
+modelling continuous data constrained between 0 and 1. The tutorial
+employs the brms package in R and assumes familiarity with regression
+modeling but no prior knowledge of Bayesian statistics. The tutorial
+includes two case studies illustrating the practical implementation of
+Bayesian beta regression models. Data and code are available at
+\url{https://github.com/stefanocoretta/beta-phon}.
+\end{abstract}
+
+
+
+
+
+\begin{keyword}
+    acoustics \sep articulation \sep proportions \sep Bayesian
+regressions \sep 
+    beta distribution
+\end{keyword}
+\end{frontmatter}
+
+
+\section{Introduction}\label{introduction}
+
+Phonetic research often involves numeric continuous outcome variables,
+like durations, frequencies, loudness and ratios
+\citep{kluender1988, johnson2003, gick2013, ladefoged2014, abramson2017, roettger2018, coretta2023, rosen2005}.
+Another commonly employed type of outcome variable \DIFdelbegin \DIFdel{are proportions}\DIFdelend \DIFaddbegin \DIFadd{is data that is
+bounded between 0 and 1}\DIFaddend : for example, proportion of voicing during
+closure \citep{davidson2016}, vocal folds contact quotient
+\citep{herbst2017}, gesture amplitude \citep{carignan2021}, nasalance
+\citep{carignan2021}\DIFdelbegin \DIFdel{. Moreover, virtually any measure can be MIN-MAX normalised, a procedure which
+transforms values so that they are in the range 0--1.
+}\DIFdelend \DIFaddbegin \DIFadd{, and data from slider answers where participants
+can indicate responses of qualities from 0 to 100.
+}\DIFaddend 
+
+Regression models (and extensions like generalised additive models) have
+become a \emph{de facto} standard for the statistical analysis of a
+variety of measures in phonetic research
+\citep{kirby2018, politzerahles2018, tavakoli2024}. However, there is a
+tendency for researchers to use Gaussian distribution families
+(i.e.~probability distributions for the outcome variable) for any
+measure that is numeric, irrespective of whether the measure is
+unbounded, like in truly Gaussian variables, or bounded, like in
+proportions. A possible reason is that the base R function for fitting
+regression models, \texttt{lm()}, and the lme4 function used to fit
+regression models with varying terms, \texttt{lmer()} from lme4
+\citep{bates2015}, both fit Gaussian regressions by default and the user
+does not have to specify the distribution family. This tacit default of
+using Gaussian models is also reflected in teaching practices, where
+significance test and models using the Gaussian distribution are the
+first to be taught \citep{baayen2008, winter2020}, due to their relative
+simplicity and the fact that regression models with other families are
+conceptual generalisations of Gaussian regression models.
+Figure~\ref{fig-bg} shows how poorly a Gaussian regression model fits
+beta-distributed data: the dark blue line is the density of data
+simulated to be distributed according to a beta distribution; the light
+blue lines are predicted distributions as generated by a Gaussian model
+of the data. The predicted Gaussian distributions over-predict values
+between 0.5 and 0.75 and under-predict values between 0.75 and 1.
+\DIFaddbegin \DIFadd{Furthermore, a Gaussian distribution predicts values above 1, which are
+not possible given the bounded nature of the data. }\DIFaddend Moreover, the density
+peak (median) of the Gaussian distributions is lower than the peak in
+the original data.
+
+\begin{figure}
+
+\centering{
+
+\pandocbounded{\includegraphics[keepaspectratio]{manuscript_files/figure-pdf/fig-bg-1.pdf}}
+
+}
+
+\caption{\label{fig-bg}Gaussian model fitted to beta-distributed data.
+The dark blue line is the density of the beta data, while the light blue
+lines are simulated densities of the same data based on a Gaussian
+model.}
+
+\end{figure}%
+
+While most researchers approach proportions with Gaussian regression
+models, proportion are not Gaussian by nature, since they are continuous
+variables bounded between 0 and 1. Thus, regression models with
+proportions as outcome variable should be fitted using a likelihood
+family that assumes such unit interval data. A common and flexible
+distribution for this purpose is the beta distribution. \DIFaddbegin \DIFadd{Note that the
+beta distribution supports variables in the interval }{[}\DIFadd{0, 1}{]}\DIFadd{,
+i.e.~excluding 0 and 1; variables in the interval (0, 1), including 0
+and 1, can be modelled with zero and zero/one inflated beta
+distributions (see Section~\ref{sec-beta}). }\DIFaddend This tutorial introduces
+researchers to beta regression models in R using the package brms.
+Familiarity with regression modelling in R with a package like lme4 is
+assumed, but no prior knowledge of Bayesian statistics is necessary. The
+rest of the paper is structured as follows: Section~\ref{sec-beta}
+introduces the mathematical underpinnings of the beta distribution,
+Section~\ref{sec-bayes} provides the readers with a brief explanation
+and justification of Bayesian regression models, while
+Section~\ref{sec-case-1} and Section~\ref{sec-case-2} illustrate how to
+fit Bayesian beta regression models with two case studies. The research
+compendium with data and code can be found at
+\url{https://github.com/stefanocoretta/beta-phon}.
+
+\section{The beta distribution}\label{sec-beta}
+
+The beta distribution is often considered as \emph{the} distribution for
+the modelling of unit interval data\DIFaddbegin \DIFadd{, i.e.~data that is in the interval
+}{[}\DIFadd{0, 1}{]} \DIFaddend \citep{ferrari_beta_2004, cribari-neto_beta_2010}. It has
+been extensively studied theoretically
+\citep{krysicki_new_1999, gupta_handbook_2014, espinheira_beta_2008} and
+is used a baseline to compare other unit interval distributions against
+\citep{kieschnick_regression_2003, bonat_regression_2013, lopez_bayesian_2013}.
+Specifically in Bayesian regression models, it was shown to perform well
+across a wide range of scenarios
+\citep{scholz_posterior_2023, scholz_prediction_2025}, which is why we
+focus on the beta distribution in this tutorial.
+
+We use a common mean parametrisation for the beta distribution with mean
+parameter \(\mu\), bounded between 0 and 1, and positive precision
+parameter \(\phi\) that is roughly proportional to the inverse of the
+variance
+\(\text{Var}(y) = \frac{\mu \, (1 - \mu)}{\phi + 1}\).\DIFaddbegin \footnote{\DIFadd{The
+  \(\mu\), \(\phi\) parametrisation is equivalent to the \(\alpha\),
+  \(\beta\) parametrisation in that \(\alpha = \mu\phi\) and
+  \(\beta = (1-\mu)\phi\). Using the former allows brms to exploit the
+  same programmatic features of other distributions parametrised with a
+  location parameter.}} \DIFaddend That is, the larger \(\phi\) the smaller the
+variance of the corresponding beta distribution. While the mathematical
+details are not needed to understand the content of this tutorial, we
+still write down the density below for reasons of completeness:
+
+\[
+p(y \mid \mu, \phi) = \frac{1}{B(\mu \, \phi, \; (1-\mu) \, \phi)} \; y^{\mu \, \phi -1} \; (1-y)^{(1-\mu) \, \phi -1},
+\]
+
+where \(B\) is the Beta function, a complex integral for whose numerical
+approximation efficient algorithms exist in every programming language.
+\DIFaddbegin \DIFadd{See Figure~\ref{fig-beta} for an illustration of different beta
+distributions based on various \(\mu\) and \(\phi\) values.
+}\DIFaddend 
+
+\DIFaddbegin \begin{figure}
+
+\centering{
+
+\pandocbounded{\includegraphics[keepaspectratio]{manuscript_files/figure-pdf/fig-beta-1.pdf}}
+
+}
+
+\caption{\label{fig-beta}\DIFaddFL{Beta distributions for various \(\mu\),
+\(\phi\) values.}}
+
+\end{figure}%DIF > 
+
+\DIFadd{As mentioned earlier, the beta distribution handles data in the interval
+}{[}\DIFadd{0, 1}{]}\DIFadd{, thus excluding 0 and 1. To model (0, 1) data (including 0
+and 1), the zero and zero/one inflated extensions of the beta
+distribution can be used. Both of these are supported in the software
+used in this tutorial, but will not be treated here. We refer readers to
+\mbox{%DIFAUXCMD
+\citet{heiss2021}}\hskip0pt%DIFAUXCMD
+.
+}
+
+\DIFaddend \section{Bayesian regression models}\label{sec-bayes}
+
+Bayesian regression models are being increasingly adopted within
+phonetics and language research more broadly
+\citep{vasishth2018, nalborczyk2019, verissimo2021}. Bayesian inference
+involves updating of prior probability distributions in light of
+evidence from data, to produce posterior probability distributions. In
+Bayesian regression models, model parameters are modelled as full
+probability distributions, rather than point estimates as in Null
+Hypothesis Significance Testing. Given the difficulty of analytical
+solutions of model equations, Bayesian regressions rely on sampling
+algorithms to reconstruct the posterior distributions. The statistical
+language Stan \citep{standevelopmentteam2017} employs efficient and
+robust Markov Chain Monte Carlo algorithms for fitting a variety of
+models, and the R package brms allows R users to interface with Stan
+from within R to fit Bayesian regression models
+\citep{burkner2017, burkner2018, burkner2021}.
+
+The main practical advantage of Bayesian regression models over
+maximum-likelihood-based frequentist regression models, like those
+fitted with the lme4 package \citep{bates2015}, is that Bayesian
+regression models don't suffer from the convergence issues that models
+fitted in lme4 \citep{bates2015} and other packages
+\citep{cribarineto2010} that fit frequentist models do, independent of
+sample size. A second, long-term advantage is that Bayesian regression
+models allow researchers to statistically re-use information from
+previous studies by specifying informative priors. While prior
+specification is one of the main features of Bayesian inference, in this
+tutorial we will use the default priors as set by brms. These are
+sensible priors estimated from the data that facilitate convergence but
+bear virtually no influence on the estimated posteriors. Specifying
+priors requires a great deal of precise quantitative knowledge, which in
+\DIFdelbegin \DIFdel{most }\DIFdelend \DIFaddbegin \DIFadd{some }\DIFaddend areas of phonetics \DIFdelbegin \DIFdel{we still do not possess}\DIFdelend \DIFaddbegin \DIFadd{is difficult to determine}\DIFaddend , so that using \DIFdelbegin \DIFdel{default
+uninformative priors }\DIFdelend \DIFaddbegin \DIFadd{the
+default priors provided by brms }\DIFaddend is, for the \DIFdelbegin \DIFdel{time being, theoretically sound}\DIFdelend \DIFaddbegin \DIFadd{purposes of this article
+(and initial analyses), an acceptable practice}\DIFaddend . For practical guidance
+on prior specification \DIFdelbegin \DIFdel{, see
+}%DIFDELCMD < \url{https://github.com/stan-dev/stan/wiki/Prior-Choice-Recommendations}%%%
+\DIFdel{.}\DIFdelend \DIFaddbegin \DIFadd{and prior predictive checks, see
+\mbox{%DIFAUXCMD
+\citet{bockting2024}}\hskip0pt%DIFAUXCMD
+, \mbox{%DIFAUXCMD
+\citet{mikkola2024} }\hskip0pt%DIFAUXCMD
+and the Wiki page
+https://github.com/stan-dev/stan/wiki/Prior-Choice, and
+\mbox{%DIFAUXCMD
+\citet[p.~82-84]{mcelreath2020}}\hskip0pt%DIFAUXCMD
+.
+}\DIFaddend 
+
+The output of Bayesian regression models is (posterior) probability
+distributions for the model parameters, through which researchers can
+quantify (un)certainty. \DIFaddbegin \DIFadd{When obtaining the summary of the posterior
+probability distributions, the mean and standard deviation of the
+posterior distribution, together with }\DIFaddend Bayesian Credible Intervals \DIFdelbegin \DIFdel{(}\DIFdelend \DIFaddbegin \DIFadd{are
+given for each parameter. The mean and standard deviation are
+appropriate since, due to the central limit theorem, the draws from the
+MCMC chains for each parameter usually follow a symmetric distribution
+(note that the nature of the posterior distribution of the parameters is
+not related to the nature of the distribution family chosen for the
+outcome, so while the outcome is modelled with a beta distribution, the
+posteriors of the parameters follow a symmetric distribution due to the
+central limit theorem). Bayesian Credible Intervals (}\DIFaddend CrIs) can be
+calculated from the posterior distributions at several probability
+levels (e.g.~95, 90, 80, 60\%) for a more complete view on estimated
+parameters. Bayesian CrIs indicate that, at a certain probability level,
+the parameter's estimate lies within that interval: so, for example, a
+90\% CrI {[}A, B{]} indicates that there is a 90\% probability that the
+estimate is between A and B. Different probability levels correspond to
+different levels of confidence: the higher the probability the higher
+the confidence (always conditional on data and model). Readers
+interested in a full and accessible exposition of Bayesian statistics
+are referred to \citet{mcelreath2019}. Shorter introductions can be
+found in \citet{etz2018}, \citet{vasishth2018} and
+\citet{nalborczyk2019}.
+
+\DIFaddbegin \DIFadd{Beta regression models return coefficient estimates in log-odds,
+similarly to Bernoulli/binomial (aka logistic) regression models.
+Log-odds correspond to the logarithm of the odds
+\(\log\left(\frac{p}{1 - p}\right)\). To convert log-odds into
+probabilities (or into a variable in the }{[}\DIFadd{0, 1}{]} \DIFadd{interval), the
+inverse logit function is used \(\frac{1}{1 + e^{-x}}\), where \(x\) is
+the log-odds value. Figure~\ref{fig-p-log-odds} illustrates the
+correspondence between log-odds and the }{[}\DIFadd{0, 1}{]} \DIFadd{values. In R, the
+inverse logit can be obtained with the base R function
+}\texttt{\DIFadd{plogis()}}\DIFadd{, while the logit can be obtained with the base R
+function }\texttt{\DIFadd{qlogis()}}\DIFadd{. Another relevant transformation of log-odds
+is exponentiation (with base R }\texttt{\DIFadd{exp()}}\DIFadd{) which returns the
+corresponding odds-ratio: odds-ratios indicate the rate of change in the
+values of the outcome variable relative to a baseline. An odds-ratio of
+1 indicates no change, positive odds-ratios indicate an increase, while
+negative odds-ratios correspond to a decrease. For example, if the
+odds-ratio of the duration of /a/ vs the duration of /i/ is 1.2, this
+means that the duration of /a/ is grater than that of /i/. Moreover,
+odds-ratios can be interpreted as percentage change: an odds-ratio of
+1.2 corresponds to a 20\% }\emph{\DIFadd{increase}} \DIFadd{relative to the baseline, an
+odds-ratio of 0.8 corresponds to a 20\% }\emph{\DIFadd{decrease}} \DIFadd{relative to the
+baseline, while an odds-ratio of 1 means a 0\% change (i.e.~no change).
+}
+
+\begin{figure}
+
+\centering{
+
+\pandocbounded{\includegraphics[keepaspectratio]{manuscript_files/figure-pdf/fig-p-log-odds-1.pdf}}
+
+}
+
+\caption{\label{fig-p-log-odds}\DIFaddFL{Correspondence between log-odds and
+probabilities.}}
+
+\end{figure}%DIF > 
+
+\DIFaddend \section{Case study 1: coarticulatory voicing within consonant
+closure}\label{sec-case-1}
+
+For the first case study, we will model the proportion of coarticulatory
+progressive voicing within the consonant closure of voiceless stops. The
+measurements come from a data set of audio and electroglottographic
+(EGG) recordings of 19 speakers of Northwestern Italian
+\citep{coretta2019k, coretta2020b}. The participants read frame
+sentences which included target words of the form /CVCo/, where C was
+either /k, t, p/ in all permutations and V was either /i, e, a, o, u/
+(two resulting words, /peto/ and /kako/ were excluded because they are
+profanities), for a total of 43 target words. There were 4 different
+frame sentence: \emph{Scrivete X sul foglio} `Write X on the sheet',
+\emph{Ha detto X sei volte} `She said X six times', \emph{Sentivo X di
+nuovo} `I heard X again', \emph{Ripete X da sempre} `She's been
+repeating X since ever'. There is a total of 172 trials per participant
+(3,268 grand total). The actual observation count is 2,419, after
+removing speech errors, EGG measurement errors, and cases in which
+voicing ceased before the closure onset/after the closure offset of the
+second consonant in the target word.
+
+The proportion of voicing during the closure of the second consonant was
+calculated as the proportion of contiguous voicing duration after
+closure onset to total duration of closure. The following code chunk
+attaches the tidyverse packages \citep[for reading and wrangling
+data,][]{wickham2019} and loads the \texttt{ita\_egg} tibble (data
+frame). The tibble is filtered so as to remove voicing proportions
+(\texttt{voi\_clo\_prop}) that are smaller than 0 and greater than 1.
+The variables \texttt{vowel} (first vowel in the target word) and
+\texttt{c2} (second consonant in the target word) are converted to
+factors to specify the order of the levels. Table~\ref{tbl-ita-egg}
+shows the first ten rows of the tibble (only relevant columns are
+included).
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# attach tidyverse and set light theme for plots}
+\FunctionTok{library}\NormalTok{(tidyverse)}
+\FunctionTok{theme\_set}\NormalTok{(}\FunctionTok{theme\_light}\NormalTok{())}
+
+\CommentTok{\# load tibble}
+\FunctionTok{load}\NormalTok{(}\StringTok{"data/coretta2018/ita\_egg.rda"}\NormalTok{)}
+
+\CommentTok{\# filter and mutate data}
+\NormalTok{ita\_egg }\OtherTok{\textless{}{-}}\NormalTok{ ita\_egg }\SpecialCharTok{|\textgreater{}} 
+  \FunctionTok{filter}\NormalTok{(voi\_clo\_prop }\SpecialCharTok{\textgreater{}} \DecValTok{0}\NormalTok{, voi\_clo\_prop }\SpecialCharTok{\textless{}} \DecValTok{1}\NormalTok{) }\SpecialCharTok{|\textgreater{}} 
+  \FunctionTok{mutate}\NormalTok{(}
+    \AttributeTok{vowel =} \FunctionTok{factor}\NormalTok{(vowel, }\AttributeTok{levels =} \FunctionTok{c}\NormalTok{(}\StringTok{"i"}\NormalTok{, }\StringTok{"e"}\NormalTok{, }\StringTok{"a"}\NormalTok{, }\StringTok{"o"}\NormalTok{, }\StringTok{"u"}\NormalTok{)),}
+    \AttributeTok{c2 =} \FunctionTok{factor}\NormalTok{(c2, }\AttributeTok{levels =} \FunctionTok{c}\NormalTok{(}\StringTok{"k"}\NormalTok{, }\StringTok{"t"}\NormalTok{, }\StringTok{"p"}\NormalTok{))}
+\NormalTok{  )}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{longtable}[]{@{}llllr@{}}
+
+\caption{\label{tbl-ita-egg}First 10 rows of the data of voicing
+proportion within stop closure.}
+
+\tabularnewline
+
+\toprule\noalign{}
+speaker & word & vowel & c2 & voi\_clo\_prop \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+it01 & poto & o & t & 0.0457950 \\
+it01 & topo & o & p & 0.3522513 \\
+it01 & pato & a & t & 0.1440749 \\
+it01 & teto & e & t & 0.3610916 \\
+it01 & toto & o & t & 0.2743519 \\
+it01 & puco & u & k & 0.1943984 \\
+it01 & chipo & i & p & 0.2227896 \\
+it01 & peco & e & k & 0.1835596 \\
+it01 & poco & o & k & 0.1771007 \\
+it01 & poto & o & t & 0.1525163 \\
+
+\end{longtable}
+
+Figure~\ref{fig-ita-egg} shows the raw voicing duration proportion
+values split by vowel /i, e, a, o, u/ and second consonant /k, t, p/ in
+the /CVCo/ target words. The plot suggests that, on average, the voicing
+proportion is slightly lower with /k/ than with /t, p/. Moreover, there
+is greater variability between vowels in /t, p/ than in /k/. We will use
+a beta regression model to assess whether the place of articulation of
+the consonant affects the proportion of coarticulatory progressive
+voicing, while averaging across vowels (of course, another question that
+could be answered with the same model is if different vowels lead to
+different voicing proportions, but for sake of space we restrict this
+tutorial to the former question). A general expectation is that the
+proportion of progressive voicing should increase with fronter places of
+articulation (so from /k/ to /t/ to /p/) given the aerodynamic
+constraints which obtain with vocal fold vibration during a fully
+occluded oral tract \citep{vandenberg1958, rothenberg1967, ohala2011}.
+
+\begin{figure}
+
+\centering{
+
+\pandocbounded{\includegraphics[keepaspectratio]{manuscript_files/figure-pdf/fig-ita-egg-1.pdf}}
+
+}
+
+\caption{\label{fig-ita-egg}Proportion of voicing during the closure of
+the second consonant in /CVCo/ words by vowel and the second consonant.}
+
+\end{figure}%
+
+We will use brms to fit a Bayesian beta regression \citep{burkner2017}.
+The model has voicing proportion as the outcome variable and the
+following terms: an interaction between vowel (/i, e, a, o, u/) and
+second consonant C2 (/k, t, p/), centred speech rate (number of
+syllables per second); as varying (aka random) terms, we included
+by-speaker varying coefficients for the vowel/consonant interaction and
+for centred speech rate.\footnote{While the terms ``random effects,
+  intercept and slopes'' are commonly employed in applied statistical
+  work in linguistics and phonetics, we opt to use the conceptually more
+  appropriate terminology proposed by \citet{gelman2005}: varying terms,
+  intercepts, slopes, coefficients. Other common terms are multilevel
+  and hierarchical terms. \DIFaddbegin \DIFadd{Note that with ``varying terms'' we refer
+  specifically to model terms with partial pooling in opposition to
+  ``constant terms'' estimated with no pooling
+  \mbox{%DIFAUXCMD
+\citep[p.~408]{mcelreath2020}}\hskip0pt%DIFAUXCMD
+. See \mbox{%DIFAUXCMD
+\citet{nalborczyk2019} }\hskip0pt%DIFAUXCMD
+for a
+  detailed overview.}\DIFaddend } The categorical predictors vowel and C2 are coded
+using indexing rather than the traditional R contrasts \DIFaddbegin \DIFadd{(such as
+treatment or sum)}\DIFaddend , as advocated in \DIFdelbegin \DIFdel{\mbox{%DIFAUXCMD
+\citet{mcelreath2019}}\hskip0pt%DIFAUXCMD
+}\DIFdelend \DIFaddbegin \DIFadd{\mbox{%DIFAUXCMD
+\citet[p 155, Ch 8]{mcelreath2019}}\hskip0pt%DIFAUXCMD
+}\DIFaddend :
+in R, this corresponds to suppressing the model's intercept with the
+\texttt{0\ +} syntax\DIFdelbegin \DIFdel{; using indexing instead of contrasts makes it easier to specify priors and
+uncertainty
+is distributed equally }\DIFdelend \DIFaddbegin \DIFadd{. One benefit of using indexing is that uncertainty
+is equally distributed }\DIFaddend across all levels of categorical predictors\DIFdelbegin \DIFdel{. For pedagogical simplicity,
+the model will use the
+default
+priors as }\DIFdelend \DIFaddbegin \DIFadd{,
+since priors apply on the mean of each level, rather than on the
+difference of subsequent levels from the reference level (the latter
+scenario, which applies in traditional contrasts, including treatment
+and sum, makes estimates of the last level in the predictor more
+uncertain than the estimates of the other levels, given that the
+uncertainty of the intercept is added to the uncertainty of the
+difference). As }\DIFaddend explained in Section~\ref{sec-bayes}\DIFdelbegin \DIFdel{.
+}\DIFdelend \DIFaddbegin \DIFadd{, using the default
+priors calculated by brms is an acceptable method in the absence of very
+specific quantitative expectation, given that the default priors are
+weak enough to bear little effect on posteriors. Researchers should use
+their own judgement and expertise in a case by case fashion.
+}\DIFaddend 
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# attach brms}
+\FunctionTok{library}\NormalTok{(brms)}
+
+\CommentTok{\# fit the model}
+\CommentTok{\# Takes 3 minutes on MacBook Pro 2020, M1}
+\NormalTok{voi\_prop\_bm }\OtherTok{\textless{}{-}} \FunctionTok{brm}\NormalTok{(}
+  \CommentTok{\# model formula}
+\NormalTok{  voi\_clo\_prop }\SpecialCharTok{\textasciitilde{}}
+    \CommentTok{\# constant terms}
+    \DecValTok{0} \SpecialCharTok{+}\NormalTok{ vowel}\SpecialCharTok{:}\NormalTok{c2 }\SpecialCharTok{+}\NormalTok{ speech\_rate\_c }\SpecialCharTok{+}
+    \CommentTok{\# varying terms}
+\NormalTok{    (}\DecValTok{0} \SpecialCharTok{+}\NormalTok{ vowel}\SpecialCharTok{:}\NormalTok{c2 }\SpecialCharTok{+}\NormalTok{ speech\_rate\_c }\SpecialCharTok{|}\NormalTok{ speaker),}
+  \CommentTok{\# uses the beta family for the outcome}
+  \AttributeTok{family =}\NormalTok{ Beta,}
+  \AttributeTok{data =}\NormalTok{ ita\_egg,}
+  \AttributeTok{cores =} \DecValTok{4}\NormalTok{,}
+  \AttributeTok{seed =} \DecValTok{3749}\NormalTok{,}
+  \AttributeTok{file =} \StringTok{"data/cache/voi\_prop\_bm"}
+\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+The \texttt{summary()} function prints the full model summary. For
+conciseness, we will use the \texttt{fixef()} function which prints the
+regression coefficients. Table~\ref{tbl-voi-prop-fixef} reports the
+output of \texttt{fixef()} as a table (we round all values to the
+nearest 2 digits for clarity.). For each coefficient in the model,
+\texttt{fixef()} prints the name of the coefficient, the mean estimate
+\DIFaddbegin \DIFadd{(i.e.~the mean of the posterior distribution calculated from the MCMC
+draws)}\DIFaddend , the estimate error \DIFaddbegin \DIFadd{(i.e.~the standard deviation of the posterior
+distribution) }\DIFaddend and the lower and upper limits of a Bayesian Credible
+interval (CrI) \DIFaddbegin \DIFadd{of the posterior distribution}\DIFaddend . Note that all values are
+in log-odds, since the link function in beta regressions is the logistic
+function, like in binomial/Bernoulli regressions. Here, we print an 80\%
+CrI. There is nothing special about 95\% CrI within Bayesian inference
+and instead experts recommend to check and report a variety of CrIs.
+Obtaining CrIs at different probability levels allows researchers to
+make more fine-grained inferential statements than the frequentist
+significance dichotomy affords. For simplicity of exposition, we will
+use 80\% CrIs in this case study but we strongly recommend researchers
+to always obtain CrIs at different levels of probability and base their
+inferences on all and not one in particular. To reiterate, in Bayesian
+inference, an 80\% CrI indicates the range of values within which the
+true estimate falls at 80\% probability or confidence.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{fixef}\NormalTok{(voi\_prop\_bm, }\AttributeTok{prob =} \FunctionTok{c}\NormalTok{(}\FloatTok{0.1}\NormalTok{, }\FloatTok{0.9}\NormalTok{))}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{longtable}[]{@{}lrrrr@{}}
+
+\caption{\label{tbl-voi-prop-fixef}Regression coefficients of a beta
+regression of voicing proportion (\texttt{voi\_prop\_bm}).}
+
+\tabularnewline
+
+\toprule\noalign{}
+& Estimate & Est.Error & Q10 & Q90 \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+speech\_rate\_c & 0.08 & 0.06 & 0.01 & 0.15 \\
+voweli:c2k & -0.91 & 0.14 & -1.08 & -0.74 \\
+vowele:c2k & -1.08 & 0.11 & -1.22 & -0.94 \\
+vowela:c2k & -0.99 & 0.12 & -1.14 & -0.84 \\
+vowelo:c2k & -0.79 & 0.14 & -0.96 & -0.62 \\
+vowelu:c2k & -1.00 & 0.16 & -1.20 & -0.80 \\
+voweli:c2t & -0.66 & 0.11 & -0.79 & -0.53 \\
+vowele:c2t & -0.84 & 0.14 & -1.02 & -0.66 \\
+vowela:c2t & -1.43 & 0.13 & -1.60 & -1.26 \\
+vowelo:c2t & -1.15 & 0.13 & -1.31 & -0.99 \\
+vowelu:c2t & -0.68 & 0.12 & -0.83 & -0.54 \\
+voweli:c2p & -0.68 & 0.11 & -0.81 & -0.54 \\
+vowele:c2p & -0.88 & 0.15 & -1.07 & -0.68 \\
+vowela:c2p & -1.14 & 0.13 & -1.31 & -0.98 \\
+vowelo:c2p & -0.66 & 0.11 & -0.80 & -0.53 \\
+vowelu:c2p & -0.44 & 0.12 & -0.59 & -0.28 \\
+
+\end{longtable}
+
+From the summary, we see that speech rate (number of syllables per
+second) has a positive effect on voicing proportion: the 80\% CrI is
+between 0.01 and 0.15 log-odds {[}\(\beta\) = 0.08, SD = 0.06{]}.
+Log-odds can be converted to \DIFdelbegin \DIFdel{odd-ratios }\DIFdelend \DIFaddbegin \DIFadd{odds-ratios }\DIFaddend by exponentiating the value:
+0.01-0.15 log odds correspond to an \DIFdelbegin \DIFdel{odd-ratio }\DIFdelend \DIFaddbegin \DIFadd{odds-ratio }\DIFaddend of 1.01 to 1.16, or as
+percentages, to an increase of voicing of 1 to 16\% for every increase
+of one syllable per second. Since this is an 80\% CrI, we can be 80\%
+confident that the true effect of speech rate is between 1-16\% increase
+of voicing proportion, conditional on the data and model. Note that
+transforming measures this way is appropriate \emph{only} with
+quantile-based measures (like CrIs) but not with moments like the mean
+and standard deviation: to correctly get mean and SDs in the transformed
+scale, you must first extract the posterior draws (see below), convert
+them and then take moments such as mean and SD \citep[for a more
+detailed explanation, see][p.~101]{burkner2025}. In the avoidance of
+doubt, we will always transform the drawn values first and then take
+summary measures.
+
+Turning now to the coefficients for vowel and C2, given the indexing
+approach of coding these variables the model summary and the output of
+\texttt{fixef()} reports the \emph{predictions} in log-odds for each
+combination of vowel and C2, rather than differences between levels. The
+\DIFaddbegin \DIFadd{posteriors of the coefficients for vowel and C2 are the estimated
+\(\mu\)s of the beta distribution (since the beta distribution is
+parametrised with \(\mu\) and \(\phi\); we will not discuss \(\phi\),
+although the estimate of this parameter can be found in the summary of
+the model, under ``Further Distributional Parameters'').The }\DIFaddend CrIs of the
+vowel/C2 coefficients span all negative log-odds values: these
+correspond to proportions that are lower than 0.5 (which is 0 in
+log-odds). This matches the general trends in the raw data, which we
+plotted in Figure~\ref{fig-ita-egg}. Next, we will plot the predicted
+proportions of each vowel/C2 combination at mean speech rate
+(i.e.~centred speech rate = 0) and then calculate the average pair-wise
+difference in voicing proportion between /k, t, p/.
+
+Before being able to plot the predictions, it's important to get
+familiar with the so-called posterior draws. Bayesian regression models
+are fitted using Markov Chain Monte Carlo (MCMC) methods, as briefly
+explained in Section~\ref{sec-bayes}. The \texttt{brm()} function runs
+four MCMC chains with 2000 iterations each by default. These are
+sufficient in most cases. The first 1000 iterations of each chain are
+used for ``warmup'', where the MCMC algorithm is optimised to find the
+posterior probability. The second half of the iterations, 1000 per
+chain, are used for sampling from the posterior probability. Each
+iteration returns a drawn value for each parameter in the model. The
+list of values drawn during the Monte Carlo sampling are called the
+``posterior draws''. Since four chains are run, a total of 4000
+posterior values are generated. The posterior draws are used for
+inference: we can plot them, summarise them, transform them and combine
+them in any way to answer specific questions.
+
+Posterior draws can be conveniently obtained with the
+\texttt{as\_draws\_df()} from brms. For the moment, we will extract only
+the draws of the constant (aka fixed) regression coefficients (model
+variables starting with \texttt{b\_}). To check which coefficients are
+available in a model, use \texttt{get\_variables()} from the tidybayes
+package \citep{kay2019}. \texttt{as\_draws\_df()} returns a tibble where
+each column contains the drawn values of a coefficient.
+Table~\ref{tbl-voi-prop-draws} shows the first ten rows and first five
+columns of the output of \texttt{as\_draws\_df()}. The probability
+distribution of the drawn values of each coefficient is the posterior
+probability distribution of that coefficient. Note that, due to the
+indexing coding of vowel and C2, all coefficient except
+\texttt{b\_speech\_rate\_c} are drawn \emph{log-odds values} for each
+vowel/C2 combination (the drawn values for \texttt{b\_speech\_rate\_c}
+are drawn \emph{differences} in log-odds values for each unit increase
+of speech rate). The drawn values are in log-odds, but we can convert
+them to proportions with \texttt{plogis()} (we will do this when
+plotting below).
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# extract only coefficient variables starting with "b\_"}
+\NormalTok{voi\_prop\_bm\_draws }\OtherTok{\textless{}{-}} \FunctionTok{as\_draws\_df}\NormalTok{(voi\_prop\_bm, }\AttributeTok{variable =} \StringTok{"\^{}b\_"}\NormalTok{, }\AttributeTok{regex =} \ConstantTok{TRUE}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\DIFdelbegin %DIFDELCMD < \begin{verbatim}%DIFDELCMD < 
+%DIFDELCMD < Warning: Dropping 'draws_df' class as required metadata was removed.
+%DIFDELCMD < \end{verbatim}
+%DIFDELCMD < 
+
+%DIFDELCMD < %%%
+\DIFdelend \begin{longtable}[]{@{}
+  >{\raggedleft\arraybackslash}p{(\linewidth - 8\tabcolsep) * \real{0.2353}}
+  >{\raggedleft\arraybackslash}p{(\linewidth - 8\tabcolsep) * \real{0.1912}}
+  >{\raggedleft\arraybackslash}p{(\linewidth - 8\tabcolsep) * \real{0.1912}}
+  >{\raggedleft\arraybackslash}p{(\linewidth - 8\tabcolsep) * \real{0.1912}}
+  >{\raggedleft\arraybackslash}p{(\linewidth - 8\tabcolsep) * \real{0.1912}}@{}}
+
+\caption{\label{tbl-voi-prop-draws}First ten rows and 5 columns of the
+posterior draws for the model \texttt{voi\_prop\_bm}.}
+
+\tabularnewline
+
+\toprule\noalign{}
+\begin{minipage}[b]{\linewidth}\raggedleft
+b\_speech\_rate\_c
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedleft
+b\_voweli:c2k
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedleft
+b\_vowele:c2k
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedleft
+b\_vowela:c2k
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedleft
+b\_vowelo:c2k
+\end{minipage} \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+0.1593890 & -0.7213516 & -1.046577 & -1.1197185 & -1.0191525 \\
+0.0351033 & -0.7492306 & -1.385450 & -1.0633164 & -0.8854320 \\
+0.1259352 & -0.8472495 & -0.975776 & -1.0972735 & -0.6440836 \\
+0.0640492 & -0.7033469 & -1.068626 & -1.0475190 & -0.8328252 \\
+0.0319081 & -0.7659281 & -1.177656 & -0.9357499 & -0.6955130 \\
+0.0729965 & -0.8494392 & -1.226692 & -1.0635364 & -0.7692243 \\
+0.1009609 & -0.9546148 & -1.072955 & -1.1408255 & -0.8566750 \\
+0.0735392 & -1.0160675 & -1.065025 & -1.1736263 & -0.8334884 \\
+0.0870061 & -1.0436475 & -1.069337 & -1.2632061 & -0.7941857 \\
+0.0923815 & -1.2042168 & -1.041238 & -0.9158689 & -0.6444492 \\
+
+\end{longtable}
+
+We can now wrangle this tibble and plot the posterior distributions for
+each vowel/C2 combination. Table~\ref{tbl-voi-long} shows the first ten
+rows.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{voi\_prop\_bm\_draws\_long }\OtherTok{\textless{}{-}}\NormalTok{ voi\_prop\_bm\_draws }\SpecialCharTok{|\textgreater{}} 
+  \CommentTok{\# drop b\_speech\_rate\_c before pivoting}
+  \FunctionTok{select}\NormalTok{(}\SpecialCharTok{{-}}\NormalTok{b\_speech\_rate\_c) }\SpecialCharTok{|\textgreater{}} 
+  \CommentTok{\# pivot vowel:c2 columns}
+  \FunctionTok{pivot\_longer}\NormalTok{(}\StringTok{\textasciigrave{}}\AttributeTok{b\_voweli:c2k}\StringTok{\textasciigrave{}}\SpecialCharTok{:}\StringTok{\textasciigrave{}}\AttributeTok{b\_vowelu:c2p}\StringTok{\textasciigrave{}}\NormalTok{, }\AttributeTok{names\_to =} \StringTok{"coeff"}\NormalTok{) }\SpecialCharTok{|\textgreater{}} 
+  \CommentTok{\# separate "coeff" labels into type ("b"), vowel and c2}
+  \FunctionTok{separate}\NormalTok{(coeff, }\AttributeTok{into =} \FunctionTok{c}\NormalTok{(}\StringTok{"type"}\NormalTok{, }\StringTok{"vowel"}\NormalTok{, }\StringTok{"c2"}\NormalTok{))}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{longtable}[]{@{}rrrlllr@{}}
+
+\caption{\label{tbl-voi-long}First ten rows of posterior draws from
+\texttt{voi\_prop\_bm} in long format.}
+
+\tabularnewline
+
+\toprule\noalign{}
+.chain & .iteration & .draw & type & vowel & c2 & value \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+1 & 1 & 1 & b & voweli & c2k & -0.7213516 \\
+1 & 1 & 1 & b & vowele & c2k & -1.0465766 \\
+1 & 1 & 1 & b & vowela & c2k & -1.1197185 \\
+1 & 1 & 1 & b & vowelo & c2k & -1.0191525 \\
+1 & 1 & 1 & b & vowelu & c2k & -1.0523007 \\
+1 & 1 & 1 & b & voweli & c2t & -0.6248875 \\
+1 & 1 & 1 & b & vowele & c2t & -0.7951552 \\
+1 & 1 & 1 & b & vowela & c2t & -1.3999773 \\
+1 & 1 & 1 & b & vowelo & c2t & -1.0950180 \\
+1 & 1 & 1 & b & vowelu & c2t & -0.6682030 \\
+
+\end{longtable}
+
+For plotting, we can use ggplot2 statistics layers from the ggdist
+package {[}\citet{kay2023}; kay2024{]}. \texttt{stat\_halfeye()} plots
+the density of the posterior probability (in grey), its median (point)
+and CrIs (lines). Let's use 60 and 80\% CrIs and transform the log-odds
+values to proportions with \texttt{plogis()}. See
+Figure~\ref{fig-voi-prop-bm-1}.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# attach ggdist package}
+\FunctionTok{library}\NormalTok{(ggdist)}
+
+\NormalTok{voi\_prop\_bm\_draws\_long }\SpecialCharTok{|\textgreater{}} 
+  \DIFaddbegin \DIFadd{\FunctionTok{mutate}\NormalTok{(}
+    \AttributeTok{c2 =} \FunctionTok{str\_remove}\NormalTok{(c2, }\StringTok{"c2"}\NormalTok{),}
+    \AttributeTok{vowel =} \FunctionTok{str\_remove}\NormalTok{(vowel, }\StringTok{"vowel"}\NormalTok{)}
+\NormalTok{  ) }\SpecialCharTok{|\textgreater{}} 
+  }\DIFaddend \FunctionTok{ggplot}\NormalTok{(}\FunctionTok{aes}\NormalTok{(}\FunctionTok{plogis}\NormalTok{(value), vowel)) }\SpecialCharTok{+}
+  \FunctionTok{stat\_halfeye}\NormalTok{(}\AttributeTok{.width =} \FunctionTok{c}\NormalTok{(}\FloatTok{0.6}\NormalTok{, }\FloatTok{0.8}\NormalTok{)) }\SpecialCharTok{+}
+  \FunctionTok{facet\_grid}\NormalTok{(}\AttributeTok{rows =} \FunctionTok{vars}\NormalTok{(c2)) }\SpecialCharTok{+}
+  \FunctionTok{labs}\NormalTok{(}
+    \AttributeTok{caption =} \StringTok{"The points are the medians and the two lines are 60 and 80\% CrIs."}\DIFaddbegin \DIFadd{\NormalTok{,}
+    \AttributeTok{x =} \StringTok{"Voicing during closure (prop)"}\NormalTok{,}
+    \AttributeTok{y =} \StringTok{"Vowel"}
+}\DIFaddend \NormalTok{  )}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{figure}[H]
+
+\centering{
+
+\pandocbounded{\includegraphics[keepaspectratio]{manuscript_files/figure-pdf/fig-voi-prop-bm-1-1.pdf}}
+
+}
+
+\caption{\label{fig-voi-prop-bm-1}Expected predictions of voicing
+proportion by vowel and consonant from \texttt{voi\_prop\_bm}.}
+
+\end{figure}%
+
+What if we want to plot the average predicted voicing proportion for the
+three consonants /k, t, p/? \DIFdelbegin \DIFdel{One approach is to }\DIFdelend \DIFaddbegin \DIFadd{We can ``marginalise'' over vowel, i.e.~}\DIFaddend take
+the mean across vowels within each consonant for each posterior draw,
+and the posterior distribution of the resulting list of values is the
+predicted posterior distribution of voicing proportion for each
+consonant, assuming an ``average'' vowel. See
+Figure~\ref{fig-voi-pbdl-c2} \DIFdelbegin \DIFdel{.
+}\DIFdelend \DIFaddbegin \DIFadd{for the density of these posteriors. For a
+detailed treatment of various approaches to marginalisation that apply
+to more complex cases like those involving numeric predictors, see
+\mbox{%DIFAUXCMD
+\citet{arelbundock2024}}\hskip0pt%DIFAUXCMD
+.
+}\DIFaddend 
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{voi\_prop\_bm\_draws\_long\_c2 }\OtherTok{\textless{}{-}}\NormalTok{ voi\_prop\_bm\_draws\_long }\SpecialCharTok{|\textgreater{}} 
+  \CommentTok{\# grouping by .draw and c2 ensures that averaging applies only within draw and c2}
+  \FunctionTok{group\_by}\NormalTok{(.draw, c2) }\SpecialCharTok{|\textgreater{}} 
+  \CommentTok{\# calculate the mean value within draw/c2}
+  \FunctionTok{summarise}\NormalTok{(}
+    \AttributeTok{value\_mean =} \FunctionTok{mean}\NormalTok{(value), }\AttributeTok{.groups =} \StringTok{"drop"}
+\NormalTok{  )}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{voi\_prop\_bm\_draws\_long\_c2 }\SpecialCharTok{|\textgreater{}} 
+  \DIFaddbegin \DIFadd{\FunctionTok{mutate}\NormalTok{(}
+    \AttributeTok{c2 =} \FunctionTok{str\_remove}\NormalTok{(c2, }\StringTok{"c2"}\NormalTok{)}
+\NormalTok{  ) }\SpecialCharTok{|\textgreater{}} 
+  }\DIFaddend \FunctionTok{ggplot}\NormalTok{(}\FunctionTok{aes}\NormalTok{(}\FunctionTok{plogis}\NormalTok{(value\_mean), c2)) }\SpecialCharTok{+}
+  \FunctionTok{stat\_halfeye}\NormalTok{(}\AttributeTok{.width =} \FunctionTok{c}\NormalTok{(}\FloatTok{0.6}\NormalTok{, }\FloatTok{0.8}\NormalTok{)) }\SpecialCharTok{+}
+  \FunctionTok{labs}\NormalTok{(}
+    \AttributeTok{caption =} \StringTok{"The points are the medians and the two lines are 60 and 80\% CrIs."}\DIFaddbegin \DIFadd{\NormalTok{,}
+    \AttributeTok{x =} \StringTok{"Voicing during closure (prop)"}\NormalTok{,}
+    \AttributeTok{y =} \StringTok{"C2"}
+}\DIFaddend \NormalTok{  )}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{figure}[H]
+
+\centering{
+
+\pandocbounded{\includegraphics[keepaspectratio]{manuscript_files/figure-pdf/fig-voi-pbdl-c2-1.pdf}}
+
+}
+
+\caption{\label{fig-voi-pbdl-c2}Expected predictions of voicing
+proportion by consonant, averaged across vowels.}
+
+\end{figure}%
+
+Based on the expected posterior distributions of the mean voicing
+proportion by consonant, /p/ has a somewhat higher voicing proportion
+than /k/ and /t/. The real question is: how much higher? We can quantify
+this by taking the difference of the drawn values for /p/ and those for
+/t, k/ (all averaged across vowels). Since we want to compare /t, k/
+with /p/, we should first average the average draws of /t, k/ and then
+take the difference of the averaged /t, k/ draws and the draws of /p/.
+Table~\ref{tbl-voi-pbd} shows the first ten rows of the resulting data
+frame. The posterior distribution of the expected difference is shown in
+Figure~\ref{fig-diff-p-tk}.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{voi\_prop\_bm\_diff }\OtherTok{\textless{}{-}}\NormalTok{ voi\_prop\_bm\_draws\_long\_c2 }\SpecialCharTok{|\textgreater{}} 
+  \CommentTok{\# pivot data to create one column per consonant with the mean drawn values,}
+  \CommentTok{\# with one draw per raw}
+  \FunctionTok{pivot\_wider}\NormalTok{(}\AttributeTok{names\_from =}\NormalTok{ c2, }\AttributeTok{values\_from =}\NormalTok{ value\_mean) }\SpecialCharTok{|\textgreater{}} 
+  \FunctionTok{mutate}\NormalTok{(}
+    \CommentTok{\# calculate the mean of /k/ and /t/, for each draw}
+    \AttributeTok{c2tk =} \FunctionTok{mean}\NormalTok{(}\FunctionTok{c}\NormalTok{(c2k, c2t)),}
+    \CommentTok{\# calculate the difference of /p/ and /t, k/}
+    \AttributeTok{c2p\_tk\_diff =}\NormalTok{ c2p }\SpecialCharTok{{-}}\NormalTok{ c2tk}
+\NormalTok{  )}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{longtable}[]{@{}rrrrrr@{}}
+
+\caption{\label{tbl-voi-pbd}First 10 rows of expected difference of
+voicing proportion between /t, k/ and /p/.}
+
+\tabularnewline
+
+\toprule\noalign{}
+.draw & c2k & c2p & c2t & c2tk & c2p\_tk\_diff \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+1 & -0.9918200 & -0.7450832 & -0.9166482 & -0.9533426 & 0.2082595 \\
+2 & -1.0240673 & -0.7904348 & -1.0322325 & -0.9533426 & 0.1629079 \\
+3 & -0.8954946 & -0.6873228 & -0.8904412 & -0.9533426 & 0.2660199 \\
+4 & -0.9442361 & -0.8135191 & -0.9095122 & -0.9533426 & 0.1398235 \\
+5 & -0.9278262 & -0.7908457 & -0.9200903 & -0.9533426 & 0.1624970 \\
+6 & -0.9825895 & -0.7283054 & -0.9262196 & -0.9533426 & 0.2250372 \\
+7 & -1.0482359 & -0.8731592 & -1.0841208 & -0.9533426 & 0.0801835 \\
+8 & -1.0613713 & -0.8751219 & -1.0741555 & -0.9533426 & 0.0782208 \\
+9 & -1.0622522 & -0.9739388 & -1.0481834 & -0.9533426 & -0.0205962 \\
+10 & -0.9293998 & -0.8287910 & -0.9526105 & -0.9533426 & 0.1245517 \\
+
+\end{longtable}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{voi\_prop\_bm\_diff }\SpecialCharTok{|\textgreater{}} 
+  \FunctionTok{ggplot}\NormalTok{(}\FunctionTok{aes}\NormalTok{(c2p\_tk\_diff)) }\SpecialCharTok{+}
+  \FunctionTok{stat\_halfeye}\NormalTok{(}\AttributeTok{.width =} \FunctionTok{c}\NormalTok{(}\FloatTok{0.6}\NormalTok{, }\FloatTok{0.8}\NormalTok{, }\FloatTok{0.9}\NormalTok{)) }\SpecialCharTok{+}
+  \FunctionTok{geom\_vline}\NormalTok{(}\AttributeTok{xintercept =} \DecValTok{0}\DIFdelbegin \DIFdel{\NormalTok{)}
+}\DIFdelend \DIFaddbegin \DIFadd{\NormalTok{) }\SpecialCharTok{+}
+  \FunctionTok{labs}\NormalTok{(}
+    \AttributeTok{x =} \StringTok{"Log{-}odds difference in /p/ vs /t/"}\NormalTok{,}
+    \AttributeTok{y =} \FunctionTok{element\_blank}\NormalTok{()}
+\NormalTok{  )}
+}\DIFaddend \end{Highlighting}
+\end{Shaded}
+
+\begin{figure}[H]
+
+\centering{
+
+\pandocbounded{\includegraphics[keepaspectratio]{manuscript_files/figure-pdf/fig-diff-p-tk-1.pdf}}
+
+}
+
+\caption{\label{fig-diff-p-tk}Posterior distribution of the difference
+between the expected voicing proportion of /t, k/ vs /p/, averaged
+across vowels.}
+
+\end{figure}%
+
+Once we have the posterior difference, we can obtain CrIs of the
+difference using \texttt{quantile2()} from the posterior package
+\citep{burkner2024}. Beware that the values of the difference are in
+log-odds! We can convert these into \DIFdelbegin \DIFdel{odd-ratios }\DIFdelend \DIFaddbegin \DIFadd{odds-ratios }\DIFaddend with \texttt{exp()}. The
+output of the code below is shown in Table~\ref{tbl-voi-bm-quant}.
+\DIFdelbegin \DIFdel{Odd-ratios }\DIFdelend \DIFaddbegin \DIFadd{Odds-ratios }\DIFaddend indicate the ratio of the difference between A and B, so
+that 1 means no difference, values greater than 1 indicate an increase
+in A relative to B and values lower than 1 indicate a decrease in A
+relative to B. \DIFdelbegin \DIFdel{Odd-ratios }\DIFdelend \DIFaddbegin \DIFadd{Odds-ratios }\DIFaddend are useful when looking at differences that
+are in log-odds because while the relative magnitude of the difference
+in proportion between two groups is the same independent of the baseline
+proportion, the \emph{absolute} magnitude of the difference depends on
+the baseline value. For example, an \DIFdelbegin \DIFdel{odd-ratio }\DIFdelend \DIFaddbegin \DIFadd{odds-ratio }\DIFaddend difference of 1.25 would
+correspond to a proportion increase of about 3 percentage points if the
+baseline proportion is 0.62 but it would correspond to a proportion
+increase of 5 percentage points if the baseline proportion is 0.73 and 1
+percentage point if the baseline is 0.99. Of course, in real research
+contexts it is still useful to think about absolute magnitudes and their
+relevance from a conceptual and methodological perspective. In this
+tutorial we just focus on \DIFdelbegin \DIFdel{odd-ratios }\DIFdelend \DIFaddbegin \DIFadd{odds-ratios }\DIFaddend for simplicity.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{library}\NormalTok{(posterior)}
+
+\NormalTok{voi\_bm\_quant }\OtherTok{\textless{}{-}}\NormalTok{ voi\_prop\_bm\_diff }\SpecialCharTok{|\textgreater{}} 
+  \FunctionTok{mutate}\NormalTok{(}\AttributeTok{c2p\_tk\_diff\_ratio =} \FunctionTok{exp}\NormalTok{(c2p\_tk\_diff)) }\SpecialCharTok{|\textgreater{}} 
+  \FunctionTok{reframe}\NormalTok{(}
+    \CommentTok{\# 90\% CrI}
+    \AttributeTok{q90 =} \FunctionTok{quantile2}\NormalTok{(c2p\_tk\_diff\_ratio, }\AttributeTok{probs =} \FunctionTok{c}\NormalTok{(}\FloatTok{0.05}\NormalTok{, }\FloatTok{0.95}\NormalTok{)),}
+    \CommentTok{\# 80\% CrI}
+    \AttributeTok{q80 =} \FunctionTok{quantile2}\NormalTok{(c2p\_tk\_diff\_ratio, }\AttributeTok{probs =} \FunctionTok{c}\NormalTok{(}\FloatTok{0.1}\NormalTok{, }\FloatTok{0.9}\NormalTok{)),}
+    \CommentTok{\# 60\% CrI}
+    \AttributeTok{q60 =} \FunctionTok{quantile2}\NormalTok{(c2p\_tk\_diff\_ratio, }\AttributeTok{probs =} \FunctionTok{c}\NormalTok{(}\FloatTok{0.2}\NormalTok{, }\FloatTok{0.8}\NormalTok{)),}
+\NormalTok{  ) }\SpecialCharTok{|\textgreater{}} 
+  \CommentTok{\# round to 2 digits}
+  \FunctionTok{mutate}\NormalTok{(}\FunctionTok{across}\NormalTok{(}\FunctionTok{everything}\NormalTok{(), }\SpecialCharTok{\textasciitilde{}}\FunctionTok{round}\NormalTok{(.x, }\DecValTok{2}\NormalTok{)))}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{longtable}[]{@{}rrr@{}}
+
+\caption{\label{tbl-voi-bm-quant}Upper and lower limits of 90, 80 and
+60\% Credible Intervals of the difference ratio of voicing proportion in
+/t, k/ vs /p/.}
+
+\tabularnewline
+
+\toprule\noalign{}
+q90 & q80 & q60 \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+1.07 & 1.10 & 1.14 \\
+1.38 & 1.34 & 1.30 \\
+
+\end{longtable}
+
+Based on the model and data, there is a 90\% probability that the
+voicing proportion in /p/ is 1.07-1.38 times longer (or 7-38\% increase)
+than in /t, k/. At 80\% confidence, the change ratio is 1.10-1.34 (or
+10-34\% increase) while at 60\% confidence is 1.14-1.30 (14-30\%
+increase). In other words we can be quite confident that the voicing
+proportion in /p/ is greater than in /t, k/ and that the increase is
+less than 35\%. The brms package comes with a convenient function,
+\texttt{conditional\_effects()}, to plot posterior means and CrIs based
+on predictors in the model. In Figure~\ref{fig-voi-prop-bm-cond}, we
+plot the predicted proportion of voicing by consonant and vowel.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\DIFaddbegin \DIFadd{\NormalTok{ce }\OtherTok{\textless{}{-}} }\DIFaddend \FunctionTok{conditional\_effects}\NormalTok{(voi\_prop\_bm, }\StringTok{"c2:vowel"}\NormalTok{)}
+\DIFaddbegin \DIFadd{\NormalTok{p }\OtherTok{\textless{}{-}} \FunctionTok{plot}\NormalTok{(ce, }\AttributeTok{plot =} \ConstantTok{FALSE}\NormalTok{)[[}\DecValTok{1}\NormalTok{]]}
+\NormalTok{p }\SpecialCharTok{+} \FunctionTok{labs}\NormalTok{(}\AttributeTok{x =} \StringTok{"C2"}\NormalTok{, }\AttributeTok{y =} \StringTok{"Voicing during closure (prop)"}\NormalTok{)}
+}\DIFaddend \end{Highlighting}
+\end{Shaded}
+
+\begin{figure}[H]
+
+\centering{
+
+\pandocbounded{\includegraphics[keepaspectratio]{manuscript_files/figure-pdf/fig-voi-prop-bm-cond-1.pdf}}
+
+}
+
+\caption{\label{fig-voi-prop-bm-cond}Expected voicing proportion by
+consonant and vowel with 95\% Credible Intervals.}
+
+\end{figure}%
+
+Finally, the package marginaleffects \citep{arelbundock2025} has two
+other convenience functions that return CrIs of comparisons across
+predictor levels (\texttt{avg\_comparisons()}) and CrIs of posterior
+predictions across predictor levels (\texttt{avg\_predictions}). Both
+functions take the model and a list of variables as arguments.
+Optionally, you can set the confidence level with the
+\texttt{conf\_level} argument (here, we set it to 0.8, or 80\%).
+\texttt{avg\_comparisons()} allows the user to specify the type of
+comparison for each variable: here we set \texttt{"pairwise"} to
+calculate pairwise comparisons of each level of \texttt{c2}. The output
+of the two functions is shown in Table~\ref{tbl-marginal-1} and
+Table~\ref{tbl-marginal-2}. \DIFaddbegin \DIFadd{Note that even when multiple comparisons are
+made, there is no need to apply any correction as it is commonly done
+with }\emph{\DIFadd{p}}\DIFadd{-values in frequentist statistics
+\mbox{%DIFAUXCMD
+\citep[see][]{gelman2012}}\hskip0pt%DIFAUXCMD
+.
+}\DIFaddend 
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{library}\NormalTok{(marginaleffects)}
+
+\FunctionTok{avg\_comparisons}\NormalTok{(voi\_prop\_bm, }\AttributeTok{variables =} \FunctionTok{list}\NormalTok{(}\AttributeTok{c2 =} \StringTok{"pairwise"}\NormalTok{), }\AttributeTok{conf\_level =} \FloatTok{0.8}\NormalTok{, }\AttributeTok{type =} \StringTok{"link"}\NormalTok{)}
+\FunctionTok{avg\_predictions}\NormalTok{(voi\_prop\_bm, }\AttributeTok{variables =} \StringTok{"vowel"}\NormalTok{, }\AttributeTok{conf\_level =} \FloatTok{0.8}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{longtable}[]{@{}llrrr@{}}
+
+\caption{\label{tbl-marginal-1}Difference in expected voicing proportion
+by consonant, averaged across vowels, with 80\% CrIs.}
+
+\tabularnewline
+
+\toprule\noalign{}
+term & contrast & estimate & conf.low & conf.high \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+c2 & \DIFdelbegin \DIFdel{mean(t) }\DIFdelend \DIFaddbegin \DIFadd{p }\DIFaddend - \DIFdelbegin \DIFdel{mean(k) }\DIFdelend \DIFaddbegin \DIFadd{k }\DIFaddend & \DIFdelbegin \DIFdel{0.035 }\DIFdelend \DIFaddbegin \DIFadd{0.218 }\DIFaddend & \DIFdelbegin \DIFdel{-0.004 }\DIFdelend \DIFaddbegin \DIFadd{0.178 }\DIFaddend & \DIFdelbegin \DIFdel{0.074 }\DIFdelend \DIFaddbegin \DIFadd{0.256 }\DIFaddend \\
+c2 & \DIFdelbegin \DIFdel{mean(p ) }\DIFdelend \DIFaddbegin \DIFadd{p }\DIFaddend - \DIFdelbegin \DIFdel{mean(k ) }\DIFdelend \DIFaddbegin \DIFadd{t }\DIFaddend & \DIFdelbegin \DIFdel{0.218 }\DIFdelend \DIFaddbegin \DIFadd{0.183 }\DIFaddend & \DIFdelbegin \DIFdel{0.178 }\DIFdelend \DIFaddbegin \DIFadd{0.145 }\DIFaddend & \DIFdelbegin \DIFdel{0.256 }\DIFdelend \DIFaddbegin \DIFadd{0.219 }\DIFaddend \\
+c2 & \DIFdelbegin \DIFdel{mean(p ) }\DIFdelend \DIFaddbegin \DIFadd{t }\DIFaddend - \DIFdelbegin \DIFdel{mean(t ) }\DIFdelend \DIFaddbegin \DIFadd{k }\DIFaddend & \DIFdelbegin \DIFdel{0.183 }\DIFdelend \DIFaddbegin \DIFadd{0.035 }\DIFaddend & \DIFdelbegin \DIFdel{0.145 }\DIFdelend \DIFaddbegin \DIFadd{-0.004 }\DIFaddend & \DIFdelbegin \DIFdel{0.219 }\DIFdelend \DIFaddbegin \DIFadd{0.074 }\DIFaddend \\
+
+\end{longtable}
+
+\begin{longtable}[]{@{}lrrr@{}}
+
+\caption{\label{tbl-marginal-2}Expected voicing proportion by vowel,
+averaged across vowels, with 80\% CrIs.}
+
+\tabularnewline
+
+\toprule\noalign{}
+vowel & estimate & conf.low & conf.high \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+i & 0.331 & 0.325 & 0.338 \\
+e & 0.300 & 0.293 & 0.307 \\
+a & 0.245 & 0.238 & 0.252 \\
+o & 0.305 & 0.298 & 0.312 \\
+u & 0.348 & 0.341 & 0.354 \\
+
+\end{longtable}
+
+\section{Case study 2: coarticulatory vowel
+nasalisation}\label{sec-case-2}
+
+For the second case study we will use data from \citet{carignan2021}.
+The study looked at properties of nasality in German VNC sequences.
+Here, we will focus on the effect of C voicing (voiceless /t/ vs voiced
+/d/) on the proportion of nasalisation within the vowel in the VNC
+sequence. Previous work on coarticulatory nasalisation in English has
+suggested that vowels followed by an NC sequence where C is voiceless
+(NT) should show earlier coarticulatory nasalisation than vowels
+followed by an NC sequence where C is voiced (ND). This pattern has been
+suggested to be driven by the articulatory and acoustic incompatibility
+of voicelessness and nasalisation, by which the velum opening gesture of
+the nasal consonant is pushed away (i.e.~earlier) when the consonant
+following the nasal is voiceless
+\citep{fowler2005, beddor2009, cho2017, carignan2015}. Everything else
+being equal, a greater proportion of vowel nasalisation (from the
+perspective of time) should be found in vowels followed by NT than in
+vowels followed by ND.
+
+We will model the proportion of coarticulatory nasalisation in the
+German short vowels /i, e, a, o, u/ when followed by /nt/ or /nd/, using
+a Bayesian beta regression model. The proportion was calculated as the
+proportion of the nasal interval to the duration of the vowel. The nasal
+interval was defined thus: the interval between the time of peak
+velocity of velum opening to the offset of the vowel. We will use the
+results of the regression model to answer the following questions:
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+\tightlist
+\item
+  Is the nasalisation proportion, on average across vowels, greater in
+  voiceless NC sequences?
+\item
+  Is there individual speaker variation?
+\end{enumerate}
+
+Table~\ref{tbl-nasal} shows the first ten rows of the data. The data
+contains the following columns:
+
+\begin{itemize}
+\item
+  \texttt{speaker} indicates the speaker ID.
+\item
+  \texttt{label} is the word label as given in the original data.
+\item
+  \texttt{vowel} is the target vowel in the VNC sequence.
+\item
+  \texttt{NC} is the NC sequence (voiceless /nt/ or voiced /nd/).
+\item
+  \texttt{voicing} indicates the voicing of C.
+\item
+  \texttt{nas\_prop} is the proportion of coarticulatory nasalisation of
+  the vowel.
+\end{itemize}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{nasal }\OtherTok{\textless{}{-}} \FunctionTok{read\_csv}\NormalTok{(}\StringTok{"data/carignan2021/nasal.csv"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{longtable}[]{@{}lllllr@{}}
+
+\caption{\label{tbl-nasal}First ten rows of the nasal proportion data.}
+
+\tabularnewline
+
+\toprule\noalign{}
+speaker & label & vowel & NC & voicing & nas\_prop \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+S03 & b\_\emph{U\_nt}@\_\_\_N\_B17/s & u & nt & voiceless & 0.3668820 \\
+S03 & b\_\emph{a\_nd}@\_\_\_N\_B19/s & a & nd & voiced & 0.1954858 \\
+S03 & b\_\emph{a\_nt}@\_\_\_N\_B15/s & a & nt & voiceless & 0.2786485 \\
+S03 & f\_\emph{I\_nt}@\_\_\_N\_B05/s & i & nt & voiceless & 0.7642259 \\
+S03 & l\_\emph{I\_nd}@\_\_\_N\_B06/s & i & nd & voiced & 0.0052949 \\
+S03 & p\_\emph{E\_nt}\_\_\_\_N\_B09/s & e & nt & voiceless &
+0.3347331 \\
+S03 & r\_\emph{a\_nt}@\_\_\_N\_B06/s & a & nt & voiceless & 0.2431760 \\
+S03 & v\_\emph{I\_nd}@\_\_\_N\_B07/s & i & nd & voiced & 0.0247572 \\
+S03 & v\_\_I\_nt\_6\_\_\_N\_B15/s & i & nt & voiceless & 0.1350081 \\
+S03 & z\_\emph{E\_nd}@\_\_\_N\_B17/s & e & nd & voiced & 0.5378522 \\
+
+\end{longtable}
+
+\begin{figure}
+
+\centering{
+
+\pandocbounded{\includegraphics[keepaspectratio]{manuscript_files/figure-pdf/fig-nasal-1.pdf}}
+
+}
+
+\caption{\label{fig-nasal}Proportion of coarticulatory nasalisation
+during the vowel in VNC sequences in German, depending on C voicing.}
+
+\end{figure}%
+
+Figure~\ref{fig-nasal} shows the proportion of coarticulatory
+nasalisation in vowels followed by /nd/ (voiced) vs /nt/ (voiceless)
+sequences, for the short vowels /i, e, a, o, u/. We can see a pattern of
+higher nasalisation proportion in vowels followed by /nt/, at least in
+the vowels /a, i, o/. For /e, u/, the distribution of nasalisation
+proportion seems to be similar between the voiced and voiceless
+contexts.
+
+Now onto modelling with a beta regression. Note that a full appropriate
+model would include further predictors (both constant and varying), but
+for simplicity here we include only the following predictors: voicing
+(voiced /nd/ vs voiceless /nt/), vowel (/i, e, a, o, u/), including an
+interaction between them. As varying terms, we include a varying
+intercept by speaker and a by-speaker varying slope for voicing and
+vowel in interaction. As with the model from the first case study,
+voicing and vowel are coded using indexing, by suppressing the intercept
+with \texttt{0\ +}. Here's the code of the model.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{nas\_prop\_bm }\OtherTok{\textless{}{-}} \FunctionTok{brm}\NormalTok{(}
+\NormalTok{  nas\_prop }\SpecialCharTok{\textasciitilde{}} \DecValTok{0} \SpecialCharTok{+}\NormalTok{ voicing}\SpecialCharTok{:}\NormalTok{vowel }\SpecialCharTok{+}\NormalTok{ (}\DecValTok{0} \SpecialCharTok{+}\NormalTok{ voicing}\SpecialCharTok{:}\NormalTok{vowel }\SpecialCharTok{|}\NormalTok{ speaker),}
+  \AttributeTok{data =}\NormalTok{ nasal,}
+  \AttributeTok{family =}\NormalTok{ Beta,}
+  \AttributeTok{cores =} \DecValTok{4}\NormalTok{,}
+  \AttributeTok{seed =} \DecValTok{3749}\NormalTok{,}
+  \AttributeTok{file =} \StringTok{"data/cache/nas\_prop\_bm"}
+\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+Let's inspect the output of \texttt{fixef()}, reported in
+Table~\ref{tbl-nas-prop-fixef}.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{fixef}\NormalTok{(nas\_prop\_bm, }\AttributeTok{prob =} \FunctionTok{c}\NormalTok{(}\FloatTok{0.1}\NormalTok{, }\FloatTok{0.9}\NormalTok{))}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{longtable}[]{@{}lrrrr@{}}
+
+\caption{\label{tbl-nas-prop-fixef}Regression coefficients of a beta
+regression of nasalisation proportion (\texttt{nas\_prop\_bm}).}
+
+\tabularnewline
+
+\toprule\noalign{}
+& Estimate & Est.Error & Q10 & Q90 \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+voicingvoiced:vowela & -0.61 & 0.12 & -0.77 & -0.46 \\
+voicingvoiceless:vowela & -0.08 & 0.09 & -0.19 & 0.04 \\
+voicingvoiced:vowele & -0.19 & 0.16 & -0.38 & 0.01 \\
+voicingvoiceless:vowele & -0.25 & 0.10 & -0.38 & -0.12 \\
+voicingvoiced:voweli & -0.74 & 0.19 & -0.98 & -0.51 \\
+voicingvoiceless:voweli & -0.12 & 0.18 & -0.35 & 0.10 \\
+voicingvoiced:vowelo & -0.34 & 0.16 & -0.54 & -0.14 \\
+voicingvoiceless:vowelo & 0.25 & 0.15 & 0.05 & 0.44 \\
+voicingvoiced:vowelu & -0.71 & 0.18 & -0.94 & -0.49 \\
+voicingvoiceless:vowelu & -0.58 & 0.16 & -0.78 & -0.38 \\
+
+\end{longtable}
+
+Negative log-odds indicate a proportion that is smaller than 50\%, while
+positive log-odds a proportion that is greater than 50\%. Generally, the
+expected log-odd predictions in Table~\ref{tbl-nas-prop-fixef} are
+negative, indicating an overall tendency for the nasalisation to take
+less than 50\% of the duration of the vowel. Moreover, the predictions
+are higher for voiceless NC sequences than for voiced NC sequences,
+indicating a greater proportion of nasalisation in the former. However
+there is vowel-specific variation, and there doesn't seem to be much of
+a difference in nasalisation proportion in /e/ and /u/.
+Figure~\ref{fig-nas-prop} shows the expected predictions with
+\texttt{conditional\_effects()}, which should make the interpretation of
+the predictions from Table~\ref{tbl-nas-prop-fixef} clearer.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\DIFaddbegin \DIFadd{\NormalTok{ce }\OtherTok{\textless{}{-}} }\DIFaddend \FunctionTok{conditional\_effects}\NormalTok{(nas\_prop\_bm, }\StringTok{"vowel:voicing"}\NormalTok{)}
+\DIFaddbegin \DIFadd{\NormalTok{p }\OtherTok{\textless{}{-}} \FunctionTok{plot}\NormalTok{(ce, }\AttributeTok{plot =} \ConstantTok{FALSE}\NormalTok{)[[}\DecValTok{1}\NormalTok{]]}
+\NormalTok{p }\SpecialCharTok{+}
+  \FunctionTok{labs}\NormalTok{(}
+    \AttributeTok{y =} \StringTok{"Proportion of nasality"}
+\NormalTok{  )}
+}\DIFaddend \end{Highlighting}
+\end{Shaded}
+
+\begin{figure}[H]
+
+\centering{
+
+\pandocbounded{\includegraphics[keepaspectratio]{manuscript_files/figure-pdf/fig-nas-prop-1.pdf}}
+
+}
+
+\caption{\label{fig-nas-prop}Expected nasalisation proportion by vowel
+and voicing, with 95\% CrIs.}
+
+\end{figure}%
+
+Now that we fitted the model we can use the posterior draws to answer
+the two research questions (repeated from above):
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+\tightlist
+\item
+  Is the nasalisation proportion, on average across vowels, greater in
+  voiceless NC sequences?
+\item
+  Is there individual speaker variation?
+\end{enumerate}
+
+To answer question 1, we can calculate the average difference in
+nasalisation proportion by first calculating the average nasalisation
+across all vowels for voiced and voiceless sequences (see
+Table~\ref{tbl-nas-draws} for the output of this step) and then take the
+difference of those, similarly to what we have done in the case study in
+Section~\ref{sec-case-1}.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# extract only coefficient variables starting with "b\_"}
+\NormalTok{nas\_prop\_bm\_draws }\OtherTok{\textless{}{-}} \FunctionTok{as\_draws\_df}\NormalTok{(nas\_prop\_bm, }\AttributeTok{variable =} \StringTok{"\^{}b\_"}\NormalTok{, }\AttributeTok{regex =} \ConstantTok{TRUE}\NormalTok{)}
+
+\NormalTok{nas\_prop\_bm\_draws\_long }\OtherTok{\textless{}{-}}\NormalTok{ nas\_prop\_bm\_draws }\SpecialCharTok{|\textgreater{}} 
+  \CommentTok{\# pivot vowel:c2 columns}
+  \FunctionTok{pivot\_longer}\NormalTok{(}\StringTok{\textasciigrave{}}\AttributeTok{b\_voicingvoiced:vowela}\StringTok{\textasciigrave{}}\SpecialCharTok{:}\StringTok{\textasciigrave{}}\AttributeTok{b\_voicingvoiceless:vowelu}\StringTok{\textasciigrave{}}\NormalTok{, }\AttributeTok{names\_to =} \StringTok{"coeff"}\NormalTok{) }\SpecialCharTok{|\textgreater{}}
+  \CommentTok{\# separate "coeff" labels into type ("b"), vowel and c2}
+  \FunctionTok{separate}\NormalTok{(coeff, }\AttributeTok{into =} \FunctionTok{c}\NormalTok{(}\StringTok{"type"}\NormalTok{, }\StringTok{"voicing"}\NormalTok{, }\StringTok{"vowel"}\NormalTok{))}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{longtable}[]{@{}rrrlllr@{}}
+
+\caption{\label{tbl-nas-draws}First ten rows of posterior draws from
+\texttt{nas\_prop\_bm} in long format.}
+
+\tabularnewline
+
+\toprule\noalign{}
+.chain & .iteration & .draw & type & voicing & vowel & value \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+1 & 1 & 1 & b & voicingvoiced & vowela & -0.4632870 \\
+1 & 1 & 1 & b & voicingvoiceless & vowela & -0.0943699 \\
+1 & 1 & 1 & b & voicingvoiced & vowele & -0.1546258 \\
+1 & 1 & 1 & b & voicingvoiceless & vowele & -0.2080810 \\
+1 & 1 & 1 & b & voicingvoiced & voweli & -0.4810383 \\
+1 & 1 & 1 & b & voicingvoiceless & voweli & -0.0529377 \\
+1 & 1 & 1 & b & voicingvoiced & vowelo & -0.3096219 \\
+1 & 1 & 1 & b & voicingvoiceless & vowelo & 0.3212456 \\
+1 & 1 & 1 & b & voicingvoiced & vowelu & -0.6198312 \\
+1 & 1 & 1 & b & voicingvoiceless & vowelu & -0.3680900 \\
+
+\end{longtable}
+
+Now let's calculate the mean nasalisation proportion within each draw by
+voicing, and plot the resulting posterior distributions. Note that, as
+discussed in Section~\ref{sec-case-1}, when working with log-odds it is
+important to first do all necessary calculations in log-odds (here
+calculate the mean log-odds across vowels) and \emph{then} transform the
+calculated estimands to proportions/probabilities. The output of the
+following code is \DIFdelbegin \DIFdel{show }\DIFdelend \DIFaddbegin \DIFadd{shown }\DIFaddend in Table~\ref{tbl-nas-long-voi} and the density
+plot of the calculated draws is in
+Figure~\ref{fig-nas-prop-bm-draws-long-voicing-plot}.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{nas\_prop\_bm\_draws\_long\_voicing }\OtherTok{\textless{}{-}}\NormalTok{ nas\_prop\_bm\_draws\_long }\SpecialCharTok{|\textgreater{}} 
+  \CommentTok{\# grouping by .draw and voicing ensures that averaging applies only within draw and voicing}
+  \FunctionTok{group\_by}\NormalTok{(.draw, voicing) }\SpecialCharTok{|\textgreater{}} 
+  \FunctionTok{summarise}\NormalTok{(}
+    \CommentTok{\# calculate the mean value within draw/voicing in log{-}odds}
+    \AttributeTok{value\_mean =} \FunctionTok{mean}\NormalTok{(value),}
+    \CommentTok{\# we can now transform log{-}odds to proportion with plogis()}
+    \AttributeTok{value\_mean\_prop =} \FunctionTok{plogis}\NormalTok{(value\_mean),}
+    \AttributeTok{.groups =} \StringTok{"drop"}
+\NormalTok{  )}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{longtable}[]{@{}rlrr@{}}
+
+\caption{\label{tbl-nas-long-voi}Mean nasalisation proportion by draw
+and voicing, averaged across vowels (first 10 rows).}
+
+\tabularnewline
+
+\toprule\noalign{}
+.draw & voicing & value\_mean & value\_mean\_prop \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+1 & voicingvoiced & -0.4056808 & 0.3999482 \\
+1 & voicingvoiceless & -0.0804466 & 0.4798992 \\
+2 & voicingvoiced & -0.3905744 & 0.4035790 \\
+2 & voicingvoiceless & -0.1227124 & 0.4693603 \\
+3 & voicingvoiced & -0.4436082 & 0.3908816 \\
+3 & voicingvoiceless & -0.1320190 & 0.4670431 \\
+4 & voicingvoiced & -0.4385607 & 0.3920840 \\
+4 & voicingvoiceless & -0.0981768 & 0.4754755 \\
+5 & voicingvoiced & -0.3827134 & 0.4054726 \\
+5 & voicingvoiceless & -0.2657250 & 0.4339569 \\
+
+\end{longtable}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{nas\_prop\_bm\_draws\_long\_voicing }\SpecialCharTok{|\textgreater{}} 
+  \DIFaddbegin \DIFadd{\FunctionTok{mutate}\NormalTok{(}
+    \AttributeTok{voicing =} \FunctionTok{str\_remove}\NormalTok{(voicing, }\StringTok{"voicing"}\NormalTok{)}
+\NormalTok{  ) }\SpecialCharTok{|\textgreater{}} 
+  }\DIFaddend \FunctionTok{ggplot}\NormalTok{(}\FunctionTok{aes}\NormalTok{(value\_mean\_prop, voicing)) }\SpecialCharTok{+}
+  \FunctionTok{stat\_halfeye}\NormalTok{(}\AttributeTok{.width =} \FunctionTok{c}\NormalTok{(}\FloatTok{0.6}\NormalTok{, }\FloatTok{0.8}\DIFdelbegin \DIFdel{\NormalTok{))}
+}\DIFdelend \DIFaddbegin \DIFadd{\NormalTok{)) }\SpecialCharTok{+}
+  \FunctionTok{labs}\NormalTok{(}
+    \AttributeTok{x =} \StringTok{"Nasalisation proportion"}
+\NormalTok{  )}
+}\DIFaddend \end{Highlighting}
+\end{Shaded}
+
+\begin{figure}[H]
+
+\centering{
+
+\pandocbounded{\includegraphics[keepaspectratio]{manuscript_files/figure-pdf/fig-nas-prop-bm-draws-long-voicing-plot-1.pdf}}
+
+}
+
+\caption{\label{fig-nas-prop-bm-draws-long-voicing-plot}Expected
+nasalisation proportion by voicing, averaged across vowels.}
+
+\end{figure}%
+
+The plot suggests an overall greater nasalisation proportion in
+voiceless NC sequences. Let's quantify how \DIFdelbegin \DIFdel{greater }\DIFdelend \DIFaddbegin \DIFadd{much greater it is, }\DIFaddend as we did
+in Section~\ref{sec-case-1}. We will use \DIFdelbegin \DIFdel{odd-ratios }\DIFdelend \DIFaddbegin \DIFadd{odds-ratios }\DIFaddend in this context as
+well, i.e.~we will convert log-odds to \DIFdelbegin \DIFdel{odd-ratios }\DIFdelend \DIFaddbegin \DIFadd{odds-ratios }\DIFaddend using the
+\texttt{exp()} (exponential) function (and as before we first calculate
+the difference and then exponentiate the resulting values, after which
+we can take summary measures, like means and quantile-based measures
+such as CrIs). Table~\ref{tbl-nas-prop-bm-diff-quant} show the 90, 80
+and 60\% CrIs of the difference ratio of nasalisation proportion in
+voiceless vs voiced NC sequences.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{nas\_prop\_bm\_diff }\OtherTok{\textless{}{-}}\NormalTok{ nas\_prop\_bm\_draws\_long\_voicing }\SpecialCharTok{|\textgreater{}} 
+  \CommentTok{\# pivot data to create one column per voicing with the mean drawn values,}
+  \CommentTok{\# with one draw per raw. we need to drop the value\_mean\_prop col}
+  \FunctionTok{select}\NormalTok{(}\SpecialCharTok{{-}}\NormalTok{value\_mean\_prop) }\SpecialCharTok{|\textgreater{}} 
+  \FunctionTok{pivot\_wider}\NormalTok{(}\AttributeTok{names\_from =}\NormalTok{ voicing, }\AttributeTok{values\_from =}\NormalTok{ value\_mean) }\SpecialCharTok{|\textgreater{}} 
+  \FunctionTok{mutate}\NormalTok{(}
+    \CommentTok{\# calculate the difference of voiceless and voiced in log{-}odds}
+    \AttributeTok{voicing\_diff =}\NormalTok{ voicingvoiceless }\SpecialCharTok{{-}}\NormalTok{ voicingvoiced,}
+    \CommentTok{\# now transform with exp() to get the ratio difference}
+    \AttributeTok{voicing\_diff\_ratio =} \FunctionTok{exp}\NormalTok{(voicing\_diff)}
+\NormalTok{  )}
+
+\NormalTok{nas\_prop\_bm\_diff\_quant }\OtherTok{\textless{}{-}}\NormalTok{ nas\_prop\_bm\_diff }\SpecialCharTok{|\textgreater{}} 
+  \FunctionTok{reframe}\NormalTok{(}
+    \CommentTok{\# 90\% CrI}
+    \AttributeTok{q90 =} \FunctionTok{quantile2}\NormalTok{(voicing\_diff\_ratio, }\AttributeTok{probs =} \FunctionTok{c}\NormalTok{(}\FloatTok{0.05}\NormalTok{, }\FloatTok{0.95}\NormalTok{)),}
+    \CommentTok{\# 80\% CrI}
+    \AttributeTok{q80 =} \FunctionTok{quantile2}\NormalTok{(voicing\_diff\_ratio, }\AttributeTok{probs =} \FunctionTok{c}\NormalTok{(}\FloatTok{0.1}\NormalTok{, }\FloatTok{0.9}\NormalTok{)),}
+    \CommentTok{\# 60\% CrI}
+    \AttributeTok{q60 =} \FunctionTok{quantile2}\NormalTok{(voicing\_diff\_ratio, }\AttributeTok{probs =} \FunctionTok{c}\NormalTok{(}\FloatTok{0.2}\NormalTok{, }\FloatTok{0.8}\NormalTok{)),}
+\NormalTok{  ) }\SpecialCharTok{|\textgreater{}} 
+  \FunctionTok{mutate}\NormalTok{(}\FunctionTok{across}\NormalTok{(}\FunctionTok{everything}\NormalTok{(), }\SpecialCharTok{\textasciitilde{}}\FunctionTok{round}\NormalTok{(.x, }\DecValTok{2}\NormalTok{)))}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{longtable}[]{@{}rrr@{}}
+
+\caption{\label{tbl-nas-prop-bm-diff-quant}Upper and lower limits of 90,
+80 and 60\% Credible Intervals of the difference ratio of nasalisation
+proportion in vowels followed by voiced vs voiceless consonants.}
+
+\tabularnewline
+
+\toprule\noalign{}
+q90 & q80 & q60 \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+1.23 & 1.27 & 1.33 \\
+1.69 & 1.63 & 1.56 \\
+
+\end{longtable}
+
+The CrIs of the ratio difference in nasalisation proportion in voiceless
+vs voiced NC sequences suggest an increase of nasalisation in the
+voiceless NC sequences, with a 90\% probability that the increase is
+between 23\% and 69\% of the proportion in voiced NC sequences.
+
+Moving onto question 2: is there individual speaker variation? While in
+the recent tradition of linguistic research, varying (aka random)
+effects are used to \emph{control} for differences across participants,
+it has been proposed to use the estimates of the varying coefficients to
+investigate individual differences \citep{tamminga2016}. We will use the
+\texttt{spread\_draws()} function from tidybayes \citep{kay2019} to
+extract the draws of the varying terms (in brms these are the
+coefficients that start with \texttt{r\_}). There is quite a few steps
+of processing to get from the raw draws to the estimand we need: while
+we have commented the following code, we encourage readers to test each
+line sequentially and inspect the intermediate output to fully
+understand the process. We assume that readers are familiar enough with
+models with varying terms (aka random effects, mixed-effects,
+hierarchical, multilevel, nested models). What readers should note is
+that to obtain the expected predictions of nasalisation proportion for
+each speaker, the constant terms and the varying terms should be added
+(since the varying terms indicate the deviation of each speaker from the
+overall estimate).
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{library}\NormalTok{(tidybayes)}
+
+\NormalTok{nas\_prop\_r }\OtherTok{\textless{}{-}}\NormalTok{ nas\_prop\_bm }\SpecialCharTok{|\textgreater{}} 
+  \CommentTok{\# extract draws from model, only \textasciigrave{}r\_speaker\textasciigrave{} varying terms}
+  \FunctionTok{spread\_draws}\NormalTok{(r\_speaker[speaker,voicingvowel]) }\SpecialCharTok{|\textgreater{}} 
+  \CommentTok{\# separate the column voicingvowel to two columns}
+  \FunctionTok{separate}\NormalTok{(voicingvowel, }\FunctionTok{c}\NormalTok{(}\StringTok{"voicing"}\NormalTok{, }\StringTok{"vowel"}\NormalTok{)) }\SpecialCharTok{|\textgreater{}} 
+  \CommentTok{\# join the draws with the \textasciigrave{}b\_\textasciigrave{} terms}
+  \FunctionTok{left\_join}\NormalTok{(}\AttributeTok{y =}\NormalTok{ nas\_prop\_bm\_draws\_long) }\SpecialCharTok{|\textgreater{}} 
+  \CommentTok{\# get the expected log{-}odd value of each speaker, in each draw}
+  \CommentTok{\# this is the sum of the \textasciigrave{}value\textasciigrave{} from the b\_ terms and the value from the}
+  \CommentTok{\# r\_speaker term.}
+  \FunctionTok{mutate}\NormalTok{(}\AttributeTok{r\_speaker\_value =}\NormalTok{ value }\SpecialCharTok{+}\NormalTok{ r\_speaker) }\SpecialCharTok{|\textgreater{}} 
+  \CommentTok{\# group the data for summarise}
+  \FunctionTok{group\_by}\NormalTok{(.draw, speaker, voicing) }\SpecialCharTok{|\textgreater{}} 
+  \CommentTok{\# get mean expected log{-}odds by draw, speaker and voicing (averaging across vowel)}
+  \FunctionTok{summarise}\NormalTok{(}\AttributeTok{r\_speaker\_value\_mean =} \FunctionTok{mean}\NormalTok{(r\_speaker\_value)) }\SpecialCharTok{|\textgreater{}} 
+  \CommentTok{\# make the data wider: two columns, one for voiced and one for voiceless}
+  \FunctionTok{pivot\_wider}\NormalTok{(}\AttributeTok{names\_from =}\NormalTok{ voicing, }\AttributeTok{values\_from =}\NormalTok{ r\_speaker\_value\_mean) }\SpecialCharTok{|\textgreater{}} 
+  \CommentTok{\# finally, calculate the difference in expected log{-}odds of voiceless and voiced}
+  \FunctionTok{mutate}\NormalTok{(}\AttributeTok{voicing\_diff =}\NormalTok{ voicingvoiceless }\SpecialCharTok{{-}}\NormalTok{ voicingvoiced)}
+\end{Highlighting}
+\end{Shaded}
+
+Figure~\ref{fig-nas-prop-r} plots the posterior distributions of the
+expected log-odd difference of coarticulatory nasalisation in voiceless
+vs voiced NC sequences (\emph{x}-axis), for each speaker in the data
+(\emph{y}-axis), as predicted by the model. The red solid vertical line
+indicates the constant (overall) expected log-odd difference based on
+the (constant) \texttt{b\_} terms. The black dashed vertical line marks
+log-difference 0 (i.e., no difference in proportion of nasalisation
+between voiceless and voiced NC).
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{nas\_prop\_r }\SpecialCharTok{|\textgreater{}} 
+  \FunctionTok{ggplot}\NormalTok{(}\FunctionTok{aes}\NormalTok{(voicing\_diff, }\FunctionTok{reorder}\NormalTok{(speaker, voicing\_diff))) }\SpecialCharTok{+}
+  \FunctionTok{stat\_halfeye}\NormalTok{() }\SpecialCharTok{+}
+  \FunctionTok{geom\_vline}\NormalTok{(}\AttributeTok{xintercept =} \FunctionTok{mean}\NormalTok{(nas\_prop\_bm\_diff}\SpecialCharTok{$}\NormalTok{voicing\_diff), }\AttributeTok{colour =} \StringTok{"red"}\NormalTok{) }\SpecialCharTok{+}
+  \FunctionTok{geom\_vline}\NormalTok{(}\AttributeTok{xintercept =} \DecValTok{0}\NormalTok{, }\AttributeTok{linetype =} \StringTok{"dashed"}\NormalTok{) }\SpecialCharTok{+}
+  \FunctionTok{lims}\NormalTok{(}\AttributeTok{x =} \FunctionTok{c}\NormalTok{(}\SpecialCharTok{{-}}\DecValTok{1}\NormalTok{, }\FloatTok{1.5}\DIFdelbegin \DIFdel{\NormalTok{))}
+}\DIFdelend \DIFaddbegin \DIFadd{\NormalTok{)) }\SpecialCharTok{+}
+  \FunctionTok{labs}\NormalTok{(}
+    \AttributeTok{x =} \StringTok{"Log{-}odds difference between voiceless vs voiced NC sequences"}\NormalTok{,}
+    \AttributeTok{y =} \StringTok{"Speaker"}
+\NormalTok{  )}
+}\DIFaddend \end{Highlighting}
+\end{Shaded}
+
+\begin{figure}[H]
+
+\centering{
+
+\pandocbounded{\includegraphics[keepaspectratio]{manuscript_files/figure-pdf/fig-nas-prop-r-1.pdf}}
+
+}
+
+\caption{\label{fig-nas-prop-r}Expected log-odd difference of
+coarticulatory nasalisation in voiceless vs voiced NC sequences for each
+speaker.}
+
+\end{figure}%
+
+There is a lot of uncertainty within and between speakers: while the
+distributions of most speakers are located in the positive range, some
+expected distributions (see last 5 speakers at the bottom of figure) do
+substantially span both negative and positive values. In other words,
+while most speakers are more likely to have a larger nasalisation
+proportion in voiceless NC sequences, a few might in fact have the
+opposite pattern. Even among those speakers that do have a more robust
+positive difference, there is a lot of uncertainty as to the magnitude
+of the difference.
+
+\section{Conclusion}\label{conclusion}
+
+In this tutorial we have presented two case studies where the outcome
+variable is a beta variable, i.e.~a numeric continuous variable bounded
+between 0 and 1. We have shown how to fit Bayesian beta regressions to
+coarticulatory progressive voicing in voiceless stops in Italian in
+Section~\ref{sec-case-1} and coarticulatory regressive nasalisation in
+vowels in German in Section~\ref{sec-case-2}. While this tutorial alone
+will not be sufficient to be able to independently run full Bayesian
+analyses, it will serve as a first introduction for readers to jump
+start their learning.
+
+
+\DIFdelbegin %DIFDELCMD < \bibliography{linguistics.bib,statistics.bib}
+%DIFDELCMD < %%%
+\DIFdelend \DIFaddbegin \bibliography{references.bib}
+\DIFaddend 
+
+
+
+\end{document}
