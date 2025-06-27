@@ -376,10 +376,8 @@ bounded between 0 and 1}\DIFaddend : for example, proportion of voicing during
 closure \citep{davidson2016}, vocal folds contact quotient
 \citep{herbst2017}, gesture amplitude \citep{carignan2021}, nasalance
 \citep{carignan2021}\DIFdelbegin \DIFdel{. Moreover, virtually any measure can be MIN-MAX normalised, a procedure which
-transforms values so that they are in the range 0--1.
-}\DIFdelend \DIFaddbegin \DIFadd{, and data from slider answers where participants
-can indicate responses of qualities from 0 to 100.
-}\DIFaddend 
+transforms values so that they are in the range 0--1}\DIFdelend \DIFaddbegin \DIFadd{, and data from slider answers where participants
+can indicate responses for qualities}\DIFaddend .
 
 Regression models (and extensions like generalised additive models) have
 become a \emph{de facto} standard for the statistical analysis of a
@@ -450,7 +448,7 @@ compendium with data and code can be found at
 \section{The beta distribution}\label{sec-beta}
 
 The beta distribution is often considered as \emph{the} distribution for
-the modelling of unit interval data\DIFaddbegin \DIFadd{, i.e.~data that is in the interval
+the modelling of unit interval data\DIFaddbegin \DIFadd{, i.e.~data that are in the interval
 }{[}\DIFadd{0, 1}{]} \DIFaddend \citep{ferrari_beta_2004, cribari-neto_beta_2010}. It has
 been extensively studied theoretically
 \citep{krysicki_new_1999, gupta_handbook_2014, espinheira_beta_2008} and
@@ -546,42 +544,43 @@ default priors provided by brms }\DIFaddend is, for the \DIFdelbegin \DIFdel{tim
 (and initial analyses), an acceptable practice}\DIFaddend . For practical guidance
 on prior specification \DIFdelbegin \DIFdel{, see
 }%DIFDELCMD < \url{https://github.com/stan-dev/stan/wiki/Prior-Choice-Recommendations}%%%
-\DIFdel{.}\DIFdelend \DIFaddbegin \DIFadd{and prior predictive checks, see
+\DIFdelend \DIFaddbegin \DIFadd{and prior predictive checks, see
 \mbox{%DIFAUXCMD
 \citet{bockting2024}}\hskip0pt%DIFAUXCMD
 , \mbox{%DIFAUXCMD
-\citet{mikkola2024} }\hskip0pt%DIFAUXCMD
-and the Wiki page
-https://github.com/stan-dev/stan/wiki/Prior-Choice, and
+\citet{mikkola2024}}\hskip0pt%DIFAUXCMD
+,
 \mbox{%DIFAUXCMD
+\citet{standevelopmentteam2025} }\hskip0pt%DIFAUXCMD
+and \mbox{%DIFAUXCMD
 \citet[p.~82-84]{mcelreath2020}}\hskip0pt%DIFAUXCMD
-.
-}\DIFaddend 
+}\DIFaddend .
 
 The output of Bayesian regression models is (posterior) probability
 distributions for the model parameters, through which researchers can
 quantify (un)certainty. \DIFaddbegin \DIFadd{When obtaining the summary of the posterior
 probability distributions, the mean and standard deviation of the
 posterior distribution, together with }\DIFaddend Bayesian Credible Intervals \DIFdelbegin \DIFdel{(}\DIFdelend \DIFaddbegin \DIFadd{are
-given for each parameter. The mean and standard deviation are
-appropriate since, due to the central limit theorem, the draws from the
-MCMC chains for each parameter usually follow a symmetric distribution
-(note that the nature of the posterior distribution of the parameters is
-not related to the nature of the distribution family chosen for the
-outcome, so while the outcome is modelled with a beta distribution, the
-posteriors of the parameters follow a symmetric distribution due to the
-central limit theorem). Bayesian Credible Intervals (}\DIFaddend CrIs) can be
-calculated from the posterior distributions at several probability
-levels (e.g.~95, 90, 80, 60\%) for a more complete view on estimated
-parameters. Bayesian CrIs indicate that, at a certain probability level,
-the parameter's estimate lies within that interval: so, for example, a
-90\% CrI {[}A, B{]} indicates that there is a 90\% probability that the
-estimate is between A and B. Different probability levels correspond to
-different levels of confidence: the higher the probability the higher
-the confidence (always conditional on data and model). Readers
-interested in a full and accessible exposition of Bayesian statistics
-are referred to \citet{mcelreath2019}. Shorter introductions can be
-found in \citet{etz2018}, \citet{vasishth2018} and
+given for each parameter. The mean and standard deviation are commonly
+used metrics, given that posteriors tend to be approximately Gaussian.
+An alternative are the median and the median absolute deviation, which
+can be obtained by setting }\texttt{\DIFadd{robust\ =\ TRUE}} \DIFadd{in
+}\texttt{\DIFadd{summary()}} \DIFadd{(note that the nature of the posterior distribution
+of the parameters is not related to the nature of the distribution
+family chosen for the outcome, so while the outcome is modelled with a
+beta distribution, the posteriors of the parameters follow a symmetric
+distribution due to the central limit theorem). Bayesian Credible
+Intervals (}\DIFaddend CrIs) can be calculated from the posterior distributions at
+several probability levels (e.g.~95, 90, 80, 60\%) for a more complete
+view on estimated parameters. Bayesian CrIs indicate that, at a certain
+probability level, the parameter's estimate lies within that interval:
+so, for example, a 90\% CrI {[}A, B{]} indicates that there is a 90\%
+probability that the estimate is between A and B. Different probability
+levels correspond to different levels of confidence: the higher the
+probability the higher the confidence (always conditional on data and
+model). Readers interested in a full and accessible exposition of
+Bayesian statistics are referred to \citet{mcelreath2019}. Shorter
+introductions can be found in \citet{etz2018}, \citet{vasishth2018} and
 \citet{nalborczyk2019}.
 
 \DIFaddbegin \DIFadd{Beta regression models return coefficient estimates in log-odds,
@@ -759,17 +758,15 @@ in R, this corresponds to suppressing the model's intercept with the
 \texttt{0\ +} syntax\DIFdelbegin \DIFdel{; using indexing instead of contrasts makes it easier to specify priors and
 uncertainty
 is distributed equally }\DIFdelend \DIFaddbegin \DIFadd{. One benefit of using indexing is that uncertainty
-is equally distributed }\DIFaddend across all levels of categorical predictors\DIFdelbegin \DIFdel{. For pedagogical simplicity,
-the model will use the
-default
+is equally distributed }\DIFaddend across all levels of categorical predictors\DIFdelbegin \DIFdel{. For pedagogical simplicity, the model will use the default
 priors as }\DIFdelend \DIFaddbegin \DIFadd{,
 since priors apply on the mean of each level, rather than on the
-difference of subsequent levels from the reference level (the latter
+difference of subsequent levels from the reference level. The latter
 scenario, which applies in traditional contrasts, including treatment
 and sum, makes estimates of the last level in the predictor more
 uncertain than the estimates of the other levels, given that the
 uncertainty of the intercept is added to the uncertainty of the
-difference). As }\DIFaddend explained in Section~\ref{sec-bayes}\DIFdelbegin \DIFdel{.
+difference. As }\DIFaddend explained in Section~\ref{sec-bayes}\DIFdelbegin \DIFdel{.
 }\DIFdelend \DIFaddbegin \DIFadd{, using the default
 priors calculated by brms is an acceptable method in the absence of very
 specific quantitative expectation, given that the default priors are
@@ -885,10 +882,10 @@ approach of coding these variables the model summary and the output of
 \texttt{fixef()} reports the \emph{predictions} in log-odds for each
 combination of vowel and C2, rather than differences between levels. The
 \DIFaddbegin \DIFadd{posteriors of the coefficients for vowel and C2 are the estimated
-\(\mu\)s of the beta distribution (since the beta distribution is
-parametrised with \(\mu\) and \(\phi\); we will not discuss \(\phi\),
+\(\mu\)s of the beta distribution, since the beta distribution is
+parametrised with \(\mu\) and \(\phi\). We will not discuss \(\phi\),
 although the estimate of this parameter can be found in the summary of
-the model, under ``Further Distributional Parameters'').The }\DIFaddend CrIs of the
+the model, under ``Further Distributional Parameters''.The }\DIFaddend CrIs of the
 vowel/C2 coefficients span all negative log-odds values: these
 correspond to proportions that are lower than 0.5 (which is 0 in
 log-odds). This matches the general trends in the raw data, which we
@@ -1307,13 +1304,14 @@ Optionally, you can set the confidence level with the
 comparison for each variable: here we set \texttt{"pairwise"} to
 calculate pairwise comparisons of each level of \texttt{c2}. The output
 of the two functions is shown in Table~\ref{tbl-marginal-1} and
-Table~\ref{tbl-marginal-2}. \DIFaddbegin \DIFadd{Note that even when multiple comparisons are
-made, there is no need to apply any correction as it is commonly done
-with }\emph{\DIFadd{p}}\DIFadd{-values in frequentist statistics
-\mbox{%DIFAUXCMD
-\citep[see][]{gelman2012}}\hskip0pt%DIFAUXCMD
-.
-}\DIFaddend 
+Table~\ref{tbl-marginal-2}.\DIFaddbegin \footnote{\DIFadd{For a discussion on multiple
+  comparisons in Bayesian statistics, see \mbox{%DIFAUXCMD
+\citet{gelman2012}}\hskip0pt%DIFAUXCMD
+. If
+  multiple comparisons fixed effects is performed and one worries about
+  their joint frequentist error rates, one could, for example, increase
+  the width of the credible intervals for more conservative inference.}}
+\DIFaddend 
 
 \begin{Shaded}
 \begin{Highlighting}[]
