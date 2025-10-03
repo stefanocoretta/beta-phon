@@ -13,7 +13,7 @@ author:
           postal-code: EH8 9AD
     attributes:
         corresponding: true
-    note: This is the first author footnote.
+    # note: This is the first author footnote.
   - name: Paul Bürkner
     email: paul.buerkner@gmail.com
     affiliations:
