@@ -44,6 +44,8 @@ format:
   elsevier-html: default
 execute:
   cache: true
+filters: 
+  - "red-text.lua"
 ---
 
 ```{r}
@@ -221,7 +223,23 @@ ita_egg |>
   theme(legend.position = "none")
 ```
 
-We will use brms to fit a Bayesian beta regression [@burkner2017]. The model has voicing proportion as the outcome variable and the following terms: an interaction between vowel (/i, e, a, o, u/) and second consonant C2 (/k, t, p/), centred speech rate (number of syllables per second); as varying (aka random) terms, we included by-speaker varying coefficients for the vowel/consonant interaction and for centred speech rate.[^2] The categorical predictors vowel and C2 are coded using indexing rather than the traditional R contrasts (such as treatment or sum), as advocated in @mcelreath2019 [p 155, Ch 8]: in R, this corresponds to suppressing the model's intercept with the `0 +` syntax. One benefit of using indexing is that uncertainty is equally distributed across all levels of categorical predictors, since priors apply on the mean of each level, rather than on the difference of subsequent levels from the reference level. The latter scenario, which applies in traditional contrasts, including treatment and sum, makes estimates of the last level in the predictor more uncertain than the estimates of the other levels, given that the uncertainty of the intercept is added to the uncertainty of the difference. As explained in @sec-bayes, using the default priors calculated by brms is an acceptable method in the absence of very specific quantitative expectation, given that the default priors are weak enough to bear little effect on posteriors. Researchers should use their own judgement and expertise in a case by case fashion.
+We will use brms to fit a Bayesian beta regression [@burkner2017]. The model has voicing proportion as the outcome variable and the following terms: an interaction between vowel (/i, e, a, o, u/) and second consonant C2 (/k, t, p/), centred speech rate (number of syllables per second); as varying (aka random) terms, we included by-speaker varying coefficients for the vowel/consonant interaction and for centred speech rate.[^2] The categorical predictors vowel and C2 are coded using indexing rather than the traditional R contrasts (such as treatment or sum), as advocated in @mcelreath2019 [p 155, Ch 8]: in R, this corresponds to suppressing the model's intercept with the `0 +` syntax. [With this approach, the model's coefficients do not represent differences from a reference level (normally the intercept), rather they represent the predicted mean for all combinations of each categorical predictor's levels (no contrasts are applied). The following code shows the coding matrix for a hypothetical predictors with three levels, coded using treatment contrasts and indexing.]{.red}
+
+```{r}
+#| label: indexing
+
+fac <- factor(c("a", "b", "c"))
+
+# Treatment contrasts
+contrasts(fac)
+
+# Indexing
+diag(nlevels(fac))
+```
+
+[With indexing, a model would have one coefficient for the mean of "a", one for the mean of "b", and one for the mean of "c". No comparisons between levels are present in the matrix, but these can be obtained from the model post-hoc (as we do below).]{.red}
+
+One benefit of using indexing is that uncertainty is equally distributed across all levels of categorical predictors, since priors apply on the mean of each level, rather than on the difference of subsequent levels from the reference level. The latter scenario, which applies in traditional contrasts, including treatment and sum, makes estimates of the last level in the predictor more uncertain than the estimates of the other levels, given that the uncertainty of the intercept is added to the uncertainty of the difference. As explained in @sec-bayes, using the default priors calculated by brms is an acceptable method in the absence of very specific quantitative expectation, given that the default priors are weak enough to bear little effect on posteriors. Researchers should use their own judgement and expertise in a case by case fashion.
 
 [^2]: While the terms "random effects, intercept and slopes" are commonly employed in applied statistical work in linguistics and phonetics, we opt to use the conceptually more appropriate terminology proposed by @gelman2005: varying terms, intercepts, slopes, coefficients. Other common terms are multilevel and hierarchical terms. Note that with "varying terms" we refer specifically to model terms with partial pooling in opposition to "constant terms" estimated with no pooling [@mcelreath2020, p. 408]. See @nalborczyk2019 for a detailed overview.
 

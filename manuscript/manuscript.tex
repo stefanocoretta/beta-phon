@@ -214,7 +214,7 @@ regressions, beta distribution},
 phoneticians}
 \author[1]{Stefano Coretta%
 \corref{cor1}%
-\fnref{fn1}}
+}
  \ead{s.coretta@ed.ac.uk} 
 \author[2]{Paul Bürkner%
 %
@@ -228,7 +228,7 @@ Kingdom},postcode={EH8 9AD},postcodesep={}}
 Statistics},city={Dortmund, Germany},postcode={44221},postcodesep={}}
 
 \cortext[cor1]{Corresponding author}
-\fntext[fn1]{This is the first author footnote.}
+
 
         
 \begin{abstract}
@@ -326,9 +326,9 @@ variables bounded between 0 and 1. Thus, regression models with
 proportions as outcome variable should be fitted using a likelihood
 family that assumes such unit interval data. A common and flexible
 distribution for this purpose is the beta distribution. Note that the
-beta distribution supports variables in the interval {[}0, 1{]},
-i.e.~excluding 0 and 1; variables in the interval (0, 1), including 0
-and 1, can be modelled with zero and zero/one inflated beta
+beta distribution supports variables in the interval (0, 1),
+i.e.~excluding 0 and 1; variables in the interval {[}0, 1{]}, including
+0 and 1, can be modelled with zero and zero/one inflated beta
 distributions (see Section~\ref{sec-beta}). This tutorial introduces
 researchers to beta regression models in R using the package brms.
 Familiarity with regression modelling in R with a package like lme4 is
@@ -393,7 +393,7 @@ distributions based on various \(\mu\) and \(\phi\) values.
 \end{figure}%
 
 As mentioned earlier, the beta distribution handles data in the interval
-{[}0, 1{]}, thus excluding 0 and 1. To model (0, 1) data (including 0
+(0, 1), thus excluding 0 and 1. To model {[}0, 1{]} data (including 0
 and 1), the zero and zero/one inflated extensions of the beta
 distribution can be used. Both of these are supported in the software
 used in this tutorial, but will not be treated here. We refer readers to
@@ -465,28 +465,28 @@ Bayesian statistics are referred to \citet{mcelreath2019}. Shorter
 introductions can be found in \citet{etz2018}, \citet{vasishth2018} and
 \citet{nalborczyk2019}.
 
-Beta regression models return coefficient estimates in log-odds,
-similarly to Bernoulli/binomial (aka logistic) regression models.
-Log-odds correspond to the logarithm of the odds
-\(\log\left(\frac{p}{1 - p}\right)\). To convert log-odds into
+Beta regression models return coefficient estimates in log odds,
+similarly to Bernoulli/binomial (aka logistic) regression models. Log
+odds correspond to the logarithm of the odds
+\(\log\left(\frac{p}{1 - p}\right)\). To convert log odds into
 probabilities (or into a variable in the {[}0, 1{]} interval), the
 inverse logit function is used \(\frac{1}{1 + e^{-x}}\), where \(x\) is
 the log-odds value. Figure~\ref{fig-p-log-odds} illustrates the
-correspondence between log-odds and the {[}0, 1{]} values. In R, the
+correspondence between log odds and the {[}0, 1{]} values. In R, the
 inverse logit can be obtained with the base R function
 \texttt{plogis()}, while the logit can be obtained with the base R
-function \texttt{qlogis()}. Another relevant transformation of log-odds
+function \texttt{qlogis()}. Another relevant transformation of log odds
 is exponentiation (with base R \texttt{exp()}) which returns the
-corresponding odds-ratio: odds-ratios indicate the rate of change in the
-values of the outcome variable relative to a baseline. An odds-ratio of
-1 indicates no change, positive odds-ratios indicate an increase, while
-negative odds-ratios correspond to a decrease. For example, if the
-odds-ratio of the duration of /a/ vs the duration of /i/ is 1.2, this
-means that the duration of /a/ is grater than that of /i/. Moreover,
-odds-ratios can be interpreted as percentage change: an odds-ratio of
-1.2 corresponds to a 20\% \emph{increase} relative to the baseline, an
-odds-ratio of 0.8 corresponds to a 20\% \emph{decrease} relative to the
-baseline, while an odds-ratio of 1 means a 0\% change (i.e.~no change).
+corresponding odds ratio: odds ratios indicate the rate of change in the
+values of the outcome variable relative to a baseline. An odds ratio of
+1 indicates no change, positive odds ratios indicate an increase, while
+negative odds ratios correspond to a decrease. For example, if the odds
+ratio of the duration of /a/ vs the duration of /i/ is 1.2, this means
+that the duration of /a/ is grater than that of /i/. Moreover, odds
+ratios can be interpreted as percentage change: an odds ratio of 1.2
+corresponds to a 20\% \emph{increase} relative to the baseline, an odds
+ratio of 0.8 corresponds to a 20\% \emph{decrease} relative to the
+baseline, while an odds ratio of 1 means a 0\% change (i.e.~no change).
 
 \begin{figure}
 
@@ -496,7 +496,7 @@ baseline, while an odds-ratio of 1 means a 0\% change (i.e.~no change).
 
 }
 
-\caption{\label{fig-p-log-odds}Correspondence between log-odds and
+\caption{\label{fig-p-log-odds}Correspondence between log odds and
 probabilities.}
 
 \end{figure}%
@@ -628,19 +628,54 @@ for centred speech rate.\footnote{While the terms ``random effects,
 using indexing rather than the traditional R contrasts (such as
 treatment or sum), as advocated in \citet[p 155, Ch 8]{mcelreath2019}:
 in R, this corresponds to suppressing the model's intercept with the
-\texttt{0\ +} syntax. One benefit of using indexing is that uncertainty
-is equally distributed across all levels of categorical predictors,
-since priors apply on the mean of each level, rather than on the
-difference of subsequent levels from the reference level. The latter
-scenario, which applies in traditional contrasts, including treatment
-and sum, makes estimates of the last level in the predictor more
-uncertain than the estimates of the other levels, given that the
-uncertainty of the intercept is added to the uncertainty of the
-difference. As explained in Section~\ref{sec-bayes}, using the default
-priors calculated by brms is an acceptable method in the absence of very
-specific quantitative expectation, given that the default priors are
-weak enough to bear little effect on posteriors. Researchers should use
-their own judgement and expertise in a case by case fashion.
+\texttt{0\ +} syntax.
+\textcolor{red}{With this approach, the model’s coefficients do not represent differences from a reference level (normally the intercept), rather they represent the predicted mean for all combinations of each categorical predictor’s levels (no contrasts are applied). The following code shows the coding matrix for a hypothetical predictors with three levels, coded using treatment contrasts and indexing.}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{fac }\OtherTok{\textless{}{-}} \FunctionTok{factor}\NormalTok{(}\FunctionTok{c}\NormalTok{(}\StringTok{"a"}\NormalTok{, }\StringTok{"b"}\NormalTok{, }\StringTok{"c"}\NormalTok{))}
+
+\CommentTok{\# Treatment contrasts}
+\FunctionTok{contrasts}\NormalTok{(fac)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+  b c
+a 0 0
+b 1 0
+c 0 1
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# Indexing}
+\FunctionTok{diag}\NormalTok{(}\FunctionTok{nlevels}\NormalTok{(fac))}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+     [,1] [,2] [,3]
+[1,]    1    0    0
+[2,]    0    1    0
+[3,]    0    0    1
+\end{verbatim}
+
+\textcolor{red}{With indexing, a model would have one coefficient for the mean of “a”, one for the mean of “b”, and one for the mean of “c”. No comparisons between levels are present in the matrix, but these can be obtained from the model post-hoc (as we do below).}
+
+One benefit of using indexing is that uncertainty is equally distributed
+across all levels of categorical predictors, since priors apply on the
+mean of each level, rather than on the difference of subsequent levels
+from the reference level. The latter scenario, which applies in
+traditional contrasts, including treatment and sum, makes estimates of
+the last level in the predictor more uncertain than the estimates of the
+other levels, given that the uncertainty of the intercept is added to
+the uncertainty of the difference. As explained in
+Section~\ref{sec-bayes}, using the default priors calculated by brms is
+an acceptable method in the absence of very specific quantitative
+expectation, given that the default priors are weak enough to bear
+little effect on posteriors. Researchers should use their own judgement
+and expertise in a case by case fashion.
 
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -676,7 +711,7 @@ nearest 2 digits for clarity.). For each coefficient in the model,
 draws), the estimate error (i.e.~the standard deviation of the posterior
 distribution) and the lower and upper limits of a Bayesian Credible
 interval (CrI) of the posterior distribution. Note that all values are
-in log-odds, since the link function in beta regressions is the logistic
+in log odds, since the link function in beta regressions is the logistic
 function, like in binomial/Bernoulli regressions. Here, we print an 80\%
 CrI. There is nothing special about 95\% CrI within Bayesian inference
 and instead experts recommend to check and report a variety of CrIs.
@@ -729,9 +764,9 @@ vowelu:c2p & -0.44 & 0.12 & -0.59 & -0.28 \\
 
 From the summary, we see that speech rate (number of syllables per
 second) has a positive effect on voicing proportion: the 80\% CrI is
-between 0.01 and 0.15 log-odds {[}\(\beta\) = 0.08, SD = 0.06{]}.
-Log-odds can be converted to odds-ratios by exponentiating the value:
-0.01-0.15 log odds correspond to an odds-ratio of 1.01 to 1.16, or as
+between 0.01 and 0.15 log odds {[}\(\beta\) = 0.08, SD = 0.06{]}. Log
+odds can be converted to odds ratios by exponentiating the value:
+0.01-0.15 log odds correspond to an odds ratio of 1.01 to 1.16, or as
 percentages, to an increase of voicing of 1 to 16\% for every increase
 of one syllable per second. Since this is an 80\% CrI, we can be 80\%
 confident that the true effect of speech rate is between 1-16\% increase
@@ -747,7 +782,7 @@ summary measures.
 
 Turning now to the coefficients for vowel and C2, given the indexing
 approach of coding these variables the model summary and the output of
-\texttt{fixef()} reports the \emph{predictions} in log-odds for each
+\texttt{fixef()} reports the \emph{predictions} in log odds for each
 combination of vowel and C2, rather than differences between levels. The
 posteriors of the coefficients for vowel and C2 are the estimated
 \(\mu\)s of the beta distribution, since the beta distribution is
@@ -755,9 +790,9 @@ parametrised with \(\mu\) and \(\phi\). We will not discuss \(\phi\),
 although the estimate of this parameter can be found in the summary of
 the model, under ``Further Distributional Parameters''.The CrIs of the
 vowel/C2 coefficients span all negative log-odds values: these
-correspond to proportions that are lower than 0.5 (which is 0 in
-log-odds). This matches the general trends in the raw data, which we
-plotted in Figure~\ref{fig-ita-egg}. Next, we will plot the predicted
+correspond to proportions that are lower than 0.5 (which is 0 in log
+odds). This matches the general trends in the raw data, which we plotted
+in Figure~\ref{fig-ita-egg}. Next, we will plot the predicted
 proportions of each vowel/C2 combination at mean speech rate
 (i.e.~centred speech rate = 0) and then calculate the average pair-wise
 difference in voicing proportion between /k, t, p/.
@@ -793,7 +828,7 @@ indexing coding of vowel and C2, all coefficient except
 \texttt{b\_speech\_rate\_c} are drawn \emph{log-odds values} for each
 vowel/C2 combination (the drawn values for \texttt{b\_speech\_rate\_c}
 are drawn \emph{differences} in log-odds values for each unit increase
-of speech rate). The drawn values are in log-odds, but we can convert
+of speech rate). The drawn values are in log odds, but we can convert
 them to proportions with \texttt{plogis()} (we will do this when
 plotting below).
 
@@ -1061,24 +1096,24 @@ across vowels.}
 
 Once we have the posterior difference, we can obtain CrIs of the
 difference using \texttt{quantile2()} from the posterior package
-\citep{burkner2024}. Beware that the values of the difference are in
-log-odds! We can convert these into odds-ratios with \texttt{exp()}. The
-output of the code below is shown in Table~\ref{tbl-voi-bm-quant}.
-Odds-ratios indicate the ratio of the difference between A and B, so
-that 1 means no difference, values greater than 1 indicate an increase
-in A relative to B and values lower than 1 indicate a decrease in A
-relative to B. Odds-ratios are useful when looking at differences that
-are in log-odds because while the relative magnitude of the difference
-in proportion between two groups is the same independent of the baseline
+\citep{burkner2024}. Beware that the values of the difference are in log
+odds! We can convert these into odds ratios with \texttt{exp()}. The
+output of the code below is shown in Table~\ref{tbl-voi-bm-quant}. Odds
+ratios indicate the ratio of the difference between A and B, so that 1
+means no difference, values greater than 1 indicate an increase in A
+relative to B and values lower than 1 indicate a decrease in A relative
+to B. Odds ratios are useful when looking at differences that are in log
+odds because while the relative magnitude of the difference in
+proportion between two groups is the same independent of the baseline
 proportion, the \emph{absolute} magnitude of the difference depends on
-the baseline value. For example, an odds-ratio difference of 1.25 would
+the baseline value. For example, an odds ratio difference of 1.25 would
 correspond to a proportion increase of about 3 percentage points if the
 baseline proportion is 0.62 but it would correspond to a proportion
 increase of 5 percentage points if the baseline proportion is 0.73 and 1
 percentage point if the baseline is 0.99. Of course, in real research
 contexts it is still useful to think about absolute magnitudes and their
 relevance from a conceptual and methodological perspective. In this
-tutorial we just focus on odds-ratios for simplicity.
+tutorial we just focus on odds ratios for simplicity.
 
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -1384,8 +1419,8 @@ voicingvoiceless:vowelu & -0.58 & 0.16 & -0.78 & -0.38 \\
 
 \end{longtable}
 
-Negative log-odds indicate a proportion that is smaller than 50\%, while
-positive log-odds a proportion that is greater than 50\%. Generally, the
+Negative log odds indicate a proportion that is smaller than 50\%, while
+positive log odds a proportion that is greater than 50\%. Generally, the
 expected log-odd predictions in Table~\ref{tbl-nas-prop-fixef} are
 negative, indicating an overall tendency for the nasalisation to take
 less than 50\% of the duration of the vowel. Moreover, the predictions
@@ -1482,9 +1517,9 @@ Section~\ref{sec-case-1}.
 
 Now let's calculate the mean nasalisation proportion within each draw by
 voicing, and plot the resulting posterior distributions. Note that, as
-discussed in Section~\ref{sec-case-1}, when working with log-odds it is
+discussed in Section~\ref{sec-case-1}, when working with log odds it is
 important to first do all necessary calculations in log-odds (here
-calculate the mean log-odds across vowels) and \emph{then} transform the
+calculate the mean log odds across vowels) and \emph{then} transform the
 calculated estimands to proportions/probabilities. The output of the
 following code is shown in Table~\ref{tbl-nas-long-voi} and the density
 plot of the calculated draws is in
@@ -1496,9 +1531,9 @@ Figure~\ref{fig-nas-prop-bm-draws-long-voicing-plot}.
   \CommentTok{\# grouping by .draw and voicing ensures that averaging applies only within draw and voicing}
   \FunctionTok{group\_by}\NormalTok{(.draw, voicing) }\SpecialCharTok{|\textgreater{}} 
   \FunctionTok{summarise}\NormalTok{(}
-    \CommentTok{\# calculate the mean value within draw/voicing in log{-}odds}
+    \CommentTok{\# calculate the mean value within draw/voicing in log odds}
     \AttributeTok{value\_mean =} \FunctionTok{mean}\NormalTok{(value),}
-    \CommentTok{\# we can now transform log{-}odds to proportion with plogis()}
+    \CommentTok{\# we can now transform log odds to proportion with plogis()}
     \AttributeTok{value\_mean\_prop =} \FunctionTok{plogis}\NormalTok{(value\_mean),}
     \AttributeTok{.groups =} \StringTok{"drop"}
 \NormalTok{  )}
@@ -1560,8 +1595,8 @@ nasalisation proportion by voicing, averaged across vowels.}
 
 The plot suggests an overall greater nasalisation proportion in
 voiceless NC sequences. Let's quantify how much greater it is, as we did
-in Section~\ref{sec-case-1}. We will use odds-ratios in this context as
-well, i.e.~we will convert log-odds to odds-ratios using the
+in Section~\ref{sec-case-1}. We will use odds ratios in this context as
+well, i.e.~we will convert log odds to odds ratios using the
 \texttt{exp()} (exponential) function (and as before we first calculate
 the difference and then exponentiate the resulting values, after which
 we can take summary measures, like means and quantile-based measures
@@ -1577,7 +1612,7 @@ voiceless vs voiced NC sequences.
   \FunctionTok{select}\NormalTok{(}\SpecialCharTok{{-}}\NormalTok{value\_mean\_prop) }\SpecialCharTok{|\textgreater{}} 
   \FunctionTok{pivot\_wider}\NormalTok{(}\AttributeTok{names\_from =}\NormalTok{ voicing, }\AttributeTok{values\_from =}\NormalTok{ value\_mean) }\SpecialCharTok{|\textgreater{}} 
   \FunctionTok{mutate}\NormalTok{(}
-    \CommentTok{\# calculate the difference of voiceless and voiced in log{-}odds}
+    \CommentTok{\# calculate the difference of voiceless and voiced in log odds}
     \AttributeTok{voicing\_diff =}\NormalTok{ voicingvoiceless }\SpecialCharTok{{-}}\NormalTok{ voicingvoiced,}
     \CommentTok{\# now transform with exp() to get the ratio difference}
     \AttributeTok{voicing\_diff\_ratio =} \FunctionTok{exp}\NormalTok{(voicing\_diff)}
@@ -1656,11 +1691,11 @@ overall estimate).
   \FunctionTok{mutate}\NormalTok{(}\AttributeTok{r\_speaker\_value =}\NormalTok{ value }\SpecialCharTok{+}\NormalTok{ r\_speaker) }\SpecialCharTok{|\textgreater{}} 
   \CommentTok{\# group the data for summarise}
   \FunctionTok{group\_by}\NormalTok{(.draw, speaker, voicing) }\SpecialCharTok{|\textgreater{}} 
-  \CommentTok{\# get mean expected log{-}odds by draw, speaker and voicing (averaging across vowel)}
+  \CommentTok{\# get mean expected log odds by draw, speaker and voicing (averaging across vowel)}
   \FunctionTok{summarise}\NormalTok{(}\AttributeTok{r\_speaker\_value\_mean =} \FunctionTok{mean}\NormalTok{(r\_speaker\_value)) }\SpecialCharTok{|\textgreater{}} 
   \CommentTok{\# make the data wider: two columns, one for voiced and one for voiceless}
   \FunctionTok{pivot\_wider}\NormalTok{(}\AttributeTok{names\_from =}\NormalTok{ voicing, }\AttributeTok{values\_from =}\NormalTok{ r\_speaker\_value\_mean) }\SpecialCharTok{|\textgreater{}} 
-  \CommentTok{\# finally, calculate the difference in expected log{-}odds of voiceless and voiced}
+  \CommentTok{\# finally, calculate the difference in expected log odds of voiceless and voiced}
   \FunctionTok{mutate}\NormalTok{(}\AttributeTok{voicing\_diff =}\NormalTok{ voicingvoiceless }\SpecialCharTok{{-}}\NormalTok{ voicingvoiced)}
 \end{Highlighting}
 \end{Shaded}
