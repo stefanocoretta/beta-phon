@@ -86,7 +86,7 @@ While most researchers approach proportions with Gaussian regression models, pro
 
 The beta distribution is often considered as *the* distribution for the modelling of unit interval data, i.e. data that are in the interval \[0, 1\] [@ferrari_beta_2004; @cribari-neto_beta_2010]. It has been extensively studied theoretically [@krysicki_new_1999; @gupta_handbook_2014; @espinheira_beta_2008] and is used a baseline to compare other unit interval distributions against [@kieschnick_regression_2003; @bonat_regression_2013; @lopez_bayesian_2013]. Specifically in Bayesian regression models, it was shown to perform well across a wide range of scenarios [@scholz_posterior_2023; @scholz_prediction_2025], which is why we focus on the beta distribution in this tutorial.
 
-We use a common mean parametrisation for the beta distribution with mean parameter $\mu$, bounded between 0 and 1, and positive precision parameter $\phi$ that is roughly proportional to the inverse of the variance $\text{Var}(y) = \frac{\mu \, (1 - \mu)}{\phi + 1}$.[^1] That is, the larger $\phi$ the smaller the variance of the corresponding beta distribution. While the mathematical details are not needed to understand the content of this tutorial, we still write down the density below for reasons of completeness:
+We use a common mean parametrisation for the beta distribution with mean parameter $\mu$, bounded between 0 and 1, and positive precision parameter $\phi$ that is roughly proportional to the inverse of the variance ($\text{Var}(y) = \frac{\mu \, (1 - \mu)}{\phi + 1}$).[^1] That is, the larger $\phi$ the smaller the variance of the corresponding beta distribution. While the mathematical details are not needed to understand the content of this tutorial, we still write down the density below for reasons of completeness:
 
 [^1]: The $\mu$, $\phi$ parametrisation is equivalent to the $\alpha$, $\beta$ parametrisation in that $\alpha = \mu\phi$ and $\beta = (1-\mu)\phi$. Using the former allows brms to exploit the same programmatic features of other distributions parametrised with a location parameter.
 
@@ -348,7 +348,7 @@ library(ggdist)
 
 voi_prop_bm_draws_long |> 
   mutate(
-    c2 = str_remove(c2, "c2"),
+    c2 = str_remove(c2, "c2") |> factor(levels = c("k", "t", "p")),
     vowel = str_remove(vowel, "vowel")
   ) |> 
   ggplot(aes(plogis(value), vowel)) +
@@ -380,7 +380,7 @@ voi_prop_bm_draws_long_c2 <- voi_prop_bm_draws_long |>
 #| fig-cap: "Expected predictions of voicing proportion by consonant, averaged across vowels."
 voi_prop_bm_draws_long_c2 |> 
   mutate(
-    c2 = str_remove(c2, "c2")
+    c2 = str_remove(c2, "c2") |> factor(levels = c("k", "t", "p"))
   ) |> 
   ggplot(aes(plogis(value_mean), c2)) +
   stat_halfeye(.width = c(0.6, 0.8)) +
@@ -391,7 +391,7 @@ voi_prop_bm_draws_long_c2 |>
   )
 ```
 
-Based on the expected posterior distributions of the mean voicing proportion by consonant, /p/ has a somewhat higher voicing proportion than /k/ and /t/. The real question is: how much higher? We can quantify this by taking the difference of the drawn values for /p/ and those for /t, k/ (all averaged across vowels). Since we want to compare /t, k/ with /p/, we should first average the average draws of /t, k/ and then take the difference of the averaged /t, k/ draws and the draws of /p/. @tbl-voi-pbd shows the first ten rows of the resulting data frame. The posterior distribution of the expected difference is shown in @fig-diff-p-tk.
+Based on the expected posterior distributions of the mean voicing proportion by consonant, /p/ has a somewhat higher voicing proportion than /k/ and /t/. The real question is: how much higher? We can quantify this by taking the difference of the drawn values for /p/ and those for /k, t/ (all averaged across vowels). Since we want to compare /k, t/ with /p/, we should first average the average draws of /k, t/ and then take the difference of the averaged /k, t/ draws and the draws of /p/. @tbl-voi-pbd shows the first ten rows of the resulting data frame. The posterior distribution of the expected difference is shown in @fig-diff-p-tk.
 
 ```{r}
 #| label: voi-prop-bm-diff
@@ -403,14 +403,14 @@ voi_prop_bm_diff <- voi_prop_bm_draws_long_c2 |>
   mutate(
     # calculate the mean of /k/ and /t/, for each draw
     c2tk = mean(c(c2k, c2t)),
-    # calculate the difference of /p/ and /t, k/
+    # calculate the difference of /p/ and /k, t/
     c2p_tk_diff = c2p - c2tk
   )
 ```
 
 ```{r}
 #| label: tbl-voi-pbd
-#| tbl-cap: "First 10 rows of expected difference of voicing proportion between /t, k/ and /p/."
+#| tbl-cap: "First 10 rows of expected difference of voicing proportion between /k, t/ and /p/."
 #| echo: false
 
 voi_prop_bm_diff |> head(n = 10) |> knitr::kable()
@@ -418,14 +418,14 @@ voi_prop_bm_diff |> head(n = 10) |> knitr::kable()
 
 ```{r}
 #| label: fig-diff-p-tk
-#| fig-cap: "Posterior distribution of the difference between the expected voicing proportion of /t, k/ vs /p/, averaged across vowels."
+#| fig-cap: "Posterior distribution of the difference between the expected voicing proportion of /k, t/ vs /p/, averaged across vowels."
 
 voi_prop_bm_diff |> 
   ggplot(aes(c2p_tk_diff)) +
   stat_halfeye(.width = c(0.6, 0.8, 0.9)) +
   geom_vline(xintercept = 0) +
   labs(
-    x = "Log-odds difference in /p/ vs /t, k/",
+    x = "Log-odds difference in /p/ vs /k, t/",
     y = element_blank()
   )
 ```
@@ -472,13 +472,13 @@ voi_bm_quant <- voi_prop_bm_diff |>
 
 ```{r}
 #| label: tbl-voi-bm-quant
-#| tbl-cap: "Upper and lower limits of 90, 80 and 60% Credible Intervals of the difference ratio of voicing proportion in /t, k/ vs /p/."
+#| tbl-cap: "Upper and lower limits of 90, 80 and 60% Credible Intervals of the difference ratio of voicing proportion in /k, t/ vs /p/."
 #| echo: false
 
 voi_bm_quant |> knitr::kable()
 ```
 
-Based on the model and data, there is a 90% probability that the voicing proportion in /p/ is 1.07-1.38 times longer (or 7-38% increase) than in /t, k/. At 80% confidence, the change ratio is 1.10-1.34 (or 10-34% increase) while at 60% confidence is 1.14-1.30 (14-30% increase). In other words we can be quite confident that the voicing proportion in /p/ is greater than in /t, k/ and that the increase is less than 35%. The brms package comes with a convenient function, `conditional_effects()`, to plot posterior means and CrIs based on predictors in the model. In @fig-voi-prop-bm-cond, we plot the predicted proportion of voicing by consonant and vowel.
+Based on the model and data, there is a 90% probability that the voicing proportion in /p/ is 1.07-1.38 times longer (or 7-38% increase) than in /k, t/. At 80% confidence, the change ratio is 1.10-1.34 (or 10-34% increase) while at 60% confidence is 1.14-1.30 (14-30% increase). In other words we can be quite confident that the voicing proportion in /p/ is greater than in /k, t/ and that the increase is less than 35%. The brms package comes with a convenient function, `conditional_effects()`, to plot posterior means and CrIs based on predictors in the model. In @fig-voi-prop-bm-cond, we plot the predicted proportion of voicing by consonant and vowel.
 
 ```{r}
 #| label: fig-voi-prop-bm-cond
@@ -522,7 +522,7 @@ avg_predictions(voi_prop_bm, variables = "vowel", conf_level = 0.8) |>
   knitr::kable()
 ```
 
-[In sum, we used a Bayesian beta regression model to assess whether different places of articulation affect the proportion of coarticulatory progressive voicing. The expectation was that that the proportion of progressive voicing should increase with fronter places of articulation (so from /k/ to /t/ to /p/). This expectation is not borne out by the results: while the proportion of voicing is robustly greater in /p/ than in /t, k/ (at 90% probability, the voicing in /p/ is 7-38% higher), the difference in voicing between /k/ and /t/ is very small and uncertain.]{colour="#b22222"}
+[In sum, we used a Bayesian beta regression model to assess whether different places of articulation affect the proportion of coarticulatory progressive voicing. The expectation was that that the proportion of progressive voicing should increase with fronter places of articulation (so from /k/ to /t/ to /p/). This expectation is not borne out by the results: while the proportion of voicing is robustly greater in /p/ than in /k, t/ (at 90% probability, the voicing in /p/ is 7-38% higher), the difference in voicing between /k/ and /t/ is very small and uncertain.]{colour="#b22222"}
 
 # Case study 2: coarticulatory vowel nasalisation {#sec-case-2}
 

@@ -360,7 +360,7 @@ We use a common mean parametrisation for the beta distribution with mean
 parameter \(\mu\), bounded between 0 and 1, and positive precision
 parameter \(\phi\) that is roughly proportional to the inverse of the
 variance
-\(\text{Var}(y) = \frac{\mu \, (1 - \mu)}{\phi + 1}\).\footnote{The
+(\(\text{Var}(y) = \frac{\mu \, (1 - \mu)}{\phi + 1}\)).\footnote{The
   \(\mu\), \(\phi\) parametrisation is equivalent to the \(\alpha\),
   \(\beta\) parametrisation in that \(\alpha = \mu\phi\) and
   \(\beta = (1-\mu)\phi\). Using the former allows brms to exploit the
@@ -948,7 +948,7 @@ Figure~\ref{fig-voi-prop-bm-1}.
 
 \NormalTok{voi\_prop\_bm\_draws\_long }\SpecialCharTok{|\textgreater{}} 
   \FunctionTok{mutate}\NormalTok{(}
-    \AttributeTok{c2 =} \FunctionTok{str\_remove}\NormalTok{(c2, }\StringTok{"c2"}\NormalTok{),}
+    \AttributeTok{c2 =} \FunctionTok{str\_remove}\NormalTok{(c2, }\StringTok{"c2"}\NormalTok{) }\SpecialCharTok{|\textgreater{}} \FunctionTok{factor}\NormalTok{(}\AttributeTok{levels =} \FunctionTok{c}\NormalTok{(}\StringTok{"k"}\NormalTok{, }\StringTok{"t"}\NormalTok{, }\StringTok{"p"}\NormalTok{)),}
     \AttributeTok{vowel =} \FunctionTok{str\_remove}\NormalTok{(vowel, }\StringTok{"vowel"}\NormalTok{)}
 \NormalTok{  ) }\SpecialCharTok{|\textgreater{}} 
   \FunctionTok{ggplot}\NormalTok{(}\FunctionTok{aes}\NormalTok{(}\FunctionTok{plogis}\NormalTok{(value), vowel)) }\SpecialCharTok{+}
@@ -1002,7 +1002,7 @@ to more complex cases like those involving numeric predictors, see
 \begin{Highlighting}[]
 \NormalTok{voi\_prop\_bm\_draws\_long\_c2 }\SpecialCharTok{|\textgreater{}} 
   \FunctionTok{mutate}\NormalTok{(}
-    \AttributeTok{c2 =} \FunctionTok{str\_remove}\NormalTok{(c2, }\StringTok{"c2"}\NormalTok{)}
+    \AttributeTok{c2 =} \FunctionTok{str\_remove}\NormalTok{(c2, }\StringTok{"c2"}\NormalTok{) }\SpecialCharTok{|\textgreater{}} \FunctionTok{factor}\NormalTok{(}\AttributeTok{levels =} \FunctionTok{c}\NormalTok{(}\StringTok{"k"}\NormalTok{, }\StringTok{"t"}\NormalTok{, }\StringTok{"p"}\NormalTok{))}
 \NormalTok{  ) }\SpecialCharTok{|\textgreater{}} 
   \FunctionTok{ggplot}\NormalTok{(}\FunctionTok{aes}\NormalTok{(}\FunctionTok{plogis}\NormalTok{(value\_mean), c2)) }\SpecialCharTok{+}
   \FunctionTok{stat\_halfeye}\NormalTok{(}\AttributeTok{.width =} \FunctionTok{c}\NormalTok{(}\FloatTok{0.6}\NormalTok{, }\FloatTok{0.8}\NormalTok{)) }\SpecialCharTok{+}
@@ -1031,9 +1031,9 @@ Based on the expected posterior distributions of the mean voicing
 proportion by consonant, /p/ has a somewhat higher voicing proportion
 than /k/ and /t/. The real question is: how much higher? We can quantify
 this by taking the difference of the drawn values for /p/ and those for
-/t, k/ (all averaged across vowels). Since we want to compare /t, k/
-with /p/, we should first average the average draws of /t, k/ and then
-take the difference of the averaged /t, k/ draws and the draws of /p/.
+/k, t/ (all averaged across vowels). Since we want to compare /k, t/
+with /p/, we should first average the average draws of /k, t/ and then
+take the difference of the averaged /k, t/ draws and the draws of /p/.
 Table~\ref{tbl-voi-pbd} shows the first ten rows of the resulting data
 frame. The posterior distribution of the expected difference is shown in
 Figure~\ref{fig-diff-p-tk}.
@@ -1047,7 +1047,7 @@ Figure~\ref{fig-diff-p-tk}.
   \FunctionTok{mutate}\NormalTok{(}
     \CommentTok{\# calculate the mean of /k/ and /t/, for each draw}
     \AttributeTok{c2tk =} \FunctionTok{mean}\NormalTok{(}\FunctionTok{c}\NormalTok{(c2k, c2t)),}
-    \CommentTok{\# calculate the difference of /p/ and /t, k/}
+    \CommentTok{\# calculate the difference of /p/ and /k, t/}
     \AttributeTok{c2p\_tk\_diff =}\NormalTok{ c2p }\SpecialCharTok{{-}}\NormalTok{ c2tk}
 \NormalTok{  )}
 \end{Highlighting}
@@ -1056,7 +1056,7 @@ Figure~\ref{fig-diff-p-tk}.
 \begin{longtable}[]{@{}rrrrrr@{}}
 
 \caption{\label{tbl-voi-pbd}First 10 rows of expected difference of
-voicing proportion between /t, k/ and /p/.}
+voicing proportion between /k, t/ and /p/.}
 
 \tabularnewline
 
@@ -1086,7 +1086,7 @@ voicing proportion between /t, k/ and /p/.}
   \FunctionTok{stat\_halfeye}\NormalTok{(}\AttributeTok{.width =} \FunctionTok{c}\NormalTok{(}\FloatTok{0.6}\NormalTok{, }\FloatTok{0.8}\NormalTok{, }\FloatTok{0.9}\NormalTok{)) }\SpecialCharTok{+}
   \FunctionTok{geom\_vline}\NormalTok{(}\AttributeTok{xintercept =} \DecValTok{0}\NormalTok{) }\SpecialCharTok{+}
   \FunctionTok{labs}\NormalTok{(}
-    \AttributeTok{x =} \StringTok{"Log{-}odds difference in /p/ vs /t, k/"}\NormalTok{,}
+    \AttributeTok{x =} \StringTok{"Log{-}odds difference in /p/ vs /k, t/"}\NormalTok{,}
     \AttributeTok{y =} \FunctionTok{element\_blank}\NormalTok{()}
 \NormalTok{  )}
 \end{Highlighting}
@@ -1101,7 +1101,7 @@ voicing proportion between /t, k/ and /p/.}
 }
 
 \caption{\label{fig-diff-p-tk}Posterior distribution of the difference
-between the expected voicing proportion of /t, k/ vs /p/, averaged
+between the expected voicing proportion of /k, t/ vs /p/, averaged
 across vowels.}
 
 \end{figure}%
@@ -1150,7 +1150,7 @@ tutorial we just focus on odds ratios for simplicity.
 
 \caption{\label{tbl-voi-bm-quant}Upper and lower limits of 90, 80 and
 60\% Credible Intervals of the difference ratio of voicing proportion in
-/t, k/ vs /p/.}
+/k, t/ vs /p/.}
 
 \tabularnewline
 
@@ -1167,10 +1167,10 @@ q90 & q80 & q60 \\
 
 Based on the model and data, there is a 90\% probability that the
 voicing proportion in /p/ is 1.07-1.38 times longer (or 7-38\% increase)
-than in /t, k/. At 80\% confidence, the change ratio is 1.10-1.34 (or
+than in /k, t/. At 80\% confidence, the change ratio is 1.10-1.34 (or
 10-34\% increase) while at 60\% confidence is 1.14-1.30 (14-30\%
 increase). In other words we can be quite confident that the voicing
-proportion in /p/ is greater than in /t, k/ and that the increase is
+proportion in /p/ is greater than in /k, t/ and that the increase is
 less than 35\%. The brms package comes with a convenient function,
 \texttt{conditional\_effects()}, to plot posterior means and CrIs based
 on predictors in the model. In Figure~\ref{fig-voi-prop-bm-cond}, we
@@ -1269,7 +1269,7 @@ proportion of coarticulatory progressive voicing. The expectation was
 that that the proportion of progressive voicing should increase with
 fronter places of articulation (so from /k/ to /t/ to /p/). This
 expectation is not borne out by the results: while the proportion of
-voicing is robustly greater in /p/ than in /t, k/ (at 90\% probability,
+voicing is robustly greater in /p/ than in /k, t/ (at 90\% probability,
 the voicing in /p/ is 7-38\% higher), the difference in voicing between
 /k/ and /t/ is very small and uncertain.}
 
