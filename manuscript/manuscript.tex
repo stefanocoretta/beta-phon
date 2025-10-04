@@ -392,12 +392,15 @@ distributions based on various \(\mu\) and \(\phi\) values.
 
 \end{figure}%
 
-As mentioned earlier, the beta distribution handles data in the interval
-(0, 1), thus excluding 0 and 1. To model {[}0, 1{]} data (including 0
-and 1), the zero and zero/one inflated extensions of the beta
-distribution can be used. Both of these are supported in the software
-used in this tutorial, but will not be treated here. We refer readers to
-\citet{heiss2021}.
+\textcolor[HTML]{b22222}{As mentioned earlier, the beta distribution
+handles data in the interval (0, 1), thus excluding 0 and 1. To model
+{[}0, 1{]} data (including 0 and 1), the zero and zero/one inflated
+extensions of the beta distribution can be used. Both of these are
+supported in the software used in this tutorial, but will not be treated
+here. We refer readers to \citet{heiss2021}. A simpler alternative is to
+transform the 0s and 1s in the data by adding/subtracting a very small
+value to/from them, like 0.001. The transformation ensures all values in
+the data are between 0 and 1, but not exactly 0 and 1.}
 
 \section{Bayesian regression models}\label{sec-bayes}
 
@@ -628,8 +631,13 @@ for centred speech rate.\footnote{While the terms ``random effects,
 using indexing rather than the traditional R contrasts (such as
 treatment or sum), as advocated in \citet[p 155, Ch 8]{mcelreath2019}:
 in R, this corresponds to suppressing the model's intercept with the
-\texttt{0\ +} syntax.
-\textcolor{red}{With this approach, the model’s coefficients do not represent differences from a reference level (normally the intercept), rather they represent the predicted mean for all combinations of each categorical predictor’s levels (no contrasts are applied). The following code shows the coding matrix for a hypothetical predictors with three levels, coded using treatment contrasts and indexing.}
+\texttt{0\ +} syntax. \textcolor[HTML]{b22222}{With this approach, the
+model's coefficients do not represent differences from a reference level
+(normally the intercept), rather they represent the predicted mean for
+all combinations of each categorical predictor's levels (no contrasts
+are applied). The following code shows the coding matrix for a
+hypothetical predictors with three levels, coded using treatment
+contrasts and indexing.}
 
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -661,7 +669,11 @@ c 0 1
 [3,]    0    0    1
 \end{verbatim}
 
-\textcolor{red}{With indexing, a model would have one coefficient for the mean of “a”, one for the mean of “b”, and one for the mean of “c”. No comparisons between levels are present in the matrix, but these can be obtained from the model post-hoc (as we do below).}
+\textcolor[HTML]{b22222}{With indexing, a model would have one
+coefficient for the mean of ``a'', one for the mean of ``b'', and one
+for the mean of ``c''. No comparisons between levels are present in the
+matrix, but these can be obtained from the model post-hoc (as we do
+below).}
 
 One benefit of using indexing is that uncertainty is equally distributed
 across all levels of categorical predictors, since priors apply on the
@@ -1074,7 +1086,7 @@ voicing proportion between /t, k/ and /p/.}
   \FunctionTok{stat\_halfeye}\NormalTok{(}\AttributeTok{.width =} \FunctionTok{c}\NormalTok{(}\FloatTok{0.6}\NormalTok{, }\FloatTok{0.8}\NormalTok{, }\FloatTok{0.9}\NormalTok{)) }\SpecialCharTok{+}
   \FunctionTok{geom\_vline}\NormalTok{(}\AttributeTok{xintercept =} \DecValTok{0}\NormalTok{) }\SpecialCharTok{+}
   \FunctionTok{labs}\NormalTok{(}
-    \AttributeTok{x =} \StringTok{"Log{-}odds difference in /p/ vs /t/"}\NormalTok{,}
+    \AttributeTok{x =} \StringTok{"Log{-}odds difference in /p/ vs /t, k/"}\NormalTok{,}
     \AttributeTok{y =} \FunctionTok{element\_blank}\NormalTok{()}
 \NormalTok{  )}
 \end{Highlighting}
@@ -1250,6 +1262,16 @@ o & 0.305 & 0.298 & 0.312 \\
 u & 0.348 & 0.341 & 0.354 \\
 
 \end{longtable}
+
+\textcolor[HTML]{b22222}{In sum, we used a Bayesian beta regression
+model to assess whether different places of articulation affect the
+proportion of coarticulatory progressive voicing. The expectation was
+that that the proportion of progressive voicing should increase with
+fronter places of articulation (so from /k/ to /t/ to /p/). This
+expectation is not borne out by the results: while the proportion of
+voicing is robustly greater in /p/ than in /t, k/ (at 90\% probability,
+the voicing in /p/ is 7-38\% higher), the difference in voicing between
+/k/ and /t/ is very small and uncertain.}
 
 \section{Case study 2: coarticulatory vowel
 nasalisation}\label{sec-case-2}
@@ -1747,6 +1769,19 @@ proportion in voiceless NC sequences, a few might in fact have the
 opposite pattern. Even among those speakers that do have a more robust
 positive difference, there is a lot of uncertainty as to the magnitude
 of the difference.
+
+\textcolor[HTML]{b22222}{To conclude, previous work on coarticulatory
+nasalisation in English has suggested that vowels followed by an NC
+sequence where C is voiceless (NT) should show earlier coarticulatory
+nasalisation than vowels followed by an NC sequence where C is voiced
+(ND). We fitted a Bayesian beta regression model to assess this
+expectation. In sum, we find an increase of nasalisation proportion in
+the voiceless NC sequences compared to that of voiced NC sequences, with
+a 90\% probability that the increase is between 23\% and 69\% of the
+proportion of voiced NC sequences. As for individual speakers'
+variability, we find that while most speakers are more likely to have a
+larger nasalisation proportion in voiceless NC sequences, a few might
+have the opposite pattern.}
 
 \section{Conclusion}\label{conclusion}
 
