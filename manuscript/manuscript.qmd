@@ -124,7 +124,7 @@ ggplot(param_grid, aes(x = x, y = density, color = factor(phi))) +
   )
 ```
 
-As mentioned earlier, the beta distribution handles data in the interval (0, 1), thus excluding 0 and 1. To model \[0, 1\] data (including 0 and 1), the zero and zero/one inflated extensions of the beta distribution can be used. Both of these are supported in the software used in this tutorial, but will not be treated here. We refer readers to @heiss2021.
+[As mentioned earlier, the beta distribution handles data in the interval (0, 1), thus excluding 0 and 1. To model \[0, 1\] data (including 0 and 1), the zero and zero/one inflated extensions of the beta distribution can be used. Both of these are supported in the software used in this tutorial, but will not be treated here. We refer readers to @heiss2021. A simpler alternative is to transform the 0s and 1s in the data by adding/subtracting a very small value to/from them, like 0.001. The transformation ensures all values in the data are between 0 and 1, but not exactly 0 and 1.]{.red}
 
 # Bayesian regression models {#sec-bayes}
 
