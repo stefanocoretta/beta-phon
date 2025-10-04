@@ -569,10 +569,10 @@ nasal |> head(n = 10) |> knitr::kable()
 #| echo: false
 
 nasal |> 
-  ggplot(aes(vowel, nas_prop, colour = voicing)) +
+  ggplot(aes(vowel, nas_prop, colour = voicing, shape = voicing)) +
   geom_jitter(position = position_jitterdodge(jitter.width = 0.2), alpha = 0.8) +
   scale_color_brewer(type = "qual") +
-  labs(x = "Vowel", y = "Nasalisation proportion", colour = "C voicing")
+  labs(x = "Vowel", y = "Nasalisation proportion", colour = "C voicing", shape = "C voicing")
 
 ```
 
