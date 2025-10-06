@@ -241,7 +241,7 @@ Figure&nbsp;2: Beta distributions for various <span class="math inline">\(\mu\)<
 </div>
 </div>
 </div>
-<p><span class="light-content" style="color: #b22222;">As mentioned earlier, the beta distribution handles data in the interval (0, 1), thus excluding 0 and 1. To model [0, 1] data (including 0 and 1), the zero and zero/one inflated extensions of the beta distribution can be used. Both of these are supported in the software used in this tutorial, but will not be treated here. We refer readers to <span class="citation" data-cites="heiss2021">(<a href="#ref-heiss2021" role="doc-biblioref">Heiss, 2021</a>)</span>. A simpler alternative is to transform the 0s and 1s in the data by adding/subtracting a very small value to/from them, like 0.001. The transformation ensures all values in the data are between 0 and 1, but not exactly 0 and 1.</span></p>
+<p><span class="light-content" style="color: #b22222;">As mentioned earlier, the beta distribution handles data in the interval (0, 1), thus excluding 0 and 1. To model [0, 1] data (including 0 and 1), the zero and zero/one inflated extensions of the beta distribution can be used. Both of these are supported in the software used in this tutorial, but will not be treated here. We refer readers to <span class="citation" data-cites="heiss2021">(<a href="#ref-heiss2021" role="doc-biblioref">Heiss, 2021</a>)</span>. An alternative is to use the extended-support beta family (<code>xbeta</code> in brms). For information on the extended-support beta family, see <span class="citation" data-cites="kosmidis2024">(<a href="#ref-kosmidis2024" role="doc-biblioref">Kosmidis and Zeileis, 2024</a>)</span>.</span></p>
 </section>
 <section id="sec-bayes" class="level1">
 <h1>Bayesian regression models</h1>
@@ -1970,6 +1970,9 @@ Kirby, J., Sonderegger, M., 2018. Mixed-effects design analysis for experimental
 </div>
 <div id="ref-kluender1988" class="csl-entry" role="listitem">
 Kluender, K.R., Diehl, R.L., Wright, B.A., 1988. Vowel-length differences before voiced and voiceless consonants: An auditory explanation. Journal of Phonetics 16, 153–169. <a href="https://doi.org/10.1016/S0095-4470(19)30480-2">https://doi.org/10.1016/S0095-4470(19)30480-2</a>
+</div>
+<div id="ref-kosmidis2024" class="csl-entry" role="listitem">
+Kosmidis, I., Zeileis, A., 2024. Extended-support beta regression for [0, 1] responses. <a href="https://doi.org/10.48550/ARXIV.2409.07233">https://doi.org/10.48550/ARXIV.2409.07233</a>
 </div>
 <div id="ref-krysicki_new_1999" class="csl-entry" role="listitem">
 Krysicki, W., 1999. On some new properties of the beta distribution. Statistics &amp; Probability Letters 42, 131–137. <a href="https://doi.org/10.1016/S0167-7152(98)00197-7">https://doi.org/10.1016/S0167-7152(98)00197-7</a>
