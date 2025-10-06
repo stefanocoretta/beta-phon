@@ -167,7 +167,7 @@ window.Quarto = {
     <div>
     <div class="quarto-title-meta-heading">Published</div>
     <div class="quarto-title-meta-contents">
-      <p class="date">Saturday, October 4, 2025</p>
+      <p class="date">Monday, October 6, 2025</p>
     </div>
   </div>
   
@@ -395,7 +395,7 @@ Figure&nbsp;4: Proportion of voicing during the closure of the second consonant 
 </div>
 </div>
 </div>
-<p>We will use brms to fit a Bayesian beta regression <span class="citation" data-cites="burkner2017">(<a href="#ref-burkner2017" role="doc-biblioref">Bürkner, 2017</a>)</span>. The model has voicing proportion as the outcome variable and the following terms: an interaction between vowel (/i, e, a, o, u/) and second consonant C2 (/k, t, p/), centred speech rate (number of syllables per second); as varying (aka random) terms, we included by-speaker varying coefficients for the vowel/consonant interaction and for centred speech rate.<a href="#fn2" class="footnote-ref" id="fnref2" role="doc-noteref"><sup>2</sup></a> The categorical predictors vowel and C2 are coded using indexing rather than the traditional R contrasts (such as treatment or sum), as advocated in <span class="citation" data-cites="mcelreath2019">(<a href="#ref-mcelreath2019" role="doc-biblioref">McElreath, 2019</a>, p 155, Ch 8)</span>: in R, this corresponds to suppressing the model’s intercept with the <code>0 +</code> syntax. <span class="light-content" style="color: #b22222;">With this approach, the model’s coefficients do not represent differences from a reference level (normally the intercept), rather they represent the predicted mean for all combinations of each categorical predictor’s levels (no contrasts are applied). The following code shows the coding matrix for a hypothetical predictors with three levels, coded using treatment contrasts and indexing.</span></p>
+<p>We will use brms to fit a Bayesian beta regression <span class="citation" data-cites="burkner2017">(<a href="#ref-burkner2017" role="doc-biblioref">Bürkner, 2017</a>)</span>. The model has voicing proportion as the outcome variable and the following terms: an interaction between vowel (/i, e, a, o, u/) and second consonant C2 (/k, t, p/), centred speech rate (number of syllables per second); as varying (aka random) terms, we included by-speaker varying coefficients for the vowel/consonant interaction and for centred speech rate.<a href="#fn2" class="footnote-ref" id="fnref2" role="doc-noteref"><sup>2</sup></a> The categorical predictors vowel and C2 are coded using indexing rather than the traditional R contrasts (such as treatment or sum), as advocated in <span class="citation" data-cites="mcelreath2019">(<a href="#ref-mcelreath2019" role="doc-biblioref">McElreath, 2019</a>, p 155, Ch 8)</span>: in R, this corresponds to suppressing the model’s intercept with the <code>0 +</code> syntax. <span class="light-content" style="color: #b22222;">With this approach, the model’s coefficients do not represent differences from a reference level (normally the intercept), rather they represent the predicted mean for all combinations of each categorical predictor’s levels (no contrasts are applied). The following code shows the coding matrix for a hypothetical predictor with three levels, coded using treatment contrasts and indexing.</span></p>
 <div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>fac <span class="ot">&lt;-</span> <span class="fu">factor</span>(<span class="fu">c</span>(<span class="st">"a"</span>, <span class="st">"b"</span>, <span class="st">"c"</span>))</span>
 <span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a></span>
@@ -1206,7 +1206,7 @@ Table&nbsp;8: Expected voicing proportion by vowel, averaged across vowels, with
 </figure>
 </div>
 </div>
-<p><span class="light-content" style="color: #b22222;">In sum, we used a Bayesian beta regression model to assess whether different places of articulation affect the proportion of coarticulatory progressive voicing. The expectation was that that the proportion of progressive voicing should increase with fronter places of articulation (so from /k/ to /t/ to /p/). This expectation is not borne out by the results: while the proportion of voicing is robustly greater in /p/ than in /k, t/ (at 90% probability, the voicing in /p/ is 7-38% higher), the difference in voicing between /k/ and /t/ is very small and uncertain.</span></p>
+<p><span class="light-content" style="color: #b22222;">In sum, we used a Bayesian beta regression model to assess whether different places of articulation affect the proportion of coarticulatory progressive voicing. The expectation was that that the proportion of progressive voicing should increase with fronter places of articulation (so from /k/ to /t/ to /p/). This expectation is not borne out by the results: while the proportion of voicing is robustly greater in /p/ than in /k, t/ (at 90% probability, the voicing proportion in /p/ is 7-38% higher), the difference in voicing proportion between /k/ and /t/ is very small and uncertain.</span></p>
 </section>
 <section id="sec-case-2" class="level1">
 <h1>Case study 2: coarticulatory vowel nasalisation</h1>
