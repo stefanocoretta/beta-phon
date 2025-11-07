@@ -1,0 +1,293 @@
+
+\# attach tidyverse and set light theme for plots
+library(tidyverse)
+theme\_set(theme\_light())
+
+\# load tibble
+load("data/coretta2018/ita\_egg.rda")
+
+\# filter and mutate data
+ita\_egg \textless{{-}} ita\_egg |\textgreater{} 
+  filter(voi\_clo\_prop \textgreater{} 0, voi\_clo\_prop \textless{} 1) |\textgreater{} 
+  mutate(
+    vowel = factor(vowel, levels = c("i", "e", "a", "o", "u")),
+    c2 = factor(c2, levels = c("k", "t", "p"))
+  )
+
+
+
+fac \textless{{-}} factor(c("a", "b", "c"))
+
+\# Treatment contrasts
+contrasts(fac)
+
+
+
+\# Indexing
+diag(nlevels(fac))
+
+
+
+\# attach brms
+library(brms)
+
+\# fit the model
+\# Takes 3 minutes on MacBook Pro 2020, M1
+voi\_prop\_bm \textless{{-}} brm(
+  \# model formula
+  voi\_clo\_prop \textasciitilde{}
+    \# constant terms
+    0 + vowel:c2 + speech\_rate\_c +
+    \# varying terms
+    (0 + vowel:c2 + speech\_rate\_c | speaker),
+  \# uses the beta family for the outcome
+  family = Beta,
+  data = ita\_egg,
+  cores = 4,
+  seed = 3749,
+  file = "data/cache/voi\_prop\_bm"
+)
+
+
+
+fixef(voi\_prop\_bm, prob = c(0.1, 0.9))
+
+
+
+\# extract only coefficient variables starting with "b\_"
+voi\_prop\_bm\_draws \textless{{-}} as\_draws\_df(voi\_prop\_bm, variable = "\^{b\_"}, regex = TRUE)
+
+
+
+voi\_prop\_bm\_draws\_long \textless{{-}} voi\_prop\_bm\_draws |\textgreater{} 
+  \# drop b\_speech\_rate\_c before pivoting
+  select({-}b\_speech\_rate\_c) |\textgreater{} 
+  \# pivot vowel:c2 columns
+  pivot\_longer(\textasciigrave{}b\_voweli:c2k\textasciigrave{}:\textasciigrave{}b\_vowelu:c2p\textasciigrave{}, names\_to = "coeff") |\textgreater{} 
+  \# separate "coeff" labels into type ("b"), vowel and c2
+  separate(coeff, into = c("type", "vowel", "c2"))
+
+
+
+\# attach ggdist package
+library(ggdist)
+
+voi\_prop\_bm\_draws\_long |\textgreater{} 
+  mutate(
+    c2 = str\_remove(c2, "c2") |\textgreater{} factor(levels = c("k", "t", "p")),
+    vowel = str\_remove(vowel, "vowel")
+  ) |\textgreater{} 
+  ggplot(aes(plogis(value), vowel)) +
+  stat\_halfeye(.width = c(0.6, 0.8)) +
+  facet\_grid(rows = vars(c2)) +
+  labs(
+    caption = "The points are the medians and the two lines are 60 and 80\% CrIs.",
+    x = "Voicing during closure (prop)",
+    y = "Vowel"
+  )
+
+
+
+voi\_prop\_bm\_draws\_long\_c2 \textless{{-}} voi\_prop\_bm\_draws\_long |\textgreater{} 
+  \# grouping by .draw and c2 ensures that averaging applies only within draw and c2
+  group\_by(.draw, c2) |\textgreater{} 
+  \# calculate the mean value within draw/c2
+  summarise(
+    value\_mean = mean(value), .groups = "drop"
+  )
+
+
+
+voi\_prop\_bm\_draws\_long\_c2 |\textgreater{} 
+  mutate(
+    c2 = str\_remove(c2, "c2") |\textgreater{} factor(levels = c("k", "t", "p"))
+  ) |\textgreater{} 
+  ggplot(aes(plogis(value\_mean), c2)) +
+  stat\_halfeye(.width = c(0.6, 0.8)) +
+  labs(
+    caption = "The points are the medians and the two lines are 60 and 80\% CrIs.",
+    x = "Voicing during closure (prop)",
+    y = "C2"
+  )
+
+
+
+voi\_prop\_bm\_diff \textless{{-}} voi\_prop\_bm\_draws\_long\_c2 |\textgreater{} 
+  \# pivot data to create one column per consonant with the mean drawn values,
+  \# with one draw per raw
+  pivot\_wider(names\_from = c2, values\_from = value\_mean) |\textgreater{} 
+  mutate(
+    \# calculate the mean of /k/ and /t/, for each draw
+    c2tk = mean(c(c2k, c2t)),
+    \# calculate the difference of /p/ and /k, t/
+    c2p\_tk\_diff = c2p {-} c2tk
+  )
+
+
+
+voi\_prop\_bm\_diff |\textgreater{} 
+  ggplot(aes(c2p\_tk\_diff)) +
+  stat\_halfeye(.width = c(0.6, 0.8, 0.9)) +
+  geom\_vline(xintercept = 0) +
+  labs(
+    x = "Log{-odds difference in /p/ vs /k, t/"},
+    y = element\_blank()
+  )
+
+
+
+library(posterior)
+
+voi\_bm\_quant \textless{{-}} voi\_prop\_bm\_diff |\textgreater{} 
+  mutate(c2p\_tk\_diff\_ratio = exp(c2p\_tk\_diff)) |\textgreater{} 
+  reframe(
+    \# 90\% CrI
+    q90 = quantile2(c2p\_tk\_diff\_ratio, probs = c(0.05, 0.95)),
+    \# 80\% CrI
+    q80 = quantile2(c2p\_tk\_diff\_ratio, probs = c(0.1, 0.9)),
+    \# 60\% CrI
+    q60 = quantile2(c2p\_tk\_diff\_ratio, probs = c(0.2, 0.8)),
+  ) |\textgreater{} 
+  \# round to 2 digits
+  mutate(across(everything(), \textasciitilde{}round(.x, 2)))
+
+
+
+ce \textless{{-}} conditional\_effects(voi\_prop\_bm, "c2:vowel")
+p \textless{{-}} plot(ce, plot = FALSE)[[1]]
+p + labs(x = "C2", y = "Voicing during closure (prop)")
+
+
+
+library(marginaleffects)
+
+avg\_comparisons(voi\_prop\_bm, variables = list(c2 = "pairwise"), conf\_level = 0.8, type = "link")
+avg\_predictions(voi\_prop\_bm, variables = "vowel", conf\_level = 0.8)
+
+
+
+nasal \textless{{-}} read\_csv("data/carignan2021/nasal.csv")
+
+
+
+nas\_prop\_bm \textless{{-}} brm(
+  nas\_prop \textasciitilde{} 0 + voicing:vowel + (0 + voicing:vowel | speaker),
+  data = nasal,
+  family = Beta,
+  cores = 4,
+  seed = 3749,
+  file = "data/cache/nas\_prop\_bm"
+)
+
+
+
+fixef(nas\_prop\_bm, prob = c(0.1, 0.9))
+
+
+
+ce \textless{{-}} conditional\_effects(nas\_prop\_bm, "vowel:voicing")
+p \textless{{-}} plot(ce, plot = FALSE)[[1]]
+p +
+  labs(
+    y = "Proportion of nasality"
+  )
+
+
+
+\# extract only coefficient variables starting with "b\_"
+nas\_prop\_bm\_draws \textless{{-}} as\_draws\_df(nas\_prop\_bm, variable = "\^{b\_"}, regex = TRUE)
+
+nas\_prop\_bm\_draws\_long \textless{{-}} nas\_prop\_bm\_draws |\textgreater{} 
+  \# pivot vowel:c2 columns
+  pivot\_longer(\textasciigrave{}b\_voicingvoiced:vowela\textasciigrave{}:\textasciigrave{}b\_voicingvoiceless:vowelu\textasciigrave{}, names\_to = "coeff") |\textgreater{}
+  \# separate "coeff" labels into type ("b"), vowel and c2
+  separate(coeff, into = c("type", "voicing", "vowel"))
+
+
+
+nas\_prop\_bm\_draws\_long\_voicing \textless{{-}} nas\_prop\_bm\_draws\_long |\textgreater{} 
+  \# grouping by .draw and voicing ensures that averaging applies only within draw and voicing
+  group\_by(.draw, voicing) |\textgreater{} 
+  summarise(
+    \# calculate the mean value within draw/voicing in log odds
+    value\_mean = mean(value),
+    \# we can now transform log odds to proportion with plogis()
+    value\_mean\_prop = plogis(value\_mean),
+    .groups = "drop"
+  )
+
+
+
+nas\_prop\_bm\_draws\_long\_voicing |\textgreater{} 
+  mutate(
+    voicing = str\_remove(voicing, "voicing")
+  ) |\textgreater{} 
+  ggplot(aes(value\_mean\_prop, voicing)) +
+  stat\_halfeye(.width = c(0.6, 0.8)) +
+  labs(
+    x = "Nasalisation proportion"
+  )
+
+
+
+nas\_prop\_bm\_diff \textless{{-}} nas\_prop\_bm\_draws\_long\_voicing |\textgreater{} 
+  \# pivot data to create one column per voicing with the mean drawn values,
+  \# with one draw per raw. we need to drop the value\_mean\_prop col
+  select({-}value\_mean\_prop) |\textgreater{} 
+  pivot\_wider(names\_from = voicing, values\_from = value\_mean) |\textgreater{} 
+  mutate(
+    \# calculate the difference of voiceless and voiced in log odds
+    voicing\_diff = voicingvoiceless {-} voicingvoiced,
+    \# now transform with exp() to get the ratio difference
+    voicing\_diff\_ratio = exp(voicing\_diff)
+  )
+
+nas\_prop\_bm\_diff\_quant \textless{{-}} nas\_prop\_bm\_diff |\textgreater{} 
+  reframe(
+    \# 90\% CrI
+    q90 = quantile2(voicing\_diff\_ratio, probs = c(0.05, 0.95)),
+    \# 80\% CrI
+    q80 = quantile2(voicing\_diff\_ratio, probs = c(0.1, 0.9)),
+    \# 60\% CrI
+    q60 = quantile2(voicing\_diff\_ratio, probs = c(0.2, 0.8)),
+  ) |\textgreater{} 
+  mutate(across(everything(), \textasciitilde{}round(.x, 2)))
+
+
+
+library(tidybayes)
+
+nas\_prop\_r \textless{{-}} nas\_prop\_bm |\textgreater{} 
+  \# extract draws from model, only \textasciigrave{r\_speaker\textasciigrave{} varying terms}
+  spread\_draws(r\_speaker[speaker,voicingvowel]) |\textgreater{} 
+  \# separate the column voicingvowel to two columns
+  separate(voicingvowel, c("voicing", "vowel")) |\textgreater{} 
+  \# join the draws with the \textasciigrave{b\_\textasciigrave{} terms}
+  left\_join(y = nas\_prop\_bm\_draws\_long) |\textgreater{} 
+  \# get the expected log{-odd value of each speaker, in each draw}
+  \# this is the sum of the \textasciigrave{value\textasciigrave{} from the b\_ terms and the value from the}
+  \# r\_speaker term.
+  mutate(r\_speaker\_value = value + r\_speaker) |\textgreater{} 
+  \# group the data for summarise
+  group\_by(.draw, speaker, voicing) |\textgreater{} 
+  \# get mean expected log odds by draw, speaker and voicing (averaging across vowel)
+  summarise(r\_speaker\_value\_mean = mean(r\_speaker\_value)) |\textgreater{} 
+  \# make the data wider: two columns, one for voiced and one for voiceless
+  pivot\_wider(names\_from = voicing, values\_from = r\_speaker\_value\_mean) |\textgreater{} 
+  \# finally, calculate the difference in expected log odds of voiceless and voiced
+  mutate(voicing\_diff = voicingvoiceless {-} voicingvoiced)
+
+
+
+nas\_prop\_r |\textgreater{} 
+  ggplot(aes(voicing\_diff, reorder(speaker, voicing\_diff))) +
+  stat\_halfeye() +
+  geom\_vline(xintercept = mean(nas\_prop\_bm\_diff$voicing\_diff), colour = "red") +
+  geom\_vline(xintercept = 0, linetype = "dashed") +
+  lims(x = c({-}1, 1.5)) +
+  labs(
+    x = "Log{-odds difference between voiceless vs voiced NC sequences"},
+    y = "Speaker"
+  )
+
+
