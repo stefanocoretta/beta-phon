@@ -1,9 +1,10 @@
 # Bayesian beta regressions with brms in R: A tutorial for phoneticians
 
+[![Static Badge](https://img.shields.io/badge/DOI-10.1016%2Fj.wocn.2025.101455-blue)](https://www.sciencedirect.com/science/article/pii/S009544702500066X)
 
 This is the GitHub repository of the paper *Bayesian beta regressions
 with brms in R: A tutorial for phoneticians* by Stefano Coretta and Paul
-Bürkner.
+Bürkner. Journal of Phonetics.
 
 The code of the manuscript is in `manuscript/manuscript.qmd`. The `code`
 folder contains code with data checks and plotting.
